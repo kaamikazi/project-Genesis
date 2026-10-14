@@ -18,7 +18,7 @@ ROOT = Path(__file__).resolve().parent.parent
 
 
 def test_no_world_path_module_imports_the_sealed_evaluator():
-    for name in ("engine", "world", "controllers", "storage", "api", "experiments", "experiments4", "reducer", "workshop", "invention", "models", "cli"):
+    for name in ("engine", "world", "controllers", "storage", "api", "experiments", "experiments4", "experiments5", "demo5", "reducer", "workshop", "invention", "models", "cli"):
         tree = ast.parse((ROOT / "genesis" / f"{name}.py").read_text())
         imported = {n.module or "" for n in ast.walk(tree) if isinstance(n, ast.ImportFrom)} | {a.name for n in ast.walk(tree) if isinstance(n, ast.Import) for a in n.names}
         names = {a.name for n in ast.walk(tree) if isinstance(n, ast.ImportFrom) for a in n.names}
@@ -91,7 +91,7 @@ def test_submission_feedback_is_one_bit_and_validation_scores_stay_on_the_record
     assert submits
     for e in submits:
         visible = {k: v for k, v in e["result"].items() if k not in ("energy_charged",)}
-        assert "score" not in json.dumps(visible) and set(visible) <= {"action", "agent", "artifact", "role", "admitted", "status", "feedback_policy", "epistemic_type", "supersedes"}
+        assert "score" not in json.dumps(visible) and set(visible) <= {"action", "agent", "artifact", "role", "admitted", "status", "feedback_policy", "epistemic_type", "supersedes", "reference"}
         assert state["artifacts"][e["result"]["artifact"]]["validation"]["score"] is not None
 
 

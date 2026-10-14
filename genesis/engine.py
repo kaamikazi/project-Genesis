@@ -45,7 +45,9 @@ PARAMS = {
     "submit_artifact": {"artifact"}, "offer_teaching": {"learner", "artifact"}, "accept_teaching": {"session"},
     "teach_step": {"session"}, "learn_step": {"session"}, "practice_step": {"session"}, "abandon_session": {"session"},
 }
-OPTIONAL_PARAMS = {"propose_artifact": {"sources"}}   # workshop composition names the other held artifacts it draws on
+# Optional declared parameters: composition sources and the search operator label (proposals); the host workflow for
+# the in-host component protocol (tests and submissions).
+OPTIONAL_PARAMS = {"propose_artifact": {"sources", "operator"}, "test_artifact": {"host"}, "submit_artifact": {"host"}}
 INSTRUCTION_WORK, PRACTICE_RUNS, OFFER_TICKS, STALL_TICKS = 3, 2, 6, 8
 TEACH_COST, LEARN_COST, SUBMIT_COST = 2, 1, 2
 
@@ -81,7 +83,7 @@ class Rules:
         p, kind = action.params, action.kind
         require(a["status"] == "active", f'agent is not active ({a["status"]})')
         require(action.tick == state["tick"], "stale observation version")
-        require(set(p) == PARAMS[kind] or set(p) == PARAMS[kind] | OPTIONAL_PARAMS.get(kind, {"-"}), "incorrect action parameters")
+        require(PARAMS[kind] <= set(p) <= PARAMS[kind] | OPTIONAL_PARAMS.get(kind, set()), "incorrect action parameters")
         if a.get("busy_until", 0) > state["tick"]:
             require(kind in ("wait", "consume"), f'agent is busy with a batch until tick {a["busy_until"]}')
         session = active_session(state, a["id"])
@@ -184,7 +186,8 @@ class Rules:
             result.update(offer=offer["id"], maker=maker["id"], give=give, give_amount=gn, want=want, want_amount=wn)
         elif kind == "propose_artifact":
             require(state["config"]["invention"] == "open", "invention is frozen by the scenario")
-            require(a["search_count"] < state["config"]["search_budget"], "search budget exhausted")
+            if state["config"].get("budget_unit", "proposals") == "proposals":
+                require(a["search_count"] < state["config"]["search_budget"], "search budget exhausted")
             if state["config"].get("task") == "workshop-1":
                 return self._propose_workshop(state, a, action, result)
             require("sources" not in p, "sources are only used by workshop composition")
@@ -296,35 +299,70 @@ class Rules:
         program = p["program"]
         ws.validate(program)
         sources = p.get("sources") or []
+        operator = p.get("operator")
         require(isinstance(sources, list) and len(sources) <= 3 and all(isinstance(x, str) for x in sources), "sources must be a short list of ids")
-        require(p["parent"] is None or p["parent"] in a["known"], "parent artifact is not held")
-        parent = state["artifacts"].get(p["parent"]) if p["parent"] else None
-        require(parent is None or (parent.get("task") == "workshop-1" and parent["status"] in ("admitted",)), "only a current admitted workflow can be revised")
-        require(all(x in a["known"] for x in sources), "composition sources must be held")
-        require(all(c in a["known"] for c in ws.calls(program)), "called components must be held")
-        spend_energy(a, 1)
+        require(operator is None or (isinstance(operator, str) and len(operator) <= 40), "operator must be a short label")
         kind = ws.kind_of(program)
+        parent = state["artifacts"].get(p["parent"]) if p["parent"] else None
+        require(p["parent"] is None or parent is not None, "unknown parent")
+        if parent is not None:
+            held_parent = p["parent"] in a["known"] and parent["status"] == "admitted"
+            # Private stepping stone: the agent's own development-tested candidate. Admission is unchanged (see submit).
+            private_parent = parent["creator"] == a["id"] and parent["status"] in ("dev-tested", "not-admitted")
+            require(parent.get("task") == "workshop-1" and (held_parent or private_parent),
+                    "parent must be a current admitted artifact you hold or your own development-tested candidate")
+            require(parent.get("kind") == kind, "parent and child must be the same kind")
+        require(all(x in a["known"] for x in sources), "composition sources must be held")
+        held = held_components(state, a)
+        deps = ws.closure(program, lambda d: held.get(d))         # raises on missing dependencies or cycles
+        limits = ws.check_closure_limits(program, lambda d: held.get(d))
+        self._charge_search(state, a)
+        spend_energy(a, 1)
         content = {"program": program, "creator": a["id"], "parent": p["parent"], "sources": sorted(sources), "language": "workshop-1"}
         aid = digest(content)
         require(aid not in state["artifacts"], "duplicate immutable artifact")
+        origin = ("component-extraction" if kind == "component" and parent is None else "component-revision" if kind == "component"
+                  else "composition" if sources or ws.calls(program) else "search-revision" if parent else "search-original")
         state["artifacts"][aid] = {
             "id": aid, "content": deepcopy(content), "task": "workshop-1", "kind": kind, "creator": a["id"], "cohort": a.get("cohort", 0),
             "parent": p["parent"], "sources": sorted(sources), "generation": parent["generation"] + 1 if parent else 0,
-            "origin": "composition" if sources else "search-revision" if parent else "search-original",
+            "origin": origin, "operator": operator, "dependencies": ws.calls(program), "closure": deps, "inlined": limits,
             "superseded_by": None, "created_tick": state["tick"] + 1, "creation_event": action.id, "home": a["home"],
-            "status": "component" if kind == "component" else "proposed", "capabilities": ["converter"],
+            "status": "proposed", "capabilities": ["converter"],
             "inputs": "local phase and humidity, own ore and energy", "assumptions": "workshop-1 rules; hidden world parameters unknown to the creator",
             "claim": "may lower cost per alloy versus its parent" if parent else "may lower cost per alloy versus the baseline workflow",
             "development": None, "validation": None, "evaluation": None,
             "transmissions": [], "uses": [], "first_uses": {}, "adopters": [],
             "access": "settlement library" if state["config"]["sharing"] else "creator only"}
-        if kind == "component":
-            a["known"].append(aid)
         a["search_count"] += 1
         state["metrics"]["search_proposals"] += 1
-        result.update(artifact=aid, origin=state["artifacts"][aid]["origin"], parent=p["parent"], sources=sorted(sources),
+        result.update(artifact=aid, origin=origin, parent=p["parent"], sources=sorted(sources), operator=operator, dependencies=ws.calls(program),
+                      program_hash=digest(program),
+                      closure=deps, private_parent=bool(parent is not None and parent["status"] != "admitted"),
                       generation=state["artifacts"][aid]["generation"], cohort=a.get("cohort", 0), kind=kind, epistemic_type="attempted_invention")
         return result
+
+    @staticmethod
+    def _charge_search(state: JSON, a: JSON) -> None:
+        """Shared per-lifetime search credits (budget_unit: credits): proposals, tests and submissions all draw on one pool."""
+        if state["config"].get("budget_unit", "proposals") == "credits":
+            require(a.get("search_spent", 0) < state["config"]["search_budget"], "search credits exhausted")
+            a["search_spent"] = a.get("search_spent", 0) + 1
+
+    @staticmethod
+    def _is_refactor(program: JSON, reference: JSON, held: dict[str, JSON]) -> bool:
+        changed = [f for f in ws.FIELDS if canonical(program[f]) != canonical(reference[f])]
+        if not changed or not all(program[f]["op"] == "call" and program[f]["artifact"] in held for f in changed):
+            return False
+        return ws.behavior_hash(program, ws.VALIDATION_CASES, held) == ws.behavior_hash(reference, ws.VALIDATION_CASES, held)
+
+    @staticmethod
+    def admission_reference(state: JSON, artifact: JSON) -> JSON | None:
+        """Nearest ancestor that was admitted, skipping private stepping stones. None means the baseline rule applies."""
+        node = state["artifacts"].get(artifact["parent"]) if artifact["parent"] else None
+        while node is not None and node["status"] in ("dev-tested", "not-admitted", "proposed"):
+            node = state["artifacts"].get(node["parent"]) if node["parent"] else None
+        return node
 
     def _workshop_artifact(self, state: JSON, a: JSON, artifact: JSON, action: Action, result: JSON) -> JSON:
         kind, aid = action.kind, artifact["id"]
@@ -332,10 +370,14 @@ class Rules:
         own = artifact["creator"] == a["id"]
         program = artifact["content"]["program"]
         evaluator = ws.WorkshopEvaluator()
+        if artifact["kind"] == "component" and kind in ("test_artifact", "submit_artifact"):
+            return self._component_protocol(state, a, artifact, action, result)
         if kind == "test_artifact":
             # Development role: a permitted experiment on a workflow the agent proposed or holds.
             require(artifact["kind"] == "workflow", "only workflows can be tested")
             require((own and artifact["status"] == "proposed") or aid in a["known"], "test needs your own proposal or a workflow you hold")
+            require("host" not in action.params, "a host applies only to component tests")
+            self._charge_search(state, a)
             spend_energy(a, 3)
             dev = evaluator.development(program, params, held_components(state, a))
             if own and artifact["status"] == "proposed":
@@ -343,15 +385,22 @@ class Rules:
             a["dev_notes"] = {**a.get("dev_notes", {}), aid: dev["score"], "baseline": dev["baseline_score"]}
             state["metrics"]["evaluation_cases"] += len(dev["cases"])
             result.update(artifact=aid, role="development", dev_score=dev["score"], baseline_dev_score=dev["baseline_score"],
-                          cases=dev["cases"], status=artifact["status"], epistemic_type="observed_outcome")
+                          behavior_hash=dev["behavior_hash"], cases=dev["cases"], status=artifact["status"], epistemic_type="observed_outcome")
         elif kind == "submit_artifact":
             # Validation role: admission decision only; the score stays on the artifact record (observer-only).
             require(own and artifact["status"] == "dev-tested", "only your own development-tested workflow can be submitted")
-            parent = state["artifacts"].get(artifact["parent"]) if artifact["parent"] else None
-            require(parent is None or parent["status"] == "admitted", "parent is no longer the current admitted workflow")
+            require("host" not in action.params, "a host applies only to component submissions")
+            parent = self.admission_reference(state, artifact)
+            require(parent is None or parent["status"] == "admitted", "the nearest admitted ancestor is no longer current")
+            self._charge_search(state, a)
             spend_energy(a, SUBMIT_COST)
             held = held_components(state, a)
             val = evaluator.validation(program, params, held, parent["content"]["program"] if parent else None, held)
+            if not val["admitted"] and parent is not None and self._is_refactor(program, parent["content"]["program"], held):
+                # Declared separate path: a behaviour-preserving refactor (fields replaced by calls to admitted components,
+                # identical decisions on every validation case) may replace its parent. It claims no improvement.
+                val = {**val, "admitted": True, "criterion": "behaviour-preserving refactor: identical decisions on all validation cases; no improvement claimed",
+                       "admission_path": "refactor"}
             artifact.update(status="admitted" if val["admitted"] else "not-admitted", validation=val)
             state["metrics"]["evaluation_cases"] += 24 * (2 if parent else 1)
             if val["admitted"]:
@@ -360,8 +409,10 @@ class Rules:
                     parent.update(status="superseded", superseded_by=aid)
                     state["metrics"]["revisions_verified"] += 1
                     result.update(supersedes=parent["id"])
-            result.update(artifact=aid, role="validation", admitted=val["admitted"], status=artifact["status"],
+            result.update(artifact=aid, role="validation", admitted=val["admitted"], status=artifact["status"], reference=parent["id"] if parent else None,
                           feedback_policy="admitted/not admitted only", epistemic_type="verified_artifact" if val["admitted"] else "observed_outcome")
+            if val.get("admission_path"):
+                result.update(admission_path=val["admission_path"])
         else:  # use_artifact
             require(artifact["kind"] == "workflow" and artifact["status"] in ("admitted", "superseded") and aid in a["known"],
                     "artifact must be an admitted workflow you hold")
@@ -383,6 +434,66 @@ class Rules:
             if first_independent:
                 result.update(first_independent_use=first_independent)
             result.update(out, artifact=aid, evidence=evidence, saving=saving, independent_adoption=reproduced, epistemic_type="observed_outcome")
+        return result
+
+    def _component_protocol(self, state: JSON, a: JSON, comp: JSON, action: Action, result: JSON) -> JSON:
+        """Components are tested and admitted inside a host workflow the agent holds."""
+        params = ws.world_params(state["config"]["seed"])
+        evaluator = ws.WorkshopEvaluator()
+        cid, program = comp["id"], comp["content"]["program"]
+        require(comp["creator"] == a["id"], "only the creator tests or submits its component")
+        held = held_components(state, a)
+        with_comp = {**held, cid: program}
+        if action.kind == "test_artifact":
+            require(comp["status"] == "proposed", "component already tested")
+            host = state["artifacts"].get(action.params.get("host") or "")
+            require(host is not None and host.get("kind") == "workflow" and host["status"] in ("admitted", "superseded") and host["id"] in a["known"],
+                    "a component test needs a host: an admitted workflow you hold")
+            self._charge_search(state, a)
+            spend_energy(a, 3)
+            host_program = host["content"]["program"]
+            substituted = ws.substitute(host_program, cid, program)
+            ws.check_closure_limits(substituted, lambda d: with_comp.get(d))
+            dev = evaluator.development(substituted, params, with_comp)
+            host_dev = evaluator.development(host_program, params, held)
+            equal = dev["behavior_hash"] == host_dev["behavior_hash"]
+            comp.update(status="dev-tested", development={**dev, "host": host["id"], "host_score": host_dev["score"],
+                                                          "behavior_equal_to_host": equal, "protocol": "in-host substitution"})
+            a["dev_notes"] = {**a.get("dev_notes", {}), cid: dev["score"], "baseline": dev["baseline_score"]}
+            state["metrics"]["evaluation_cases"] += 2 * len(dev["cases"])
+            result.update(artifact=cid, role="development", host=host["id"], dev_score=dev["score"], host_dev_score=host_dev["score"],
+                          behavior_equal_to_host=equal, behavior_hash=dev["behavior_hash"], cases=dev["cases"], status="dev-tested", epistemic_type="observed_outcome")
+            return result
+        require(comp["status"] == "dev-tested", "only a development-tested component can be submitted")
+        host = state["artifacts"][comp["development"]["host"]]
+        require(host["id"] in a["known"], "the component's host workflow is no longer held")
+        parent = state["artifacts"].get(comp["parent"]) if comp["parent"] else None
+        require(parent is None or parent["status"] == "admitted", "the parent component is no longer current")
+        self._charge_search(state, a)
+        spend_energy(a, SUBMIT_COST)
+        host_program = host["content"]["program"]
+        substituted = ws.substitute(host_program, cid, program)
+        reference = ws.substitute(host_program, parent["id"], parent["content"]["program"]) if parent else host_program
+        ref_held = {**held, parent["id"]: parent["content"]["program"]} if parent else held
+        own_score = ws.score_cases(substituted, params, ws.VALIDATION_CASES, with_comp)["score"]
+        ref_score = ws.score_cases(reference, params, ws.VALIDATION_CASES, ref_held)["score"]
+        if own_score is None or ref_score is None:
+            admitted, criterion = False, "no alloy on validation cases"
+        elif parent is not None:
+            admitted, criterion = own_score < ref_score, "host with this component strictly better than host with the parent component (same cases)"
+        else:
+            admitted, criterion = own_score <= ref_score, "host with this component no worse than the host (extraction may be behaviour-preserving)"
+        comp.update(status="admitted" if admitted else "not-admitted",
+                    validation={"role": "validation", "partition": "validation-24", "score": own_score, "parent_score": ref_score, "baseline_score": None,
+                                "admitted": admitted, "criterion": criterion, "host": host["id"], "feedback_policy": "the proposer learns only admitted/not admitted (one bit per submission)"})
+        state["metrics"]["evaluation_cases"] += 48
+        if admitted:
+            a["known"].append(cid)
+            if parent is not None:
+                parent.update(status="superseded", superseded_by=cid)
+                result.update(supersedes=parent["id"])
+        result.update(artifact=cid, role="validation", admitted=admitted, status=comp["status"], host=host["id"],
+                      feedback_policy="admitted/not admitted only", epistemic_type="verified_artifact" if admitted else "observed_outcome")
         return result
 
     def _workflow(self, state: JSON, a: JSON, program: JSON, held: dict[str, JSON]) -> JSON:
@@ -432,18 +543,22 @@ class Rules:
             require(distance(a, learner) <= REACH, "learner is out of reach")
             require(p["artifact"] not in learner["known"], "learner already holds this artifact")
             require(active_session(state, a["id"]) is None and active_session(state, learner["id"]) is None, "a participant is already in a session")
-            spend_energy(a, 1)
             program = artifact["content"]["program"]
+            teacher_held = {k: state["artifacts"][k]["content"]["program"] for k in a["known"] if k in state["artifacts"]}
+            dependency_closure = ws.closure(program, lambda d: teacher_held.get(d)) if ws.is_workshop(program) else []   # teacher must hold every dependency
+            spend_energy(a, 1)
             sessions[action.id] = {
                 "id": action.id, "contract": "teaching-1", "teacher": a["id"], "learner": learner["id"], "artifact": artifact["id"],
                 "task": artifact.get("task", "phase-1"), "stage": "offered", "offered_tick": tick + 1, "expires": tick + 1 + OFFER_TICKS,
                 "required_work": INSTRUCTION_WORK, "teacher_work": 0, "learner_work": 0, "practice_required": PRACTICE_RUNS,
-                "practice": [], "prerequisites": ws.calls(program) if ws.is_workshop(program) else [],
+                "practice": [], "prerequisites": ws.calls(program) if ws.is_workshop(program) else [], "closure": dependency_closure,
+                "policy": state["config"].get("teaching_policy", "strict-prerequisites"), "package": [], "already_known": [],
                 "costs": {"teacher_energy": 1, "learner_energy": 0, "teacher_ticks": 1, "learner_ticks": 0},
                 "last_progress": tick + 1, "accepted_tick": None, "instruction_done_tick": None, "assessment": None,
                 "acquired_tick": None, "ended_tick": None, "reason": None, "first_independent_use": None, "requirements":
                 "co-located (<=1 tile) for every instruction step; same settlement; learner holds all prerequisites"}
-            result.update(session=action.id, learner=learner["id"], teacher=a["id"], artifact=artifact["id"], stage="offered")
+            result.update(session=action.id, learner=learner["id"], teacher=a["id"], artifact=artifact["id"], stage="offered",
+                          closure=dependency_closure, policy=sessions[action.id]["policy"])
             return
         session = sessions.get(p["session"])
         require(session is not None, "unknown session")
@@ -460,14 +575,22 @@ class Rules:
             require(tick < session["expires"], "offer expired")
             require(other["status"] == "active" and session["artifact"] in other["known"], "teacher no longer able to teach this")
             require(distance(a, other) <= 1, "participants must be co-located (<=1 tile) to begin")
-            missing = [c for c in session["prerequisites"] if c not in a["known"]]
             session["accepted_tick"] = tick + 1
+            if session.get("policy") == "package":
+                # Dependency-aware lesson: missing dependencies are taught inside the session, 3 work units each, separately accounted.
+                session["package"] = [c for c in session.get("closure", []) if c not in a["known"]]
+                session["already_known"] = [c for c in session.get("closure", []) if c in a["known"]]
+                session["required_work"] = INSTRUCTION_WORK * (1 + len(session["package"]))
+                missing = []
+            else:
+                missing = [c for c in session["prerequisites"] if c not in a["known"]]
             if missing:
                 # A real failure mode: the lesson cannot proceed without the components the program calls.
                 self._end_session(state, session, "failed", f"missing prerequisite components: {[m[:8] for m in missing]}", tick + 1)
             else:
                 session.update(stage="instruction", last_progress=tick + 1)
-            result.update(stage=session["stage"], reason=session["reason"])
+            result.update(stage=session["stage"], reason=session["reason"], package=session["package"], already_known=session["already_known"],
+                          missing=missing, required_work=session["required_work"])
         elif kind in ("teach_step", "learn_step"):
             require(session["stage"] == "instruction", "session is not in instruction")
             require((kind == "teach_step") == (role == "teacher"), "wrong step for this role")
@@ -489,7 +612,8 @@ class Rules:
             program = artifact["content"]["program"]
             energy_before = a["energy"]
             if artifact.get("task") == "workshop-1":
-                out = self._workflow(state, a, program, held_components(state, a))
+                practice_held = {**held_components(state, a), **{c: state["artifacts"][c]["content"]["program"] for c in session.get("package", [])}}
+                out = self._workflow(state, a, program, practice_held)
                 passed = out["baseline_cost_per_alloy"] is None or out["cost_per_alloy"] <= out["baseline_cost_per_alloy"]
                 record = {"tick": tick + 1, "event": action.id, "measures": out["measures"], "decision": out["decision"],
                           "cost_per_alloy": out["cost_per_alloy"], "baseline_cost_per_alloy": out["baseline_cost_per_alloy"], "passed": passed}
@@ -512,6 +636,13 @@ class Rules:
                 session["assessment"] = {"tick": tick + 1, "passed": ok, "criterion":
                                          f"{session['practice_required']} feasible practice runs, each no costlier per alloy than the baseline under the same conditions"}
                 if ok:
+                    for dep in session.get("package", []):   # taught dependencies are acquired with the root, each with its own record
+                        if dep not in a["known"]:
+                            a["known"].append(dep)
+                            state["artifacts"][dep]["transmissions"].append(
+                                {"from": session["teacher"], "to": a["id"], "tick": tick + 1, "via": "teaching session (dependency)",
+                                 "session": session["id"], "event": action.id, "root": artifact["id"],
+                                 "operational_definition": "acquired with its dependent workflow after the practice assessment"})
                     a["known"].append(artifact["id"])
                     a["seen"].append(artifact["id"])
                     path = {"from": session["teacher"], "to": a["id"], "tick": tick + 1, "via": "teaching session", "session": session["id"],
@@ -521,7 +652,8 @@ class Rules:
                     self._end_session(state, session, "acquired", None, tick + 1)
                 else:
                     self._end_session(state, session, "failed", "practice outcome costlier than the baseline", tick + 1)
-                result.update(assessment=session["assessment"], stage=session["stage"])
+                result.update(assessment=session["assessment"], stage=session["stage"],
+                              dependencies_acquired=session.get("package", []) if session["stage"] == "acquired" else [])
 
     @staticmethod
     def _end_session(state: JSON, session: JSON, stage: str, reason: str | None, tick: int) -> None:
@@ -623,7 +755,13 @@ def scoped_copy(state: JSON, action: Action) -> JSON:
     agent_ids = {action.agent, ref("target"), ref("learner"), offer["maker"] if offer else None,
                  session["teacher"] if session else None, session["learner"] if session else None}
     artifact = state["artifacts"].get(ref("artifact") or "")
-    artifact_ids = {ref("artifact"), artifact["parent"] if artifact else None, session["artifact"] if session else None}
+    artifact_ids = {ref("artifact"), ref("host"), session["artifact"] if session else None, *(session.get("closure", []) if session else [])}
+    node = artifact
+    while node is not None:                       # submissions may supersede an ancestor, not only the direct parent
+        artifact_ids.add(node["parent"])
+        node = state["artifacts"].get(node["parent"]) if node.get("parent") else None
+    if artifact and (artifact.get("development") or {}).get("host"):
+        artifact_ids.add(artifact["development"]["host"])
     candidate = dict(state)
     candidate["agents"] = {k: deepcopy(v) if k in agent_ids else v for k, v in state["agents"].items()}
     candidate["artifacts"] = {k: deepcopy(v) if k in artifact_ids else v for k, v in state["artifacts"].items()}
@@ -651,56 +789,82 @@ def freeze(state: JSON, cohort: int, reason: str) -> JSON:
         if not scored:
             return None
         score, _, _, x = min(scored, key=lambda t: t[:3])
-        return {"artifact": x["id"], "selection_score": score, "creator": x["creator"], "cohort": x.get("cohort", 0),
+        return {"artifact": x["id"], "selection_score": score, "creator": x["creator"], "cohort": x.get("cohort", 0), "closure": x.get("closure", []),
                 "generation": x["generation"], "origin": x.get("origin"), "status_at_freeze": x["status"],
                 "dev_score": (x.get("development") or {}).get("score")}
-    artifacts = list(state["artifacts"].values())
+    artifacts = [x for x in state["artifacts"].values() if x.get("kind") != "component"]
     created = [x for x in artifacts if x.get("cohort", 0) == cohort]
     accessible = [x for x in artifacts if x.get("cohort", 0) == cohort or (config.get("cross_cohort_access", True) and x.get("cohort", 0) < cohort)]
+    held_ids = {k for a in state["agents"].values() if a.get("cohort", 0) == cohort for k in a["known"]}
+    held = [x for x in artifacts if x["id"] in held_ids]
     record = {"tick": state["tick"], "cohort": cohort, "reason": reason,
               "rule": "lowest validation score among admitted or superseded workflows (legacy: lowest evaluation energy); ties by creation tick then id; no sealed input",
-              "cohort_best": best(created), "accessible_best": best(accessible)}
+              "cohort_best": best(created), "accessible_best": best(accessible),
+              "held_best": best(held)}   # v0.5: what the cohort's members actually hold, however acquired (library, teaching, own work)
     state["lifecycle"]["freezes"].append(record)
     return record
 
 
+def _arrive(state: JSON, seniors: list[str], tick: int, cohort: int) -> list[JSON]:
+    c, agents, successors = state["config"], state["agents"], []
+    for offset, aid in enumerate(seniors):
+        old = agents[aid]
+        index = len(agents)
+        sid = f"a{index:02d}"
+        heir = new_agent(sid, NAMES[index % len(NAMES)], state["settlements"][old["home"]], offset % 3, tick, old["role"], c["sharing"])
+        heir.update(cohort=cohort, predecessor=aid,
+                    inheritance={"policy": "cohort: library of earlier cohorts " + ("visible" if c.get("cross_cohort_access", True) else "hidden"),
+                                 "package": [], "role": old["role"], "provenance": f"cohort {cohort} replaces {aid} (arrived tick {tick})",
+                                 "memories_inherited": 0, "skills_inherited": 0})
+        old["successor"] = sid
+        agents[sid] = heir
+        successors.append({"predecessor": aid, "successor": sid, "name": heir["name"], "home": heir["home"], "role": heir["role"],
+                           "policy": "cohort", "package": [], "inventory": dict(heir["inventory"])})
+    return successors
+
+
+def _retire(state: JSON, retiring: list[str], tick: int) -> list[JSON]:
+    moved = []
+    for aid in retiring:
+        a = state["agents"][aid]
+        settlement = state["settlements"][a["home"]]
+        for r in RESOURCES:
+            settlement["inventory"][r] += a["inventory"][r]
+            settlement["flows"]["retirement"][r] += a["inventory"][r]
+        moved.append({"agent": aid, "to": a["home"], "inventory": dict(a["inventory"])})
+        a.update(inventory={r: 0 for r in RESOURCES}, status="retired", retired_tick=tick)
+    return moved
+
+
 def cohort_lifecycle(state: JSON) -> list[JSON]:
-    """Scheduled cohorts: at every cohort boundary, freeze, retire all active agents and create a fresh cohort
-    with the same homes and roles. A final freeze is recorded when the run reaches max_ticks."""
+    """Scheduled cohorts. Without overlap: at each boundary, freeze, retire everyone, create a fresh identical cohort.
+    With `cohort_overlap: O`: successors arrive O ticks before each boundary and coexist with their seniors; at the
+    boundary the seniors are frozen and retired regardless of unfinished lessons. A final freeze is recorded at max_ticks."""
     c, events, tick = state["config"], [], state["tick"]
     cohorts = c.get("lifecycle") == "cohorts"
     current = state["lifecycle"].get("cohort", 0)
-    if cohorts and tick % c["cohort_ticks"] == 0 and 0 < tick < c["cohort_ticks"] * c["cohort_count"] and tick // c["cohort_ticks"] == current + 1:
-        events.append({"tick": tick, "type": "freeze", **freeze(state, current, "cohort boundary")})
-        agents = state["agents"]
-        retiring = sorted(aid for aid, a in agents.items() if a["status"] == "active")
-        moved, successors = [], []
-        for aid in retiring:
-            a = agents[aid]
-            settlement = state["settlements"][a["home"]]
-            for r in RESOURCES:
-                settlement["inventory"][r] += a["inventory"][r]
-                settlement["flows"]["retirement"][r] += a["inventory"][r]
-            moved.append({"agent": aid, "to": a["home"], "inventory": dict(a["inventory"])})
-            a.update(inventory={r: 0 for r in RESOURCES}, status="retired", retired_tick=tick)
-        for offset, aid in enumerate(retiring):
-            old = agents[aid]
-            index = len(agents)
-            sid = f"a{index:02d}"
-            heir = new_agent(sid, NAMES[index % len(NAMES)], state["settlements"][old["home"]], offset % 3, tick, old["role"], c["sharing"])
-            heir.update(cohort=current + 1, predecessor=aid,
-                        inheritance={"policy": "cohort: library of earlier cohorts " + ("visible" if c.get("cross_cohort_access", True) else "hidden"),
-                                     "package": [], "role": old["role"], "provenance": f"cohort {current + 1} replaces {aid} at tick {tick}",
-                                     "memories_inherited": 0, "skills_inherited": 0})
-            old["successor"] = sid
-            agents[sid] = heir
-            successors.append({"predecessor": aid, "successor": sid, "name": heir["name"], "home": heir["home"], "role": heir["role"],
-                               "policy": "cohort", "package": [], "inventory": dict(heir["inventory"])})
-        state["lifecycle"]["cohort"] = current + 1
-        record = {"tick": tick, "cohort": current + 1, "retired": retiring, "inventory_moved": moved, "successors": successors}
-        state["lifecycle"]["transitions"].append(record)
-        state["lifecycle"]["successions"] += successors
-        events.append({"type": "cohort_transition", **record})
+    overlap = c.get("cohort_overlap", 0)
+    boundary = (current + 1) * c["cohort_ticks"]
+    if cohorts and boundary < c["cohort_ticks"] * c["cohort_count"]:
+        arrived = any(t.get("cohort") == current + 1 for t in state["lifecycle"]["transitions"])
+        if overlap and tick == boundary - overlap and not arrived:
+            seniors = sorted(aid for aid, a in state["agents"].items() if a["status"] == "active" and a.get("cohort", 0) == current)
+            successors = _arrive(state, seniors, tick, current + 1)
+            record = {"tick": tick, "cohort": current + 1, "phase": "arrival", "overlap": overlap, "retired": [], "inventory_moved": [], "successors": successors}
+            state["lifecycle"]["transitions"].append(record)
+            state["lifecycle"]["successions"] += successors
+            events.append({"type": "cohort_transition", **record})
+        if tick == boundary:
+            events.append({"tick": tick, "type": "freeze", **freeze(state, current, "cohort boundary")})
+            seniors = sorted(aid for aid, a in state["agents"].items() if a["status"] == "active" and a.get("cohort", 0) == current)
+            moved = _retire(state, seniors, tick)
+            successors = [] if overlap else _arrive(state, seniors, tick, current + 1)
+            state["lifecycle"]["cohort"] = current + 1
+            record = {"tick": tick, "cohort": current + 1, "phase": "retirement" if overlap else "replacement", "overlap": overlap,
+                      "retired": seniors, "inventory_moved": moved, "successors": successors}
+            state["lifecycle"]["transitions"].append(record)
+            state["lifecycle"]["successions"] += successors
+            events.append({"type": "cohort_transition", **record})
     if tick == c["max_ticks"] and (cohorts or c.get("task") == "workshop-1"):
         events.append({"tick": tick, "type": "freeze", **freeze(state, state["lifecycle"].get("cohort", 0), "run closed")})
     return events
@@ -770,7 +934,10 @@ def advance(state: JSON, controller: AgentController, overrides: dict[str, Actio
             continue
         obs = observations.build(state, aid)
         try:
+            if hasattr(controller, "diagnostic"):
+                controller.diagnostic = None
             action = overrides[aid] if aid in overrides else controller.propose(obs)
+            diagnostic = None if aid in overrides else getattr(controller, "diagnostic", None)
             action = Action.model_validate(action.model_dump())
             require(action.agent == aid, "controller identity mismatch")
             mode = "submitted" if aid in overrides else "bounded-search" if agent["role"] == "researcher" else "deterministic-baseline"
@@ -781,7 +948,11 @@ def advance(state: JSON, controller: AgentController, overrides: dict[str, Actio
             action = Action(id=f'{state["tick"]}:{aid}:fallback', agent=aid, tick=state["tick"], kind="wait")
             mode = "explicit-failure-fallback"
         proposals.append(action)
-        decisions.append({"action": action.model_dump(), "observation_hash": digest(obs), "controller": mode})
+        decision = {"action": action.model_dump(), "observation_hash": digest(obs), "controller": mode}
+        if mode not in ("submitted", "explicit-failure-fallback") and diagnostic:
+            decision["diagnostic"] = {k: (None if isinstance(v, float) and v != v or v in (float("inf"), float("-inf")) else v)
+                                      for k, v in diagnostic.items()}   # non-finite numbers are recorded as unavailable
+        decisions.append(decision)
     if proposals:
         offset = state["tick"] % len(proposals)
         proposals = proposals[offset:] + proposals[:offset]

@@ -64,6 +64,12 @@ def trajectory(strategy: str, config: Scenario, ticks: int, fuzz_seed: int | Non
     (Scenario(seed=9, population=12, removal="creators", removal_tick=25, succession="fresh", max_ticks=500), 2),
     (Scenario(seed=101, task="workshop-1", teaching=True, lifecycle="cohorts", cohort_ticks=25, sharing=False, ore_per_site=900, max_ticks=500), None),
     (Scenario(seed=103, task="workshop-1", teaching=True, ore_per_site=900, max_ticks=500), 3),
+    # v0.5: beam search with components, shared credits, dependency-aware lessons, overlapping cohorts
+    (Scenario(seed=101, task="workshop-1", lifecycle="cohorts", cohort_ticks=30, cohort_count=3, cohort_overlap=12, teaching=True,
+              teaching_policy="package", search_policy="beam", budget_unit="credits", search_budget=48, cross_cohort_access=False,
+              ore_per_site=900, max_ticks=500), None),
+    (Scenario(seed=103, task="workshop-1", lifecycle="cohorts", cohort_ticks=25, cohort_count=3, cohort_overlap=10, teaching=True,
+              teaching_policy="package", search_policy="beam", budget_unit="credits", search_budget=48, ore_per_site=900, max_ticks=500), 4),
 ])
 def test_scoped_copy_matches_full_copy_reference(config, fuzz):
     ticks = 70 if fuzz is None else 50

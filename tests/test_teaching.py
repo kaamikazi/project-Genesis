@@ -142,6 +142,8 @@ def test_missing_prerequisites_fail_the_session_at_acceptance():
     state["agents"][teacher]["search_count"] = 0
     state, r = ok(state, "propose_artifact", teacher, program=component, parent=None)
     comp_id = r["artifact"]
+    state["artifacts"][comp_id]["status"] = "admitted"          # admission path is tested elsewhere; the teacher holds it
+    state["agents"][teacher]["known"].append(comp_id)
     wf = deepcopy(state["artifacts"][artifact]["content"]["program"])
     wf["heat"] = {"op": "call", "artifact": comp_id}
     state = tick(state)

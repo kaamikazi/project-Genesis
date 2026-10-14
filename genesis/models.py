@@ -55,6 +55,11 @@ class Scenario(BaseModel):
     cohort_ticks: int = Field(default=60, ge=5, le=10000)
     cohort_count: int = Field(default=3, ge=1, le=20)
     cross_cohort_access: bool = True
+    # v0.5: search policy, shared search credits, dependency-aware lessons, mentorship overlap. Defaults reproduce v0.4.
+    search_policy: Literal["first-improvement", "beam", "beam-nocomponents"] = "first-improvement"
+    budget_unit: Literal["proposals", "credits"] = "proposals"
+    teaching_policy: Literal["strict-prerequisites", "package"] = "strict-prerequisites"
+    cohort_overlap: int = Field(default=0, ge=0, le=1000)
 
 
 class Action(BaseModel):

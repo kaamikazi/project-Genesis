@@ -91,6 +91,15 @@ def reduce_export(export: JSON, windows: list[Window] | None = None) -> JSON:
     freezes: list[JSON] = []
     transitions: list[JSON] = []
     cohort_of: dict[str, int] = {aid: a.get("cohort", 0) for aid, a in initial["agents"].items()}
+    # v0.5 search, component and dependency accounting (all from event and decision fields).
+    search = {"proposals": 0, "program_hashes": set(), "behavior_hashes": defaultdict(int), "dev_evaluations": 0, "component_tests": 0,
+              "submissions": 0, "admissions": 0, "refactor_admissions": 0, "private_parent_proposals": 0, "search_actions": defaultdict(int),
+              "operators": defaultdict(lambda: {"proposals": 0, "admitted": 0}), "stops": defaultdict(int), "diagnosed_decisions": 0,
+              "parent_kinds": defaultdict(int)}
+    operator_of: dict[str, str] = {}
+    components = {"extractions": 0, "revisions": 0, "compositions": 0, "admitted": defaultdict(int), "calling_workflow_admissions": 0,
+                  "executions_with_dependencies": 0, "executions_by_non_creator_cohort": 0}
+    inherited = {"uses_of_earlier_cohort_artifacts": 0, "agents_using_earlier_cohort_artifacts": set()}
 
     def end_session(sid: str, stage: str, reason: str | None, tick: int, bs: list[JSON]) -> None:
         if sid in sessions and sessions[sid]["outcome"] is None:
@@ -147,8 +156,14 @@ def reduce_export(export: JSON, windows: list[Window] | None = None) -> JSON:
                     if r.get("first_independent_use") in sessions:
                         sessions[r["first_independent_use"]]["first_independent_use_tick"] = tick
                     if r["artifact"] in lineage:
-                        lineage[r["artifact"]]["world_executions"] += 1
-                        lineage[r["artifact"]]["executions_with_saving"] += bool(saving)
+                        lk = lineage[r["artifact"]]
+                        lk["world_executions"] += 1
+                        lk["executions_with_saving"] += bool(saving)
+                        components["executions_with_dependencies"] += bool(lk["closure"])
+                        if lk["cohort"] < cohort_of.get(e["agent"], 0):
+                            inherited["uses_of_earlier_cohort_artifacts"] += 1
+                            inherited["agents_using_earlier_cohort_artifacts"].add(e["agent"])
+                            components["executions_by_non_creator_cohort"] += bool(lk["closure"])
                     for b in buckets(tick):
                         b["use_executions"] += 1
                         b["uses_with_saving"] += saving
@@ -167,17 +182,38 @@ def reduce_export(export: JSON, windows: list[Window] | None = None) -> JSON:
             elif kind == "propose_artifact":
                 for b in buckets(tick):
                     b["proposals"] += 1
+                search["proposals"] += 1
+                search["search_actions"][e["agent"]] += 1
+                if "program_hash" in r:
+                    search["program_hashes"].add(r["program_hash"])
+                if r.get("operator"):
+                    op = r["operator"].split(":")[0]
+                    operator_of[r["artifact"]] = op
+                    search["operators"][op]["proposals"] += 1
+                search["private_parent_proposals"] += bool(r.get("private_parent"))
+                search["parent_kinds"]["none" if not r.get("parent") else "private" if r.get("private_parent") else "admitted"] += 1
+                origin_kind = r.get("origin")
+                components["extractions"] += origin_kind == "component-extraction"
+                components["revisions"] += origin_kind == "component-revision"
+                components["compositions"] += origin_kind == "composition"
                 if "origin" in r:
                     parent = r.get("parent")
                     lineage[r["artifact"]] = {"artifact": r["artifact"], "creator": e["agent"], "cohort": r.get("cohort", cohort_of.get(e["agent"], 0)),
                                               "parent": parent, "parent_cohort": lineage.get(parent, {}).get("cohort", initial_cohort(parent)) if parent else None,
                                               "sources": r.get("sources", []), "origin": r["origin"], "generation": r.get("generation"),
                                               "proposed_tick": tick, "dev_score": None, "admitted": None, "admitted_tick": None,
+                                              "kind": r.get("kind", "workflow"), "operator": r.get("operator"), "closure": r.get("closure", []),
+                                              "private_parent": bool(r.get("private_parent")), "admission_path": None,
                                               "world_executions": 0, "executions_with_saving": 0, "search_energy": r.get("energy_charged", 0),
                                               "evaluation_energy": 0}
             elif kind == "test_artifact" and r.get("role") == "development":
                 for b in buckets(tick):
                     b["dev_tests"] += 1
+                search["dev_evaluations"] += 1
+                search["component_tests"] += "host" in r
+                search["search_actions"][e["agent"]] += 1
+                if r.get("behavior_hash") and r["artifact"] in lineage and lineage[r["artifact"]]["creator"] == e["agent"]:
+                    search["behavior_hashes"][r["behavior_hash"]] += 1
                 if r["artifact"] in lineage and lineage[r["artifact"]]["creator"] == e["agent"] and lineage[r["artifact"]]["dev_score"] is None:
                     lineage[r["artifact"]].update(dev_score=r.get("dev_score"))
                     lineage[r["artifact"]]["evaluation_energy"] += r.get("energy_charged", 0)
@@ -190,11 +226,27 @@ def reduce_export(export: JSON, windows: list[Window] | None = None) -> JSON:
                     b["submissions"] += 1
                     b["admitted"] += bool(r.get("admitted"))
                     b["revisions_verified"] += bool(r.get("supersedes"))
+                search["submissions"] += 1
+                search["admissions"] += bool(r.get("admitted"))
+                search["refactor_admissions"] += r.get("admission_path") == "refactor"
+                search["search_actions"][e["agent"]] += 1
+                if r.get("admitted") and r["artifact"] in operator_of:
+                    search["operators"][operator_of[r["artifact"]]]["admitted"] += 1
                 if r["artifact"] in lineage:
-                    lineage[r["artifact"]].update(admitted=bool(r.get("admitted")), admitted_tick=tick if r.get("admitted") else None)
+                    lineage[r["artifact"]].update(admitted=bool(r.get("admitted")), admitted_tick=tick if r.get("admitted") else None,
+                                                  admission_path=r.get("admission_path", "improvement" if r.get("admitted") else None))
+                    if r.get("admitted"):
+                        lk = lineage[r["artifact"]]
+                        if lk["kind"] == "component":
+                            components["admitted"][lk["origin"]] += 1
+                        elif lk["closure"]:
+                            components["calling_workflow_admissions"] += 1
                     lineage[r["artifact"]]["evaluation_energy"] += r.get("energy_charged", 0)
             elif kind == "offer_teaching":
                 sessions[r["session"]] = {"session": r["session"], "teacher": r["teacher"], "learner": r["learner"], "artifact": r["artifact"],
+                                          "teacher_cohort": cohort_of.get(r["teacher"], 0), "learner_cohort": cohort_of.get(r["learner"], 0),
+                                          "closure": r.get("closure", []), "policy": r.get("policy"), "package": [], "already_known": [],
+                                          "missing": [], "dependencies_acquired": [],
                                           "offered_tick": tick, "accepted_tick": None, "instruction_done_tick": None, "practice": [],
                                           "acquired_tick": None, "outcome": None, "reason": None, "ended_tick": None,
                                           "teacher_energy": r.get("energy_charged", 0), "learner_energy": 0, "teacher_ticks": 1, "learner_ticks": 0,
@@ -209,6 +261,7 @@ def reduce_export(export: JSON, windows: list[Window] | None = None) -> JSON:
                     se[f"{role}_ticks"] += 1
                 if kind == "accept_teaching":
                     se["accepted_tick"] = tick
+                    se.update(package=r.get("package", []), already_known=r.get("already_known", []), missing=r.get("missing", []))
                     if r.get("stage") == "failed":
                         end_session(r["session"], "failed", r.get("reason"), tick, buckets(tick))
                 if kind in SESSION_TIME:
@@ -220,6 +273,7 @@ def reduce_export(export: JSON, windows: list[Window] | None = None) -> JSON:
                     se["practice"].append(r["practice"])
                     if r.get("stage") == "acquired":
                         se["acquired_tick"] = tick
+                        se["dependencies_acquired"] = r.get("dependencies_acquired", [])
                         end_session(r["session"], "acquired", None, tick, buckets(tick))
                         for b in buckets(tick):
                             b["acquisitions_by_teaching"] += 1
@@ -239,9 +293,10 @@ def reduce_export(export: JSON, windows: list[Window] | None = None) -> JSON:
         elif e["type"] == "session_ended":
             end_session(e["session"], e["stage"], e.get("reason"), tick, buckets(tick))
         elif e["type"] == "freeze":
-            freezes.append({k: e.get(k) for k in ("tick", "cohort", "reason", "rule", "cohort_best", "accessible_best")})
+            freezes.append({k: e.get(k) for k in ("tick", "cohort", "reason", "rule", "cohort_best", "accessible_best", "held_best")})
         elif e["type"] == "cohort_transition":
-            transitions.append({"tick": tick, "cohort": e["cohort"], "retired": e["retired"], "successors": [x["successor"] for x in e["successors"]]})
+            transitions.append({"tick": tick, "cohort": e["cohort"], "phase": e.get("phase", "replacement"), "overlap": e.get("overlap", 0),
+                                "retired": e["retired"], "successors": [x["successor"] for x in e["successors"]]})
             for m in e["inventory_moved"]:
                 for res, n in m["inventory"].items():
                     move(f'agent:{m["agent"]}', f'settlement:{m["to"]}', res, n)
@@ -270,6 +325,12 @@ def reduce_export(export: JSON, windows: list[Window] | None = None) -> JSON:
     for entry in export["ticks"]:
         record = entry["record"]
         n = sum(1 for d in record["decisions"] if d.get("observation_hash"))
+        for d in record["decisions"]:
+            diag = d.get("diagnostic")
+            if diag:
+                search["diagnosed_decisions"] += 1
+                if diag.get("stop"):
+                    search["stops"][diag["stop"]] += 1
         for b in buckets(record["tick"]):
             b["active_agent_ticks"] += n
 
@@ -317,8 +378,37 @@ def reduce_export(export: JSON, windows: list[Window] | None = None) -> JSON:
                                "uses_with_saving": pa["uses_with_saving"], "produced_alloy": pa["produced_alloy"],
                                "production_energy_per_alloy": ratio(pa["production_energy"], pa["produced_alloy"], "energy per produced alloy")})
     final_alloy_inventory = sum(h["alloy"] for h in holdings.values())
+    hashes = search["behavior_hashes"]
+    search_summary = {
+        "proposals": search["proposals"], "unique_programs": len(search["program_hashes"]),
+        "duplicate_behaviour_dev_results": sum(n - 1 for n in hashes.values() if n > 1), "distinct_dev_behaviours": len(hashes),
+        "dev_evaluations": search["dev_evaluations"], "component_tests": search["component_tests"], "submissions": search["submissions"],
+        "admissions": search["admissions"], "refactor_admissions": search["refactor_admissions"],
+        "improvement_admissions": search["admissions"] - search["refactor_admissions"],
+        "private_parent_proposals": search["private_parent_proposals"], "parent_kinds": dict(search["parent_kinds"]),
+        "operators": {k: dict(v) for k, v in sorted(search["operators"].items())}, "stop_reasons": dict(search["stops"]),
+        "diagnosed_decisions": search["diagnosed_decisions"],
+        "cpu": "not in records (wall time would make records non-reproducible); see the search CPU benchmark",
+        "search_actions_by_agent": dict(sorted(search["search_actions"].items())),
+        "definition": "search actions = proposals + development tests (incl. component tests) + submissions; under budget_unit credits each costs one credit"}
+    session_rows = list(sessions.values())
+    component_summary = {**{k: v for k, v in components.items() if k != "admitted"}, "admitted_by_origin": dict(components["admitted"]),
+                         "dependency_teaching": {
+                             "sessions_with_dependencies": sum(1 for x in session_rows if x["closure"]),
+                             "dependencies_taught_in_package": sum(len(x["package"]) for x in session_rows),
+                             "dependencies_already_known": sum(len(x["already_known"]) for x in session_rows),
+                             "dependencies_acquired": sum(len(x["dependencies_acquired"]) for x in session_rows),
+                             "rejected_missing_prerequisites": sum(1 for x in session_rows if x["missing"])},
+                         "definitions": {"extraction": "component equal to an existing field (refactoring, not discovery)",
+                                         "revision": "component that changes behaviour; admitted only if strictly better in its host",
+                                         "composition": "workflow proposal that calls a component",
+                                         "calling_workflow_admissions": "admitted workflows with a non-empty dependency closure"}}
+    inherited_summary = {"uses_of_earlier_cohort_artifacts": inherited["uses_of_earlier_cohort_artifacts"],
+                         "agents_using_earlier_cohort_artifacts": len(inherited["agents_using_earlier_cohort_artifacts"]),
+                         "cross_generation_sessions": sum(1 for x in session_rows if x["teacher_cohort"] != x["learner_cohort"]),
+                         "cross_generation_acquisitions": sum(1 for x in session_rows if x["teacher_cohort"] != x["learner_cohort"] and x["outcome"] == "acquired")}
     return {
-        "reducer": "genesis.reducer/1", "origin_tick": origin, "last_tick": last, "removal_tick": removal_tick,
+        "reducer": "genesis.reducer/2", "origin_tick": origin, "last_tick": last, "removal_tick": removal_tick,
         "units": {"energy": "integer energy points", "alloy": "units produced by produce/use_artifact events",
                   "window": "committed ticks t with start < t <= end"},
         "starting_inventory": "excluded from produced_alloy; produced_alloy counts only production events after origin_tick",
@@ -329,7 +419,8 @@ def reduce_export(export: JSON, windows: list[Window] | None = None) -> JSON:
                                                  "retired_at_end": sum(v == "retired" for v in status.values()),
                                                  "inactive_at_end": sum(v == "inactive" for v in status.values())},
         "successors": successor_rows, "reconciliation": reconciliation,
-        "sessions": list(sessions.values()), "freezes": freezes, "cohort_transitions": transitions,
+        "sessions": session_rows, "freezes": freezes, "cohort_transitions": transitions,
+        "search": search_summary, "components": component_summary, "inherited": inherited_summary,
         "lineage": list(lineage.values()),
         "cross_generation": {
             "revision_attempts": sum(1 for x in lineage.values() if x["parent_cohort"] is not None and x["cohort"] > x["parent_cohort"]),

@@ -21,7 +21,7 @@ def act(state, kind, agent="a00", **params):
 @pytest.mark.parametrize("bad", [
     {"op": "workflow"}, {"op": "eval", "code": "1"}, {**WF, "extra": 1},
     {**WF, "batch": {"op": "const", "value": 9}}, {**WF, "heat": {"op": "if_lt", "measure": "secret", "threshold": 1, "then": {"op": "const", "value": 0}, "else": {"op": "const", "value": 0}}},
-    {"op": "component", "field": "heat", "expr": {"op": "call", "artifact": "a" * 64}},   # components cannot call
+    {"op": "component", "field": "speed", "expr": {"op": "const", "value": 1}},          # unknown component interface
 ])
 def test_malformed_programs_are_rejected(bad):
     with pytest.raises(ws.InvalidWorkflow):

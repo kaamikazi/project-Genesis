@@ -139,6 +139,8 @@ def session_view(session: JSON, agent_id: str) -> JSON:
 
 
 ACTIVE_STAGES = ("offered", "instruction", "practice")
+# v0.5 declared settings shown to controllers only when they differ from the v0.4 defaults (so v0.4 observations are unchanged).
+V05_RULE_DEFAULTS = {"budget_unit": "proposals", "search_policy": "first-improvement", "teaching_policy": "strict-prerequisites"}
 
 
 class LocalObservations:
@@ -160,6 +162,12 @@ class LocalObservations:
                     accessible[aid]["program"] = deepcopy(artifact["content"]["program"])
                 if own and artifact.get("development"):
                     accessible[aid]["dev_score"] = artifact["development"]["score"]   # the proposer's own development result
+                    if artifact["development"].get("host"):
+                        accessible[aid]["dev_host"] = artifact["development"]["host"]
+                        accessible[aid]["host_dev_score"] = artifact["development"]["host_score"]
+                        accessible[aid]["behavior_equal_to_host"] = artifact["development"]["behavior_equal_to_host"]
+                if own and artifact.get("operator"):
+                    accessible[aid]["operator"] = artifact["operator"]
         home = state["settlements"][a["home"]]
         r = OBSERVATION_RADIUS
         terrain = state["terrain"]
@@ -171,7 +179,8 @@ class LocalObservations:
         mine = [session_view(x, agent_id) for x in sessions.values() if agent_id in (x["teacher"], x["learner"]) and x["stage"] in ACTIVE_STAGES]
         observation = {"tick": state["tick"], "self": deepcopy(a), "phase": phase_at(state, a),
                        "rules": {"invention_open": config["invention"] == "open", "search_budget": config["search_budget"],
-                                 "task": config.get("task", "phase-1"), "teaching": config.get("teaching", False)},
+                                 "task": config.get("task", "phase-1"), "teaching": config.get("teaching", False),
+                                 **{k: config[k] for k, default in V05_RULE_DEFAULTS.items() if config.get(k, default) != default}},
                        "home_storage": dict(home["inventory"]) if distance(a, home) <= REACH else None,
                        "sites": deepcopy([s for s in state["sites"].values() if distance(a, s) <= r]),
                        "tiles": tiles,

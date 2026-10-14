@@ -11,7 +11,7 @@ from typing import Any
 from .models import JSON, canonical, digest, keyed
 
 TASK = "workshop-1"
-EVALUATOR_VERSION = "workshop-evaluator-1"
+EVALUATOR_VERSION = "workshop-evaluator-2"   # adds behaviour hashes and the in-host component protocol
 FIELDS = {"batch": (1, 4), "heat": (0, 3), "mode": (0, 1), "flux": (0, 1)}
 MEASURES = {"phase": (0, 11), "humidity": (0, 7), "ore": (0, 100), "energy": (0, 40)}
 SPLIT_THRESHOLDS = {"phase": (4, 6, 8), "humidity": (2, 4, 6), "ore": (4, 6, 8), "energy": (12, 20, 28)}
@@ -79,19 +79,74 @@ def validate(program: JSON) -> None:
         for field in FIELDS:
             expr(program[field], 1, field, True)
     elif kind == "component" and set(program) == {"op", "field", "expr"} and program["field"] in FIELDS:
-        expr(program["expr"], 1, program["field"], False)   # components cannot call; call depth is bounded at 1
+        expr(program["expr"], 1, program["field"], True)    # components may call components; closure limits apply
     else:
         raise InvalidWorkflow("program must be a workflow or component with exact fields")
 
 
+def closure(program: JSON, resolve) -> list[str]:
+    """Transitive dependency closure by hash, in dependency order. `resolve(id)` returns a program or None."""
+    order: list[str] = []
+
+    def visit(node_program: JSON, stack: tuple) -> None:
+        for dep in calls(node_program):
+            if dep in stack:
+                raise InvalidWorkflow(f"cyclic component reference {dep[:8]}")
+            target = resolve(dep)
+            if target is None:
+                raise InvalidWorkflow(f"missing prerequisite component {dep[:8]}")
+            if kind_of(target) != "component":
+                raise InvalidWorkflow("calls must name components")
+            if dep not in order:
+                visit(target, stack + (dep,))
+                order.append(dep)
+    visit(program, ())
+    return order
+
+
+def check_closure_limits(program: JSON, resolve) -> JSON:
+    """Inline the closure and apply the global node and depth limits: splitting a program across artifacts
+    grants no extra allowance."""
+    nodes = 0
+    deepest = 0
+
+    def walk(node: JSON, depth: int, field: str, stack: tuple) -> None:
+        nonlocal nodes, deepest
+        if node["op"] == "call":
+            if node["artifact"] in stack:
+                raise InvalidWorkflow("cyclic component reference")
+            target = resolve(node["artifact"])
+            if target is None:
+                raise InvalidWorkflow(f"missing prerequisite component {node['artifact'][:8]}")
+            if target.get("field") != field:
+                raise InvalidWorkflow("component field mismatch (incompatible interface)")
+            walk(target["expr"], depth, field, stack + (node["artifact"],))   # the call node is replaced by the callee
+            return
+        nodes += 1
+        deepest = max(deepest, depth)
+        if nodes > MAX_NODES or depth > MAX_DEPTH:
+            raise InvalidWorkflow("inlined closure exceeds node/depth limit")
+        if node["op"] == "if_lt":
+            walk(node["then"], depth + 1, field, stack)
+            walk(node["else"], depth + 1, field, stack)
+
+    if kind_of(program) == "workflow":
+        for field in FIELDS:
+            walk(program[field], 1, field, ())
+    else:
+        walk(program["expr"], 1, program["field"], ())
+    return {"inlined_nodes": nodes, "inlined_depth": deepest}
+
+
 def execute(program: JSON, measures: dict[str, int], held: dict[str, JSON]) -> tuple[dict[str, int], int]:
-    """Evaluate a workflow to a decision. `held` maps artifact id -> program for components the executor holds."""
+    """Evaluate a workflow to a decision. `held` maps artifact id -> program for components the executor holds.
+    The step limit is shared across the whole call tree; cycles are rejected."""
     validate(program)
     if kind_of(program) != "workflow":
         raise InvalidWorkflow("only workflows execute")
     steps = 0
 
-    def evaluate(node: JSON, field: str) -> int:
+    def evaluate(node: JSON, field: str, stack: tuple) -> int:
         nonlocal steps
         steps += 1
         if steps > MAX_STEPS:
@@ -100,21 +155,37 @@ def execute(program: JSON, measures: dict[str, int], held: dict[str, JSON]) -> t
         if op == "const":
             return node["value"]
         if op == "if_lt":
-            return evaluate(node["then"] if measures[node["measure"]] < node["threshold"] else node["else"], field)
+            return evaluate(node["then"] if measures[node["measure"]] < node["threshold"] else node["else"], field, stack)
+        if node["artifact"] in stack:
+            raise InvalidWorkflow("cyclic component reference")
         component = held.get(node["artifact"])
         if component is None:
             raise InvalidWorkflow(f"missing prerequisite component {node['artifact'][:8]}")
         if component.get("field") != field:
             raise InvalidWorkflow("component field mismatch")
-        return evaluate(component["expr"], field)
+        return evaluate(component["expr"], field, stack + (node["artifact"],))
 
     decision = {}
     for field, (low, high) in FIELDS.items():
-        value = evaluate(program[field], field)
+        value = evaluate(program[field], field, ())
         if not low <= value <= high:
             raise InvalidWorkflow(f"{field} outside range")
         decision[field] = value
     return decision, steps
+
+
+def substitute(host: JSON, component_id: str, component: JSON) -> JSON:
+    """The host workflow with the component's field replaced by a call to it."""
+    return {**host, component["field"]: {"op": "call", "artifact": component_id}}
+
+
+def behavior_hash(program: JSON, cases: list, held: dict[str, JSON]) -> str:
+    """Decisions on the given cases; equal hashes mean behaviourally identical on those cases."""
+    out = []
+    for phase, humidity, ore, energy in cases:
+        decision, _ = execute(program, {"phase": phase, "humidity": humidity, "ore": ore, "energy": energy}, held)
+        out.append([decision[f] for f in FIELDS])
+    return digest(out)
 
 
 def world_params(seed: int) -> JSON:
@@ -172,7 +243,8 @@ class WorkshopEvaluator:
         own = score_cases(program, params, DEV_CASES, held)
         base = score_cases(BASELINE, params, DEV_CASES, {})
         return {"role": "development", "version": self.version, "partition": "dev-24", "score": own["score"],
-                "baseline_score": base["score"], "cases": own["cases"], "objective": OBJECTIVE}
+                "baseline_score": base["score"], "cases": own["cases"], "objective": OBJECTIVE,
+                "behavior_hash": behavior_hash(program, DEV_CASES, held)}
 
     def validation(self, program: JSON, params: JSON, held: dict[str, JSON], parent: JSON | None, parent_held: dict[str, JSON]) -> JSON:
         own = score_cases(program, params, VALIDATION_CASES, held)
@@ -258,3 +330,28 @@ def neighbours(program: JSON, others: list[JSON] = ()) -> list[tuple[str, JSON]]
 
 def program_id(program: JSON) -> str:
     return digest(program)
+
+
+def component_operators(host: JSON, held_components: dict[str, JSON]) -> list[tuple[str, JSON, JSON]]:
+    """Declared component operators. Each item is (label, program, extra) where extra names the parent or host.
+    - extract:<field>      a component equal to a non-constant host field (refactoring, not discovery)
+    - call:<field>         the host with a field replaced by a call to a held admitted component (reuse/composition)
+    - mutate-component     a neighbouring expression of a held component (behaviourally different revision)"""
+    out: list[tuple[str, JSON, JSON]] = []
+    for field in FIELDS:
+        expr = host[field]
+        if expr["op"] == "if_lt":
+            out.append((f"extract:{field}", {"op": "component", "field": field, "expr": expr}, {"kind": "component", "host_field": field}))
+    for cid, comp in sorted(held_components.items()):
+        if canonical(host[comp["field"]]) != canonical({"op": "call", "artifact": cid}):
+            out.append((f"call:{comp['field']}", {**host, comp["field"]: {"op": "call", "artifact": cid}}, {"kind": "workflow", "component": cid}))
+        wrapper = {"op": "workflow", **{f: ({"op": "const", "value": FIELDS[f][0]} if f != comp["field"] else comp["expr"]) for f in FIELDS}}
+        for label, neighbour in neighbours(wrapper):
+            if label.split(":")[1] == comp["field"] and not label.startswith("compose"):
+                candidate = {"op": "component", "field": comp["field"], "expr": neighbour[comp["field"]]}
+                try:
+                    validate(candidate)
+                except InvalidWorkflow:
+                    continue
+                out.append(("mutate-component", candidate, {"kind": "component", "parent": cid}))
+    return out

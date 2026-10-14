@@ -4,7 +4,7 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "genesis-world"
-version = "0.4.0"
+version = "0.5.0"
 description = "An offline, inspectable civilization experiment"
 requires-python = ">=3.10"
 dependencies = ["fastapi==0.135.4", "uvicorn==0.51.0", "pydantic==2.13.4"]

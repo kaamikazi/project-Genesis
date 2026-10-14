@@ -19,12 +19,27 @@ SEALED_VERSION = "workshop-sealed-1"
 SEALED_SIZE = 48
 
 
-def create_manifest(path: Path) -> JSON:
-    """Draw a fresh sealed seed (from the OS, not from any world stream) and commit to the case list."""
+def _cases_of(manifest: JSON) -> list:
+    """Recompute a manifest's case list, excluding development, validation and every earlier sealed set it names."""
+    exclude = set(DEV_CASES) | set(VALIDATION_CASES)
+    for earlier in manifest.get("excludes", []):
+        earlier_cases = _cases_of(earlier)
+        if digest([list(c) for c in earlier_cases]) != earlier["commitment"]:
+            raise ValueError(f"excluded sealed set {earlier['version']} does not match its commitment")
+        exclude |= set(earlier_cases)
+    return partition("sealed", manifest["size"], exclude, seed=manifest["sealed_seed"])
+
+
+def create_manifest(path: Path, version: str = SEALED_VERSION, excludes: list[JSON] | None = None) -> JSON:
+    """Draw a fresh sealed seed (from the OS, not from any world stream) and commit to the case list.
+    `excludes` lists earlier (already used, now public) sealed manifests whose cases must not be reused."""
     seed = secrets.randbelow(2**31)
-    cases = partition("sealed", SEALED_SIZE, set(DEV_CASES) | set(VALIDATION_CASES), seed=seed)
-    manifest = {"version": SEALED_VERSION, "task": "workshop-1", "sealed_seed": seed, "size": SEALED_SIZE,
-                "disjoint_from": ["dev-24", "validation-24"], "commitment": digest([list(c) for c in cases])}
+    excluded = [{k: m[k] for k in ("version", "sealed_seed", "size", "commitment", "excludes") if k in m} for m in (excludes or [])]
+    manifest = {"version": version, "task": "workshop-1", "sealed_seed": seed, "size": SEALED_SIZE,
+                "disjoint_from": ["dev-24", "validation-24"] + [m["version"] for m in excluded], "excludes": excluded}
+    manifest["commitment"] = digest([list(c) for c in _cases_of(manifest)])
+    if not excluded:
+        manifest.pop("excludes")
     path.parent.mkdir(parents=True, exist_ok=True)
     path.write_text(json.dumps(manifest, indent=2), encoding="utf-8")
     return manifest
@@ -33,11 +48,14 @@ def create_manifest(path: Path) -> JSON:
 class SealedEvaluator:
     def __init__(self, manifest_path: Path):
         self.manifest = json.loads(Path(manifest_path).read_text(encoding="utf-8"))
-        self.cases = partition("sealed", self.manifest["size"], set(DEV_CASES) | set(VALIDATION_CASES), seed=self.manifest["sealed_seed"])
+        self.cases = _cases_of(self.manifest)
         if digest([list(c) for c in self.cases]) != self.manifest["commitment"]:
             raise ValueError("sealed cases do not match the committed hash")
         if set(self.cases) & (set(DEV_CASES) | set(VALIDATION_CASES)):
             raise ValueError("sealed cases overlap development or validation cases")
+        for earlier in self.manifest.get("excludes", []):
+            if set(self.cases) & set(_cases_of(earlier)):
+                raise ValueError(f"sealed cases overlap the earlier sealed set {earlier['version']}")
 
     @property
     def commitment(self) -> str:
@@ -63,7 +81,7 @@ class SealedEvaluator:
         rows = []
         for f in freezes:
             row = {"tick": f["tick"], "cohort": f["cohort"], "reason": f["reason"]}
-            for key in ("cohort_best", "accessible_best"):
+            for key in ("cohort_best", "accessible_best", "held_best"):
                 pick = f.get(key)
                 if pick is None:
                     row[key] = None
@@ -71,8 +89,11 @@ class SealedEvaluator:
                 art = artifacts[pick["artifact"]]
                 if digest(art["content"]) != pick["artifact"]:
                     raise ValueError("frozen artifact hash mismatch")
+                for dep in pick.get("closure") or []:      # frozen closures resolve by immutable hash
+                    if dep not in artifacts or digest(artifacts[dep]["content"]) != dep:
+                        raise ValueError("frozen closure component missing or hash mismatch")
                 row[key] = {**pick, "sealed": self.score(seed, art["content"]["program"], components)}
             rows.append(row)
-        return {"version": SEALED_VERSION, "commitment": self.commitment, "world_seed": seed, "run_closed_at": state["tick"],
+        return {"version": self.manifest["version"], "commitment": self.commitment, "world_seed": seed, "run_closed_at": state["tick"],
                 "baseline_sealed": baseline, "freezes": rows,
                 "independence": "artifacts were selected by validation evidence inside the run; sealed cases never influenced any run"}
