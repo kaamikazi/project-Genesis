@@ -1,0 +1,27 @@
+# Audit ledger: v0.2.0 claims (2026-10-14)
+
+**Reproduce:** `PYTHONPATH=. python tools/audit_v0_2.py evidence/superseded/v0.2.0 docs/audit/audit-v0.2.0.json` (run with the v0.2.0 code, commit `6145295`). The script reads the raw exports. It does not call the metrics function being audited.
+
+**Baseline verification before any edit:** [baseline-verification.md](baseline-verification.md). The result was 35 passed and the frontend build succeeded.
+
+| # | Claim (source) | Evidence checked | Outcome | Required repair |
+|---|---|---|---|---|
+| 1 | "35 passing tests" (final report) | `pytest -q` rerun before editing | **Confirmed:** 35 passed | none |
+| 2 | "Functioning observatory and frontend build" | `npm run build` rerun | **Confirmed** (build OK). Not visually re-tested at audit time. | re-test after changes |
+| 3 | "21 replayed worlds" | All 21 exports re-imported. Import re-walks every record hash, chain link and state hash. | **Confirmed:** 21/21 chains verified, and every final hash matches the report | none |
+| 4 | "Every world hits the same 512-alloy cap" (final summary) | Alloy totals from events in each export | **False.** 512 = 1,024 ore ÷ 2 is the theoretical maximum. It was observed in 9/21 worlds (all non-removal conditions). The 12 removal worlds produced 500–511. Seed 42 `restricted-remove-creators` ended the run with 12 ore on sites and 8 in agents' hands, so it was also time-limited. | Correct the README, status and UI text. Report produced alloy per world. |
+| 5 | "Retirement worlds produce slightly less because inventory enters inaccessible storage" (intermediate update) | Final settlement storage ore | **Confirmed, and incomplete.** 2–6 ore was stranded in storage that could not be withdrawn. | Implement withdrawal (milestone item 3) |
+| 6 | "Retirement comparison is fair" / "isolates lost knowledge" (final summary, EXPERIMENT_PROTOCOL) | Roles and pre-removal production of retirees | **False.** Retired creators were researchers with 21–31 production actions before removal. Matched retirees were producers with 38–42. Labour, role and inventory differ, and stored goods were unusable. | Re-label as descriptive. Add a controlled successor design (forks from one checkpoint, same retirees, same transfer rule, fresh successors). |
+| 7 | "Controllers never receive the world seed" (AGENT_MODEL) | v0.2.0 observations carried `controller_seed = keyed(seed, "controller-stream", agent) % 2³¹` | **Leak.** The world seed was recovered by brute force from a00's observation in 12, 43 and 78 guesses for seeds 11, 42 and 77. From the seed, every hidden phase can be computed. | Remove all seed-derived values from observations. Give controllers an independent seed, held inside the controller object. |
+| 8 | "Held-out cases are never shown case-by-case to controllers" (INVENTION_PROTOCOL) | `test_artifact` event results, which are copied into agent memories and then observations | **Leak.** In the seed 42 sharing world, 38 held-out-phase case failures (for example `phase 5: 6 energy is worse than baseline 2`) reached researcher memories. | Agent-facing test results carry only the status, training totals and partition-level pass/fail. Full evaluations stay on the artifact (observer only). |
+| 9 | "24 energy is optimal" (INVENTION_PROTOCOL, final report) | The conversion rule | **Unscoped but provable.** Every case costs at least 2 energy, and there are 12 cases, so 24 is a lower bound for *any* program on this evaluation set. It is reachable (threshold 6). It is optimal only for these 12 cases and this conversion rule. | State the bound and its scope. Add an exhaustive enumeration of the search grammar to evidence. |
+| 10 | "Lineage 36 → 32 → 28 → 24" (final report) | v0.2.0 seed-42 exports, and `test_search_climbs_a_verified_lineage_during_the_run` | **Confirmed** for seed 42 with v0.2.0 candidate ordering | Re-verify after the controller seed change |
+| 11 | "State-hash agreement after restart; duplicate-step protection" (final report) | A live check during the session (not stored), plus `test_restart_replay_export_import_fork` and `test_idempotency_under_concurrent_writers` | **Tests confirm.** The live check's output was **not preserved** as evidence. | Store restart and idempotency verification output with the new evidence |
+| 12 | "≈76 ms per committed tick" (benchmark.json) | `evidence/superseded/v0.2.0/benchmark.json` | **Recorded value present.** Not re-measured at audit time. | Superseded by milestone 3 profiling |
+| 13 | "Append-style deltas and compressed exports" | Export files | **Confirmed.** The 21 comparison exports are about 5 MB gzipped and 64.9 MB uncompressed in total. | Report both sizes |
+| 14 | Matched-retirement banner text | `frontend/src/main.tsx` | **Fixed late in v0.2.0.** The banner says "Procedure creators remain active (control)" for matched removal. | Keep; add condition-specific labels throughout |
+
+## Consequences for v0.3.0
+
+- All v0.2.0 evidence is preserved under `evidence/superseded/v0.2.0/` and treated as superseded, because items 7 and 8 mean the controller inputs breached the stated boundary.
+- v0.2.0 controllers used the seed-derived `controller_seed` only as a key for ordering candidates. They never inverted it to recover the world seed, and they never read held-out failures: the researcher policy reads only artifact statuses. The leaks were *available*, not *exploited*. Even so, the boundary claim was false, so the protocol changes.

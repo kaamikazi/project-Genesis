@@ -1,0 +1,814 @@
+{
+  "source": "evidence\\superseded\\v0.2.0",
+  "worlds": [
+    {
+      "seed": 11,
+      "condition": "sharing",
+      "reported_produced": 512,
+      "event_produced": 512,
+      "theoretical_max_alloy": 512,
+      "ore_initial": 1024,
+      "final_ore_on_sites": 0,
+      "final_ore_active_agents": 0,
+      "final_ore_in_settlement_storage_without_withdraw_action": 0,
+      "removed": [],
+      "removed_roles": {},
+      "production_actions_before_removal_by_removed": {},
+      "removal_inventory_moved": []
+    },
+    {
+      "seed": 11,
+      "condition": "restricted",
+      "reported_produced": 512,
+      "event_produced": 512,
+      "theoretical_max_alloy": 512,
+      "ore_initial": 1024,
+      "final_ore_on_sites": 0,
+      "final_ore_active_agents": 0,
+      "final_ore_in_settlement_storage_without_withdraw_action": 0,
+      "removed": [],
+      "removed_roles": {},
+      "production_actions_before_removal_by_removed": {},
+      "removal_inventory_moved": []
+    },
+    {
+      "seed": 11,
+      "condition": "baseline",
+      "reported_produced": 512,
+      "event_produced": 512,
+      "theoretical_max_alloy": 512,
+      "ore_initial": 1024,
+      "final_ore_on_sites": 0,
+      "final_ore_active_agents": 0,
+      "final_ore_in_settlement_storage_without_withdraw_action": 0,
+      "removed": [],
+      "removed_roles": {},
+      "production_actions_before_removal_by_removed": {},
+      "removal_inventory_moved": []
+    },
+    {
+      "seed": 11,
+      "condition": "sharing-remove-creators",
+      "reported_produced": 510,
+      "event_produced": 510,
+      "theoretical_max_alloy": 512,
+      "ore_initial": 1024,
+      "final_ore_on_sites": 0,
+      "final_ore_active_agents": 0,
+      "final_ore_in_settlement_storage_without_withdraw_action": 4,
+      "removed": [
+        "a00",
+        "a04"
+      ],
+      "removed_roles": {
+        "a00": "researcher",
+        "a04": "researcher"
+      },
+      "production_actions_before_removal_by_removed": {
+        "a00": 27,
+        "a04": 31
+      },
+      "removal_inventory_moved": [
+        {
+          "agent": "a00",
+          "inventory": {
+            "alloy": 33,
+            "food": 5,
+            "ore": 2
+          },
+          "to": "hearth"
+        },
+        {
+          "agent": "a04",
+          "inventory": {
+            "alloy": 34,
+            "food": 3,
+            "ore": 2
+          },
+          "to": "haven"
+        }
+      ]
+    },
+    {
+      "seed": 11,
+      "condition": "sharing-remove-matched",
+      "reported_produced": 510,
+      "event_produced": 510,
+      "theoretical_max_alloy": 512,
+      "ore_initial": 1024,
+      "final_ore_on_sites": 0,
+      "final_ore_active_agents": 0,
+      "final_ore_in_settlement_storage_without_withdraw_action": 4,
+      "removed": [
+        "a01",
+        "a05"
+      ],
+      "removed_roles": {
+        "a01": "producer",
+        "a05": "producer"
+      },
+      "production_actions_before_removal_by_removed": {
+        "a01": 41,
+        "a05": 39
+      },
+      "removal_inventory_moved": [
+        {
+          "agent": "a01",
+          "inventory": {
+            "alloy": 40,
+            "food": 3,
+            "ore": 2
+          },
+          "to": "hearth"
+        },
+        {
+          "agent": "a05",
+          "inventory": {
+            "alloy": 39,
+            "food": 6,
+            "ore": 2
+          },
+          "to": "haven"
+        }
+      ]
+    },
+    {
+      "seed": 11,
+      "condition": "restricted-remove-creators",
+      "reported_produced": 510,
+      "event_produced": 510,
+      "theoretical_max_alloy": 512,
+      "ore_initial": 1024,
+      "final_ore_on_sites": 0,
+      "final_ore_active_agents": 2,
+      "final_ore_in_settlement_storage_without_withdraw_action": 2,
+      "removed": [
+        "a00",
+        "a04"
+      ],
+      "removed_roles": {
+        "a00": "researcher",
+        "a04": "researcher"
+      },
+      "production_actions_before_removal_by_removed": {
+        "a00": 28,
+        "a04": 29
+      },
+      "removal_inventory_moved": [
+        {
+          "agent": "a00",
+          "inventory": {
+            "alloy": 34,
+            "food": 3,
+            "ore": 0
+          },
+          "to": "hearth"
+        },
+        {
+          "agent": "a04",
+          "inventory": {
+            "alloy": 35,
+            "food": 4,
+            "ore": 2
+          },
+          "to": "haven"
+        }
+      ]
+    },
+    {
+      "seed": 11,
+      "condition": "restricted-remove-matched",
+      "reported_produced": 509,
+      "event_produced": 509,
+      "theoretical_max_alloy": 512,
+      "ore_initial": 1024,
+      "final_ore_on_sites": 0,
+      "final_ore_active_agents": 0,
+      "final_ore_in_settlement_storage_without_withdraw_action": 6,
+      "removed": [
+        "a01",
+        "a05"
+      ],
+      "removed_roles": {
+        "a01": "producer",
+        "a05": "producer"
+      },
+      "production_actions_before_removal_by_removed": {
+        "a01": 40,
+        "a05": 39
+      },
+      "removal_inventory_moved": [
+        {
+          "agent": "a01",
+          "inventory": {
+            "alloy": 40,
+            "food": 3,
+            "ore": 4
+          },
+          "to": "hearth"
+        },
+        {
+          "agent": "a05",
+          "inventory": {
+            "alloy": 38,
+            "food": 3,
+            "ore": 2
+          },
+          "to": "haven"
+        }
+      ]
+    },
+    {
+      "seed": 42,
+      "condition": "sharing",
+      "reported_produced": 512,
+      "event_produced": 512,
+      "theoretical_max_alloy": 512,
+      "ore_initial": 1024,
+      "final_ore_on_sites": 0,
+      "final_ore_active_agents": 0,
+      "final_ore_in_settlement_storage_without_withdraw_action": 0,
+      "removed": [],
+      "removed_roles": {},
+      "production_actions_before_removal_by_removed": {},
+      "removal_inventory_moved": []
+    },
+    {
+      "seed": 42,
+      "condition": "restricted",
+      "reported_produced": 512,
+      "event_produced": 512,
+      "theoretical_max_alloy": 512,
+      "ore_initial": 1024,
+      "final_ore_on_sites": 0,
+      "final_ore_active_agents": 0,
+      "final_ore_in_settlement_storage_without_withdraw_action": 0,
+      "removed": [],
+      "removed_roles": {},
+      "production_actions_before_removal_by_removed": {},
+      "removal_inventory_moved": []
+    },
+    {
+      "seed": 42,
+      "condition": "baseline",
+      "reported_produced": 512,
+      "event_produced": 512,
+      "theoretical_max_alloy": 512,
+      "ore_initial": 1024,
+      "final_ore_on_sites": 0,
+      "final_ore_active_agents": 0,
+      "final_ore_in_settlement_storage_without_withdraw_action": 0,
+      "removed": [],
+      "removed_roles": {},
+      "production_actions_before_removal_by_removed": {},
+      "removal_inventory_moved": []
+    },
+    {
+      "seed": 42,
+      "condition": "sharing-remove-creators",
+      "reported_produced": 511,
+      "event_produced": 511,
+      "theoretical_max_alloy": 512,
+      "ore_initial": 1024,
+      "final_ore_on_sites": 0,
+      "final_ore_active_agents": 0,
+      "final_ore_in_settlement_storage_without_withdraw_action": 2,
+      "removed": [
+        "a00",
+        "a04"
+      ],
+      "removed_roles": {
+        "a00": "researcher",
+        "a04": "researcher"
+      },
+      "production_actions_before_removal_by_removed": {
+        "a00": 28,
+        "a04": 21
+      },
+      "removal_inventory_moved": [
+        {
+          "agent": "a00",
+          "inventory": {
+            "alloy": 33,
+            "food": 3,
+            "ore": 0
+          },
+          "to": "hearth"
+        },
+        {
+          "agent": "a04",
+          "inventory": {
+            "alloy": 29,
+            "food": 5,
+            "ore": 2
+          },
+          "to": "haven"
+        }
+      ]
+    },
+    {
+      "seed": 42,
+      "condition": "sharing-remove-matched",
+      "reported_produced": 508,
+      "event_produced": 508,
+      "theoretical_max_alloy": 512,
+      "ore_initial": 1024,
+      "final_ore_on_sites": 0,
+      "final_ore_active_agents": 2,
+      "final_ore_in_settlement_storage_without_withdraw_action": 6,
+      "removed": [
+        "a01",
+        "a05"
+      ],
+      "removed_roles": {
+        "a01": "producer",
+        "a05": "producer"
+      },
+      "production_actions_before_removal_by_removed": {
+        "a01": 39,
+        "a05": 38
+      },
+      "removal_inventory_moved": [
+        {
+          "agent": "a01",
+          "inventory": {
+            "alloy": 39,
+            "food": 5,
+            "ore": 2
+          },
+          "to": "hearth"
+        },
+        {
+          "agent": "a05",
+          "inventory": {
+            "alloy": 36,
+            "food": 6,
+            "ore": 4
+          },
+          "to": "haven"
+        }
+      ]
+    },
+    {
+      "seed": 42,
+      "condition": "restricted-remove-creators",
+      "reported_produced": 500,
+      "event_produced": 500,
+      "theoretical_max_alloy": 512,
+      "ore_initial": 1024,
+      "final_ore_on_sites": 12,
+      "final_ore_active_agents": 8,
+      "final_ore_in_settlement_storage_without_withdraw_action": 4,
+      "removed": [
+        "a00",
+        "a04"
+      ],
+      "removed_roles": {
+        "a00": "researcher",
+        "a04": "researcher"
+      },
+      "production_actions_before_removal_by_removed": {
+        "a00": 27,
+        "a04": 21
+      },
+      "removal_inventory_moved": [
+        {
+          "agent": "a00",
+          "inventory": {
+            "alloy": 32,
+            "food": 5,
+            "ore": 2
+          },
+          "to": "hearth"
+        },
+        {
+          "agent": "a04",
+          "inventory": {
+            "alloy": 29,
+            "food": 3,
+            "ore": 2
+          },
+          "to": "haven"
+        }
+      ]
+    },
+    {
+      "seed": 42,
+      "condition": "restricted-remove-matched",
+      "reported_produced": 502,
+      "event_produced": 502,
+      "theoretical_max_alloy": 512,
+      "ore_initial": 1024,
+      "final_ore_on_sites": 12,
+      "final_ore_active_agents": 2,
+      "final_ore_in_settlement_storage_without_withdraw_action": 6,
+      "removed": [
+        "a01",
+        "a05"
+      ],
+      "removed_roles": {
+        "a01": "producer",
+        "a05": "producer"
+      },
+      "production_actions_before_removal_by_removed": {
+        "a01": 40,
+        "a05": 39
+      },
+      "removal_inventory_moved": [
+        {
+          "agent": "a01",
+          "inventory": {
+            "alloy": 39,
+            "food": 3,
+            "ore": 4
+          },
+          "to": "hearth"
+        },
+        {
+          "agent": "a05",
+          "inventory": {
+            "alloy": 37,
+            "food": 3,
+            "ore": 2
+          },
+          "to": "haven"
+        }
+      ]
+    },
+    {
+      "seed": 77,
+      "condition": "sharing",
+      "reported_produced": 512,
+      "event_produced": 512,
+      "theoretical_max_alloy": 512,
+      "ore_initial": 1024,
+      "final_ore_on_sites": 0,
+      "final_ore_active_agents": 0,
+      "final_ore_in_settlement_storage_without_withdraw_action": 0,
+      "removed": [],
+      "removed_roles": {},
+      "production_actions_before_removal_by_removed": {},
+      "removal_inventory_moved": []
+    },
+    {
+      "seed": 77,
+      "condition": "restricted",
+      "reported_produced": 512,
+      "event_produced": 512,
+      "theoretical_max_alloy": 512,
+      "ore_initial": 1024,
+      "final_ore_on_sites": 0,
+      "final_ore_active_agents": 0,
+      "final_ore_in_settlement_storage_without_withdraw_action": 0,
+      "removed": [],
+      "removed_roles": {},
+      "production_actions_before_removal_by_removed": {},
+      "removal_inventory_moved": []
+    },
+    {
+      "seed": 77,
+      "condition": "baseline",
+      "reported_produced": 512,
+      "event_produced": 512,
+      "theoretical_max_alloy": 512,
+      "ore_initial": 1024,
+      "final_ore_on_sites": 0,
+      "final_ore_active_agents": 0,
+      "final_ore_in_settlement_storage_without_withdraw_action": 0,
+      "removed": [],
+      "removed_roles": {},
+      "production_actions_before_removal_by_removed": {},
+      "removal_inventory_moved": []
+    },
+    {
+      "seed": 77,
+      "condition": "sharing-remove-creators",
+      "reported_produced": 511,
+      "event_produced": 511,
+      "theoretical_max_alloy": 512,
+      "ore_initial": 1024,
+      "final_ore_on_sites": 0,
+      "final_ore_active_agents": 0,
+      "final_ore_in_settlement_storage_without_withdraw_action": 2,
+      "removed": [
+        "a00",
+        "a04"
+      ],
+      "removed_roles": {
+        "a00": "researcher",
+        "a04": "researcher"
+      },
+      "production_actions_before_removal_by_removed": {
+        "a00": 27,
+        "a04": 30
+      },
+      "removal_inventory_moved": [
+        {
+          "agent": "a00",
+          "inventory": {
+            "alloy": 34,
+            "food": 5,
+            "ore": 2
+          },
+          "to": "hearth"
+        },
+        {
+          "agent": "a04",
+          "inventory": {
+            "alloy": 33,
+            "food": 6,
+            "ore": 0
+          },
+          "to": "haven"
+        }
+      ]
+    },
+    {
+      "seed": 77,
+      "condition": "sharing-remove-matched",
+      "reported_produced": 510,
+      "event_produced": 510,
+      "theoretical_max_alloy": 512,
+      "ore_initial": 1024,
+      "final_ore_on_sites": 0,
+      "final_ore_active_agents": 0,
+      "final_ore_in_settlement_storage_without_withdraw_action": 4,
+      "removed": [
+        "a01",
+        "a05"
+      ],
+      "removed_roles": {
+        "a01": "producer",
+        "a05": "producer"
+      },
+      "production_actions_before_removal_by_removed": {
+        "a01": 38,
+        "a05": 42
+      },
+      "removal_inventory_moved": [
+        {
+          "agent": "a01",
+          "inventory": {
+            "alloy": 37,
+            "food": 6,
+            "ore": 4
+          },
+          "to": "hearth"
+        },
+        {
+          "agent": "a05",
+          "inventory": {
+            "alloy": 42,
+            "food": 3,
+            "ore": 0
+          },
+          "to": "haven"
+        }
+      ]
+    },
+    {
+      "seed": 77,
+      "condition": "restricted-remove-creators",
+      "reported_produced": 511,
+      "event_produced": 511,
+      "theoretical_max_alloy": 512,
+      "ore_initial": 1024,
+      "final_ore_on_sites": 0,
+      "final_ore_active_agents": 2,
+      "final_ore_in_settlement_storage_without_withdraw_action": 0,
+      "removed": [
+        "a00",
+        "a04"
+      ],
+      "removed_roles": {
+        "a00": "researcher",
+        "a04": "researcher"
+      },
+      "production_actions_before_removal_by_removed": {
+        "a00": 28,
+        "a04": 30
+      },
+      "removal_inventory_moved": [
+        {
+          "agent": "a00",
+          "inventory": {
+            "alloy": 34,
+            "food": 3,
+            "ore": 0
+          },
+          "to": "hearth"
+        },
+        {
+          "agent": "a04",
+          "inventory": {
+            "alloy": 35,
+            "food": 6,
+            "ore": 0
+          },
+          "to": "haven"
+        }
+      ]
+    },
+    {
+      "seed": 77,
+      "condition": "restricted-remove-matched",
+      "reported_produced": 511,
+      "event_produced": 511,
+      "theoretical_max_alloy": 512,
+      "ore_initial": 1024,
+      "final_ore_on_sites": 0,
+      "final_ore_active_agents": 0,
+      "final_ore_in_settlement_storage_without_withdraw_action": 2,
+      "removed": [
+        "a01",
+        "a05"
+      ],
+      "removed_roles": {
+        "a01": "producer",
+        "a05": "producer"
+      },
+      "production_actions_before_removal_by_removed": {
+        "a01": 40,
+        "a05": 39
+      },
+      "removal_inventory_moved": [
+        {
+          "agent": "a01",
+          "inventory": {
+            "alloy": 39,
+            "food": 4,
+            "ore": 0
+          },
+          "to": "hearth"
+        },
+        {
+          "agent": "a05",
+          "inventory": {
+            "alloy": 38,
+            "food": 3,
+            "ore": 2
+          },
+          "to": "haven"
+        }
+      ]
+    }
+  ],
+  "seed_recovery": [
+    {
+      "world_seed": 11,
+      "observed_controller_seed": 322478535,
+      "recovered_seed": 11,
+      "candidates_tried": 12
+    },
+    {
+      "world_seed": 42,
+      "observed_controller_seed": 1613613710,
+      "recovered_seed": 42,
+      "candidates_tried": 43
+    },
+    {
+      "world_seed": 77,
+      "observed_controller_seed": 1600198690,
+      "recovered_seed": 77,
+      "candidates_tried": 78
+    }
+  ],
+  "held_out_case_feedback_in_agent_memory": {
+    "count": 38,
+    "examples": [
+      {
+        "tick": 2,
+        "agent": "a04",
+        "failure": "phase 5: 6 energy is worse than baseline 2"
+      },
+      {
+        "tick": 2,
+        "agent": "a00",
+        "failure": "phase 0: 6 energy is worse than baseline 2"
+      },
+      {
+        "tick": 4,
+        "agent": "a04",
+        "failure": "phase 0: 6 energy is worse than baseline 2"
+      },
+      {
+        "tick": 4,
+        "agent": "a04",
+        "failure": "phase 2: 6 energy is worse than baseline 2"
+      },
+      {
+        "tick": 4,
+        "agent": "a04",
+        "failure": "phase 3: 6 energy is worse than baseline 2"
+      }
+    ],
+    "channel": "test_artifact result -> agent.memories -> observation.memory"
+  },
+  "replay_verification": [
+    {
+      "export": "11-sharing.json.gz",
+      "chain_verified": true,
+      "final_hash_matches_report": true
+    },
+    {
+      "export": "11-restricted.json.gz",
+      "chain_verified": true,
+      "final_hash_matches_report": true
+    },
+    {
+      "export": "11-baseline.json.gz",
+      "chain_verified": true,
+      "final_hash_matches_report": true
+    },
+    {
+      "export": "11-sharing-remove-creators.json.gz",
+      "chain_verified": true,
+      "final_hash_matches_report": true
+    },
+    {
+      "export": "11-sharing-remove-matched.json.gz",
+      "chain_verified": true,
+      "final_hash_matches_report": true
+    },
+    {
+      "export": "11-restricted-remove-creators.json.gz",
+      "chain_verified": true,
+      "final_hash_matches_report": true
+    },
+    {
+      "export": "11-restricted-remove-matched.json.gz",
+      "chain_verified": true,
+      "final_hash_matches_report": true
+    },
+    {
+      "export": "42-sharing.json.gz",
+      "chain_verified": true,
+      "final_hash_matches_report": true
+    },
+    {
+      "export": "42-restricted.json.gz",
+      "chain_verified": true,
+      "final_hash_matches_report": true
+    },
+    {
+      "export": "42-baseline.json.gz",
+      "chain_verified": true,
+      "final_hash_matches_report": true
+    },
+    {
+      "export": "42-sharing-remove-creators.json.gz",
+      "chain_verified": true,
+      "final_hash_matches_report": true
+    },
+    {
+      "export": "42-sharing-remove-matched.json.gz",
+      "chain_verified": true,
+      "final_hash_matches_report": true
+    },
+    {
+      "export": "42-restricted-remove-creators.json.gz",
+      "chain_verified": true,
+      "final_hash_matches_report": true
+    },
+    {
+      "export": "42-restricted-remove-matched.json.gz",
+      "chain_verified": true,
+      "final_hash_matches_report": true
+    },
+    {
+      "export": "77-sharing.json.gz",
+      "chain_verified": true,
+      "final_hash_matches_report": true
+    },
+    {
+      "export": "77-restricted.json.gz",
+      "chain_verified": true,
+      "final_hash_matches_report": true
+    },
+    {
+      "export": "77-baseline.json.gz",
+      "chain_verified": true,
+      "final_hash_matches_report": true
+    },
+    {
+      "export": "77-sharing-remove-creators.json.gz",
+      "chain_verified": true,
+      "final_hash_matches_report": true
+    },
+    {
+      "export": "77-sharing-remove-matched.json.gz",
+      "chain_verified": true,
+      "final_hash_matches_report": true
+    },
+    {
+      "export": "77-restricted-remove-creators.json.gz",
+      "chain_verified": true,
+      "final_hash_matches_report": true
+    },
+    {
+      "export": "77-restricted-remove-matched.json.gz",
+      "chain_verified": true,
+      "final_hash_matches_report": true
+    }
+  ]
+}
