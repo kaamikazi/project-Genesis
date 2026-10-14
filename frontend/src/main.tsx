@@ -1,0 +1,205 @@
+import React, { useCallback, useEffect, useState } from 'react';
+import { createRoot } from 'react-dom/client';
+import { Atlas } from './Atlas';
+import { Experiments } from './Experiments';
+import type { Agent, Artifact, Comparison, Payload, Removal, Run, Status, World, WorldEvent } from './types';
+import './style.css';
+
+type Page = 'Observatory' | 'Inhabitants' | 'Invention lab' | 'Experiments' | 'Archive';
+const pages: { name: Page; icon: string; hint: string }[] = [
+  { name: 'Observatory', icon: '◈', hint: 'The living world' }, { name: 'Inhabitants', icon: '♧', hint: 'Lives & local knowledge' },
+  { name: 'Invention lab', icon: '◇', hint: 'Procedures & evidence' }, { name: 'Experiments', icon: '⊞', hint: 'Paired world comparisons' },
+  { name: 'Archive', icon: '◷', hint: 'History & checkpoints' },
+];
+
+async function api<T>(path: string, body?: unknown): Promise<T> {
+  const res = await fetch('/api' + path, body === undefined ? undefined : { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(body) });
+  if (!res.ok) { const error = await res.json().catch(() => ({})); throw new Error(typeof error.detail === 'string' ? error.detail : `Request failed (${res.status})`); }
+  return res.json() as Promise<T>;
+}
+const short = (id: string) => id.slice(0, 8);
+const statusTone = (status: string) => status === 'verified' ? 'green' : status === 'rejected' ? 'red' : status === 'superseded' ? 'muted' : 'gold';
+const nameOf = (world: World, id?: string) => id ? (world.agents[id]?.name ?? id) : 'World';
+const words = (value: string) => value.replaceAll('_', ' ');
+
+function eventText(e: WorldEvent, w: World): { title: string; detail: string; tone: string } {
+  const r = e.result ?? {};
+  const who = nameOf(w, e.agent);
+  if (e.type === 'action_rejected') return { title: `${who} · action rejected`, detail: e.reason ?? '', tone: 'red' };
+  if (e.type === 'controller_failure') return { title: `${who} · controller failure`, detail: e.reason ?? '', tone: 'red' };
+  if (e.type === 'agent_inactive') return { title: `${who} became inactive`, detail: e.reason ?? '', tone: 'red' };
+  if (e.type === 'lifecycle_removal') { const removed = ((e as unknown as { removed: string[] }).removed ?? []).map(id => nameOf(w, id)); return { title: removed.length ? `${removed.join(' & ')} retired` : 'Scheduled removal found no creators', detail: 'Scenario-scheduled removal · inventory moved to settlement storage', tone: 'gold' }; }
+  if (e.type === 'environment') return { title: 'Environment advanced', detail: 'Scheduled fatigue, food replenishment & offer expiry', tone: '' };
+  switch (e.kind) {
+    case 'propose_artifact': return { title: `${who} proposed a procedure`, detail: `Bounded search · ${short(String(r.artifact))}`, tone: 'gold' };
+    case 'test_artifact': return { title: `${who} · ${r.supersedes ? 'revision' : 'procedure'} ${String(r.status)}`, detail: r.status === 'verified' ? (r.supersedes ? `Beats its parent ${short(String(r.supersedes))} · ${r.energy} vs ${r.baseline_energy} baseline energy` : 'Independent evaluation · training + held-out cases') : String((r.failures as string[] | undefined)?.[0] ?? 'Failed independent evaluation'), tone: r.status === 'verified' ? 'green' : 'red' };
+    case 'inspect_artifact': return { title: `${who} learned a procedure`, detail: `Settlement library · ${short(String(r.artifact))}`, tone: 'teal' };
+    case 'use_artifact': return { title: `${who} ${r.independent_adoption ? 'reproduced an energy saving' : 'used a verified procedure'}`, detail: `2 ore → 1 alloy · ${r.energy} energy`, tone: r.independent_adoption ? 'teal' : 'green' };
+    case 'produce': return { title: `${who} produced alloy`, detail: `Fixed-mode baseline · ${r.energy} energy`, tone: '' };
+    case 'gather': return { title: `${who} gathered ${r.amount} ${r.resource}`, detail: 'Transferred from a tracked resource site', tone: '' };
+    case 'consume': return { title: `${who} consumed food`, detail: `1 food → ${r.energy_restored} energy restored`, tone: '' };
+    case 'move': return { title: `${who} moved`, detail: `One adjacent tile · ${r.energy} energy`, tone: '' };
+    case 'transfer': return { title: `${who} shared ${r.amount} ${r.resource}`, detail: `Recipient: ${nameOf(w, String(r.target))}`, tone: 'teal' };
+    case 'accept_trade': return { title: `${who} completed a trade`, detail: `${r.give_amount} ${r.give} ↔ ${r.want_amount} ${r.want}`, tone: 'teal' };
+    case 'offer_trade': return { title: `${who} offered a trade`, detail: `To ${nameOf(w, String(r.target))} · expires after 6 ticks`, tone: '' };
+    default: return { title: `${who} · ${words(e.kind ?? e.type)}`, detail: 'Committed world event', tone: '' };
+  }
+}
+
+function App() {
+  const [page, setPage] = useState<Page>('Observatory');
+  const [runId, setRunId] = useState('');
+  const [runs, setRuns] = useState<Run[]>([]);
+  const [data, setData] = useState<Payload | null>(null);
+  const [status, setStatus] = useState<Status | null>(null);
+  const [selected, setSelected] = useState('a00');
+  const [error, setError] = useState('');
+  const [online, setOnline] = useState(false);
+  const [busy, setBusy] = useState(false);
+  const [notice, setNotice] = useState('');
+  const [replay, setReplay] = useState<number | null>(null);
+  const [historyTick, setHistoryTick] = useState(0);
+  const [newWorld, setNewWorld] = useState(false);
+  const [seed, setSeed] = useState(42);
+  const [sharing, setSharing] = useState(true);
+  const [mode, setMode] = useState<'search' | 'baseline'>('search');
+  const [removal, setRemoval] = useState<Removal>('none');
+  const [removalTick, setRemovalTick] = useState(80);
+  const [theme, setTheme] = useState<'dark' | 'light'>(() => { try { return localStorage.getItem('genesis-theme') === 'light' ? 'light' : 'dark'; } catch { return 'dark'; } });
+  const [filter, setFilter] = useState('notable');
+  const [artifact, setArtifact] = useState<string | null>(null);
+  const [event, setEvent] = useState<WorldEvent | null>(null);
+  const [rules, setRules] = useState(false);
+  const [comparison, setComparison] = useState<Comparison | null>(null);
+
+  useEffect(() => { api<Status>('/status').then(s => { setStatus(s); setRunId(s.run_id); }).catch(e => setError(e.message)); }, []);
+  const refresh = useCallback(async () => {
+    if (!runId) return;
+    try {
+      const [next, list] = await Promise.all([api<Payload>(`/runs/${runId}${replay === null ? '' : `?tick=${replay}`}`), api<Run[]>('/runs')]);
+      setData(next); setRuns(list); setStatus(next.status); setOnline(true);
+    } catch (e) { setOnline(false); setError((e as Error).message); }
+  }, [runId, replay]);
+  useEffect(() => { let active = true; let inFlight = false;
+    const poll = async () => { if (inFlight) return; inFlight = true;
+      try { const [next, list] = await Promise.all([api<Payload>(`/runs/${runId}${replay === null ? '' : `?tick=${replay}`}`), api<Run[]>('/runs')]);
+        if (active) { setData(next); setRuns(list); setStatus(next.status); setOnline(true); }
+      } catch (e) { if (active) { setOnline(false); setError((e as Error).message); } } finally { inFlight = false; }
+    };
+    if (runId) { void poll(); }
+    const timer = setInterval(() => { if (runId) void poll(); else api<Status>('/status').then(s => { if (active) setRunId(s.run_id); }).catch(() => {}); }, 1000);
+    return () => { active = false; clearInterval(timer); };
+  }, [runId, replay]);
+  useEffect(() => { if (page === 'Experiments') api<{ available: boolean; report?: Comparison }>('/experiments').then(x => setComparison(x.report ?? null)).catch(e => setError(e.message)); }, [page]);
+  useEffect(() => { document.documentElement.dataset.theme = theme; try { localStorage.setItem('genesis-theme', theme); } catch { /* storage unavailable */ } }, [theme]);
+  useEffect(() => { if (!notice) return; const timer = setTimeout(() => setNotice(''), 5000); return () => clearTimeout(timer); }, [notice]);
+  useEffect(() => { const key = (e: KeyboardEvent) => { if (e.key === 'Escape') { setNewWorld(false); setArtifact(null); setEvent(null); setRules(false); } }; window.addEventListener('keydown', key); return () => window.removeEventListener('keydown', key); }, []);
+
+  const perform = async (fn: () => Promise<void>) => {
+    setBusy(true); setError('');
+    try { await fn(); await refresh(); } catch (e) { setError((e as Error).message); } finally { setBusy(false); }
+  };
+  const control = (operation: string, extra: Record<string, unknown> = {}) => perform(async () => {
+    const next = await api<Status>('/control', { operation, request_id: crypto.randomUUID(), ...extra }); setStatus(next);
+  });
+  const inspectHistory = (tick: number) => perform(async () => { await api('/control', { operation: 'pause' }); setReplay(tick); setNotice(`Inspecting committed tick ${tick}. History is read-only.`); });
+  const world = data?.state;
+  const agent = world?.agents[selected] ?? (world ? Object.values(world.agents)[0] : null);
+  const artifacts = world ? Object.values(world.artifacts).sort((a, b) => b.created_tick-a.created_tick) : [];
+  const currentRun = runs.find(r => r.id === runId);
+  const maxTick = currentRun?.tick ?? world?.tick ?? 0;
+  const historical = replay !== null;
+  const activeRun = status?.run_id === runId;
+  const readOnly = currentRun ? !currentRun.compatible : false;
+  const disabled = busy || !online || historical || !activeRun || readOnly;
+  const removalRecord = world?.lifecycle?.removal ?? null;
+  const population = world ? Object.keys(world.agents).length : 8;
+  const events = (data?.events ?? []).filter(e => filter === 'all' || (filter === 'rejected' ? e.type === 'action_rejected' || e.type === 'controller_failure' : ['propose_artifact', 'test_artifact', 'inspect_artifact', 'offer_trade', 'accept_trade', 'transfer'].includes(e.kind ?? '') || !!e.result?.independent_adoption));
+  const chosen = artifact ? world?.artifacts[artifact] : undefined;
+  const titles: Record<Page, string> = { Observatory: 'A world in the making.', Inhabitants: `${population} lives. Limited horizons.`, 'Invention lab': 'Ideas must earn their place.', Experiments: 'Does shared knowledge help?', Archive: 'Every world leaves a trace.' };
+
+  return <div className="shell">
+    <aside className="sidebar">
+      <a className="brand" href="#" onClick={e => { e.preventDefault(); setPage('Observatory'); }}><img src="/genesis.svg" alt=""/><span>GENESIS<small>WORLD LABORATORY</small></span></a>
+      <div className="side-label">WORKSPACE <span>01</span></div>
+      <nav aria-label="Main navigation">{pages.map(p => <button key={p.name} className={page === p.name ? 'nav-item active' : 'nav-item'} onClick={() => setPage(p.name)}><span className="nav-icon">{p.icon}</span><span>{p.name}</span>{p.name === 'Invention lab' && artifacts.length > 0 && <span className="nav-count">{artifacts.length}</span>}</button>)}</nav>
+      <div className="side-world"><span className="eyebrow">CURRENT WORLD</span><div className="world-orbit">✳</div><strong>The First Valley</strong><p>Two settlements.<br/>One unfolding experiment.</p><span className="pill small">SEED {world?.config.seed ?? '—'}</span></div>
+      <div className="side-bottom"><button className="quiet" onClick={() => setRules(true)}>◎ &nbsp; Field notes & rules <span>↗</span></button><div className="local-indicator"><span className={`dot ${online ? '' : 'off'}`}/><span>{online ? 'Running on your machine' : 'Connecting to local engine'}<small>Offline controllers · $0 API cost</small></span></div><div className="version">FOUNDATION RELEASE <span>v{status?.engine ?? '0.2'}</span></div></div>
+    </aside>
+    <main>
+      <header className="topbar"><div className="breadcrumb">Workspace <span>/</span> The First Valley <span>/</span> <strong>{page}</strong></div><div className="top-actions"><span className="local-badge"><span className="dot"/> LOCAL SIMULATION</span><button className="icon-button" aria-label={`Switch to ${theme === 'dark' ? 'light' : 'dark'} theme`} title="Toggle theme" onClick={() => setTheme(theme === 'dark' ? 'light' : 'dark')}>{theme === 'dark' ? '☼' : '☾'}</button><button className="button small" onClick={() => setNewWorld(true)}>＋ New world</button></div></header>
+      <div className="content">
+        <section className="page-heading"><div><div className="eyebrow">PROJECT GENESIS <span className="slash">/</span> {pages.find(p => p.name === page)?.hint}</div><h1>{titles[page]}</h1><p>A persistent world. Executable ideas. Evidence you can follow.</p></div><div className="heading-meta"><span className={`pill ${world?.config.sharing ? 'green' : 'gold'}`}>{world?.config.sharing ? '↗ Knowledge sharing on' : '⊘ Knowledge sharing restricted'}</span><small>{world?.config.controller === 'search' ? 'Bounded search + deterministic agents' : 'Deterministic baseline only'}</small></div></section>
+        {error && <div className="alert" role="alert"><span>{error}</span><button onClick={() => { setError(''); void refresh(); }}>Retry / dismiss</button></div>}
+        {status?.error && <div className="alert" role="alert">Engine paused: {status.error}</div>}
+        {!activeRun && runId && status && <div className="replay-banner">Another viewer selected a different world. <button onClick={() => { setRunId(status.run_id); setReplay(null); }}>Follow active world</button></div>}
+        {readOnly && <div className="replay-banner">This run was written by engine {currentRun?.manifest.engine_version}. Its history is preserved read-only; create a new world to continue simulating.</div>}
+        {world && world.config.removal && world.config.removal !== 'none' && <div className="removal-banner"><span className="eyebrow">LIFECYCLE SCENARIO</span>{removalRecord ? <span>Tick {removalRecord.tick}: {removalRecord.removed.length ? `${removalRecord.removed.map(id => nameOf(world, id)).join(' & ')} retired (${removalRecord.policy === 'creators' ? 'procedure creators' : 'matched non-creators'})` : removalRecord.note}. {removalRecord.policy === 'creators' ? <>Procedure uses since creators left: <b>{world.metrics.uses_after_creator_removal ?? 0}</b></> : <>Procedure creators remain active (control)</>} · energy per alloy since removal: <b>{world.metrics.produced_after_removal ? ((world.metrics.production_energy_after_removal ?? 0) / world.metrics.produced_after_removal).toFixed(2) : '—'}</b></span> : <span>{world.config.removal === 'creators' ? 'Verified-procedure creators' : 'Matched non-creators'} will retire at tick {world.config.removal_tick}. Their inventory moves to settlement storage.</span>}</div>}
+        {historical && <div className="replay-banner">◷ REPLAY · Tick {replay} · verified committed state <button onClick={() => setReplay(null)}>Return to present ↗</button></div>}
+        {notice && <div className="toast" role="status">✓ {notice}</div>}
+        {!world || !data ? <div className="empty loading"><span className="spinner"/><h2>Connecting to your world</h2><p>Start the local engine with <code>python -m genesis.cli serve</code>.</p><button className="button" onClick={() => void refresh()}>Reconnect</button></div> : <>
+          <section className="stats" aria-label="World metrics">
+            <Stat label="Active inhabitants" value={`${Object.values(world.agents).filter(a => a.status === 'active').length}`} unit={`/ ${Object.keys(world.agents).length}`} detail="Across 2 settlements" icon="♧"/>
+            <Stat label="Alloy produced" value={String(world.metrics.produced)} unit="units" detail={`${world.metrics.production_energy} energy spent in production`} icon="⬡"/>
+            <Stat label="Current procedures" value={String(artifacts.filter(a => a.status === 'verified').length).padStart(2, '0')} detail={`${world.metrics.revisions_verified ?? 0} verified revisions · ${artifacts.length} candidates tested`} icon="◇"/>
+            <Stat label="Independent adoptions" value={String(world.metrics.adoptions).padStart(2, '0')} detail="Recipients with a measured energy saving" icon="↗"/>
+          </section>
+          {page === 'Observatory' && <>
+            <div className="observatory-grid">
+              <section className="panel atlas-panel"><div className="panel-header"><div><span className="eyebrow">LIVE ATLAS</span><h2>The First Valley <span className="subtle">/ 01</span></h2></div><span className="pill small"><span className={`dot ${status?.running && !historical ? '' : 'paused'}`}/>{historical ? 'REPLAY' : status?.running ? 'RUNNING' : 'PAUSED'}</span></div>
+                <div className="atlas-wrap"><Atlas world={world} selected={selected} onSelect={setSelected}/><div className="atlas-caption">A designed world, an observable history.</div></div>
+                <div className="atlas-legend"><span><i className="legend-dot hearth"/>Hearth</span><span><i className="legend-dot haven"/>Haven</span><span><i className="legend-diamond"/>Ore</span><span><i className="legend-leaf"/>Food</span><span className="legend-note">Select an inhabitant to inspect</span></div>
+                <div className="transport"><div className="transport-buttons"><button aria-label={status?.running ? 'Pause simulation' : 'Run simulation'} className="play" disabled={disabled} onClick={() => void control(status?.running ? 'pause' : 'run')}>{status?.running ? 'Ⅱ' : '▶'}</button><button className="step" aria-label="Step one tick" title="Advance one committed tick" disabled={disabled || status?.running} onClick={() => void control('step')}>▹|</button><span className="transport-divider"/><label className="speed"><select aria-label="Simulation speed" value={status?.speed ?? 2} disabled={disabled} onChange={e => void control('speed', { speed: Number(e.target.value) })}><option value={1}>1 tick / sec</option><option value={2}>2 ticks / sec</option><option value={5}>5 ticks / sec</option><option value={10}>10 ticks / sec</option></select></label></div><div className="tick"><span>TICK</span><strong>{String(world.tick).padStart(4, '0')}</strong><small>/ {world.config.max_ticks}</small></div><button className="icon-button" aria-label="Save checkpoint" title="Save checkpoint" disabled={busy || historical} onClick={() => void perform(async () => { const cp = await api<{ tick: number }>(`/runs/${runId}/checkpoint`, {}); setNotice(`Checkpoint saved at tick ${cp.tick}.`); })}>◫</button></div>
+              </section>
+              {agent && <AgentInspector agent={agent} world={world} select={setSelected} onArtifact={setArtifact} onEvent={setEvent}/>}
+            </div>
+            <div className="lower-grid"><section className="panel timeline"><div className="panel-header"><div><span className="eyebrow">COMMITTED HISTORY</span><h2>From the world</h2></div><select aria-label="Event filter" value={filter} onChange={e => setFilter(e.target.value)}><option value="notable">Notable events</option><option value="all">All events</option><option value="rejected">Rejections & failures</option></select></div><EventList events={events.slice(0, 5)} world={world} onSelect={setEvent}/><div className="panel-foot">Latest 100 events · {world.metrics.accepted} accepted / {world.metrics.rejected} rejected <button onClick={() => setPage('Archive')}>Open archive ↗</button></div></section>
+              <section className="panel research-note"><span className="eyebrow">THE CENTRAL QUESTION</span><span className="note-symbol">↗</span><h2>Can knowledge outlive<br/>its inventor?</h2><p>The first experiment asks whether sharing verified procedures improves collective production.</p><div className="note-line"/><span className="small-text">Designed mechanics. Bounded search.<br/>No claims of emergent intelligence.</span><button className="text-button" onClick={() => setPage('Experiments')}>Explore the experiment <span>↗</span></button></section></div>
+          </>}
+          {page === 'Inhabitants' && <><div className="section-intro"><h2>Meet the inhabitants</h2><p>Identities persist across restarts. Each controller sees only its own state, nearby sites, and accessible knowledge.</p></div><div className="inhabitants-layout"><div className="agent-grid">{Object.values(world.agents).map(a => <button className={`agent-card ${selected === a.id ? 'chosen' : ''}`} key={a.id} onClick={() => setSelected(a.id)}><div className="agent-card-top"><span className={`avatar ${a.home}`}>{a.name[0]}</span><span className={`pill small ${a.status === 'active' ? 'green' : 'muted'}`}>{a.status}</span></div><h2>{a.name} <span>#{a.id.slice(1)}</span></h2><p>{world.settlements[a.home].name} · {a.role}</p><div className="energy"><span>Energy</span><b>{a.energy}/40</b></div><div className="meter"><i style={{ width: `${a.energy/40*100}%` }}/></div><div className="card-footer"><span>{a.known.length} known procedures</span><span>{a.inventory.alloy} alloy</span></div></button>)}</div>{agent && <AgentInspector agent={agent} world={world} select={setSelected} onArtifact={setArtifact} onEvent={setEvent}/>}</div></>}
+          {page === 'Invention lab' && <><div className="section-intro"><h2>The procedure collection <span className="count">{artifacts.length}</span></h2><p>Immutable programs generated during this run. A revision is accepted only if it beats its parent on the same independent evaluation; verification covers only the documented phase-conversion task.</p></div><div className="protocol-strip"><span><b>01</b> Generate candidate</span><i>→</i><span><b>02</b> Test actual costs</span><i>→</i><span><b>03</b> Revise & beat parent</span><i>→</i><span><b>04</b> Copy & execute</span><i>→</i><span><b>05</b> Measure adoption</span></div>{!artifacts.length ? <div className="panel empty"><span className="large-symbol">◇</span><h2>No procedures yet</h2><p>{world.config.controller === 'baseline' ? 'This is a behavioral baseline. It does not search for programs.' : 'Advance the world. Researchers will generate candidates within their search budgets.'}</p></div> : <div className="artifact-grid">{artifacts.map((a, i) => <button className="artifact-card" key={a.id} onClick={() => setArtifact(a.id)}><div className="artifact-top"><span className="artifact-icon">◇</span><span className={`pill small ${statusTone(a.status)}`}>{a.status}</span></div><span className="eyebrow">{a.parent ? `GENERATION ${a.generation} · REVISES ${short(a.parent)}` : 'ORIGINAL CANDIDATE'}</span><h2>Procedure {String(artifacts.length-i).padStart(2, '0')}</h2><p>Proposed by {nameOf(world, a.creator)} · Tick {a.created_tick}</p><div className="efficiency">{a.evaluation ? <><strong className={a.evaluation.energy > a.evaluation.baseline_energy ? 'negative' : ''}>{Math.round((1-a.evaluation.energy/a.evaluation.baseline_energy)*100)}%</strong><span>evaluation energy saving</span></> : <><strong>—</strong><span>awaiting evaluation</span></>}</div>{a.evaluation?.failures?.length ? <p className="failure-line">{a.evaluation.failures[0]}</p> : null}<div className="card-footer"><span>{a.adopters.length} independent adoptions</span><span>Inspect evidence ↗</span></div></button>)}</div>}</>}
+          {page === 'Experiments' && <><div className="panel experiment-heading"><div><span className="eyebrow">PROTOCOL / {comparison?.protocol?.toUpperCase() ?? 'PAIRED-PHASE-2'}</span><h2>Shared knowledge, measured consequences.</h2><p>Seven conditions per seed share the same terrain, rules, population, search budget and run length: sharing, restricted, a fixed-mode baseline, and a 2 × 2 removal design that retires either the procedure creators or matched non-creators.</p></div><span className="pill gold">EXPLORATORY · NO SIGNIFICANCE CLAIM</span></div><Experiments comparison={comparison}/></>}
+          {page === 'Archive' && <><div className="archive-grid"><section className="panel padded"><span className="eyebrow">RUN LIBRARY</span><h2>Pick a history</h2><label className="field">Stored world<select value={runId} onChange={e => { const id = e.target.value; void perform(async () => { const s = await api<Status>('/control', { operation: 'select', run_id: id }); setStatus(s); setRunId(id); setReplay(null); setHistoryTick(0); }); }}>{runs.map(r => <option value={r.id} key={r.id}>Seed {r.manifest.config.seed} · {r.manifest.config.sharing ? 'sharing' : 'restricted'} · {r.manifest.config.removal && r.manifest.config.removal !== 'none' ? ` · remove ${r.manifest.config.removal}` : ''} · {r.tick} ticks · {short(r.id)}{r.compatible ? '' : ` · read-only v${r.manifest.engine_version}`}</option>)}</select></label><div className="facts"><span>Run identity<b className="mono">{runId}</b></span><span>State fingerprint<b className="mono">{short(data.hash)}…</b></span><span>Parent run<b>{currentRun?.manifest.parent ? `${short(currentRun.manifest.parent.run_id)} / tick ${currentRun.manifest.parent.tick}` : 'Fresh origin'}</b></span><span>Recorded event bytes<b>{((data.telemetry.bytes ?? 0)/1024/1024).toFixed(2)} MB</b></span></div><a className="button full" href={`/api/runs/${runId}/export`}>↓ Export complete run</a></section><section className="panel padded"><span className="eyebrow">REPLAY & CONTINUATION</span><h2>Return to a committed moment</h2><p>Replay reads recorded transitions. Forking creates a separate continuation and preserves the original history.</p><label className="field">Tick to inspect <input aria-label="Replay tick" type="number" min={currentRun?.manifest.origin_tick ?? 0} max={maxTick} value={historyTick} onChange={e => setHistoryTick(Number(e.target.value))}/></label><input aria-label="History position" type="range" min={currentRun?.manifest.origin_tick ?? 0} max={maxTick} value={historyTick} onChange={e => setHistoryTick(Number(e.target.value))}/><div className="button-row"><button className="button primary" disabled={busy || historyTick > maxTick || historyTick < (currentRun?.manifest.origin_tick ?? 0)} onClick={() => void inspectHistory(historyTick)}>Inspect tick {historyTick}</button><button className="button" disabled={busy || readOnly} onClick={() => void perform(async () => { const s = await api<Status>(`/runs/${runId}/fork`, { tick: historical ? replay : world.tick }); setRunId(s.run_id); setStatus(s); setReplay(null); setNotice('Created a separate continuation from the displayed state.'); })}>Fork displayed state ↗</button></div><div className="checkpoint-list"><h3>Saved checkpoints</h3>{data.checkpoints.map(cp => <button key={cp.tick} onClick={() => void inspectHistory(cp.tick)}><span>◫ &nbsp; Tick {cp.tick}</span><small>{cp.label} · {short(cp.state_hash)}</small><span>↗</span></button>)}</div><button className="text-button" disabled={historical || busy} onClick={() => void perform(async () => { const cp = await api<{ tick: number }>(`/runs/${runId}/checkpoint`, {}); setNotice(`Saved checkpoint at tick ${cp.tick}.`); })}>＋ Save present checkpoint</button></section></div><section className="panel timeline"><div className="panel-header"><h2>Event evidence</h2><select aria-label="Archive event filter" value={filter} onChange={e => setFilter(e.target.value)}><option value="notable">Notable events</option><option value="all">All events</option><option value="rejected">Rejections & failures</option></select></div><EventList events={events} world={world} onSelect={setEvent}/></section></>}
+          <footer className="content-footer"><span><span className="dot"/> Authoritative state · tick {world.tick} · {short(data.hash)}</span><span>{data.telemetry.avg_ms ? `${data.telemetry.avg_ms.toFixed(1)} ms average pre-commit tick` : 'Waiting for first tick'} <span className="slash">/</span> No model calls</span></footer>
+        </>}
+      </div>
+    </main>
+    {newWorld && <Modal title="Begin a new world" onClose={() => setNewWorld(false)}><p>A fresh eight-inhabitant world starts paused, 300 ticks long. Your existing runs stay in the archive.</p><form onSubmit={e => { e.preventDefault(); void perform(async () => { const s = await api<Status>('/runs', { seed, sharing, controller: mode, removal, removal_tick: removalTick }); setRunId(s.run_id); setStatus(s); setReplay(null); setSelected('a00'); setNewWorld(false); setPage('Observatory'); setNotice('Fresh world created. Press play to begin.'); }); }}><label className="field">World seed<input type="number" min="0" max="2147483647" required value={seed} onChange={e => setSeed(Number(e.target.value))}/></label><label className="field">Controller mode<select value={mode} onChange={e => setMode(e.target.value as 'search' | 'baseline')}><option value="search">Bounded search + deterministic agents</option><option value="baseline">Deterministic behavioral baseline</option></select></label><div className="field-row"><label className="field">Lifecycle removal<select value={removal} onChange={e => setRemoval(e.target.value as Removal)}><option value="none">None</option><option value="creators">Retire procedure creators</option><option value="matched">Retire matched non-creators (control)</option></select></label><label className="field">At tick<input type="number" min="1" max="299" disabled={removal === 'none'} value={removalTick} onChange={e => setRemovalTick(Number(e.target.value))}/></label></div><label className="check-field"><input type="checkbox" checked={sharing} onChange={e => setSharing(e.target.checked)}/><span>Allow verified procedure sharing<small>Material trade remains available in both conditions.</small></span></label><button className="button primary full" disabled={busy}>Create world →</button></form></Modal>}
+    {chosen && world && <Modal title="Procedure evidence" onClose={() => setArtifact(null)} wide><ArtifactEvidence artifact={chosen} world={world}/></Modal>}
+    {event && world && <Modal title={eventText(event, world).title} onClose={() => setEvent(null)}><span className="pill small">COMMITTED TICK {event.tick}</span><p>{eventText(event, world).detail}</p><pre>{JSON.stringify(event, null, 2)}</pre>{typeof event.result?.artifact === 'string' && <button className="button" onClick={() => { setArtifact(event.result!.artifact as string); setEvent(null); }}>Inspect procedure evidence ↗</button>}</Modal>}
+    {rules && <Modal title="Field notes & world rules" onClose={() => setRules(false)}><p>GENESIS is an offline simulation laboratory. These are designed affordances and deterministic policies, not a claim of autonomous civilization.</p><h3>Every action has a cost</h3><p>Adjacent movement costs 1 energy on grass or 2 on forest and hills. Gathering moves up to 4 units from a finite tracked site. Consuming 1 food restores up to 20 energy. All active agents lose 1 energy per tick.</p><h3>Scarcity is explicit</h3><p>Food sites replenish 2 units per tick up to capacity. Ore never replenishes. Production converts 2 ore into 1 alloy, costing 2 or 6 energy depending on the phase and selected mode.</p><h3>Ideas need evidence</h3><p>A bounded JSON program selects a conversion mode. Verification requires at least 25% energy savings in each evaluation partition and no case worse than the fixed-mode baseline. Adoption requires a logged transmission and a recipient’s measured energy saving.</p><h3>Lifecycle removal</h3><p>A scenario can retire the verified-procedure creators, or a matched set of non-creators from the same settlements, at a fixed tick. Retirees stop acting; their inventory moves to settlement storage. This is scheduled lifecycle management, not death or reproduction.</p><h3>What is still ahead</h3><p>Institutions, succession with new agents, teaching, cumulative revisions, and optional model controllers. No paid calls are implemented in this release.</p><div className="small-text">Observer panels can inspect the world. Controllers receive restricted local observations. Replays never invoke controllers.</div></Modal>}
+  </div>;
+}
+
+function Stat({ label, value, unit, detail, icon }: { label: string; value: string; unit?: string; detail: string; icon: string }) {
+  return <article className="stat"><div className="stat-label">{label}<span>{icon}</span></div><div className="stat-number">{value}<small>{unit}</small></div><div className="stat-detail">{detail}</div></article>;
+}
+
+function AgentInspector({ agent: a, world: w, select, onArtifact, onEvent }: { agent: Agent; world: World; select: (id: string) => void; onArtifact: (id: string) => void; onEvent: (e: WorldEvent) => void }) {
+  return <section className="panel inspector"><div className="panel-header"><span className="eyebrow">INHABITANT INSPECTOR</span><span className="observer-tag" title="Observer-only view; controllers receive restricted observations">◎ Observer</span></div><div className="profile"><span className={`avatar large ${a.home}`}>{a.name[0]}<i/></span><div><select aria-label="Inspect inhabitant" value={a.id} onChange={e => select(e.target.value)}>{Object.values(w.agents).map(b => <option key={b.id} value={b.id}>{b.name}</option>)}</select><p>{w.settlements[a.home].name} <span>·</span> {a.role}</p></div></div><div className="profile-tags"><span className={`pill small ${a.status === 'active' ? 'green' : 'muted'}`}>{a.status}</span><span className="pill small">{w.tick-a.created_tick} ticks old</span><span className="coordinates">{a.x}, {a.y}</span></div><div className="inspector-body"><div className="energy"><span>Energy reserve</span><b>{a.energy}<span> / 40</span></b></div><div className="meter"><i style={{ width: `${a.energy/40*100}%` }}/></div><h3>Inventory</h3><div className="inventory">{(['food', 'ore', 'alloy'] as const).map(r => <div key={r}><span className={`resource-icon ${r}`}>{r === 'food' ? '♧' : r === 'ore' ? '◆' : '⬡'}</span><strong>{a.inventory[r]}</strong><small>{r}</small></div>)}</div><div className="inspector-section"><h3>Latest action <span>ACTUAL OUTCOME</span></h3>{a.last_result ? <button className="action-result" onClick={() => onEvent(a.last_result!)}><span className={a.last_result.accepted ? 'result-check' : 'result-reject'}>{a.last_result.accepted ? '✓' : '×'}</span><span><b>{words(a.last_result.kind ?? 'wait')}</b><small>{a.last_result.accepted ? `Committed tick ${a.last_result.tick}` : a.last_result.reason}</small></span><span>↗</span></button> : <p className="small-text">No actions yet. The world is ready to begin.</p>}</div><div className="inspector-section"><h3>Known procedures <span>{a.known.length.toString().padStart(2, '0')}</span></h3>{a.known.length ? a.known.map(id => <button className="knowledge-link" key={id} onClick={() => onArtifact(id)}><span>◇</span><span>Phase procedure · gen {w.artifacts[id]?.generation ?? 0}<small>{short(id)} · {w.artifacts[id]?.status === 'superseded' ? 'superseded' : 'current'} · {a.used.includes(id) ? 'executed' : 'learned, not yet used'}</small></span><span>↗</span></button>) : <p className="small-text">No procedure learned yet.</p>}</div><details className="memory-details"><summary>Local memory & goals <span>{a.memories.length} records</span></summary><p className="small-text">{a.goals.join(' · ')}</p>{a.memories.slice(-5).reverse().map((e, i) => <button key={i} onClick={() => onEvent(e)}>T{e.tick} · {words(e.kind ?? e.type)} {e.accepted ? '✓' : '×'}</button>)}</details></div></section>;
+}
+
+function EventList({ events, world, onSelect }: { events: WorldEvent[]; world: World; onSelect: (e: WorldEvent) => void }) {
+  return <div className="event-list">{events.length ? events.map((e, i) => { const x = eventText(e, world); return <button className="event-row" key={`${e.tick}-${e.id}-${i}`} onClick={() => onSelect(e)}><span className="event-tick">T{String(e.tick).padStart(3, '0')}</span><span className={`event-mark ${x.tone}`}>{e.kind?.includes('artifact') ? '◇' : '·'}</span><span className="event-description"><b>{x.title}</b><small>{x.detail}</small></span><span className="event-arrow">↗</span></button>; }) : <div className="empty compact"><span>◷</span><p>No matching events in the latest 100 records.<br/>Advance the world or choose another filter.</p></div>}</div>;
+}
+
+function ArtifactEvidence({ artifact: a, world: w }: { artifact: Artifact; world: World }) {
+  return <><div className="evidence-heading"><span className={`pill ${statusTone(a.status)}`}>{a.status}</span><code>{short(a.id)}</code><span>By {nameOf(w, a.creator)} · Tick {a.created_tick}</span></div><p>{a.claim}. <strong>This is a claim until evaluated.</strong></p><div className="evidence-columns"><section><h3>Immutable program</h3><pre>{JSON.stringify(a.content.program, null, 2)}</pre><div className="small-text">Parent: {a.parent ? short(a.parent) : 'Original candidate; no parent'} · generation {a.generation}<br/>Creation event: {a.creation_event}{a.superseded_by ? <><br/>Superseded by {short(a.superseded_by)}</> : null}</div></section><section><h3>Independent evaluation</h3>{a.evaluation ? <><p className="small-text">{a.evaluation.criterion}</p><div className="evidence-totals"><span><strong>{a.evaluation.energy}</strong>candidate energy</span><span><strong>{a.evaluation.baseline_energy}</strong>baseline energy</span></div>{a.evaluation.parent_energy !== undefined && <p className="small-text">Parent recomputed by the evaluator: {a.evaluation.parent_energy} energy.</p>}{a.evaluation.failures.length > 0 && <ul className="failure-list">{a.evaluation.failures.map(f => <li key={f}>{f}</li>)}</ul>}<p className="small-text">Scope: {a.evaluation.scope}</p></> : <p>Evaluation pending. No benefit is verified.</p>}</section></div><Lineage artifact={a} world={w}/>{a.evaluation && <div className="table-scroll"><table className="evidence-table"><thead><tr><th>Partition</th><th>Phase</th><th>Mode</th><th>Input → output</th><th>Energy</th><th>Baseline</th><th>Saved</th></tr></thead><tbody>{a.evaluation.cases.map(c => <tr key={c.phase}><td>{words(c.group)}</td><td>{c.phase}</td><td>{c.mode}</td><td>{c.ore} ore → {c.alloy} alloy</td><td>{c.energy}</td><td>{c.baseline_energy}</td><td className={c.energy <= c.baseline_energy ? 'positive' : 'negative'}>{c.baseline_energy-c.energy}</td></tr>)}</tbody></table></div>}<h3>Transmission & independent use</h3>{a.transmissions.length ? a.transmissions.map(t => { const first = a.uses.find(u => u.agent === t.to && u.energy < u.baseline_energy); return <div className="transmission" key={t.event}><span>{nameOf(w, t.from)} <b>→</b> {t.via} <b>→</b> {nameOf(w, t.to)}</span><small>Learned T{t.tick} · {a.adopters.includes(t.to) ? `benefit reproduced${first ? ` T${first.tick} (${first.energy} vs ${first.baseline_energy} energy)` : '; earlier evidence in full event export'}` : 'no measured saving yet'}</small></div>; }) : <p className="small-text">No transmission recorded. {w.config.sharing ? 'Recipients must learn and execute this procedure.' : 'Sharing is restricted in this world.'}</p>}<details><summary>Full artifact fingerprint</summary><code className="hash">{a.id}</code></details></>;
+}
+
+function Lineage({ artifact: a, world: w }: { artifact: Artifact; world: World }) {
+  const chain: Artifact[] = [];
+  let node: Artifact | undefined = a;
+  while (node) { chain.unshift(node); node = node.parent ? w.artifacts[node.parent] : undefined; }
+  for (let next = a.superseded_by ? w.artifacts[a.superseded_by] : undefined; next; next = next.superseded_by ? w.artifacts[next.superseded_by] : undefined) chain.push(next);
+  if (chain.length < 2) return null;
+  return <><h3>Lineage</h3><div className="lineage">{chain.map((x, i) => <div key={x.id} className={`lineage-node ${x.id === a.id ? 'here' : ''}`}><span className="eyebrow">GEN {x.generation}</span><b className="mono">{short(x.id)}</b><small>{x.evaluation ? `${x.evaluation.energy} energy` : 'pending'} · {x.status}</small>{i < chain.length - 1 && <i>→</i>}</div>)}</div></>;
+}
+
+function Modal({ title, onClose, children, wide = false }: { title: string; onClose: () => void; children: React.ReactNode; wide?: boolean }) {
+  const ref = React.useRef<HTMLDialogElement>(null);
+  useEffect(() => { const dialog = ref.current; dialog?.showModal(); return () => dialog?.close(); }, []);
+  return <dialog className={`modal ${wide ? 'wide' : ''}`} ref={ref} onCancel={onClose} onClick={e => { if (e.target === e.currentTarget) { const r = e.currentTarget.getBoundingClientRect(); if (e.clientX < r.left || e.clientX > r.right || e.clientY < r.top || e.clientY > r.bottom) onClose(); } }}><div className="modal-heading"><div><span className="eyebrow">GENESIS / EVIDENCE FIRST</span><h2>{title}</h2></div><button className="icon-button" aria-label="Close dialog" onClick={onClose}>×</button></div><div className="modal-body">{children}</div></dialog>;
+}
+
+createRoot(document.getElementById('root')!).render(<App/>);

@@ -1,0 +1,1 @@
+{"seed": 42, "width": 24, "height": 16, "population": 8, "sharing": true, "controller": "search", "max_ticks": 300, "snapshot_every": 20, "search_budget": 16, "removal": "creators", "removal_tick": 60}

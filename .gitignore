@@ -1,0 +1,28 @@
+# Environments and secrets
+.venv/
+venv/
+.env
+.env.*
+*.pem
+*.key
+
+# Caches and build output
+__pycache__/
+*.py[cod]
+.pytest_cache/
+*.egg-info/
+node_modules/
+frontend/dist/
+
+# Local runtime data and bulk generated databases (exports in evidence/ are the durable record)
+data/
+*.sqlite
+*.sqlite-*
+*.log
+
+# Local tool settings
+.claude/
+.vscode/
+.idea/
+Thumbs.db
+.DS_Store

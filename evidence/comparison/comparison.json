@@ -1,0 +1,1694 @@
+{
+  "protocol": "paired-phase-2",
+  "exploratory": true,
+  "planned_seeds": [
+    11,
+    42,
+    77
+  ],
+  "planned_ticks": 160,
+  "removal_tick": 80,
+  "conditions": [
+    "sharing",
+    "restricted",
+    "baseline",
+    "sharing-remove-creators",
+    "sharing-remove-matched",
+    "restricted-remove-creators",
+    "restricted-remove-matched"
+  ],
+  "unit": "one world run",
+  "versions": {
+    "engine": "0.2.0",
+    "rules": "phase-world-2",
+    "evaluator": "phase-evaluator-2"
+  },
+  "attempts": [
+    {
+      "seed": 11,
+      "condition": "sharing",
+      "config": {
+        "seed": 11,
+        "width": 24,
+        "height": 16,
+        "population": 8,
+        "sharing": true,
+        "controller": "search",
+        "max_ticks": 160,
+        "snapshot_every": 20,
+        "search_budget": 16,
+        "removal": "none",
+        "removal_tick": 80
+      },
+      "status": "completed",
+      "run_id": "5acf2a0e0bf6",
+      "metrics": {
+        "accepted": 1279,
+        "adoptions": 8,
+        "controller_failures": 0,
+        "cost_usd": 0,
+        "evaluation_cases": 288,
+        "learned_after_creator_removal": 0,
+        "model_calls": 0,
+        "produced": 512,
+        "produced_after_removal": 0,
+        "production_energy": 1136,
+        "production_energy_after_removal": 0,
+        "rejected": 1,
+        "revisions_verified": 1,
+        "search_proposals": 17,
+        "tokens": 0,
+        "transfers": 17,
+        "uses_after_creator_removal": 0,
+        "active_population": 8,
+        "population": 8,
+        "verified_artifacts": 2,
+        "rejected_artifacts": 14,
+        "energy_per_alloy": 2.21875,
+        "energy_per_alloy_after_removal": null,
+        "removed_agents": [],
+        "inventory_range": 6,
+        "ledger": {
+          "alloy": {
+            "sink": 0,
+            "source": 512
+          },
+          "food": {
+            "sink": 140,
+            "source": 108
+          },
+          "ore": {
+            "sink": 1024,
+            "source": 0
+          }
+        },
+        "tick": 160,
+        "state_hash": "470a203b0b1fb09aefab2e0b29f5d020577bc20eb9cfb8164b979f092ccf7a55"
+      },
+      "wall_seconds": 9.894,
+      "export": "11-sharing.json.gz"
+    },
+    {
+      "seed": 11,
+      "condition": "restricted",
+      "config": {
+        "seed": 11,
+        "width": 24,
+        "height": 16,
+        "population": 8,
+        "sharing": false,
+        "controller": "search",
+        "max_ticks": 160,
+        "snapshot_every": 20,
+        "search_budget": 16,
+        "removal": "none",
+        "removal_tick": 80
+      },
+      "status": "completed",
+      "run_id": "184be528a7a0",
+      "metrics": {
+        "accepted": 1279,
+        "adoptions": 0,
+        "controller_failures": 0,
+        "cost_usd": 0,
+        "evaluation_cases": 288,
+        "learned_after_creator_removal": 0,
+        "model_calls": 0,
+        "produced": 512,
+        "produced_after_removal": 0,
+        "production_energy": 1824,
+        "production_energy_after_removal": 0,
+        "rejected": 1,
+        "revisions_verified": 1,
+        "search_proposals": 17,
+        "tokens": 0,
+        "transfers": 13,
+        "uses_after_creator_removal": 0,
+        "active_population": 8,
+        "population": 8,
+        "verified_artifacts": 2,
+        "rejected_artifacts": 14,
+        "energy_per_alloy": 3.5625,
+        "energy_per_alloy_after_removal": null,
+        "removed_agents": [],
+        "inventory_range": 5,
+        "ledger": {
+          "alloy": {
+            "sink": 0,
+            "source": 512
+          },
+          "food": {
+            "sink": 175,
+            "source": 144
+          },
+          "ore": {
+            "sink": 1024,
+            "source": 0
+          }
+        },
+        "tick": 160,
+        "state_hash": "52c49a49fd46f5da296a16e55191e75a5f58d8e9affa556027dcc9da83a05529"
+      },
+      "wall_seconds": 8.914,
+      "export": "11-restricted.json.gz"
+    },
+    {
+      "seed": 11,
+      "condition": "baseline",
+      "config": {
+        "seed": 11,
+        "width": 24,
+        "height": 16,
+        "population": 8,
+        "sharing": true,
+        "controller": "baseline",
+        "max_ticks": 160,
+        "snapshot_every": 20,
+        "search_budget": 16,
+        "removal": "none",
+        "removal_tick": 80
+      },
+      "status": "completed",
+      "run_id": "dcda3c392b50",
+      "metrics": {
+        "accepted": 1279,
+        "adoptions": 0,
+        "controller_failures": 0,
+        "cost_usd": 0,
+        "evaluation_cases": 0,
+        "learned_after_creator_removal": 0,
+        "model_calls": 0,
+        "produced": 512,
+        "produced_after_removal": 0,
+        "production_energy": 2100,
+        "production_energy_after_removal": 0,
+        "rejected": 1,
+        "revisions_verified": 0,
+        "search_proposals": 0,
+        "tokens": 0,
+        "transfers": 18,
+        "uses_after_creator_removal": 0,
+        "active_population": 8,
+        "population": 8,
+        "verified_artifacts": 0,
+        "rejected_artifacts": 0,
+        "energy_per_alloy": 4.1015625,
+        "energy_per_alloy_after_removal": null,
+        "removed_agents": [],
+        "inventory_range": 13,
+        "ledger": {
+          "alloy": {
+            "sink": 0,
+            "source": 512
+          },
+          "food": {
+            "sink": 185,
+            "source": 152
+          },
+          "ore": {
+            "sink": 1024,
+            "source": 0
+          }
+        },
+        "tick": 160,
+        "state_hash": "d648b0e528e50d572b7d18bf354e6885b42de7913f53651ec1c2a4eec3cd41b9"
+      },
+      "wall_seconds": 5.828,
+      "export": "11-baseline.json.gz"
+    },
+    {
+      "seed": 11,
+      "condition": "sharing-remove-creators",
+      "config": {
+        "seed": 11,
+        "width": 24,
+        "height": 16,
+        "population": 8,
+        "sharing": true,
+        "controller": "search",
+        "max_ticks": 160,
+        "snapshot_every": 20,
+        "search_budget": 16,
+        "removal": "creators",
+        "removal_tick": 80
+      },
+      "status": "completed",
+      "run_id": "29763aa557e6",
+      "metrics": {
+        "accepted": 1119,
+        "adoptions": 8,
+        "controller_failures": 0,
+        "cost_usd": 0,
+        "evaluation_cases": 288,
+        "learned_after_creator_removal": 0,
+        "model_calls": 0,
+        "produced": 510,
+        "produced_after_removal": 207,
+        "production_energy": 1132,
+        "production_energy_after_removal": 414,
+        "rejected": 1,
+        "revisions_verified": 1,
+        "search_proposals": 17,
+        "tokens": 0,
+        "transfers": 14,
+        "uses_after_creator_removal": 207,
+        "active_population": 6,
+        "population": 8,
+        "verified_artifacts": 2,
+        "rejected_artifacts": 14,
+        "energy_per_alloy": 2.219607843137255,
+        "energy_per_alloy_after_removal": 2.0,
+        "removed_agents": [
+          "a00",
+          "a04"
+        ],
+        "inventory_range": 6,
+        "ledger": {
+          "alloy": {
+            "sink": 0,
+            "source": 510
+          },
+          "food": {
+            "sink": 132,
+            "source": 100
+          },
+          "ore": {
+            "sink": 1020,
+            "source": 0
+          }
+        },
+        "tick": 160,
+        "state_hash": "e6ef96c51e6ab02e4915792467bfb25ddc8896a75ae5cbb69b023009fd1e8752"
+      },
+      "wall_seconds": 9.399,
+      "export": "11-sharing-remove-creators.json.gz"
+    },
+    {
+      "seed": 11,
+      "condition": "sharing-remove-matched",
+      "config": {
+        "seed": 11,
+        "width": 24,
+        "height": 16,
+        "population": 8,
+        "sharing": true,
+        "controller": "search",
+        "max_ticks": 160,
+        "snapshot_every": 20,
+        "search_budget": 16,
+        "removal": "matched",
+        "removal_tick": 80
+      },
+      "status": "completed",
+      "run_id": "58e7f4082621",
+      "metrics": {
+        "accepted": 1118,
+        "adoptions": 8,
+        "controller_failures": 0,
+        "cost_usd": 0,
+        "evaluation_cases": 288,
+        "learned_after_creator_removal": 0,
+        "model_calls": 0,
+        "produced": 510,
+        "produced_after_removal": 207,
+        "production_energy": 1132,
+        "production_energy_after_removal": 414,
+        "rejected": 2,
+        "revisions_verified": 1,
+        "search_proposals": 17,
+        "tokens": 0,
+        "transfers": 14,
+        "uses_after_creator_removal": 0,
+        "active_population": 6,
+        "population": 8,
+        "verified_artifacts": 2,
+        "rejected_artifacts": 14,
+        "energy_per_alloy": 2.219607843137255,
+        "energy_per_alloy_after_removal": 2.0,
+        "removed_agents": [
+          "a01",
+          "a05"
+        ],
+        "inventory_range": 9,
+        "ledger": {
+          "alloy": {
+            "sink": 0,
+            "source": 510
+          },
+          "food": {
+            "sink": 131,
+            "source": 100
+          },
+          "ore": {
+            "sink": 1020,
+            "source": 0
+          }
+        },
+        "tick": 160,
+        "state_hash": "fdd5d44aee937ee98888aadd4ab7c828e38481794f5d09bfd44cd222e48f1f92"
+      },
+      "wall_seconds": 9.51,
+      "export": "11-sharing-remove-matched.json.gz"
+    },
+    {
+      "seed": 11,
+      "condition": "restricted-remove-creators",
+      "config": {
+        "seed": 11,
+        "width": 24,
+        "height": 16,
+        "population": 8,
+        "sharing": false,
+        "controller": "search",
+        "max_ticks": 160,
+        "snapshot_every": 20,
+        "search_budget": 16,
+        "removal": "creators",
+        "removal_tick": 80
+      },
+      "status": "completed",
+      "run_id": "10db9381e017",
+      "metrics": {
+        "accepted": 1118,
+        "adoptions": 0,
+        "controller_failures": 0,
+        "cost_usd": 0,
+        "evaluation_cases": 288,
+        "learned_after_creator_removal": 0,
+        "model_calls": 0,
+        "produced": 510,
+        "produced_after_removal": 212,
+        "production_energy": 1932,
+        "production_energy_after_removal": 820,
+        "rejected": 2,
+        "revisions_verified": 1,
+        "search_proposals": 17,
+        "tokens": 0,
+        "transfers": 6,
+        "uses_after_creator_removal": 0,
+        "active_population": 6,
+        "population": 8,
+        "verified_artifacts": 2,
+        "rejected_artifacts": 14,
+        "energy_per_alloy": 3.788235294117647,
+        "energy_per_alloy_after_removal": 3.8679245283018866,
+        "removed_agents": [
+          "a00",
+          "a04"
+        ],
+        "inventory_range": 6,
+        "ledger": {
+          "alloy": {
+            "sink": 0,
+            "source": 510
+          },
+          "food": {
+            "sink": 170,
+            "source": 144
+          },
+          "ore": {
+            "sink": 1020,
+            "source": 0
+          }
+        },
+        "tick": 160,
+        "state_hash": "812c0e0d8f0af1589759383f54f8c2d44c3a2a05d4f90cc027e50e80f41fe11c"
+      },
+      "wall_seconds": 8.294,
+      "export": "11-restricted-remove-creators.json.gz"
+    },
+    {
+      "seed": 11,
+      "condition": "restricted-remove-matched",
+      "config": {
+        "seed": 11,
+        "width": 24,
+        "height": 16,
+        "population": 8,
+        "sharing": false,
+        "controller": "search",
+        "max_ticks": 160,
+        "snapshot_every": 20,
+        "search_budget": 16,
+        "removal": "matched",
+        "removal_tick": 80
+      },
+      "status": "completed",
+      "run_id": "3fad4743b18a",
+      "metrics": {
+        "accepted": 1119,
+        "adoptions": 0,
+        "controller_failures": 0,
+        "cost_usd": 0,
+        "evaluation_cases": 288,
+        "learned_after_creator_removal": 0,
+        "model_calls": 0,
+        "produced": 509,
+        "produced_after_removal": 211,
+        "production_energy": 1786,
+        "production_energy_after_removal": 674,
+        "rejected": 1,
+        "revisions_verified": 1,
+        "search_proposals": 17,
+        "tokens": 0,
+        "transfers": 8,
+        "uses_after_creator_removal": 0,
+        "active_population": 6,
+        "population": 8,
+        "verified_artifacts": 2,
+        "rejected_artifacts": 14,
+        "energy_per_alloy": 3.5088408644400784,
+        "energy_per_alloy_after_removal": 3.1943127962085307,
+        "removed_agents": [
+          "a01",
+          "a05"
+        ],
+        "inventory_range": 4,
+        "ledger": {
+          "alloy": {
+            "sink": 0,
+            "source": 509
+          },
+          "food": {
+            "sink": 162,
+            "source": 128
+          },
+          "ore": {
+            "sink": 1018,
+            "source": 0
+          }
+        },
+        "tick": 160,
+        "state_hash": "45a91859bccc3147d13ed61e136efaf85f8c1f4399aef0a2ed031926f73b4548"
+      },
+      "wall_seconds": 8.442,
+      "export": "11-restricted-remove-matched.json.gz"
+    },
+    {
+      "seed": 42,
+      "condition": "sharing",
+      "config": {
+        "seed": 42,
+        "width": 24,
+        "height": 16,
+        "population": 8,
+        "sharing": true,
+        "controller": "search",
+        "max_ticks": 160,
+        "snapshot_every": 20,
+        "search_budget": 16,
+        "removal": "none",
+        "removal_tick": 80
+      },
+      "status": "completed",
+      "run_id": "885691723a55",
+      "metrics": {
+        "accepted": 1280,
+        "adoptions": 19,
+        "controller_failures": 0,
+        "cost_usd": 0,
+        "evaluation_cases": 480,
+        "learned_after_creator_removal": 0,
+        "model_calls": 0,
+        "produced": 512,
+        "produced_after_removal": 0,
+        "production_energy": 1100,
+        "production_energy_after_removal": 0,
+        "rejected": 0,
+        "revisions_verified": 6,
+        "search_proposals": 24,
+        "tokens": 0,
+        "transfers": 20,
+        "uses_after_creator_removal": 0,
+        "active_population": 8,
+        "population": 8,
+        "verified_artifacts": 2,
+        "rejected_artifacts": 16,
+        "energy_per_alloy": 2.1484375,
+        "energy_per_alloy_after_removal": null,
+        "removed_agents": [],
+        "inventory_range": 6,
+        "ledger": {
+          "alloy": {
+            "sink": 0,
+            "source": 512
+          },
+          "food": {
+            "sink": 142,
+            "source": 116
+          },
+          "ore": {
+            "sink": 1024,
+            "source": 0
+          }
+        },
+        "tick": 160,
+        "state_hash": "843e728aca710256d2d49c84294afd9c2640b44941853facf4ebfb742ac2cce7"
+      },
+      "wall_seconds": 11.597,
+      "export": "42-sharing.json.gz"
+    },
+    {
+      "seed": 42,
+      "condition": "restricted",
+      "config": {
+        "seed": 42,
+        "width": 24,
+        "height": 16,
+        "population": 8,
+        "sharing": false,
+        "controller": "search",
+        "max_ticks": 160,
+        "snapshot_every": 20,
+        "search_budget": 16,
+        "removal": "none",
+        "removal_tick": 80
+      },
+      "status": "completed",
+      "run_id": "f08f8d9a77de",
+      "metrics": {
+        "accepted": 1278,
+        "adoptions": 0,
+        "controller_failures": 0,
+        "cost_usd": 0,
+        "evaluation_cases": 480,
+        "learned_after_creator_removal": 0,
+        "model_calls": 0,
+        "produced": 512,
+        "produced_after_removal": 0,
+        "production_energy": 1960,
+        "production_energy_after_removal": 0,
+        "rejected": 2,
+        "revisions_verified": 6,
+        "search_proposals": 24,
+        "tokens": 0,
+        "transfers": 13,
+        "uses_after_creator_removal": 0,
+        "active_population": 8,
+        "population": 8,
+        "verified_artifacts": 2,
+        "rejected_artifacts": 16,
+        "energy_per_alloy": 3.828125,
+        "energy_per_alloy_after_removal": null,
+        "removed_agents": [],
+        "inventory_range": 9,
+        "ledger": {
+          "alloy": {
+            "sink": 0,
+            "source": 512
+          },
+          "food": {
+            "sink": 184,
+            "source": 154
+          },
+          "ore": {
+            "sink": 1024,
+            "source": 0
+          }
+        },
+        "tick": 160,
+        "state_hash": "6cd1189e1f1439d7977d73f8b6d521d142127f6f9f0c5436fd6d85e9119d796a"
+      },
+      "wall_seconds": 9.914,
+      "export": "42-restricted.json.gz"
+    },
+    {
+      "seed": 42,
+      "condition": "baseline",
+      "config": {
+        "seed": 42,
+        "width": 24,
+        "height": 16,
+        "population": 8,
+        "sharing": true,
+        "controller": "baseline",
+        "max_ticks": 160,
+        "snapshot_every": 20,
+        "search_budget": 16,
+        "removal": "none",
+        "removal_tick": 80
+      },
+      "status": "completed",
+      "run_id": "7cdf906fe2d8",
+      "metrics": {
+        "accepted": 1277,
+        "adoptions": 0,
+        "controller_failures": 0,
+        "cost_usd": 0,
+        "evaluation_cases": 0,
+        "learned_after_creator_removal": 0,
+        "model_calls": 0,
+        "produced": 512,
+        "produced_after_removal": 0,
+        "production_energy": 2152,
+        "production_energy_after_removal": 0,
+        "rejected": 3,
+        "revisions_verified": 0,
+        "search_proposals": 0,
+        "tokens": 0,
+        "transfers": 14,
+        "uses_after_creator_removal": 0,
+        "active_population": 8,
+        "population": 8,
+        "verified_artifacts": 0,
+        "rejected_artifacts": 0,
+        "energy_per_alloy": 4.203125,
+        "energy_per_alloy_after_removal": null,
+        "removed_agents": [],
+        "inventory_range": 13,
+        "ledger": {
+          "alloy": {
+            "sink": 0,
+            "source": 512
+          },
+          "food": {
+            "sink": 188,
+            "source": 156
+          },
+          "ore": {
+            "sink": 1024,
+            "source": 0
+          }
+        },
+        "tick": 160,
+        "state_hash": "7990bc046c76c315f81f2f0dfd631c176cade71e6de85be7731d73757d62108b"
+      },
+      "wall_seconds": 5.715,
+      "export": "42-baseline.json.gz"
+    },
+    {
+      "seed": 42,
+      "condition": "sharing-remove-creators",
+      "config": {
+        "seed": 42,
+        "width": 24,
+        "height": 16,
+        "population": 8,
+        "sharing": true,
+        "controller": "search",
+        "max_ticks": 160,
+        "snapshot_every": 20,
+        "search_budget": 16,
+        "removal": "creators",
+        "removal_tick": 80
+      },
+      "status": "completed",
+      "run_id": "5bd8205712b1",
+      "metrics": {
+        "accepted": 1120,
+        "adoptions": 19,
+        "controller_failures": 0,
+        "cost_usd": 0,
+        "evaluation_cases": 480,
+        "learned_after_creator_removal": 0,
+        "model_calls": 0,
+        "produced": 511,
+        "produced_after_removal": 225,
+        "production_energy": 1098,
+        "production_energy_after_removal": 450,
+        "rejected": 0,
+        "revisions_verified": 6,
+        "search_proposals": 24,
+        "tokens": 0,
+        "transfers": 14,
+        "uses_after_creator_removal": 225,
+        "active_population": 6,
+        "population": 8,
+        "verified_artifacts": 2,
+        "rejected_artifacts": 16,
+        "energy_per_alloy": 2.148727984344423,
+        "energy_per_alloy_after_removal": 2.0,
+        "removed_agents": [
+          "a00",
+          "a04"
+        ],
+        "inventory_range": 4,
+        "ledger": {
+          "alloy": {
+            "sink": 0,
+            "source": 511
+          },
+          "food": {
+            "sink": 132,
+            "source": 92
+          },
+          "ore": {
+            "sink": 1022,
+            "source": 0
+          }
+        },
+        "tick": 160,
+        "state_hash": "f3243fa441fae6c5da74f38fe7193557c1871c7d9ccd0830e811fc2913d221d6"
+      },
+      "wall_seconds": 10.652,
+      "export": "42-sharing-remove-creators.json.gz"
+    },
+    {
+      "seed": 42,
+      "condition": "sharing-remove-matched",
+      "config": {
+        "seed": 42,
+        "width": 24,
+        "height": 16,
+        "population": 8,
+        "sharing": true,
+        "controller": "search",
+        "max_ticks": 160,
+        "snapshot_every": 20,
+        "search_budget": 16,
+        "removal": "matched",
+        "removal_tick": 80
+      },
+      "status": "completed",
+      "run_id": "c952efa7b793",
+      "metrics": {
+        "accepted": 1120,
+        "adoptions": 19,
+        "controller_failures": 0,
+        "cost_usd": 0,
+        "evaluation_cases": 480,
+        "learned_after_creator_removal": 0,
+        "model_calls": 0,
+        "produced": 508,
+        "produced_after_removal": 222,
+        "production_energy": 1092,
+        "production_energy_after_removal": 444,
+        "rejected": 0,
+        "revisions_verified": 6,
+        "search_proposals": 24,
+        "tokens": 0,
+        "transfers": 13,
+        "uses_after_creator_removal": 0,
+        "active_population": 6,
+        "population": 8,
+        "verified_artifacts": 2,
+        "rejected_artifacts": 16,
+        "energy_per_alloy": 2.1496062992125986,
+        "energy_per_alloy_after_removal": 2.0,
+        "removed_agents": [
+          "a01",
+          "a05"
+        ],
+        "inventory_range": 10,
+        "ledger": {
+          "alloy": {
+            "sink": 0,
+            "source": 508
+          },
+          "food": {
+            "sink": 132,
+            "source": 108
+          },
+          "ore": {
+            "sink": 1016,
+            "source": 0
+          }
+        },
+        "tick": 160,
+        "state_hash": "093b512d2075c112d4b227e057a4afb8e155f8c40f21d89ab4b09316e2dd77ce"
+      },
+      "wall_seconds": 10.841,
+      "export": "42-sharing-remove-matched.json.gz"
+    },
+    {
+      "seed": 42,
+      "condition": "restricted-remove-creators",
+      "config": {
+        "seed": 42,
+        "width": 24,
+        "height": 16,
+        "population": 8,
+        "sharing": false,
+        "controller": "search",
+        "max_ticks": 160,
+        "snapshot_every": 20,
+        "search_budget": 16,
+        "removal": "creators",
+        "removal_tick": 80
+      },
+      "status": "completed",
+      "run_id": "a992dd398347",
+      "metrics": {
+        "accepted": 1120,
+        "adoptions": 0,
+        "controller_failures": 0,
+        "cost_usd": 0,
+        "evaluation_cases": 480,
+        "learned_after_creator_removal": 0,
+        "model_calls": 0,
+        "produced": 500,
+        "produced_after_removal": 212,
+        "production_energy": 2012,
+        "production_energy_after_removal": 872,
+        "rejected": 0,
+        "revisions_verified": 6,
+        "search_proposals": 24,
+        "tokens": 0,
+        "transfers": 7,
+        "uses_after_creator_removal": 0,
+        "active_population": 6,
+        "population": 8,
+        "verified_artifacts": 2,
+        "rejected_artifacts": 16,
+        "energy_per_alloy": 4.024,
+        "energy_per_alloy_after_removal": 4.113207547169812,
+        "removed_agents": [
+          "a00",
+          "a04"
+        ],
+        "inventory_range": 4,
+        "ledger": {
+          "alloy": {
+            "sink": 0,
+            "source": 500
+          },
+          "food": {
+            "sink": 176,
+            "source": 146
+          },
+          "ore": {
+            "sink": 1000,
+            "source": 0
+          }
+        },
+        "tick": 160,
+        "state_hash": "438f8290aaec874d0f11936dc39db0102aa858bc79ebfd9d36fe44ac24883d34"
+      },
+      "wall_seconds": 9.142,
+      "export": "42-restricted-remove-creators.json.gz"
+    },
+    {
+      "seed": 42,
+      "condition": "restricted-remove-matched",
+      "config": {
+        "seed": 42,
+        "width": 24,
+        "height": 16,
+        "population": 8,
+        "sharing": false,
+        "controller": "search",
+        "max_ticks": 160,
+        "snapshot_every": 20,
+        "search_budget": 16,
+        "removal": "matched",
+        "removal_tick": 80
+      },
+      "status": "completed",
+      "run_id": "b286f4dd537e",
+      "metrics": {
+        "accepted": 1119,
+        "adoptions": 0,
+        "controller_failures": 0,
+        "cost_usd": 0,
+        "evaluation_cases": 480,
+        "learned_after_creator_removal": 0,
+        "model_calls": 0,
+        "produced": 502,
+        "produced_after_removal": 214,
+        "production_energy": 1868,
+        "production_energy_after_removal": 728,
+        "rejected": 1,
+        "revisions_verified": 6,
+        "search_proposals": 24,
+        "tokens": 0,
+        "transfers": 9,
+        "uses_after_creator_removal": 0,
+        "active_population": 6,
+        "population": 8,
+        "verified_artifacts": 2,
+        "rejected_artifacts": 16,
+        "energy_per_alloy": 3.7211155378486054,
+        "energy_per_alloy_after_removal": 3.4018691588785046,
+        "removed_agents": [
+          "a01",
+          "a05"
+        ],
+        "inventory_range": 8,
+        "ledger": {
+          "alloy": {
+            "sink": 0,
+            "source": 502
+          },
+          "food": {
+            "sink": 169,
+            "source": 136
+          },
+          "ore": {
+            "sink": 1004,
+            "source": 0
+          }
+        },
+        "tick": 160,
+        "state_hash": "c8c736c6fee9e9bcb163ede59f4ac7a48005e4e8565432418a9981a64b701184"
+      },
+      "wall_seconds": 9.352,
+      "export": "42-restricted-remove-matched.json.gz"
+    },
+    {
+      "seed": 77,
+      "condition": "sharing",
+      "config": {
+        "seed": 77,
+        "width": 24,
+        "height": 16,
+        "population": 8,
+        "sharing": true,
+        "controller": "search",
+        "max_ticks": 160,
+        "snapshot_every": 20,
+        "search_budget": 16,
+        "removal": "none",
+        "removal_tick": 80
+      },
+      "status": "completed",
+      "run_id": "7a1ca9c3a3c1",
+      "metrics": {
+        "accepted": 1279,
+        "adoptions": 11,
+        "controller_failures": 0,
+        "cost_usd": 0,
+        "evaluation_cases": 324,
+        "learned_after_creator_removal": 0,
+        "model_calls": 0,
+        "produced": 512,
+        "produced_after_removal": 0,
+        "production_energy": 1100,
+        "production_energy_after_removal": 0,
+        "rejected": 1,
+        "revisions_verified": 3,
+        "search_proposals": 16,
+        "tokens": 0,
+        "transfers": 17,
+        "uses_after_creator_removal": 0,
+        "active_population": 8,
+        "population": 8,
+        "verified_artifacts": 2,
+        "rejected_artifacts": 11,
+        "energy_per_alloy": 2.1484375,
+        "energy_per_alloy_after_removal": null,
+        "removed_agents": [],
+        "inventory_range": 9,
+        "ledger": {
+          "alloy": {
+            "sink": 0,
+            "source": 512
+          },
+          "food": {
+            "sink": 139,
+            "source": 108
+          },
+          "ore": {
+            "sink": 1024,
+            "source": 0
+          }
+        },
+        "tick": 160,
+        "state_hash": "ecf7fd236457ab053f4d7c63f92a52ca7dddf8c5bc6350497e2ca8d6a6b548ff"
+      },
+      "wall_seconds": 10.401,
+      "export": "77-sharing.json.gz"
+    },
+    {
+      "seed": 77,
+      "condition": "restricted",
+      "config": {
+        "seed": 77,
+        "width": 24,
+        "height": 16,
+        "population": 8,
+        "sharing": false,
+        "controller": "search",
+        "max_ticks": 160,
+        "snapshot_every": 20,
+        "search_budget": 16,
+        "removal": "none",
+        "removal_tick": 80
+      },
+      "status": "completed",
+      "run_id": "def840fb6484",
+      "metrics": {
+        "accepted": 1277,
+        "adoptions": 0,
+        "controller_failures": 0,
+        "cost_usd": 0,
+        "evaluation_cases": 324,
+        "learned_after_creator_removal": 0,
+        "model_calls": 0,
+        "produced": 512,
+        "produced_after_removal": 0,
+        "production_energy": 1872,
+        "production_energy_after_removal": 0,
+        "rejected": 3,
+        "revisions_verified": 3,
+        "search_proposals": 16,
+        "tokens": 0,
+        "transfers": 13,
+        "uses_after_creator_removal": 0,
+        "active_population": 8,
+        "population": 8,
+        "verified_artifacts": 2,
+        "rejected_artifacts": 11,
+        "energy_per_alloy": 3.65625,
+        "energy_per_alloy_after_removal": null,
+        "removed_agents": [],
+        "inventory_range": 4,
+        "ledger": {
+          "alloy": {
+            "sink": 0,
+            "source": 512
+          },
+          "food": {
+            "sink": 176,
+            "source": 148
+          },
+          "ore": {
+            "sink": 1024,
+            "source": 0
+          }
+        },
+        "tick": 160,
+        "state_hash": "5e65a790486564da96230a9ae079259b1708d4f17e7fd31e55cf6acce74fb497"
+      },
+      "wall_seconds": 8.988,
+      "export": "77-restricted.json.gz"
+    },
+    {
+      "seed": 77,
+      "condition": "baseline",
+      "config": {
+        "seed": 77,
+        "width": 24,
+        "height": 16,
+        "population": 8,
+        "sharing": true,
+        "controller": "baseline",
+        "max_ticks": 160,
+        "snapshot_every": 20,
+        "search_budget": 16,
+        "removal": "none",
+        "removal_tick": 80
+      },
+      "status": "completed",
+      "run_id": "a94a1a4267d2",
+      "metrics": {
+        "accepted": 1276,
+        "adoptions": 0,
+        "controller_failures": 0,
+        "cost_usd": 0,
+        "evaluation_cases": 0,
+        "learned_after_creator_removal": 0,
+        "model_calls": 0,
+        "produced": 512,
+        "produced_after_removal": 0,
+        "production_energy": 2136,
+        "production_energy_after_removal": 0,
+        "rejected": 4,
+        "revisions_verified": 0,
+        "search_proposals": 0,
+        "tokens": 0,
+        "transfers": 15,
+        "uses_after_creator_removal": 0,
+        "active_population": 8,
+        "population": 8,
+        "verified_artifacts": 0,
+        "rejected_artifacts": 0,
+        "energy_per_alloy": 4.171875,
+        "energy_per_alloy_after_removal": null,
+        "removed_agents": [],
+        "inventory_range": 10,
+        "ledger": {
+          "alloy": {
+            "sink": 0,
+            "source": 512
+          },
+          "food": {
+            "sink": 187,
+            "source": 156
+          },
+          "ore": {
+            "sink": 1024,
+            "source": 0
+          }
+        },
+        "tick": 160,
+        "state_hash": "a24864a6c2451d08cde32ee40a47fb186b6b6c57aff5fff32004c9413056aa03"
+      },
+      "wall_seconds": 5.762,
+      "export": "77-baseline.json.gz"
+    },
+    {
+      "seed": 77,
+      "condition": "sharing-remove-creators",
+      "config": {
+        "seed": 77,
+        "width": 24,
+        "height": 16,
+        "population": 8,
+        "sharing": true,
+        "controller": "search",
+        "max_ticks": 160,
+        "snapshot_every": 20,
+        "search_budget": 16,
+        "removal": "creators",
+        "removal_tick": 80
+      },
+      "status": "completed",
+      "run_id": "30f266d98f86",
+      "metrics": {
+        "accepted": 1119,
+        "adoptions": 11,
+        "controller_failures": 0,
+        "cost_usd": 0,
+        "evaluation_cases": 324,
+        "learned_after_creator_removal": 0,
+        "model_calls": 0,
+        "produced": 511,
+        "produced_after_removal": 210,
+        "production_energy": 1098,
+        "production_energy_after_removal": 420,
+        "rejected": 1,
+        "revisions_verified": 3,
+        "search_proposals": 16,
+        "tokens": 0,
+        "transfers": 13,
+        "uses_after_creator_removal": 210,
+        "active_population": 6,
+        "population": 8,
+        "verified_artifacts": 2,
+        "rejected_artifacts": 11,
+        "energy_per_alloy": 2.148727984344423,
+        "energy_per_alloy_after_removal": 2.0,
+        "removed_agents": [
+          "a00",
+          "a04"
+        ],
+        "inventory_range": 5,
+        "ledger": {
+          "alloy": {
+            "sink": 0,
+            "source": 511
+          },
+          "food": {
+            "sink": 130,
+            "source": 100
+          },
+          "ore": {
+            "sink": 1022,
+            "source": 0
+          }
+        },
+        "tick": 160,
+        "state_hash": "ff61f830c918900003d86875e10cb38e47b24145fc2fb853f95d7d4a712fecf5"
+      },
+      "wall_seconds": 9.617,
+      "export": "77-sharing-remove-creators.json.gz"
+    },
+    {
+      "seed": 77,
+      "condition": "sharing-remove-matched",
+      "config": {
+        "seed": 77,
+        "width": 24,
+        "height": 16,
+        "population": 8,
+        "sharing": true,
+        "controller": "search",
+        "max_ticks": 160,
+        "snapshot_every": 20,
+        "search_budget": 16,
+        "removal": "matched",
+        "removal_tick": 80
+      },
+      "status": "completed",
+      "run_id": "aa10942ff6c9",
+      "metrics": {
+        "accepted": 1118,
+        "adoptions": 11,
+        "controller_failures": 0,
+        "cost_usd": 0,
+        "evaluation_cases": 324,
+        "learned_after_creator_removal": 0,
+        "model_calls": 0,
+        "produced": 510,
+        "produced_after_removal": 209,
+        "production_energy": 1096,
+        "production_energy_after_removal": 418,
+        "rejected": 2,
+        "revisions_verified": 3,
+        "search_proposals": 16,
+        "tokens": 0,
+        "transfers": 13,
+        "uses_after_creator_removal": 0,
+        "active_population": 6,
+        "population": 8,
+        "verified_artifacts": 2,
+        "rejected_artifacts": 11,
+        "energy_per_alloy": 2.149019607843137,
+        "energy_per_alloy_after_removal": 2.0,
+        "removed_agents": [
+          "a01",
+          "a05"
+        ],
+        "inventory_range": 9,
+        "ledger": {
+          "alloy": {
+            "sink": 0,
+            "source": 510
+          },
+          "food": {
+            "sink": 130,
+            "source": 100
+          },
+          "ore": {
+            "sink": 1020,
+            "source": 0
+          }
+        },
+        "tick": 160,
+        "state_hash": "3ee928dc95f9e188ad1b906d9669c0f1f726d34616397dda3e2d15c71a6d722e"
+      },
+      "wall_seconds": 9.623,
+      "export": "77-sharing-remove-matched.json.gz"
+    },
+    {
+      "seed": 77,
+      "condition": "restricted-remove-creators",
+      "config": {
+        "seed": 77,
+        "width": 24,
+        "height": 16,
+        "population": 8,
+        "sharing": false,
+        "controller": "search",
+        "max_ticks": 160,
+        "snapshot_every": 20,
+        "search_budget": 16,
+        "removal": "creators",
+        "removal_tick": 80
+      },
+      "status": "completed",
+      "run_id": "af41bb0e0490",
+      "metrics": {
+        "accepted": 1118,
+        "adoptions": 0,
+        "controller_failures": 0,
+        "cost_usd": 0,
+        "evaluation_cases": 324,
+        "learned_after_creator_removal": 0,
+        "model_calls": 0,
+        "produced": 511,
+        "produced_after_removal": 214,
+        "production_energy": 1930,
+        "production_energy_after_removal": 848,
+        "rejected": 2,
+        "revisions_verified": 3,
+        "search_proposals": 16,
+        "tokens": 0,
+        "transfers": 11,
+        "uses_after_creator_removal": 0,
+        "active_population": 6,
+        "population": 8,
+        "verified_artifacts": 2,
+        "rejected_artifacts": 11,
+        "energy_per_alloy": 3.776908023483366,
+        "energy_per_alloy_after_removal": 3.9626168224299065,
+        "removed_agents": [
+          "a00",
+          "a04"
+        ],
+        "inventory_range": 5,
+        "ledger": {
+          "alloy": {
+            "sink": 0,
+            "source": 511
+          },
+          "food": {
+            "sink": 171,
+            "source": 144
+          },
+          "ore": {
+            "sink": 1022,
+            "source": 0
+          }
+        },
+        "tick": 160,
+        "state_hash": "0ce870ed6abc94da3774f1419c059610087debaa133b5beb1382b3c5b9bbd78e"
+      },
+      "wall_seconds": 8.241,
+      "export": "77-restricted-remove-creators.json.gz"
+    },
+    {
+      "seed": 77,
+      "condition": "restricted-remove-matched",
+      "config": {
+        "seed": 77,
+        "width": 24,
+        "height": 16,
+        "population": 8,
+        "sharing": false,
+        "controller": "search",
+        "max_ticks": 160,
+        "snapshot_every": 20,
+        "search_budget": 16,
+        "removal": "matched",
+        "removal_tick": 80
+      },
+      "status": "completed",
+      "run_id": "17850cd7ec74",
+      "metrics": {
+        "accepted": 1116,
+        "adoptions": 0,
+        "controller_failures": 0,
+        "cost_usd": 0,
+        "evaluation_cases": 324,
+        "learned_after_creator_removal": 0,
+        "model_calls": 0,
+        "produced": 511,
+        "produced_after_removal": 214,
+        "production_energy": 1802,
+        "production_energy_after_removal": 720,
+        "rejected": 4,
+        "revisions_verified": 3,
+        "search_proposals": 16,
+        "tokens": 0,
+        "transfers": 10,
+        "uses_after_creator_removal": 0,
+        "active_population": 6,
+        "population": 8,
+        "verified_artifacts": 2,
+        "rejected_artifacts": 11,
+        "energy_per_alloy": 3.5264187866927594,
+        "energy_per_alloy_after_removal": 3.364485981308411,
+        "removed_agents": [
+          "a01",
+          "a05"
+        ],
+        "inventory_range": 6,
+        "ledger": {
+          "alloy": {
+            "sink": 0,
+            "source": 511
+          },
+          "food": {
+            "sink": 163,
+            "source": 134
+          },
+          "ore": {
+            "sink": 1022,
+            "source": 0
+          }
+        },
+        "tick": 160,
+        "state_hash": "1764258ee60719519297084196eb9069817632813dcd4daabda4808f477954dd"
+      },
+      "wall_seconds": 8.417,
+      "export": "77-restricted-remove-matched.json.gz"
+    }
+  ],
+  "exclusions": [],
+  "interpretation": "Finite designed task and deterministic policies. Differences follow from designed mechanics; no emergence or statistical significance claim.",
+  "intervention_boundary": "Sharing toggles only library access to other agents' verified artifacts. Trade, transfers and the two-word message vocabulary stay enabled in every condition.",
+  "removal_design": "Creator removal retires verified-artifact creators at removal_tick and moves their inventory to settlement storage; the matched control retires the same number of non-creators from the same settlements.",
+  "paired": {
+    "sharing_vs_restricted": [
+      {
+        "seed": 11,
+        "left": "sharing",
+        "right": "restricted",
+        "produced": {
+          "left": 512,
+          "right": 512,
+          "difference": 0
+        },
+        "energy_per_alloy": {
+          "left": 2.21875,
+          "right": 3.5625,
+          "difference": -1.3438
+        },
+        "adoptions": {
+          "left": 8,
+          "right": 0,
+          "difference": 8
+        },
+        "verified_artifacts": {
+          "left": 2,
+          "right": 2,
+          "difference": 0
+        },
+        "active_population": {
+          "left": 8,
+          "right": 8,
+          "difference": 0
+        }
+      },
+      {
+        "seed": 42,
+        "left": "sharing",
+        "right": "restricted",
+        "produced": {
+          "left": 512,
+          "right": 512,
+          "difference": 0
+        },
+        "energy_per_alloy": {
+          "left": 2.1484375,
+          "right": 3.828125,
+          "difference": -1.6797
+        },
+        "adoptions": {
+          "left": 19,
+          "right": 0,
+          "difference": 19
+        },
+        "verified_artifacts": {
+          "left": 2,
+          "right": 2,
+          "difference": 0
+        },
+        "active_population": {
+          "left": 8,
+          "right": 8,
+          "difference": 0
+        }
+      },
+      {
+        "seed": 77,
+        "left": "sharing",
+        "right": "restricted",
+        "produced": {
+          "left": 512,
+          "right": 512,
+          "difference": 0
+        },
+        "energy_per_alloy": {
+          "left": 2.1484375,
+          "right": 3.65625,
+          "difference": -1.5078
+        },
+        "adoptions": {
+          "left": 11,
+          "right": 0,
+          "difference": 11
+        },
+        "verified_artifacts": {
+          "left": 2,
+          "right": 2,
+          "difference": 0
+        },
+        "active_population": {
+          "left": 8,
+          "right": 8,
+          "difference": 0
+        }
+      }
+    ],
+    "creator_removal_vs_matched_with_sharing": [
+      {
+        "seed": 11,
+        "left": "sharing-remove-creators",
+        "right": "sharing-remove-matched",
+        "produced_after_removal": {
+          "left": 207,
+          "right": 207,
+          "difference": 0
+        },
+        "energy_per_alloy_after_removal": {
+          "left": 2.0,
+          "right": 2.0,
+          "difference": 0.0
+        },
+        "uses_after_creator_removal": {
+          "left": 207,
+          "right": 0,
+          "difference": 207
+        }
+      },
+      {
+        "seed": 42,
+        "left": "sharing-remove-creators",
+        "right": "sharing-remove-matched",
+        "produced_after_removal": {
+          "left": 225,
+          "right": 222,
+          "difference": 3
+        },
+        "energy_per_alloy_after_removal": {
+          "left": 2.0,
+          "right": 2.0,
+          "difference": 0.0
+        },
+        "uses_after_creator_removal": {
+          "left": 225,
+          "right": 0,
+          "difference": 225
+        }
+      },
+      {
+        "seed": 77,
+        "left": "sharing-remove-creators",
+        "right": "sharing-remove-matched",
+        "produced_after_removal": {
+          "left": 210,
+          "right": 209,
+          "difference": 1
+        },
+        "energy_per_alloy_after_removal": {
+          "left": 2.0,
+          "right": 2.0,
+          "difference": 0.0
+        },
+        "uses_after_creator_removal": {
+          "left": 210,
+          "right": 0,
+          "difference": 210
+        }
+      }
+    ],
+    "creator_removal_vs_matched_restricted": [
+      {
+        "seed": 11,
+        "left": "restricted-remove-creators",
+        "right": "restricted-remove-matched",
+        "produced_after_removal": {
+          "left": 212,
+          "right": 211,
+          "difference": 1
+        },
+        "energy_per_alloy_after_removal": {
+          "left": 3.8679245283018866,
+          "right": 3.1943127962085307,
+          "difference": 0.6736
+        },
+        "uses_after_creator_removal": {
+          "left": 0,
+          "right": 0,
+          "difference": 0
+        }
+      },
+      {
+        "seed": 42,
+        "left": "restricted-remove-creators",
+        "right": "restricted-remove-matched",
+        "produced_after_removal": {
+          "left": 212,
+          "right": 214,
+          "difference": -2
+        },
+        "energy_per_alloy_after_removal": {
+          "left": 4.113207547169812,
+          "right": 3.4018691588785046,
+          "difference": 0.7113
+        },
+        "uses_after_creator_removal": {
+          "left": 0,
+          "right": 0,
+          "difference": 0
+        }
+      },
+      {
+        "seed": 77,
+        "left": "restricted-remove-creators",
+        "right": "restricted-remove-matched",
+        "produced_after_removal": {
+          "left": 214,
+          "right": 214,
+          "difference": 0
+        },
+        "energy_per_alloy_after_removal": {
+          "left": 3.9626168224299065,
+          "right": 3.364485981308411,
+          "difference": 0.5981
+        },
+        "uses_after_creator_removal": {
+          "left": 0,
+          "right": 0,
+          "difference": 0
+        }
+      }
+    ],
+    "creator_removal_sharing_vs_restricted": [
+      {
+        "seed": 11,
+        "left": "sharing-remove-creators",
+        "right": "restricted-remove-creators",
+        "produced_after_removal": {
+          "left": 207,
+          "right": 212,
+          "difference": -5
+        },
+        "energy_per_alloy_after_removal": {
+          "left": 2.0,
+          "right": 3.8679245283018866,
+          "difference": -1.8679
+        },
+        "uses_after_creator_removal": {
+          "left": 207,
+          "right": 0,
+          "difference": 207
+        }
+      },
+      {
+        "seed": 42,
+        "left": "sharing-remove-creators",
+        "right": "restricted-remove-creators",
+        "produced_after_removal": {
+          "left": 225,
+          "right": 212,
+          "difference": 13
+        },
+        "energy_per_alloy_after_removal": {
+          "left": 2.0,
+          "right": 4.113207547169812,
+          "difference": -2.1132
+        },
+        "uses_after_creator_removal": {
+          "left": 225,
+          "right": 0,
+          "difference": 225
+        }
+      },
+      {
+        "seed": 77,
+        "left": "sharing-remove-creators",
+        "right": "restricted-remove-creators",
+        "produced_after_removal": {
+          "left": 210,
+          "right": 214,
+          "difference": -4
+        },
+        "energy_per_alloy_after_removal": {
+          "left": 2.0,
+          "right": 3.9626168224299065,
+          "difference": -1.9626
+        },
+        "uses_after_creator_removal": {
+          "left": 210,
+          "right": 0,
+          "difference": 210
+        }
+      }
+    ]
+  },
+  "completed_runs": 21,
+  "failed_runs": 0
+}
