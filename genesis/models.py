@@ -37,6 +37,15 @@ class Scenario(BaseModel):
     # "matched" retires the same number of non-creators from the same settlements as a control.
     removal: Literal["none", "creators", "matched"] = "none"
     removal_tick: int = Field(default=80, ge=1, le=10000)
+    # Succession: each retiree is replaced at the same boundary by a fresh agent with a new identity.
+    succession: Literal["none", "fresh"] = "none"
+    successor_role: Literal["producer", "researcher"] = "producer"
+    # Inheritance policy for successors: settlement library access, none, or a labelled direct-transfer control.
+    successor_access: Literal["library", "none", "direct"] = "library"
+    # "frozen" rejects every new proposal; used to keep fresh invention identical in diagnostic windows.
+    invention: Literal["open", "frozen"] = "open"
+    # Controller randomness is independent of the world seed and never placed in observations.
+    controller_seed: int = Field(default=7, ge=0, le=2**31 - 1)
 
 
 class Action(BaseModel):
@@ -45,7 +54,7 @@ class Action(BaseModel):
     agent: str = Field(min_length=1, max_length=40)
     tick: int = Field(ge=0)
     version: Literal[1] = 1
-    kind: Literal["wait", "move", "gather", "consume", "transfer", "offer_trade", "accept_trade", "send_message", "inspect_artifact", "propose_artifact", "test_artifact", "use_artifact", "produce"]
+    kind: Literal["wait", "move", "gather", "consume", "transfer", "offer_trade", "accept_trade", "send_message", "inspect_artifact", "propose_artifact", "test_artifact", "use_artifact", "produce", "deposit", "withdraw"]
     params: JSON = Field(default_factory=dict)
 
 

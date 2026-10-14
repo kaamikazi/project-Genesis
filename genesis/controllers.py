@@ -11,7 +11,13 @@ class SearchBudget:
 
 
 class OfflineController:
-    """A designed deterministic policy with a bounded candidate enumerator. No LLM."""
+    """A designed deterministic policy with a bounded candidate enumerator. No LLM.
+
+    Its only randomness is `seed`, supplied at construction from the scenario's independent `controller_seed`.
+    The seed is held behind the controller boundary; observations carry no seed-derived value."""
+    def __init__(self, seed: int = 7):
+        self.seed = seed
+
     def propose(self, o: JSON) -> Action:
         a, tick = o["self"], o["tick"]
 
@@ -33,7 +39,10 @@ class OfflineController:
 
         if a["energy"] <= 10 and a["inventory"]["food"]:
             return act("consume")
+        storage = o["home_storage"]
         if a["inventory"]["food"] < 3:
+            if storage and storage["food"] > 0:
+                return act("withdraw", settlement=a["home"], resource="food", amount=min(4, storage["food"]))
             return gather("food")
         for offer in o["offers"]:
             if a["inventory"][offer["want"]] >= offer["want_amount"]:
@@ -42,14 +51,14 @@ class OfflineController:
         pending = [v for v in own if v["status"] == "proposed"]
         if pending:
             return act("test_artifact", artifact=pending[0]["id"])
-        if a["role"] == "researcher" and SearchBudget().available(a, o["search_budget"]):
+        if a["role"] == "researcher" and o["rules"]["invention_open"] and SearchBudget().available(a, o["rules"]["search_budget"]):
             best = sorted((v for v in own if v["status"] == "verified"), key=lambda v: -v["created_tick"])
             if not best:
-                return act("propose_artifact", program=candidate(o["controller_seed"], a["id"], a["search_count"]), parent=None)
+                return act("propose_artifact", program=candidate(self.seed, a["id"], a["search_count"]), parent=None)
             # Local search: try each untried revision of the current best; stop at a local optimum.
             tried = {canonical(v["program"]) for v in own if v["parent"] == best[0]["id"]}
             options = [r for r in revisions(best[0]["program"]) if canonical(r) not in tried]
-            options.sort(key=lambda r: keyed(o["controller_seed"], "controller-revision", canonical(r)))
+            options.sort(key=lambda r: keyed(self.seed, "controller-revision", a["id"], canonical(r)))
             if options:
                 return act("propose_artifact", program=options[0], parent=best[0]["id"])
         known = [o["artifacts"][k] for k in a["known"] if k in o["artifacts"]]
@@ -62,6 +71,8 @@ class OfflineController:
         if tick % 43 == 17 and a["inventory"]["food"] >= 5 and o["neighbors"]:
             return act("transfer", target=o["neighbors"][0]["id"], resource="food", amount=1)
         if a["inventory"]["ore"] < 2:
+            if storage and storage["ore"] >= 2:
+                return act("withdraw", settlement=a["home"], resource="ore", amount=min(8, storage["ore"]))
             return gather("ore")
         usable = sorted((v for v in known if v["status"] in ("verified", "superseded")), key=lambda v: (v["status"] != "verified", -v["created_tick"]))
         if usable:

@@ -159,9 +159,12 @@ class Store:
                     "config": config.model_dump(), "config_hash": digest(config.model_dump()),
                     "controller_mode": config.controller, "model_calls_allowed": False,
                     "parent": parent, "origin_tick": state["tick"], "initial_hash": digest(state),
-                    "random_streams": ["world-terrain", "environment-phase", "controller-stream", "controller-search"],
-                    "scenario_design": "finite ore; food replenishes 2/site/tick up to 120; initial food 8/agent",
-                    "removal_policy": config.removal if config.removal == "none" else f"{config.removal} at tick {config.removal_tick}"}
+                    "random_streams": {"world": ["world-terrain", "environment-phase"],
+                                       "controller (independent seed, never observed)": ["controller-search", "controller-revision"]},
+                    "controller_privileges": "restricted local observation; own memories; accessible artifacts; no seed, config, ledger or evaluation records",
+                    "scenario_design": "finite ore; food replenishes 2/site/tick up to 120; initial food 8/agent; unlimited settlement storage for members",
+                    "removal_policy": config.removal if config.removal == "none" else f"{config.removal} at tick {config.removal_tick}",
+                    "succession_policy": config.succession if config.succession == "none" else f"{config.succession} successors, role {config.successor_role}, access {config.successor_access}"}
         if state["config"] != manifest["config"]:
             raise ValueError("fork configuration must match state")
         with self.connection() as db, db:
@@ -193,7 +196,7 @@ class Store:
             # Only externally supplied ids can repeat across ticks; generated ids include the tick.
             prior_ids = {a.id for a in (overrides or {}).values() if db.execute("SELECT 1 FROM action_ids WHERE run_id=? AND id=?", (run_id, a.id)).fetchone()}
             engine_start = time.perf_counter()
-            after, events, decisions = advance(before, OfflineController(), overrides, prior_ids)
+            after, events, decisions = advance(before, OfflineController(before["config"]["controller_seed"]), overrides, prior_ids)
             engine_ms = (time.perf_counter()-engine_start)*1000
             prev = db.execute("SELECT record_hash FROM ticks WHERE run_id=? ORDER BY tick DESC LIMIT 1", (run_id,)).fetchone()
             record = {"tick": after["tick"], "before_hash": digest(before), "state_hash": digest(after),
@@ -262,11 +265,28 @@ class Store:
         with self.connection() as db:
             return self._replay(db, run_id, tick)
 
-    def fork(self, run_id: str, tick: int) -> str:
+    FORK_INTERVENTIONS = {"removal", "removal_tick", "succession", "successor_role", "successor_access", "invention", "max_ticks"}
+
+    def fork(self, run_id: str, tick: int, intervention: JSON | None = None, label: str | None = None) -> str:
+        """A distinct continuation from a committed tick. An intervention may change only lifecycle, invention
+        and run-length settings; the parent history is untouched and the change is recorded in the manifest."""
         with self.connection() as db:
             compatible(json.loads(self._row(db, run_id)["manifest"]))
         state = self.replay(run_id, tick)
-        return self.create(Scenario.model_validate(state["config"]), state, {"run_id": run_id, "tick": tick, "state_hash": digest(state)})
+        parent = {"run_id": run_id, "tick": tick, "state_hash": digest(state)}
+        intervention = dict(intervention or {})
+        if intervention:
+            unknown = set(intervention) - self.FORK_INTERVENTIONS
+            if unknown:
+                raise ValueError(f"fork intervention may not change: {sorted(unknown)}")
+            if "removal_tick" in intervention and intervention["removal_tick"] <= tick:
+                raise ValueError("removal must be scheduled after the fork tick")
+            config = Scenario.model_validate({**state["config"], **intervention})
+            state["config"] = config.model_dump()
+            parent.update(intervention=intervention, label=label)
+        elif label:
+            parent["label"] = label
+        return self.create(Scenario.model_validate(state["config"]), state, parent)
 
     def events(self, run_id: str, through: int | None = None, limit: int = 100) -> list[JSON]:
         with self.connection() as db:

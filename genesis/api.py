@@ -37,6 +37,8 @@ class Submission(BaseModel):
 class Fork(BaseModel):
     model_config = ConfigDict(extra="forbid", strict=True)
     tick: int = Field(ge=0)
+    intervention: dict | None = None
+    label: str | None = Field(default=None, max_length=80)
 
 
 class SimulationService:
@@ -76,7 +78,7 @@ class SimulationService:
 
 def create_app(db_path: str | Path | None = None, evidence_dir: str | Path | None = None) -> FastAPI:
     store = Store(db_path or os.getenv("GENESIS_DB", "data/genesis.sqlite"))
-    evidence = Path(evidence_dir or os.getenv("GENESIS_EVIDENCE", Path(__file__).resolve().parent.parent / "evidence"))
+    evidence = Path(evidence_dir or os.getenv("GENESIS_EVIDENCE", Path(__file__).resolve().parent.parent / "evidence" / "v0.3.0"))
     service = SimulationService(store)
 
     @asynccontextmanager
@@ -114,10 +116,11 @@ def create_app(db_path: str | Path | None = None, evidence_dir: str | Path | Non
 
     @app.get("/api/experiments")
     def experiments():
-        path = evidence / "comparison" / "comparison.json"
-        if not path.exists():
-            return {"available": False}
-        return {"available": True, "report": json.loads(path.read_text(encoding="utf-8"))}
+        def load(name: str):
+            path = evidence / name
+            return json.loads(path.read_text(encoding="utf-8")) if path.exists() else None
+        report, inheritance = load("comparison/comparison.json"), load("inheritance/inheritance.json")
+        return {"available": report is not None, "report": report, "inheritance": inheritance, "evidence_dir": evidence.name}
 
     @app.post("/api/runs")
     def create(config: Scenario):
@@ -182,7 +185,7 @@ def create_app(db_path: str | Path | None = None, evidence_dir: str | Path | Non
     def fork(run_id: str, command: Fork):
         with service.lock:
             service.running = False
-            service.run_id = store.fork(run_id, command.tick)
+            service.run_id = store.fork(run_id, command.tick, command.intervention, command.label)
             service.error = None
             return service.status()
 

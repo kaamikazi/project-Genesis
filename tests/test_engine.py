@@ -177,16 +177,47 @@ def test_search_budget_and_controller_failure_audit():
     assert all(d["controller"] == "explicit-failure-fallback" for d in decisions)
 
 
-def test_observations_do_not_leak_world_seed_or_hidden_phase_inputs():
-    state = new_world(Scenario(seed=12345))
-    for aid in state["agents"]:
-        obs = LocalObservations().build(state, aid)
-        flat = repr(obs)
-        assert "12345" not in flat and "seed" not in {k for k in obs if k != "controller_seed"}
-        assert obs["controller_seed"] != state["config"]["seed"]
-        assert "config" not in obs and "terrain" not in obs and "lifecycle" not in obs
-    seeds = {LocalObservations().build(state, aid)["controller_seed"] for aid in state["agents"]}
-    assert len(seeds) == len(state["agents"])
+def test_observations_are_independent_of_hidden_parameters():
+    """Hold everything an agent may see fixed, change hidden parameters, and require identical controller input."""
+    from genesis.world import phase_at
+    base = new_world(Scenario(seed=12345))
+    agent = base["agents"]["a00"]
+    # A different world seed with the same terrain and the same local phase at the agent's tile.
+    other_seed = next(s for s in range(1, 10_000) if phase_at({**base, "config": {**base["config"], "seed": s}}, agent) == phase_at(base, agent))
+    hidden = deepcopy(base)
+    hidden["config"]["seed"] = other_seed
+    hidden["config"]["controller_seed"] = 99
+    hidden["ledger"]["ore"]["sink"] = 7          # global accounting
+    hidden["metrics"]["produced"] = 1000          # global metrics
+    far = hidden["agents"]["a07"]                 # an agent outside observation range (other settlement)
+    far["inventory"]["alloy"] = 50
+    far["memories"] = [{"secret": "far away"}]
+    hidden["artifacts"]["x" * 64] = {"id": "x" * 64, "creator": "a07", "home": "haven", "status": "verified", "created_tick": 0,
+                                     "parent": None, "generation": 0, "content": {"program": {"op": "mode", "value": 1}},
+                                     "evaluation": {"cases": "hidden"}}
+    a = LocalObservations().build(base, "a00")
+    b = LocalObservations().build(hidden, "a00")
+    assert digest(a) == digest(b)
+    flat = repr(a)
+    assert "12345" not in flat and "seed" not in flat and "evaluation" not in flat
+    assert set(a) == {"tick", "self", "phase", "rules", "home_storage", "sites", "tiles", "neighbors", "offers", "artifacts", "memory"}
+
+
+def test_agent_feedback_never_carries_held_out_case_detail():
+    state = new_world(Scenario())
+    bad = {"op": "if_phase_lt", "threshold": 5, "then": {"op": "mode", "value": 0}, "else": {"op": "mode", "value": 1}}
+    state = commit_action(state, "propose_artifact", program=bad, parent=None)
+    aid = next(iter(state["artifacts"]))
+    state["tick"] += 1
+    state, outcome = attempt(state, action(state, "test_artifact", artifact=aid))
+    result = outcome["result"]
+    assert result["status"] == "rejected" and result["held_out"] == "fail"
+    assert set(result) >= {"training_energy", "training_baseline_energy", "training", "held_out", "improves_on_parent"}
+    assert "failures" not in result and "cases" not in result and "energy" not in result
+    # Full case-level evidence remains on the artifact for the observer.
+    assert any("held-out phase 5" in f for f in state["artifacts"][aid]["evaluation"]["failures"])
+    state["agents"]["a00"]["last_result"] = {"result": result}
+    assert "held-out phase" not in repr(LocalObservations().build(state, "a00"))
 
 
 def run_to(config, ticks):
@@ -282,12 +313,18 @@ def test_revisions_must_beat_parent_and_supersede_it():
 
 def test_search_climbs_a_verified_lineage_during_the_run():
     state = new_world(Scenario(seed=42))
+    controller = OfflineController(state["config"]["controller_seed"])
     for _ in range(80):
-        state, _, _ = advance(state, OfflineController())
+        state, _, _ = advance(state, controller)
+    lineages = []
     for creator in ("a00", "a04"):
         lineage = sorted((a for a in state["artifacts"].values() if a["creator"] == creator and a["status"] in ("verified", "superseded")), key=lambda a: a["generation"])
         energies = [a["evaluation"]["energy"] for a in lineage]
-        assert len(lineage) >= 2 and energies == sorted(energies, reverse=True) and len(set(energies)) == len(energies)
+        assert lineage and energies == sorted(energies, reverse=True) and len(set(energies)) == len(energies)
         assert [a["status"] for a in lineage] == ["superseded"] * (len(lineage) - 1) + ["verified"]
         for parent, child in zip(lineage, lineage[1:]):
             assert child["parent"] == parent["id"] and parent["superseded_by"] == child["id"]
+            assert child["evaluation"]["parent_energy"] == parent["evaluation"]["energy"]
+        lineages.append(lineage)
+    assert max(len(x) for x in lineages) >= 2
+    assert all(x[-1]["evaluation"]["energy"] == 24 for x in lineages)

@@ -5,7 +5,7 @@ from typing import Any
 
 from .invention import PhaseEvaluator, conversion, execute, validate
 from .models import Action, AgentController, JSON, RESOURCES, canonical, digest
-from .world import LocalObservations, check_invariants, distance, phase_at
+from .world import NAMES, REACH, LocalObservations, check_invariants, distance, library_access, new_agent, phase_at
 
 
 class Rejected(ValueError):
@@ -39,6 +39,7 @@ PARAMS = {
     "accept_trade": {"offer"}, "send_message": {"target", "message"},
     "inspect_artifact": {"artifact"}, "propose_artifact": {"program", "parent"},
     "test_artifact": {"artifact"}, "use_artifact": {"artifact"}, "produce": set(),
+    "deposit": {"settlement", "resource", "amount"}, "withdraw": {"settlement", "resource", "amount"},
 }
 
 
@@ -48,7 +49,7 @@ class Rules:
         require(action.agent in state["agents"], "unknown agent")
         a = state["agents"][action.agent]
         p, kind = action.params, action.kind
-        require(a["status"] == "active", "inactive agent")
+        require(a["status"] == "active", f'agent is not active ({a["status"]})')
         require(action.tick == state["tick"], "stale observation version")
         require(set(p) == PARAMS[kind], "incorrect action parameters")
         result: JSON = {"action": kind, "agent": a["id"]}
@@ -116,6 +117,19 @@ class Rules:
                 result.update(target=target["id"], message=p["message"], epistemic_type="statement")
             if target["id"] in state["agents"]:
                 target["relationships"][a["id"]] = target["relationships"].get(a["id"], 0) + 1
+        elif kind in ("deposit", "withdraw"):
+            settlement = state["settlements"].get(p["settlement"])
+            require(settlement is not None, "unknown settlement")
+            require(settlement["id"] == a["home"], "not a member of this settlement")
+            require(distance(a, settlement) <= REACH, "settlement storage out of reach")
+            r, n = resource(p["resource"]), integer(p["amount"], "amount")
+            source, sink = (a["inventory"], settlement["inventory"]) if kind == "deposit" else (settlement["inventory"], a["inventory"])
+            require(source[r] >= n, "insufficient inventory" if kind == "deposit" else "insufficient settlement stock")
+            spend_energy(a, 1)
+            source[r] -= n
+            sink[r] += n
+            settlement["flows"][kind][r] += n
+            result.update(settlement=settlement["id"], resource=r, amount=n)
         elif kind == "accept_trade":
             offer = state["offers"].get(p["offer"])
             require(offer is not None and offer["target"] == a["id"], "offer unavailable")
@@ -132,6 +146,7 @@ class Rules:
             del state["offers"][offer["id"]]
             result.update(offer=offer["id"], maker=maker["id"], give=give, give_amount=gn, want=want, want_amount=wn)
         elif kind == "propose_artifact":
+            require(state["config"]["invention"] == "open", "invention is frozen by the scenario")
             require(a["search_count"] < state["config"]["search_budget"], "search budget exhausted")
             validate(p["program"])
             require(p["parent"] is None or p["parent"] in a["known"], "parent artifact is not learned")
@@ -148,7 +163,7 @@ class Rules:
                                        "capabilities": ["converter"], "inputs": {"ore": 2},
                                        "claim": "revision may use less energy than its parent" if parent else "candidate may reduce conversion energy",
                                        "evaluation": None,
-                                       "transmissions": [], "uses": [], "adopters": [],
+                                       "transmissions": [], "uses": [], "first_uses": {}, "adopters": [],
                                        "access": "settlement library" if state["config"]["sharing"] else "creator only"}
             a["search_count"] += 1
             state["metrics"]["search_proposals"] += 1
@@ -159,7 +174,11 @@ class Rules:
             require(digest(artifact["content"]) == artifact["id"], "artifact content hash mismatch")
             aid = artifact["id"]
             own = artifact["creator"] == a["id"]
-            require(own or (state["config"]["sharing"] and artifact["home"] == a["home"]), "artifact access denied")
+            # Per-kind access: test needs authorship, inspect needs library access, use needs the program in hand.
+            if kind == "inspect_artifact":
+                require(own or "library" in a["capabilities"] and artifact["home"] == a["home"], "artifact access denied")
+            elif kind == "use_artifact":
+                require(aid in a["known"], "artifact access denied")
             require("converter" in a["capabilities"], "converter capability required")
             if kind == "test_artifact":
                 require(own and artifact["status"] == "proposed", "only creator can test an untested proposal")
@@ -176,10 +195,11 @@ class Rules:
                         parent.update(status="superseded", superseded_by=aid)
                         state["metrics"]["revisions_verified"] += 1
                         result.update(supersedes=parent["id"])
-                result.update(artifact=aid, status=artifact["status"], energy=evaluation["energy"], baseline_energy=evaluation["baseline_energy"], failures=evaluation["failures"], epistemic_type="verified_artifact" if artifact["status"] == "verified" else "observed_outcome")
+                # The proposer learns only aggregate feedback; case-level evidence stays on the artifact.
+                result.update(artifact=aid, **PhaseEvaluator.agent_feedback(evaluation), epistemic_type="verified_artifact" if artifact["status"] == "verified" else "observed_outcome")
             elif kind == "inspect_artifact":
-                require(artifact["status"] == "verified" and aid not in a["known"], "artifact must be verified and not already learned")
-                require(distance(a, state["settlements"][a["home"]]) <= 2, "settlement library out of reach")
+                require(library_access(a, artifact) and aid not in a["known"], "artifact must be verified, in your library and not already learned")
+                require(distance(a, state["settlements"][a["home"]]) <= REACH, "settlement library out of reach")
                 spend_energy(a, 2)
                 a["seen"].append(aid)
                 a["known"].append(aid)
@@ -200,6 +220,8 @@ class Rules:
                 artifact["uses"] = (artifact["uses"] + [evidence])[-64:]
                 if aid not in a["used"]:
                     a["used"].append(aid)
+                if a["id"] not in artifact["first_uses"]:
+                    artifact["first_uses"][a["id"]] = evidence
                 if not own and state["agents"][artifact["creator"]]["status"] != "active":
                     state["metrics"]["uses_after_creator_removal"] += 1
                 reproduced = not own and evidence["energy"] < evidence["baseline_energy"] and a["id"] not in artifact["adopters"]
@@ -229,8 +251,10 @@ class Rules:
 
 
 def scheduled_removal(state: JSON) -> JSON | None:
-    """Scenario-scheduled retirement at the start of `removal_tick`. Inventory goes to settlement
-    storage so the comparison isolates the lost worker and their knowledge, not lost resources."""
+    """Lifecycle transition at the boundary where tick becomes `removal_tick` (after action resolution and fatigue).
+    Retirees stop acting immediately; pending offers involving them expire in the same environment step.
+    Physical holdings move to settlement storage (withdrawable by members). With succession, each retiree
+    is replaced by a fresh agent with a new identity and only the declared inheritance package."""
     c, agents = state["config"], state["agents"]
     if c["removal"] == "none" or state["tick"] != c["removal_tick"] or state["lifecycle"]["removal"] is not None:
         return None
@@ -245,17 +269,42 @@ def scheduled_removal(state: JSON) -> JSON | None:
                           and x["status"] == "active" and aid not in creators and aid not in chosen)
             if pool:
                 chosen.append(pool[0])
-    moved = []
+    moved, successors = [], []
     for aid in chosen:
         a = agents[aid]
-        store = state["settlements"][a["home"]]["inventory"]
+        settlement = state["settlements"][a["home"]]
         for r in RESOURCES:
-            store[r] += a["inventory"][r]
+            settlement["inventory"][r] += a["inventory"][r]
+            settlement["flows"]["retirement"][r] += a["inventory"][r]
         moved.append({"agent": aid, "to": a["home"], "inventory": dict(a["inventory"])})
-        a["inventory"] = {r: 0 for r in RESOURCES}
-        a["status"] = "retired"
+        a.update(inventory={r: 0 for r in RESOURCES}, status="retired", retired_tick=state["tick"])
+    if c["succession"] == "fresh":
+        for aid in chosen:
+            old = agents[aid]
+            index = len(agents)
+            sid = f"a{index:02d}"
+            home = state["settlements"][old["home"]]
+            heir = new_agent(sid, NAMES[index % len(NAMES)], home, 0, state["tick"], c["successor_role"], c["successor_access"] == "library")
+            package = []
+            if c["successor_access"] == "direct":
+                # Labelled debugging control: the current verified procedures of the settlement are handed over.
+                package = sorted(x["id"] for x in state["artifacts"].values() if x["status"] == "verified" and x["home"] == home["id"])
+                for art_id in package:
+                    heir["known"].append(art_id)
+                    state["artifacts"][art_id]["transmissions"].append(
+                        {"from": state["artifacts"][art_id]["creator"], "to": sid, "tick": state["tick"], "via": "succession package (direct-transfer control)",
+                         "event": f"succession:{aid}->{sid}", "operational_definition": "copied validated AST; competence requires measured use"})
+            heir.update(predecessor=aid, inheritance={"policy": c["successor_access"], "package": package, "role": c["successor_role"],
+                                                      "provenance": f"succession of {aid} at tick {state['tick']}",
+                                                      "memories_inherited": 0, "skills_inherited": len(package)})
+            old["successor"] = sid
+            agents[sid] = heir
+            successors.append({"predecessor": aid, "successor": sid, "name": heir["name"], "home": home["id"], "role": heir["role"],
+                               "policy": c["successor_access"], "package": package, "inventory": dict(heir["inventory"])})
+        state["lifecycle"]["successions"] += successors
     record = {"tick": state["tick"], "policy": c["removal"], "verified_creators": creators, "removed": chosen,
-              "inventory_moved": moved, "note": "scheduled lifecycle removal, not death; no verified creators existed"
+              "inventory_moved": moved, "successors": successors, "succession": c["succession"],
+              "note": "scheduled lifecycle removal, not death; no verified creators existed"
               if not creators else "scheduled lifecycle removal, not death"}
     state["lifecycle"]["removal"] = record
     return {"tick": state["tick"], "type": "lifecycle_removal", **{k: v for k, v in record.items() if k != "tick"}}
@@ -264,8 +313,11 @@ def scheduled_removal(state: JSON) -> JSON | None:
 def attempt(state: JSON, action: Action) -> tuple[JSON, JSON]:
     candidate = deepcopy(state)
     try:
+        before = state["agents"][action.agent]["energy"] if action.agent in state["agents"] else 0
         result = Rules().apply(candidate, action)
         check_invariants(candidate)
+        # Energy charged by this action (consumption restores energy and is reported separately).
+        result["energy_charged"] = before - candidate["agents"][action.agent]["energy"] + result.get("energy_restored", 0)
         return candidate, {"accepted": True, "result": result}
     except (Rejected, ValueError, KeyError, TypeError, RecursionError) as exc:
         return state, {"accepted": False, "reason": str(exc)[:240]}
@@ -280,6 +332,13 @@ def advance(state: JSON, controller: AgentController, overrides: dict[str, Actio
     overrides = overrides or {}
     require(all(key in state["agents"] and action.agent == key for key, action in overrides.items()), "invalid override identity")
     next_state = deepcopy(state)
+    for aid, action in sorted(overrides.items()):
+        if state["agents"][aid]["status"] != "active":
+            # Submissions for retired or inactive agents are rejected explicitly, never silently dropped.
+            events.append({"id": action.id, "tick": state["tick"] + 1, "agent": aid, "type": "action_rejected", "kind": action.kind,
+                           "accepted": False, "reason": f'agent is not active ({state["agents"][aid]["status"]})'})
+            decisions.append({"action": action.model_dump(), "observation_hash": None, "controller": "submitted"})
+            next_state["metrics"]["rejected"] += 1
     for aid, agent in sorted(state["agents"].items()):
         if agent["status"] != "active":
             continue
@@ -316,8 +375,11 @@ def advance(state: JSON, controller: AgentController, overrides: dict[str, Actio
         a["last_result"] = event
         a["memories"] = (a["memories"] + [event])[-16:]
     next_state["tick"] += 1
+    fatigue = {}
     for aid, a in next_state["agents"].items():
         if a["status"] == "active":
+            if a["energy"]:
+                fatigue[aid] = 1
             a["energy"] = max(0, a["energy"]-1)
             if a["energy"] == 0 and a["inventory"]["food"] == 0:
                 a["status"] = "inactive"
@@ -341,6 +403,6 @@ def advance(state: JSON, controller: AgentController, overrides: dict[str, Actio
             expired.append(oid)
             del next_state["offers"][oid]
     events.append({"tick": next_state["tick"], "type": "environment", "food_sources": replenished,
-                   "fatigue_per_active_agent": 1, "expired_offers": expired})
+                   "fatigue": fatigue, "expired_offers": expired})
     check_invariants(next_state)
     return next_state, events, decisions

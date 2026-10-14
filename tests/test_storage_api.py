@@ -129,9 +129,9 @@ def test_experiment_configuration_parity(tmp_path):
         assert len(configs) == len(CONDITIONS)
         shared = [{k: v for k, v in c.items() if k not in varied} for c in configs]
         assert all(c == shared[0] for c in shared)
-        assert all((tmp_path / a["export"]).exists() for a in report["attempts"] if a["seed"] == seed)
+        assert all((tmp_path / a["export"]["file"]).exists() for a in report["attempts"] if a["seed"] == seed)
     import gzip
-    exported = json.loads(gzip.decompress((tmp_path / report["attempts"][0]["export"]).read_bytes()))
+    exported = json.loads(gzip.decompress((tmp_path / report["attempts"][0]["export"]["file"]).read_bytes()))
     assert digest(Store(tmp_path / "reimport.sqlite").load(Store(tmp_path / "reimport.sqlite").import_run(exported))) == report["attempts"][0]["metrics"]["state_hash"]
 
 
@@ -156,7 +156,7 @@ def test_older_engine_runs_are_read_only_and_skipped_at_startup(tmp_path):
         assert client.get(f"/api/runs/{old}").status_code == 200
         client.post("/api/control", json={"operation": "select", "run_id": old})
         assert client.post("/api/control", json={"operation": "run"}).status_code == 409
-        assert client.get("/api/experiments").json() == {"available": False}
+        assert client.get("/api/experiments").json()["available"] is False
 
 
 def test_built_observatory_is_served_with_the_api(tmp_path):

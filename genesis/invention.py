@@ -72,28 +72,46 @@ class PhaseEvaluator:
     def evaluate(self, program: JSON, parent: JSON | None = None) -> JSON:
         validate(program)
         rows = _run_cases(program)
-        failures = [f'phase {r["phase"]}: {r["energy"]} energy is worse than baseline {r["baseline_energy"]}'
-                    for r in rows if r["energy"] > r["baseline_energy"]]
+        failures, partition_pass = [], {}
         for group in ("training", "held_out"):
             subset = [r for r in rows if r["group"] == group]
+            worse = [r for r in subset if r["energy"] > r["baseline_energy"]]
+            failures += [f'{group.replace("_", "-")} phase {r["phase"]}: {r["energy"]} energy is worse than baseline {r["baseline_energy"]}' for r in worse]
             used, base = sum(r["energy"] for r in subset), sum(r["baseline_energy"] for r in subset)
             if 4 * used > 3 * base:
                 failures.append(f"{group.replace('_', '-')} saving {round(100 * (base - used) / base)}% is below 25%")
+            partition_pass[group] = not worse and 4 * used <= 3 * base
         energy = sum(r["energy"] for r in rows)
         result: JSON = {"version": EVALUATOR_VERSION,
                         "scope": "phase 0..11; 2 ore -> 1 alloy; energy only; no cross-world generalization",
                         "criterion": ">=25% savings in each partition; no case worse than fixed mode 0",
                         "baseline": "fixed-mode-0", "cases": rows, "case_count": len(rows), "energy": energy,
-                        "baseline_energy": sum(r["baseline_energy"] for r in rows)}
+                        "baseline_energy": sum(r["baseline_energy"] for r in rows),
+                        "training_energy": sum(r["energy"] for r in rows if r["group"] == "training"),
+                        "training_baseline_energy": sum(r["baseline_energy"] for r in rows if r["group"] == "training"),
+                        "partition_pass": partition_pass, "improves_on_parent": None}
         if parent is not None:
-            # A revision must strictly beat its parent, recomputed here rather than read from storage.
-            parent_energy = sum(r["energy"] for r in _run_cases(parent))
-            result.update(parent_energy=parent_energy, criterion=result["criterion"] + "; strictly less total energy than parent")
+            # A revision must strictly beat its parent on the same cases, recomputed here rather than read from storage.
+            parent_rows = _run_cases(parent)
+            assert [(r["group"], r["phase"]) for r in parent_rows] == [(r["group"], r["phase"]) for r in rows]
+            parent_energy = sum(r["energy"] for r in parent_rows)
+            result.update(parent_energy=parent_energy, improves_on_parent=energy < parent_energy,
+                          criterion=result["criterion"] + "; strictly less total energy than parent on the same cases")
             result["case_count"] += len(rows)
             if energy >= parent_energy:
                 failures.append(f"no improvement over parent ({energy} vs {parent_energy} energy)")
         result.update(status="rejected" if failures else "verified", failures=failures)
         return result
+
+    @staticmethod
+    def agent_feedback(evaluation: JSON) -> JSON:
+        """What the proposing agent may learn: status, training totals and partition-level pass/fail only.
+        Held-out case detail stays on the artifact record, which only the observer reads."""
+        return {"status": evaluation["status"], "training_energy": evaluation["training_energy"],
+                "training_baseline_energy": evaluation["training_baseline_energy"],
+                "training": "pass" if evaluation["partition_pass"]["training"] else "fail",
+                "held_out": "pass" if evaluation["partition_pass"]["held_out"] else "fail",
+                "improves_on_parent": evaluation["improves_on_parent"]}
 
 
 def candidate(seed: int, agent_id: str, index: int) -> JSON:
