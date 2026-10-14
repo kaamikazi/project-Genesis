@@ -57,6 +57,35 @@ One consequence: with the same `controller_seed`, every world tries candidates i
 
 **Scripted, not emergent.** Trades (`tick % 31 == 9`) and gifts (`tick % 43 == 17`) are scripted. **Nothing is model-controlled, and nothing is emergent.**
 
+## v0.4 observation additions
+
+These fields appear only when the task is `workshop-1` or teaching is on, so v0.3 observations are unchanged:
+
+- `humidity` at the agent's own tile
+- `sessions`: the agent's own active session, showing stage, work counts, practice count and expiry. It shows **no program** and none of the counterpart's state.
+- `rules.task` and `rules.teaching`
+- `dev_score` on the agent's **own** proposals (development role)
+
+Observations never include:
+
+- validation scores or records
+- freeze records
+- sealed anything
+- hidden workshop parameters
+
+The agent's own `dev_notes` hold the results of its own development tests.
+
+## v0.4 offline policies (developer-supplied)
+
+| Role | Policy |
+|---|---|
+| **Researcher** (`workshop-1`) | Learn the current library head if it holds no admitted workflow. Development-test any held workflow it has no note for. Propose the first untried neighbour of its best held workflow (or of the baseline), in an order keyed by the controller's private seed. Submit only when the development score beats the current best. |
+| **Producer** | Top up to 8 ore, then run the best held admitted workflow, otherwise the baseline. Upgrade when the library head was superseded. |
+| **Learner** (teaching on, nothing held, nothing in the library) | Send `request_lesson` to a neighbour. Accept offers, moving next to the teacher first. Practise when it has at least 4 ore, otherwise obtain ore first. |
+| **Teacher** | Answer a request from the last 6 ticks from a neighbour with an offer of its newest held workflow, if its energy is at least 14. |
+
+A fixed schedule defines only cohort transitions. Acquisition and improvement are decided by the engine and evaluators, never by the schedule.
+
 ## Memory
 
 Memory is a bounded window of the agent's own action results (16 stored, 8 retrieved). Test results carry only aggregate feedback; full evaluations stay on the artifact record. The authoritative history is the event log.

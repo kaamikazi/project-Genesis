@@ -1,4 +1,4 @@
-# Invention protocol (`phase-evaluator-3`)
+# Invention protocol (`phase-evaluator-3` legacy · `workshop-evaluator-1` · `workshop-sealed-1`)
 
 An invention in GENESIS is an immutable program that is executed and measured. A claim about one changes nothing. This document describes the language, the search that generates candidates, and the evaluator that accepts or rejects them.
 
@@ -94,3 +94,50 @@ This is a small hill-climb in a 1-D space. It is real and measured, and it is no
 - The search space is tiny and designed by hand. The optimum is reachable by design and is reached within about 20 ticks.
 - Partition-level feedback slowly leaks aggregate information about the held-out set.
 - No arbitrary code is executed. An unrestricted-code sandbox would be a separate project.
+
+
+---
+
+## v0.4: evaluation roles and the `workshop-1` task
+
+The legacy `phase-1` task and its `verified` label are unchanged. They mean *verified on training and held-out partitions, both adaptive*: the proposer received pass/fail on each.
+
+### Three roles
+
+| Role | Cases | Visible to the proposer | Status |
+|---|---|---|---|
+| Development | 24, public partition seed | Per-case cost, alloy and feasibility, plus the score against the baseline | `dev-tested` |
+| Validation | 24, disjoint from development | **Only** admitted / not admitted | `admitted` (operational, validation-adaptive) or `not-admitted` |
+| Sealed | 48, disjoint from both, drawn from a seed in `evidence/v0.4.0/protected/sealed-manifest.json` | Nothing, ever | A final score in experiment reports only |
+
+**Admission rule.** An original is admitted if its validation score is at least 5% below the baseline. A revision is admitted only if its score is strictly below its parent's on the same 24 cases; the evaluator recomputes the parent and asserts the case lists match.
+
+**Objective (fixed in advance):** pooled `(energy + 4·ore wasted + 3·food) / alloy`. An infeasible case costs 10 and yields no alloy.
+
+**Selection, then evaluation.** The engine records freezes by validation score at each cohort boundary and when the run closes. `genesis/sealed.py` scores only the frozen artifacts, only for closed runs, and only after the protocol has committed to the sealed case hash. No world-path module imports it (`test_no_world_path_module_imports_the_sealed_evaluator`).
+
+So sealed scores are independent estimates for artifacts **selected without them**. Validation scores are not independent: every submission returned one bit about the validation set.
+
+### Information paths from final evaluation to an agent
+
+| Path | Status |
+|---|---|
+| World state, observations, memories, `dev_notes` | Contain no sealed seed, case or score (tested) |
+| Freeze records | Contain validation-based selections only |
+| Sealed module | Not importable from the world path. Its manifest file is outside world state, and no controller has file access. |
+| Results | Written only to `evidence/v0.4.0/cumulative/sealed-results.json` after all runs close. No run reads them. |
+
+### Bounds
+
+For a given world and case set, the minimum pooled ratio over *per-case* decisions (Dinkelbach's method over all 64 decisions per case) is a lower bound for every program. It is about 4.3–4.9 across the seeds checked; `test_oracle_lower_bound_is_not_beaten_by_any_program` checks it. The baseline scores about 13–16.
+
+### Search and composition
+
+The declared neighbourhood is:
+
+- field recombination from another held workflow (`composition`, recorded with `sources`)
+- constant ±1
+- threshold ±1
+- splitting a leaf on `phase`, `humidity`, `ore` or `energy` at fixed thresholds
+
+Components (`component{field, expr}`) and `call` are enforced prerequisites: execution, teaching acceptance and proposals all require holding the called component. The offline researcher composes by recombining fields and does not create components. Calls are exercised in tests.

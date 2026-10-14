@@ -1,0 +1,27 @@
+{
+  "checks": [
+    {
+      "check": "a teaching session is active at the interruption point",
+      "passed": true,
+      "tick": 65,
+      "sessions": [
+        "63:a01",
+        "63:a05"
+      ]
+    },
+    {
+      "check": "reopened database holds the same committed state, sessions included",
+      "passed": true
+    },
+    {
+      "check": "continuation after restart matches an uninterrupted reference for 20 ticks",
+      "passed": true,
+      "tick": 85
+    },
+    {
+      "check": "replay to the interruption tick restores the session exactly",
+      "passed": true
+    }
+  ],
+  "all_passed": true
+}

@@ -1,134 +1,112 @@
-# Implementation status, v0.3.0 (2026-10-14)
+# Implementation status, v0.4.0 (2026-10-15)
 
-Engine `0.3.0` · rules `phase-world-3` · evaluator `phase-evaluator-3` · storage schema 1. Evidence: [`evidence/v0.3.0/`](../evidence/v0.3.0/README.md). The previous release's claims are audited in [audit/AUDIT-v0.2.0.md](audit/AUDIT-v0.2.0.md).
+Engine `0.4.0` · rules `phase-world-4` · evaluators `phase-evaluator-3` (legacy), `workshop-evaluator-1`, `workshop-sealed-1` · storage schema 1.
 
-**Verification run at release:**
+- **Evidence:** [`evidence/v0.4.0/`](../evidence/v0.4.0/README.md)
+- **v0.3.0:** preserved as tag `v0.3.0`, with its evidence in `evidence/v0.3.0/`
+- **Baseline before this milestone:** [audit/baseline-v0.3.0-verification.md](audit/baseline-v0.3.0-verification.md) (70 passed, build OK)
 
-- `python -m pytest -q`: **70 passed** (it was 35 before this milestone, recorded in [audit/baseline-verification.md](audit/baseline-verification.md))
-- `npm run build`: succeeded
-- `python tools/generate_evidence.py`: 11 of 11 steps exited 0
+## Verification at release
+
+| Check | Result |
+|---|---|
+| `python -m pytest -q` | **104 passed** (up from 70) |
+| `npm run build` | Succeeded |
+| `python tools/generate_evidence_m4.py` | All 8 steps exited 0. The log is in `evidence/v0.4.0/runs.json`, with the source fingerprint at the start and end. |
 
 ## Works and is verified
 
 | Capability | Evidence |
 |---|---|
-| Independent reducer: holdings, energy by category, windows, successor milestones, reconciliation | `tests/test_reducer.py`. Every energy change per agent is explained by events alone, holdings match the final state, and zero denominators are reported as unavailable. The reducer does not import the engine. |
-| Settlement storage: deposit, withdraw, membership, reach, stock contention, flows ledger | `tests/test_lifecycle_storage.py`. Unauthorized access is rejected, competing withdrawals never overdraw, the ledger is preserved, and production continues from deposited ore. |
-| Retirement to withdrawable storage; retired agents cannot act by any path | `test_retirement_moves_inventory_to_withdrawable_storage`, `test_retired_agents_cannot_act_by_any_path` |
-| Fresh successors with a declared inheritance package (library / none / direct control) | `test_successors_start_fresh_with_only_the_declared_package`, `test_direct_transfer_control_is_labelled` |
-| Library successors discover, learn and use the procedure, with logged evidence | `test_library_successor_discovers_learns_and_uses_with_logged_evidence`, `test_successor_evidence_is_derived_from_events` |
-| Restricted successors have no alternate path (direct IDs, observations, transmissions) | `test_restricted_successor_has_no_alternate_path_to_procedures` |
-| Cross-generation revision attempts with an intact lineage | `test_successor_researcher_revises_the_inherited_procedure` |
-| Fork interventions validated and recorded; physical parity across matched continuations | `test_forked_continuations_share_physical_conditions`, `test_fork_interventions_are_validated` |
-| Replay reconstructs every tick, including lifecycle, storage and successors; export and import | `test_replay_reconstructs_lifecycle_and_storage_at_every_tick` |
-| Observation boundary: independent of hidden parameters; agent feedback carries no held-out case detail | `test_observations_are_independent_of_hidden_parameters`, `test_agent_feedback_never_carries_held_out_case_detail` |
-| Copy-on-write attempts identical to the full-copy reference | `tests/test_optimization.py`: 6 scenarios, including 20 agents and fuzzed submissions of every action kind, with shared-state verification |
-| Resume after restart, idempotent steps and actions | `evidence/v0.3.0/verification/restart.json` (6 of 6 checks), plus the existing storage and API tests |
-| All v0.1–v0.2 behaviour (accounting, contention, trades, the evaluator, revisions, hash chain, corruption rejection, crash rollback, version boundary) | the original tests, retained |
+| Development, validation and sealed evaluation roles. Development returns per-case results; validation returns one admission bit; sealed scores only frozen artifacts of closed runs. | `tests/test_workshop.py`, `tests/test_sealed_cohorts.py`. The isolation tests cover the import graph, absence from world state, absence from observations including validation records, a monkeypatched sealed scorer never being called in-run, the closed-run requirement, and the commitment check. |
+| Freezes select by validation evidence at each cohort boundary and when the run closes | `test_freeze_selects_by_validation_before_any_final_score` |
+| `workshop-1`: interacting decisions, hidden per-world parameters, busy time, flux and food accounting, component prerequisites, bounded interpreter | `test_decisions_interact`, `test_malformed_programs_are_rejected`, `test_interpreter_bounds_nodes_depth_and_steps`, `test_flux_workflow_conserves_resources_and_sets_busy_time`, `test_oracle_lower_bound_is_not_beaten_by_any_program` |
+| Teaching sessions: teacher must hold the skill; flag-gated; atomic per-role costs; reservations; acquisition only after a practice assessment; failure on missing prerequisites; interruption on retirement or stall; first independent use recorded separately; no alternate transfer paths | `tests/test_teaching.py` (9 tests) |
+| Replay and restart during an active lesson | `test_replay_and_restart_during_an_active_lesson`, and `evidence/v0.4.0/verification/restart-teaching.json` (4/4 checks) |
+| Cohort lifecycle: everyone retires, roles and homes are kept, inventory moves to storage, no inherited memories; reset hides earlier cohorts (inspection by ID is rejected); preserved shows them; parity until the first boundary | `tests/test_sealed_cohorts.py` |
+| The reducer reconstructs sessions (outcome, practice, per-role costs), cohorts, freezes and the cross-generation lineage, and reconciles holdings and statuses | `test_reducer_reconstructs_teaching_sessions_and_cohorts`, plus reconciliation checked in every experiment world |
+| Copy-on-write equals the full-copy reference in workshop, teaching and cohort worlds, with fuzzed actions of every kind | `tests/test_optimization.py` (8 scenarios). This caught a real sharing bug (`practice_step` mutated an uncopied artifact), which was fixed before any evidence was generated. |
+| v0.3.0 scenarios reproduce under v0.4.0 rules | `test_v030_scenarios_reproduce_under_v040_rules` compares against the stored v0.3.0 reducer output |
 
-## Browser verification (built-in browser, 2026-10-14)
+## Results (exploratory, 5 evaluation seeds, offline designed controllers)
 
-Checked against `genesis serve` with a world in which the creators retire at tick 30 and library successors replace them:
+### Experiment A: teaching and acquisition
 
-- The removal banner names the retirees and their successors with the access policy, and shows the post-removal window.
-- The inspector shows "Succeeded by Oren" and "Retired at tick 30 · history archived, not inherited".
-- The Inhabitants page lists active agents first and retirees last, with links in both directions.
-- The *Why this counts as retention* panel shows all six links for both successors.
-- Settlement storage shows the retirement, deposit and withdrawal flows.
-- The Experiments page renders the inheritance diagnostic (with parity badges), the live continuation, the 20-agent replication, and the descriptive comparison from the reducer.
-- At 375 px, none of the five pages scrolls horizontally, and there are no console errors.
-- Screenshots sometimes timed out because the app window was behind another window. Text and DOM checks were used instead.
+20 continuations; physical parity at the boundary in all 5 seeds; no failures.
 
-## Corrected claims from v0.2.0
+| Condition | Acquired | Median ticks to acquisition | Used with a saving | Successor production energy per alloy (pooled) | Settlement charged energy per alloy (mean of worlds) | Failed lessons | Teaching energy (teacher / learner) |
+|---|---|---|---|---|---|---|---|
+| teaching | 10/10 | 14.5 | 10/10 | 5.33 | 6.56 | 3 (all retried and then acquired) | 91 / 225 |
+| library | 10/10 | 2 | 10/10 | 5.66 | 6.52 | — | — |
+| no-transfer | 0/10 | — | 0/10 | 8.60 | 7.06 | — | — |
+| direct-control | 10/10 (package) | 0 | 10/10 | 5.51 | 6.40 | — | — |
 
-| v0.2.0 claim | Correction (evidence) |
-|---|---|
-| "Every world hits the same 512-alloy cap" | 512 is the theoretical maximum (1,024 ore ÷ 2). In v0.2.0 it was reached in **9 of 21** worlds; retirement worlds stranded 2–6 ore in storage that could not be withdrawn. In v0.3.0, **18 of 21** reach 512, and the other three end at 511 with 2 ore still accessible. |
-| "Retirement comparison is fair / isolates knowledge" | It is **descriptive only**: the retired creators were researchers (21–31 pre-removal productions) and the matched retirees were producers (38–42). The controlled test is the inheritance diagnostic. |
-| "Controllers never receive the world seed" | v0.2.0 leaked a seed-derived value. The seed was recovered in at most 78 guesses. Fixed: an independent controller seed, never observed, guarded by a test. |
-| "Held-out cases never shown case by case" | v0.2.0 leaked 38 held-out case failures into memories (seed 42). Fixed: agents now receive aggregate feedback only. |
-| "24 energy is optimal" | Now scoped and proved: a lower bound of 2 energy × 12 cases, reached only by threshold 6 (`invention/search-space.json`). |
-| "Lineage 36 → 32 → 28 → 24" | That was v0.2.0's ordering. With the independent controller seed it is 32 → 28 → 24 (Hearth); Haven finds 24 directly. |
+**Teaching works, and it is slower than the library at about the same total cost.**
 
-## Results (exploratory; 3 seeds; designed mechanics)
+- **Speed:** acquisition took a median 14.5 ticks against 2 for the library.
+- **Why lessons failed:** all 3 failed lessons had a practice run costlier than the baseline under the learner's local conditions. For example, seed 42: 15.0 against 14.0 per alloy. The retries passed.
+- **Opportunity cost:** teachers spent 4 ticks and 7 energy per lesson.
+- **What the learner figure includes:** the learner's 225 energy includes its real practice production.
 
-### Controlled succession, 8 agents
+### Experiment B: cumulative invention
 
-Fork at tick 60, retirement at tick 61, diagnostic window ticks 62–101, invention frozen. Physical parity was verified for all three seeds.
+10 worlds (5 seeds × preserved/reset), 3 cohorts of 60 ticks; parity at the first boundary in all seeds; no failures; 2,244–2,396 ore left, so no depletion.
 
-| Continuation | Successors acquiring via library | With a measured saving | Successor production energy / alloy (mean of 6 · pooled) | Settlement production energy / alloy, by seed |
-|---|---|---|---|---|
-| successor-library | 6 / 6 (tick 63) | 6 / 6 (ticks 65–69) | 2.00 · 2.00 | 2.00, 2.00, 2.00 |
-| successor-no-library | 0 / 6 | 0 / 6 | 4.21 · 4.21 | 2.60, 2.52, 2.46 |
-| successor-direct-control | package | 6 / 6 (ticks 64–67) | 2.00 · 2.00 | 2.00, 2.00, 2.00 |
+| Seed | Sealed baseline | Preserved: final best (validation / sealed) | Reset: final best (validation / sealed) |
+|---|---|---|---|
+| 11 | 13.43 | 7.26 / 9.33 | 8.72 / 9.88 |
+| 42 | 16.06 | 7.16 / 9.98 | 6.91 / 9.09 |
+| 77 | 14.90 | 8.60 / 10.20 | 10.15 / 11.45 |
+| 5 | 12.63 | 6.00 / 7.54 | 7.75 / 10.04 |
+| 23 | 13.05 | 6.51 / 8.26 | 7.06 / 8.21 |
+| **mean of worlds (sealed)** | | **9.06** | **9.73** |
 
-Charged energy per alloy for the whole settlement, by seed:
+"Final best" is the best accessible admitted workflow at the closing freeze, chosen by validation score. Lower is better.
 
-- library: 2.76, 2.87, 2.80
-- no library: 3.31, 3.32, 3.26
+**What this does and does not show:**
 
-Ore left at the end of the window: 236–244, so there was no depletion.
+- **Preserved knowledge helped in 3 of 5 worlds on sealed cases** (11, 77 and 5). It was worse in 42 and roughly tied in 23. Validation shows a larger and more consistent advantage (4 of 5), but validation is adaptive: every submission returned one bit about it.
+- **Improvement across generations happened, but mostly once:**
+  - The second cohort's best created workflow improved on the first cohort's on sealed cases in **all 5** preserved worlds. In seed 42 the gain was marginal (10.02 → 9.98).
+  - In the **reset** condition, by contrast, the second cohort's best created workflow was *worse* than the first cohort's on sealed cases in all 5 worlds, because it restarted from the baseline. Sealed scores went 10.49→11.85, 10.02→11.29, 11.73→14.57, 8.80→9.81 and 8.48→10.08.
+  - The third cohort improved on sealed cases in only **1 of 5** preserved worlds (seed 77: 10.93 → 10.20). In seed 23 it created no admitted workflow.
+  - In seed 11, the third cohort's revision beat its inherited parent on validation (7.68 → 7.26) but was *worse* on sealed cases (9.00 → 9.33). That is overfitting to the adaptive validation set.
+  - In seeds 42 and 5, the third cohort's best created workflow was worse on both measures than what it inherited.
+  - **Descendants retained knowledge, and the first descendants improved it; later descendants mostly did not.**
+- **Cross-generation revisions:** 158 attempts across the preserved worlds, 15 admitted (9.5%). Admitted means it beat its inherited parent on the same validation cases.
+- **Lineages:** preserved worlds built deeper lineages (final generation 5–8 against 3–4 in reset).
+- **Performance level 7.5** (validation): reached in 4/5 preserved worlds against 3/5 reset. Level 6.5 was reached only once (seed 5, preserved, at tick 88).
+- **The search, not resources, is the limit.** No cohort got near the per-case lower bound of about 4.3–4.9. The offline researcher's first-improvement hill-climb with 16 proposals per lifetime, guided only by 24 development cases, overfits the adaptive validation set and stalls by the third generation.
 
-### Controlled succession, 20 agents (declared `ore_per_site: 960`)
+## Performance (v0.4.0)
 
-Parity was verified for all seeds. Library successors: 6 of 6 acquired the procedure (ticks 63–65), 6 of 6 showed a saving, at 2.00. No-library successors: 0 of 6, pooled 4.19. Settlement production energy per alloy was 2.00 vs 2.18–2.22. 1,948–1,976 ore remained.
-
-At the default ore scale, 20 agents left only 42–54 ore at tick 60, and every seed was correctly marked **ineligible**.
-
-### Live continuation (separate experiment; successor researchers; invention open; ticks 62–161)
-
-- **Library successors** learned the inherited procedure at tick 63. Each proposed its three neighbours, and all were rejected (`no improvement over parent`, against a 24-energy parent). No new verified creator appeared.
-- **No-library successors** made 8 proposals each and re-verified the optimum at tick 72.
-- Production efficiency ended equal (2.00). Total charged energy per alloy differed: 2.93–2.96 with the library, 3.05–3.09 without (8 agents).
-- **Caveat:** 8-agent live runs ran out of ore before tick 161 (flagged `depleted`). 20-agent live runs did not (792–864 ore left).
-
-### Descriptive whole-run comparison (`paired-phase-3`, 21/21 completed and replay-verified)
-
-| Condition | Production energy / alloy | Charged energy / alloy |
-|---|---|---|
-| sharing | 2.16, 2.13, 2.20 | 3.11, 3.10, 3.15 |
-| restricted | 3.56, 3.73, 3.64 | 4.46, 4.65, 4.55 |
-| baseline | 4.10, 4.20, 4.17 | 4.91, 5.02, 4.99 |
-
-Retirement rows are in `comparison.json`. They are descriptive only.
-
-## Performance
-
-Ryzen 7 6800HS, Windows 11, Python 3.10.11, SQLite WAL with `synchronous=FULL`, seed 42.
+Measured with the new systems active by `python -m genesis.profiling`. Setup: Ryzen 7 6800HS, Windows 11, Python 3.10.11, SQLite WAL with `synchronous=FULL`, seed 42, 3 × 100-tick timing runs plus a separate cProfile run and a separate tracemalloc run. Files: `evidence/v0.4.0/benchmark/`.
 
 | Measure | 8 agents | 20 agents |
 |---|---|---|
-| Committed tick, full-copy reference (3 × 100 ticks, median · run-to-run SD) | 65.1 ms · 0.3 | 215.7 ms · 3.5 |
-| Committed tick, scoped copy (same protocol) | **33.3 ms** · 0.7 (30.3 ticks/s) | **58.2 ms** · 2.2 (16.9 ticks/s) |
-| 200-tick benchmark, committed median / p95 | 42.5 / 65.3 ms (22.5 ticks/s) | 60.2 / 82.7 ms (16.1 ticks/s) |
-| Engine only (`advance`, in memory), median | 12.5 ms | 25.1 ms |
-| Profiled share of state copying, before → after | 85% → 64% | 93% → 65% |
-| Other notable shares after (overlapping) | observations 19%, canonical JSON 13%, SHA-256 12%, commit + fsync 6% | 21%, 14%, 12%, 5% |
-| UI payload `GET /api/runs/{id}` after 100 ticks | 46 ms, 152 KB uncompressed | 63 ms, 214 KB |
-| Export after 100 ticks: build / serialise / gzip | 0.08 / 0.03 / 0.08 s; 2.59 MB → 0.19 MB | 0.19 / 0.05 / 0.16 s; 4.65 MB → 0.37 MB |
-| Snapshot size / serialise time | 118 KB / 6.3 ms | 196 KB / 10.9 ms |
-| Tick records (200-tick run) | 15.2 KB per tick | 26.1 KB per tick |
-| Peak traced Python memory (separate pass) | 0.9–2.1 MB | 1.6–3.9 MB |
+| **workshop-1 with teaching on** (sharing off, so lessons occur): committed tick median ± run-to-run SD | 56.9 ± 1.1 ms (19.1 ticks/s) | 79.3 ± 3.5 ms (12.8 ticks/s) |
+| Legacy phase-1, same protocol | 32.1 ± 0.5 ms (30.2 ticks/s) | 62.6 ± 3.6 ms (16.5 ticks/s) |
+| v0.3.0 phase-1, for comparison (earlier evidence) | 33.3 ms | 58.2 ms |
+| Profiled shares, workshop at 20 agents (overlapping) | state copy 64%, observations 17%, canonical JSON 17%, SHA-256 12% | state copy 70%, observations 20%, canonical JSON 14%, SHA-256 11% |
+| UI payload `GET /api/runs/{id}` after 100 ticks, workshop | 76 ms, 293 KB | 103 ms, 385 KB |
+| Export after 100 ticks, workshop (uncompressed → gzip) | 3.8 MB → 0.29 MB | 6.8 MB → 0.58 MB |
+| Peak traced Python memory (separate 30-tick pass) | 2.3 MB | 4.0 MB |
 
-**Notes:**
+**Reading:**
 
-- cProfile shares overlap, because nested calls are counted at each level, and profiling adds overhead.
-- In the earlier pre-release profile the commit and fsync time was hidden in `Connection.__exit__`. The profiler now captures it.
-- The 200-tick benchmark is slower per tick than the 100-tick profiles, because state, events and artifacts grow over the run.
-- Both populations exceed the UI's maximum of 10 ticks per second.
+- Workshop worlds cost more per tick than phase-1. They store development and validation case tables on every artifact, which enlarges state copying, hashing and serialisation.
+- 20 agents with teaching active stay above the UI's maximum of 10 ticks per second.
+- Phase-1 at 8 agents is unchanged within noise. At 20 agents it is about 7% slower than the v0.3.0 measurement, from the additional state fields.
 
-## Not implemented
+## Corrections and clarifications to earlier claims
 
-- **LLM controller:** the interface exists, but no adapter. Building one needs your choice of provider and budget.
-- **Teaching, institutions, governance, currency, contracts, reputation:** not implemented.
-- **Successor births** are scheduled by the scenario. There is no reproduction, and nothing is inherited beyond the declared package.
-- **Social behaviour** (trades and gifts) is scripted.
-- **Invention** reaches its optimum within about 20 ticks, so the inheritance results concern *retention* of a solved procedure, not cumulative improvement across generations.
+- v0.3.0 labelled its partitions "training" and "held-out". Both were adaptive. The legacy label `verified` is kept, and its meaning is now stated explicitly.
+- v0.3.0 said the controller "learns before searching". In `workshop-1`, producers originally never upgraded from a superseded workflow. This was found and fixed during calibration, before the freeze.
 
-## Known issues and limitations
+## Not implemented / limitations
 
-- The controllers are deterministic, so variation across seeds is environmental only. Three seeds are a smoke test.
-- Successors in one world are not independent samples. Pooled successor ratios are labelled as such.
-- Partition-level evaluation feedback leaks aggregate information about the held-out set over repeated tests.
-- `artifact.uses` keeps only the last 64 uses. The observatory therefore labels a "first saving" taken from that list as the earliest *retained* one; the reducer gives the exact first tick.
-- The 8-agent live continuation depletes ore before its window ends.
+- **LLM controller:** not implemented. The `AgentController` interface is unchanged.
+- **Components:** the offline researcher composes only by recombining fields, never by creating components. Component calls exist and are tested but do not appear in the experiments.
+- **Teaching scope:** tested between agents of the same period (Experiment A). Experiment B used library access only.
+- **Seeds:** with deterministic controllers, seeds vary only the environment. Five worlds per condition is a smoke test, and agents within a world are not independent.
+- **Evaluation partitions:** development and validation cases are reused across cohorts, so validation becomes increasingly adaptive over generations. Only sealed scores are independent, and only for frozen artifacts.

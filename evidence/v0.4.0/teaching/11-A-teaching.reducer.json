@@ -1,0 +1,501 @@
+{
+  "reducer": "genesis.reducer/1",
+  "origin_tick": 60,
+  "last_tick": 121,
+  "removal_tick": 61,
+  "units": {
+    "energy": "integer energy points",
+    "alloy": "units produced by produce/use_artifact events",
+    "window": "committed ticks t with start < t <= end"
+  },
+  "starting_inventory": "excluded from produced_alloy; produced_alloy counts only production events after origin_tick",
+  "theoretical_max_alloy_from_initial_ore": 1605,
+  "ore_at_origin": 3210,
+  "final_alloy_inventory": 357,
+  "overall": {
+    "produced_alloy": 192,
+    "production_energy": 1246,
+    "proposals": 0,
+    "verified": 0,
+    "rejected_tests": 0,
+    "revisions_verified": 0,
+    "library_acquisitions": 0,
+    "use_executions": 140,
+    "uses_with_saving": 69,
+    "independent_adoptions": 2,
+    "active_agent_ticks": 488,
+    "rejected_actions": 3,
+    "accepted_actions": 485,
+    "submissions": 0,
+    "admitted": 0,
+    "dev_tests": 0,
+    "session_ticks": 24,
+    "batch_busy_ticks": 45,
+    "teaching_offers": 3,
+    "acquisitions_by_teaching": 2,
+    "failed_sessions": 1,
+    "interrupted_sessions": 0,
+    "energy_by_category": {
+      "production": 1201,
+      "gathering": 162,
+      "none": 0,
+      "fatigue": 484,
+      "storage": 4,
+      "eating": 0,
+      "exchange": 6,
+      "teaching": 21,
+      "instruction": 9,
+      "practice": 45
+    },
+    "charged_action_energy": 1448,
+    "total_energy_including_fatigue": 1932,
+    "production_energy_per_alloy": {
+      "value": 6.489583,
+      "status": "available",
+      "numerator": 1246,
+      "denominator": 192,
+      "unit": "energy per produced alloy"
+    },
+    "charged_energy_per_alloy": {
+      "value": 7.541667,
+      "status": "available",
+      "numerator": 1448,
+      "denominator": 192,
+      "unit": "all action-charged energy per produced alloy"
+    },
+    "total_energy_per_alloy": {
+      "value": 10.0625,
+      "status": "available",
+      "numerator": 1932,
+      "denominator": 192,
+      "unit": "action energy plus fatigue per produced alloy"
+    }
+  },
+  "windows": {
+    "window": {
+      "label": "window",
+      "start_exclusive": 61,
+      "end_inclusive": 121,
+      "ticks": 60,
+      "produced_alloy": 183,
+      "production_energy": 1185,
+      "proposals": 0,
+      "verified": 0,
+      "rejected_tests": 0,
+      "revisions_verified": 0,
+      "library_acquisitions": 0,
+      "use_executions": 135,
+      "uses_with_saving": 67,
+      "independent_adoptions": 2,
+      "active_agent_ticks": 480,
+      "rejected_actions": 3,
+      "accepted_actions": 477,
+      "submissions": 0,
+      "admitted": 0,
+      "dev_tests": 0,
+      "session_ticks": 24,
+      "batch_busy_ticks": 41,
+      "teaching_offers": 3,
+      "acquisitions_by_teaching": 2,
+      "failed_sessions": 1,
+      "interrupted_sessions": 0,
+      "energy_by_category": {
+        "production": 1140,
+        "storage": 4,
+        "eating": 0,
+        "none": 0,
+        "fatigue": 476,
+        "exchange": 6,
+        "gathering": 161,
+        "teaching": 21,
+        "instruction": 9,
+        "practice": 45
+      },
+      "charged_action_energy": 1386,
+      "total_energy_including_fatigue": 1862,
+      "production_energy_per_alloy": {
+        "value": 6.47541,
+        "status": "available",
+        "numerator": 1185,
+        "denominator": 183,
+        "unit": "energy per produced alloy"
+      },
+      "charged_energy_per_alloy": {
+        "value": 7.57377,
+        "status": "available",
+        "numerator": 1386,
+        "denominator": 183,
+        "unit": "all action-charged energy per produced alloy"
+      },
+      "total_energy_per_alloy": {
+        "value": 10.174863,
+        "status": "available",
+        "numerator": 1862,
+        "denominator": 183,
+        "unit": "action energy plus fatigue per produced alloy"
+      }
+    }
+  },
+  "remaining": {
+    "accessible": {
+      "ore": 2678,
+      "food": 513
+    },
+    "inaccessible": {
+      "ore": 0,
+      "food": 0
+    },
+    "rule": "sites, active agents, and settlement storage with at least one active member are accessible"
+  },
+  "population": {
+    "agents_ever": 10,
+    "active_at_end": 8,
+    "retired_at_end": 2,
+    "inactive_at_end": 0
+  },
+  "successors": [
+    {
+      "successor": "a08",
+      "predecessor": "a00",
+      "policy": "none",
+      "role": "producer",
+      "package": [],
+      "first_library_acquisition": null,
+      "first_acquisition_by_teaching": {
+        "tick": 75,
+        "session": "63:a01",
+        "artifact": "584c155d2c6c22cae0abec545501e9f99f5fe70c655f2a961bd7532d94bcbd7c"
+      },
+      "first_use_with_saving": {
+        "tick": 84,
+        "event": "83:a08",
+        "artifact": "584c155d2c6c22cae0abec545501e9f99f5fe70c655f2a961bd7532d94bcbd7c",
+        "energy": 9,
+        "baseline_energy": null,
+        "cost_per_alloy": 8.5,
+        "baseline_cost_per_alloy": 15.0
+      },
+      "use_executions": 10,
+      "uses_with_saving": 5,
+      "produced_alloy": 21,
+      "production_energy_per_alloy": {
+        "value": 6.571429,
+        "status": "available",
+        "numerator": 138,
+        "denominator": 21,
+        "unit": "energy per produced alloy"
+      }
+    },
+    {
+      "successor": "a09",
+      "predecessor": "a04",
+      "policy": "none",
+      "role": "producer",
+      "package": [],
+      "first_library_acquisition": null,
+      "first_acquisition_by_teaching": {
+        "tick": 86,
+        "session": "75:a05",
+        "artifact": "1a4e99235f38114e8e09b99d4c50688afd7f8700b2c601c10358325b1006a41a"
+      },
+      "first_use_with_saving": {
+        "tick": 89,
+        "event": "88:a09",
+        "artifact": "1a4e99235f38114e8e09b99d4c50688afd7f8700b2c601c10358325b1006a41a",
+        "energy": 5,
+        "baseline_energy": null,
+        "cost_per_alloy": 9.0,
+        "baseline_cost_per_alloy": 10.0
+      },
+      "use_executions": 14,
+      "uses_with_saving": 7,
+      "produced_alloy": 19,
+      "production_energy_per_alloy": {
+        "value": 6.421053,
+        "status": "available",
+        "numerator": 122,
+        "denominator": 19,
+        "unit": "energy per produced alloy"
+      }
+    }
+  ],
+  "reconciliation": {
+    "holdings_match_final_state": true,
+    "mismatched_owners": [],
+    "statuses_match_final_state": true,
+    "mismatched_statuses": []
+  },
+  "sessions": [
+    {
+      "session": "63:a01",
+      "teacher": "a01",
+      "learner": "a08",
+      "artifact": "584c155d2c6c22cae0abec545501e9f99f5fe70c655f2a961bd7532d94bcbd7c",
+      "offered_tick": 64,
+      "accepted_tick": 65,
+      "instruction_done_tick": 68,
+      "practice": [
+        {
+          "baseline_cost_per_alloy": 7.0,
+          "cost_per_alloy": 7.0,
+          "decision": {
+            "batch": 1,
+            "flux": 0,
+            "heat": 1,
+            "mode": 0
+          },
+          "event": "68:a08",
+          "measures": {
+            "energy": 17,
+            "humidity": 3,
+            "ore": 4,
+            "phase": 2
+          },
+          "passed": true,
+          "tick": 69
+        },
+        {
+          "baseline_cost_per_alloy": 10.0,
+          "cost_per_alloy": 7.5,
+          "decision": {
+            "batch": 2,
+            "flux": 0,
+            "heat": 1,
+            "mode": 0
+          },
+          "event": "74:a08",
+          "measures": {
+            "energy": 23,
+            "humidity": 3,
+            "ore": 6,
+            "phase": 7
+          },
+          "passed": true,
+          "tick": 75
+        }
+      ],
+      "acquired_tick": 75,
+      "outcome": "acquired",
+      "reason": null,
+      "ended_tick": 75,
+      "teacher_energy": 7,
+      "learner_energy": 25,
+      "teacher_ticks": 4,
+      "learner_ticks": 6,
+      "first_independent_use_tick": 81
+    },
+    {
+      "session": "63:a05",
+      "teacher": "a05",
+      "learner": "a09",
+      "artifact": "1a4e99235f38114e8e09b99d4c50688afd7f8700b2c601c10358325b1006a41a",
+      "offered_tick": 64,
+      "accepted_tick": 65,
+      "instruction_done_tick": 69,
+      "practice": [
+        {
+          "baseline_cost_per_alloy": 14.0,
+          "cost_per_alloy": 5.0,
+          "decision": {
+            "batch": 1,
+            "flux": 0,
+            "heat": 0,
+            "mode": 1
+          },
+          "event": "69:a09",
+          "measures": {
+            "energy": 16,
+            "humidity": 0,
+            "ore": 4,
+            "phase": 11
+          },
+          "passed": true,
+          "tick": 70
+        },
+        {
+          "baseline_cost_per_alloy": 15.0,
+          "cost_per_alloy": 20.0,
+          "decision": {
+            "batch": 1,
+            "flux": 0,
+            "heat": 0,
+            "mode": 1
+          },
+          "event": "72:a09",
+          "measures": {
+            "energy": 27,
+            "humidity": 7,
+            "ore": 6,
+            "phase": 6
+          },
+          "passed": false,
+          "tick": 73
+        }
+      ],
+      "acquired_tick": null,
+      "outcome": "failed",
+      "reason": "practice outcome costlier than the baseline",
+      "ended_tick": 73,
+      "teacher_energy": 7,
+      "learner_energy": 16,
+      "teacher_ticks": 4,
+      "learner_ticks": 6,
+      "first_independent_use_tick": null
+    },
+    {
+      "session": "75:a05",
+      "teacher": "a05",
+      "learner": "a09",
+      "artifact": "1a4e99235f38114e8e09b99d4c50688afd7f8700b2c601c10358325b1006a41a",
+      "offered_tick": 76,
+      "accepted_tick": 79,
+      "instruction_done_tick": 82,
+      "practice": [
+        {
+          "baseline_cost_per_alloy": 10.0,
+          "cost_per_alloy": 9.0,
+          "decision": {
+            "batch": 1,
+            "flux": 0,
+            "heat": 0,
+            "mode": 1
+          },
+          "event": "84:a09",
+          "measures": {
+            "energy": 33,
+            "humidity": 3,
+            "ore": 7,
+            "phase": 8
+          },
+          "passed": true,
+          "tick": 85
+        },
+        {
+          "baseline_cost_per_alloy": 10.0,
+          "cost_per_alloy": 9.0,
+          "decision": {
+            "batch": 1,
+            "flux": 0,
+            "heat": 0,
+            "mode": 1
+          },
+          "event": "85:a09",
+          "measures": {
+            "energy": 27,
+            "humidity": 2,
+            "ore": 4,
+            "phase": 8
+          },
+          "passed": true,
+          "tick": 86
+        }
+      ],
+      "acquired_tick": 86,
+      "outcome": "acquired",
+      "reason": null,
+      "ended_tick": 86,
+      "teacher_energy": 7,
+      "learner_energy": 13,
+      "teacher_ticks": 4,
+      "learner_ticks": 6,
+      "first_independent_use_tick": 89
+    }
+  ],
+  "freezes": [
+    {
+      "tick": 121,
+      "cohort": 0,
+      "reason": "run closed",
+      "rule": "lowest validation score among admitted or superseded workflows (legacy: lowest evaluation energy); ties by creation tick then id; no sealed input",
+      "cohort_best": {
+        "artifact": "584c155d2c6c22cae0abec545501e9f99f5fe70c655f2a961bd7532d94bcbd7c",
+        "cohort": 0,
+        "creator": "a00",
+        "dev_score": 10.4,
+        "generation": 1,
+        "origin": "search-revision",
+        "selection_score": 9.709677,
+        "status_at_freeze": "admitted"
+      },
+      "accessible_best": {
+        "artifact": "584c155d2c6c22cae0abec545501e9f99f5fe70c655f2a961bd7532d94bcbd7c",
+        "cohort": 0,
+        "creator": "a00",
+        "dev_score": 10.4,
+        "generation": 1,
+        "origin": "search-revision",
+        "selection_score": 9.709677,
+        "status_at_freeze": "admitted"
+      }
+    }
+  ],
+  "cohort_transitions": [],
+  "lineage": [],
+  "cross_generation": {
+    "revision_attempts": 0,
+    "admitted_revisions": 0,
+    "definition": "a proposal whose parent was created by an earlier cohort; admitted means it beat that parent on the same validation cases"
+  },
+  "agents": {
+    "a00": {
+      "produced_alloy": 3,
+      "production_energy": 20,
+      "use_executions": 1,
+      "uses_with_saving": 1
+    },
+    "a01": {
+      "produced_alloy": 25,
+      "production_energy": 154,
+      "use_executions": 13,
+      "uses_with_saving": 8
+    },
+    "a02": {
+      "produced_alloy": 28,
+      "production_energy": 184,
+      "use_executions": 16,
+      "uses_with_saving": 8
+    },
+    "a03": {
+      "produced_alloy": 24,
+      "production_energy": 151,
+      "use_executions": 14,
+      "uses_with_saving": 7
+    },
+    "a04": {
+      "produced_alloy": 1,
+      "production_energy": 7,
+      "use_executions": 1,
+      "uses_with_saving": 0
+    },
+    "a05": {
+      "produced_alloy": 19,
+      "production_energy": 127,
+      "use_executions": 19,
+      "uses_with_saving": 9
+    },
+    "a06": {
+      "produced_alloy": 26,
+      "production_energy": 170,
+      "use_executions": 26,
+      "uses_with_saving": 13
+    },
+    "a07": {
+      "produced_alloy": 26,
+      "production_energy": 173,
+      "use_executions": 26,
+      "uses_with_saving": 11
+    },
+    "a08": {
+      "produced_alloy": 21,
+      "production_energy": 138,
+      "use_executions": 10,
+      "uses_with_saving": 5
+    },
+    "a09": {
+      "produced_alloy": 19,
+      "production_energy": 122,
+      "use_executions": 14,
+      "uses_with_saving": 7
+    }
+  }
+}

@@ -96,3 +96,62 @@ python -m genesis.cli inherit --population 20 --ore-per-site 960 --out evidence/
 python -m genesis.cli compare --seeds 11 42 77 --ticks 160
 python -m genesis.cli reduce evidence/v0.3.0/inheritance/42-successor-library.json.gz
 ```
+
+---
+
+# Milestone 4 protocols (v0.4.0)
+
+The frozen protocol is [`evidence/v0.4.0/protocol/frozen-protocol.json`](../evidence/v0.4.0/protocol/frozen-protocol.json). It was written **after** calibration and **before** any evaluation seed ran. It contains:
+
+- the seeds, settings, objective, admission and selection rules, and performance levels
+- the SHA-256 commitment to the sealed case list
+- the git commit and the runtime-source hash
+
+## Calibration and evaluation split
+
+| | Seeds | Note |
+|---|---|---|
+| Calibration | 100, 101, 103 | Hidden workshop parameters differ from every evaluation seed |
+| Evaluation | 11, 42, 77, 5, 23 | Never run before the freeze |
+
+Calibration checks:
+
+- **No immediate saturation:** best validation scores 6.9–9.2, against a lower bound of about 4.4.
+- **Resource sufficiency:** about 2,300 ore remained after 180 ticks.
+- **Teaching completes:** 6/6 successors acquired a procedure, with failures and retries recorded.
+- **Parity holds:** physical parity at the boundaries.
+
+Settings frozen from calibration: cohorts of 60 ticks × 3, 900 ore per site, 16 proposals per researcher lifetime; for A, checkpoint 60 and window 60. Calibration outputs are in `evidence/v0.4.0/calibration/`.
+
+## Experiment A: `teaching-acquisition-1`
+
+1. Each seed runs a base world (`workshop-1`, library sharing, bounded search) to tick 60.
+2. **Eligibility:** every settlement has an admitted-workflow holder who is not a creator, and ore suffices for the window.
+3. Four continuations are forked from that committed state. At tick 61, the same admitted-workflow creators retire (inventory to storage), fresh producers replace them, and invention is frozen.
+
+| Continuation | Successors' knowledge path | Physical access |
+|---|---|---|
+| `teaching` | No library; costly teaching by existing holders | Identical |
+| `library` | Library inspection (2 energy) | Identical |
+| `no-transfer` | None | Identical |
+| `direct-control` | Labelled debug package | Identical |
+
+**Teaching-only boundary.** Successors lack the `library` capability. Direct packages are off. Messages cannot carry programs (two-word vocabulary plus `request_lesson`). Observations list only artifacts the agent holds or may access. The `teaching` flag is off in the other three conditions, so teaching is not a hidden path there. Physical parity is checked at the boundary, with only the policy fields masked.
+
+**Metrics** (from the reducer): instruction cost by role (energy and ticks), ticks to acquisition, session failures and interruptions with reasons, ticks to the first use with a saving, successor and settlement production energy per alloy, charged energy per alloy, and successors active at the end.
+
+## Experiment B: `cumulative-invention-1`
+
+- **Design:** both conditions start from the same world (`workshop-1`, library sharing within a cohort, bounded search, teaching off). Every 60 ticks the cohort is replaced, for 3 cohorts.
+  - `preserved`: the library shows earlier cohorts' admitted workflows.
+  - `reset`: the library hides them.
+- **Parity:** the state at tick 60 must be identical, with only the policy text masked.
+- **Equal opportunity:** each researcher has the same 16-proposal budget, and all spending is reported.
+- **Selection:** the engine freezes, by validation score, the best workflow *created by* the ending cohort and the best *accessible to* it.
+- **Final evaluation:** sealed scores are computed only after every run closes (`sealed-results.json`).
+- **Improvement:**
+  - A *cross-generation revision attempt* is a proposal whose parent came from an earlier cohort.
+  - An *admitted* attempt beat that parent on the same validation cases.
+  - The sealed score of frozen artifacts, by cohort, is the independent check.
+- **Performance levels** (validation cost per alloy, fixed in advance): 11.0, 9.0, 7.5, 6.5. The report gives the first tick each level is reached.
+- **Replication unit:** one world. Five seeds is exploratory, not a sample size.

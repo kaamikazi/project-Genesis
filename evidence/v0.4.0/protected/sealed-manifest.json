@@ -1,0 +1,11 @@
+{
+  "version": "workshop-sealed-1",
+  "task": "workshop-1",
+  "sealed_seed": 1800730532,
+  "size": 48,
+  "disjoint_from": [
+    "dev-24",
+    "validation-24"
+  ],
+  "commitment": "e44450c21be34468ebec9793036165a1869e0f404e4fec92c1588dbcc541d9e0"
+}

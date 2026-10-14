@@ -79,6 +79,7 @@ class SimulationService:
 def create_app(db_path: str | Path | None = None, evidence_dir: str | Path | None = None) -> FastAPI:
     store = Store(db_path or os.getenv("GENESIS_DB", "data/genesis.sqlite"))
     evidence = Path(evidence_dir or os.getenv("GENESIS_EVIDENCE", Path(__file__).resolve().parent.parent / "evidence" / "v0.3.0"))
+    milestone4 = Path(os.getenv("GENESIS_EVIDENCE_M4", evidence.parent / "v0.4.0"))
     service = SimulationService(store)
 
     @asynccontextmanager
@@ -120,8 +121,14 @@ def create_app(db_path: str | Path | None = None, evidence_dir: str | Path | Non
             path = evidence / name
             return json.loads(path.read_text(encoding="utf-8")) if path.exists() else None
         report, inheritance = load("comparison/comparison.json"), load("inheritance/inheritance.json")
+
+        def load_m4(name: str):
+            path = milestone4 / name
+            return json.loads(path.read_text(encoding="utf-8")) if path.exists() else None
         return {"available": report is not None, "report": report, "inheritance": inheritance,
-                "inheritance_twenty": load("twenty/inheritance/inheritance.json"), "evidence_dir": evidence.name}
+                "inheritance_twenty": load("twenty/inheritance/inheritance.json"), "evidence_dir": evidence.name,
+                "teaching": load_m4("teaching/teaching.json"), "cumulative": load_m4("cumulative/cumulative.json"),
+                "sealed": load_m4("cumulative/sealed-results.json"), "milestone4_dir": milestone4.name}
 
     @app.post("/api/runs")
     def create(config: Scenario):

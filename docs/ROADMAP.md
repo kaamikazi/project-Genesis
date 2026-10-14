@@ -10,8 +10,8 @@ Each milestone depends on the ones above it. Statuses: **done** (implemented and
 | F4 | Observatory, server-owned clock, paired runner, benchmark | F2, F3 | done (v0.2) |
 | F5 | Verified revisions with lineage; descriptive creator-removal comparison | F2 | done (v0.2) |
 | M3 | **Audit and inheritance (v0.3.0).** Audit of v0.2 claims; independent event reducer; usable storage; knowledge as a capability; retirement and succession with typed inheritance packages; controlled succession experiment with physical parity; cross-generation revision attempts; observation-boundary repairs; copy-on-write optimisation; 20-agent validation | F1–F5 | **done** |
-| M4 | **Teaching and acquisition costs.** A `teach` action between agents, with costs on both sides; the recipient must demonstrate the skill before it counts. Memory summaries that keep source references. Inheritance experiments where the only path is teaching. | M3 | next |
-| M5 | **One LLM controller under budgets.** A provider adapter behind `AgentController`, receiving the existing restricted observation. Budgets per run and per agent (calls, tokens, time, price), counting failures and repair calls. Recorded and redacted prompts and responses. An explicit fallback. Replay from recorded decisions. Model calls only for deliberation. Simulation skills kept separate from pretrained knowledge. | M3 (M4 helps) | next, needs your choice of provider and budget |
+| M4 | **Protected evaluation, costly teaching, richer invention (v0.4.0).** Development, validation and sealed evaluation roles; freezes; a teaching session contract with costs, reservations, interruption and assessed acquisition; the `workshop-1` task; cohort lifecycle; Experiments A and B | M3 | **done** |
+| M5 | **One LLM controller under budgets.** A provider adapter behind `AgentController`, receiving the existing restricted observation. Budgets per run and per agent (calls, tokens, time, price), counting failures and repair calls. Recorded and redacted prompts and responses. An explicit fallback. Replay from recorded decisions. Model calls only for deliberation. Simulation skills kept separate from pretrained knowledge. | M4 | next, needs your choice of provider and budget |
 | M6 | **Settlement institutions.** Storage policies decided by members, library governance, shared infrastructure with maintenance, reputation from observed interactions | M4 | deferred |
 | M7 | **Richer invention.** A larger program language, multi-step production chains, problems where the optimum is not reachable in about 20 ticks, held-out *mechanics* (not just held-out cases) | M3 | deferred |
 | M8 | **Multiple settlements, richer geography, longer worlds**, with active-agent scheduling for larger populations | M3, M6 | deferred |
@@ -19,16 +19,10 @@ Each milestone depends on the ones above it. Statuses: **done** (implemented and
 | M10 | **Generalisation across unfamiliar worlds** | M7, M8 | deferred |
 | M11 | **Distributed simulation**, only if measurements justify it | all | deferred |
 
-## Immediate next step: M4 (teaching)
+## Immediate next step
 
-**Prerequisites, all present in v0.3.0:**
+[IMPLEMENTATION_STATUS](IMPLEMENTATION_STATUS.md) records what Milestone 4 found. The dependency-aware options are:
 
-- the `library` capability split, which makes a no-library control possible
-- successor agents
-- the reducer's acquisition and use milestones
-
-**Design question to settle first.** Teaching must have a cost and a failure mode. Otherwise it is just a library with another name.
-
-**Why M7 matters soon.** In v0.3.0 the optimum (24 energy) is reached within about 20 ticks. Every inheritance result is therefore about keeping a solved procedure, not about building on it. Cumulative improvement across generations needs a problem that cannot be solved in one lifetime.
-
-**Performance headroom.** 20 agents run comfortably above the UI's 10 ticks per second (see [IMPLEMENTATION_STATUS](IMPLEMENTATION_STATUS.md)). Larger populations (M8) will need event-driven scheduling and less per-tick copying.
+- **M7a: improve the search before scaling it.** The offline researcher's first-improvement hill-climb with a 16-proposal budget is the main limit on cumulative improvement in `workshop-1`. A better offline search, using the same budget and the same evaluation roles, would show whether inherited knowledge compounds when each generation can actually extend it. No model is needed.
+- **M5: an LLM controller**, using the protected evaluation roles built here. It needs your provider and budget decision.
+- **M6: institutions** (library governance, storage policies). Teaching now exists to build on.

@@ -32,9 +32,25 @@ At tick 30:
 
 Now repeat with *No library access*. The chain stops at the access policy and is marked incomplete, and the successor keeps producing in fixed mode at higher cost.
 
+## 3b. Watch a lesson (v0.4)
+
+1. Click **＋ New world**.
+2. Choose **workshop-1**.
+3. Retire procedure creators at tick 40, with fresh successors and **No library access**.
+4. Tick **Enable teaching sessions**, then press ▶.
+
+What you'll see:
+
+- **The request.** A successor with nothing to use sends `request_lesson`, and a holder offers a lesson.
+- **Teaching sessions.** The table shows each stage, both participants' instruction work (3 each), the practice runs, the costs per role, and why any lesson failed. For example, *practice outcome costlier than the baseline*.
+- **Evidence trail.** Each learner's trail runs: ancestor created → teaching began → practised → acquisition criterion → independent use → descendant revision → evaluator decision. The first missing or failed step is shown, and steps that cannot apply (invention frozen) are marked n/a.
+- **Procedure evidence.** For workshop artifacts, the development role (per-case table), the validation role (an admission bit, labelled adaptive) and a note that sealed scores exist only after a run closes are shown separately.
+
+For cohorts, tick **Scheduled cohorts (3 × 60 ticks)** instead. **Generation history** then lists each freeze, the cohort best and the accessible best by validation score, and the lineage across cohorts.
+
 ## 4. The controlled experiment (Experiments)
 
-This page reads `evidence/v0.3.0/` (regenerate it with `python tools/generate_evidence.py`).
+This page reads `evidence/v0.4.0/` for Milestone 4 (Experiments A and B, sealed results) and `evidence/v0.3.0/` for the historical Milestone 3 reports. Regenerate with `python tools/generate_evidence_m4.py` (v0.4) or `python tools/generate_evidence.py` (v0.3).
 
 - **Inheritance diagnostic.** For each seed, three continuations forked from one checkpoint, with a parity badge showing that the physical state was identical at the boundary. For every successor it shows the library acquisition tick, the first saving, uses, energy per alloy, settlement totals and the ore left. Aggregates show the mean of ratios and the pooled ratio separately.
 - **Live continuation.** Successor researchers with invention open: who learned, who re-derived the procedure by search, and the total charged energy per alloy.

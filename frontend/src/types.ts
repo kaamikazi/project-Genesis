@@ -6,7 +6,7 @@ export interface Agent {
   role: string; inventory: Inventory; known: string[]; used: string[]; seen: string[];
   search_count: number; created_tick: number; last_result: WorldEvent | null; memories: WorldEvent[];
   goals: string[]; beliefs: Record<string, unknown>[]; relationships: Record<string, number>; capabilities: string[];
-  predecessor: string | null; successor: string | null; retired_tick: number | null;
+  predecessor: string | null; successor: string | null; retired_tick: number | null; cohort?: number; busy_until?: number;
   inheritance: { policy: 'library' | 'none' | 'direct'; package: string[]; role: string; provenance: string; memories_inherited: number; skills_inherited: number } | null;
 }
 export interface Use { agent: string; tick: number; energy: number; baseline_energy: number; phase: number; mode: number; event: string }
@@ -15,11 +15,25 @@ export interface Artifact {
   id: string; creator: string; home: string; created_tick: number; creation_event: string;
   status: string; parent: string | null; generation: number; superseded_by: string | null; content: { program: Record<string, unknown> }; claim: string;
   evaluation: { status: string; scope: string; criterion: string; cases: EvaluationCase[]; energy: number; baseline_energy: number; failures: string[]; parent_energy?: number } | null;
-  transmissions: { from: string; to: string; tick: number; via: string; event: string }[];
+  transmissions: { from: string; to: string; tick: number; via: string; event: string; session?: string }[];
   uses: Use[]; first_uses: Record<string, Use>; adopters: string[];
+  task?: 'workshop-1'; kind?: 'workflow' | 'component'; cohort?: number; origin?: string; sources?: string[];
+  development?: DevRecord | null; validation?: ValRecord | null;
 }
+export interface DevCase { phase: number; humidity: number; ore: number; energy: number; feasible: boolean; cost: number; alloy: number; reason?: string }
+export interface DevRecord { role: string; version: string; partition: string; score: number | null; baseline_score: number | null; cases: DevCase[]; objective: string }
+export interface ValRecord { role: string; partition: string; score: number | null; baseline_score: number | null; parent_score: number | null; admitted: boolean; criterion: string; feedback_policy: string }
+export interface PracticeRun { tick: number; event: string; passed: boolean; cost_per_alloy?: number; baseline_cost_per_alloy?: number | null; energy?: number; baseline_energy?: number; decision?: Record<string, number>; measures?: Record<string, number> }
+export interface Session { id: string; contract: string; teacher: string; learner: string; artifact: string; task: string; stage: string; offered_tick: number; expires: number;
+  required_work: number; teacher_work: number; learner_work: number; practice_required: number; practice: PracticeRun[]; prerequisites: string[];
+  costs: { teacher_energy: number; learner_energy: number; teacher_ticks: number; learner_ticks: number }; last_progress: number; accepted_tick: number | null;
+  instruction_done_tick: number | null; assessment: { tick: number; passed: boolean; criterion: string } | null; acquired_tick: number | null; ended_tick: number | null;
+  reason: string | null; first_independent_use: { tick: number; event: string; cost_per_alloy?: number; baseline_cost_per_alloy?: number | null } | null }
+export interface Freeze { tick: number; cohort: number; reason: string; rule: string; cohort_best: FreezePick | null; accessible_best: FreezePick | null }
+export interface FreezePick { artifact: string; selection_score: number; creator: string; cohort: number; generation: number; origin?: string; status_at_freeze: string; dev_score?: number | null }
 export type Removal = 'none' | 'creators' | 'matched';
 export interface Scenario { seed: number; width: number; height: number; population: number; sharing: boolean; controller: 'search' | 'baseline'; max_ticks: number; snapshot_every: number; search_budget: number; removal?: Removal; removal_tick?: number;
+  task?: 'phase-1' | 'workshop-1'; teaching?: boolean; lifecycle?: 'single' | 'cohorts'; cohort_ticks?: number; cohort_count?: number; cross_cohort_access?: boolean; ore_per_site?: number;
   succession?: 'none' | 'fresh'; successor_role?: 'producer' | 'researcher'; successor_access?: 'library' | 'none' | 'direct'; invention?: 'open' | 'frozen'; controller_seed?: number }
 export interface Metrics { accepted: number; rejected: number; produced: number; production_energy: number; search_proposals: number; revisions_verified?: number; evaluation_cases: number; adoptions: number; transfers: number; controller_failures: number; model_calls: number; tokens: number; cost_usd: number; active_population?: number; verified_artifacts?: number; energy_per_alloy?: number | null;
   produced_after_removal?: number; production_energy_after_removal?: number; uses_after_creator_removal?: number; learned_after_creator_removal?: number; energy_per_alloy_after_removal?: number | null }
@@ -28,7 +42,8 @@ export interface World {
   sites: Record<string, { id: string; resource: Resource; x: number; y: number; stock: number; capacity: number }>;
   settlements: Record<string, Settlement>;
   artifacts: Record<string, Artifact>; metrics: Metrics; ledger: Record<Resource, { source: number; sink: number }>;
-  lifecycle?: { removal: RemovalRecord | null; successions?: Succession[] };
+  lifecycle?: { removal: RemovalRecord | null; successions?: Succession[]; cohort?: number; transitions?: { tick: number; cohort: number; retired: string[]; successors: Succession[] }[]; freezes?: Freeze[] };
+  sessions?: Record<string, Session>;
 }
 export interface Settlement { id: string; name: string; x: number; y: number; inventory: Inventory; capacity?: number | null; access?: string; flows?: Record<'deposit' | 'withdraw' | 'retirement', Inventory> }
 export interface Succession { predecessor: string; successor: string; name: string; home: string; role: string; policy: 'library' | 'none' | 'direct'; package: string[] }

@@ -1,0 +1,919 @@
+{
+  "worlds": [
+    {
+      "seed": 11,
+      "condition": "preserved",
+      "status": "completed",
+      "baseline_sealed": 13.425,
+      "cohort_best": [
+        {
+          "cohort": 0,
+          "reason": "cohort boundary",
+          "validation": 9.709677,
+          "sealed": 10.490909,
+          "generation": 1
+        },
+        {
+          "cohort": 1,
+          "reason": "cohort boundary",
+          "validation": 7.675676,
+          "sealed": 9.0,
+          "generation": 4
+        },
+        {
+          "cohort": 2,
+          "reason": "run closed",
+          "validation": 7.255814,
+          "sealed": 9.333333,
+          "generation": 5
+        }
+      ],
+      "final_accessible": {
+        "validation": 7.255814,
+        "sealed": 9.333333,
+        "cohort": 2,
+        "generation": 5
+      },
+      "cross_generation": {
+        "revision_attempts": 22,
+        "admitted_revisions": 3,
+        "definition": "a proposal whose parent was created by an earlier cohort; admitted means it beat that parent on the same validation cases"
+      },
+      "levels": {
+        "11.0": 3,
+        "9.0": 64,
+        "7.5": 131,
+        "6.5": null
+      },
+      "per_cohort": [
+        {
+          "cohort": 0,
+          "proposals": 32,
+          "admitted": 5,
+          "cross_generation_attempts": 0,
+          "cross_generation_admitted": 0,
+          "search_energy": 32,
+          "evaluation_energy": 122,
+          "produced_alloy": 165,
+          "production_energy_per_alloy": 6.781818,
+          "charged_energy_per_alloy": 8.709091
+        },
+        {
+          "cohort": 1,
+          "proposals": 32,
+          "admitted": 2,
+          "cross_generation_attempts": 17,
+          "cross_generation_admitted": 1,
+          "search_energy": 32,
+          "evaluation_energy": 124,
+          "produced_alloy": 162,
+          "production_energy_per_alloy": 5.283951,
+          "charged_energy_per_alloy": 7.333333
+        },
+        {
+          "cohort": 2,
+          "proposals": 32,
+          "admitted": 2,
+          "cross_generation_attempts": 5,
+          "cross_generation_admitted": 2,
+          "search_energy": 32,
+          "evaluation_energy": 108,
+          "produced_alloy": 170,
+          "production_energy_per_alloy": 5.164706,
+          "charged_energy_per_alloy": 7.035294
+        }
+      ],
+      "ore_left": 2324
+    },
+    {
+      "seed": 11,
+      "condition": "reset",
+      "status": "completed",
+      "baseline_sealed": 13.425,
+      "cohort_best": [
+        {
+          "cohort": 0,
+          "reason": "cohort boundary",
+          "validation": 9.709677,
+          "sealed": 10.490909,
+          "generation": 1
+        },
+        {
+          "cohort": 1,
+          "reason": "cohort boundary",
+          "validation": 9.793103,
+          "sealed": 11.854167,
+          "generation": 2
+        },
+        {
+          "cohort": 2,
+          "reason": "run closed",
+          "validation": 8.71875,
+          "sealed": 9.875,
+          "generation": 3
+        }
+      ],
+      "final_accessible": {
+        "validation": 8.71875,
+        "sealed": 9.875,
+        "cohort": 2,
+        "generation": 3
+      },
+      "cross_generation": {
+        "revision_attempts": 0,
+        "admitted_revisions": 0,
+        "definition": "a proposal whose parent was created by an earlier cohort; admitted means it beat that parent on the same validation cases"
+      },
+      "levels": {
+        "11.0": 3,
+        "9.0": 152,
+        "7.5": null,
+        "6.5": null
+      },
+      "per_cohort": [
+        {
+          "cohort": 0,
+          "proposals": 32,
+          "admitted": 5,
+          "cross_generation_attempts": 0,
+          "cross_generation_admitted": 0,
+          "search_energy": 32,
+          "evaluation_energy": 122,
+          "produced_alloy": 165,
+          "production_energy_per_alloy": 6.781818,
+          "charged_energy_per_alloy": 8.709091
+        },
+        {
+          "cohort": 1,
+          "proposals": 32,
+          "admitted": 5,
+          "cross_generation_attempts": 0,
+          "cross_generation_admitted": 0,
+          "search_energy": 32,
+          "evaluation_energy": 112,
+          "produced_alloy": 144,
+          "production_energy_per_alloy": 7.416667,
+          "charged_energy_per_alloy": 9.708333
+        },
+        {
+          "cohort": 2,
+          "proposals": 32,
+          "admitted": 6,
+          "cross_generation_attempts": 0,
+          "cross_generation_admitted": 0,
+          "search_energy": 32,
+          "evaluation_energy": 112,
+          "produced_alloy": 156,
+          "production_energy_per_alloy": 6.512821,
+          "charged_energy_per_alloy": 8.615385
+        }
+      ],
+      "ore_left": 2316
+    },
+    {
+      "seed": 42,
+      "condition": "preserved",
+      "status": "completed",
+      "baseline_sealed": 16.055556,
+      "cohort_best": [
+        {
+          "cohort": 0,
+          "reason": "cohort boundary",
+          "validation": 8.692308,
+          "sealed": 10.019231,
+          "generation": 3
+        },
+        {
+          "cohort": 1,
+          "reason": "cohort boundary",
+          "validation": 7.162162,
+          "sealed": 9.981818,
+          "generation": 6
+        },
+        {
+          "cohort": 2,
+          "reason": "run closed",
+          "validation": 8.088235,
+          "sealed": 10.089286,
+          "generation": 8
+        }
+      ],
+      "final_accessible": {
+        "validation": 7.162162,
+        "sealed": 9.981818,
+        "cohort": 1,
+        "generation": 6
+      },
+      "cross_generation": {
+        "revision_attempts": 25,
+        "admitted_revisions": 3,
+        "definition": "a proposal whose parent was created by an earlier cohort; admitted means it beat that parent on the same validation cases"
+      },
+      "levels": {
+        "11.0": 4,
+        "9.0": 30,
+        "7.5": 80,
+        "6.5": null
+      },
+      "per_cohort": [
+        {
+          "cohort": 0,
+          "proposals": 32,
+          "admitted": 8,
+          "cross_generation_attempts": 0,
+          "cross_generation_admitted": 0,
+          "search_energy": 32,
+          "evaluation_energy": 118,
+          "produced_alloy": 162,
+          "production_energy_per_alloy": 6.259259,
+          "charged_energy_per_alloy": 8.283951
+        },
+        {
+          "cohort": 1,
+          "proposals": 32,
+          "admitted": 7,
+          "cross_generation_attempts": 8,
+          "cross_generation_admitted": 2,
+          "search_energy": 32,
+          "evaluation_energy": 120,
+          "produced_alloy": 157,
+          "production_energy_per_alloy": 4.751592,
+          "charged_energy_per_alloy": 7.025478
+        },
+        {
+          "cohort": 2,
+          "proposals": 32,
+          "admitted": 1,
+          "cross_generation_attempts": 17,
+          "cross_generation_admitted": 1,
+          "search_energy": 32,
+          "evaluation_energy": 110,
+          "produced_alloy": 173,
+          "production_energy_per_alloy": 3.953757,
+          "charged_energy_per_alloy": 5.780347
+        }
+      ],
+      "ore_left": 2340
+    },
+    {
+      "seed": 42,
+      "condition": "reset",
+      "status": "completed",
+      "baseline_sealed": 16.055556,
+      "cohort_best": [
+        {
+          "cohort": 0,
+          "reason": "cohort boundary",
+          "validation": 8.692308,
+          "sealed": 10.019231,
+          "generation": 3
+        },
+        {
+          "cohort": 1,
+          "reason": "cohort boundary",
+          "validation": 7.911765,
+          "sealed": 11.294118,
+          "generation": 2
+        },
+        {
+          "cohort": 2,
+          "reason": "run closed",
+          "validation": 6.911765,
+          "sealed": 9.092593,
+          "generation": 4
+        }
+      ],
+      "final_accessible": {
+        "validation": 6.911765,
+        "sealed": 9.092593,
+        "cohort": 2,
+        "generation": 4
+      },
+      "cross_generation": {
+        "revision_attempts": 0,
+        "admitted_revisions": 0,
+        "definition": "a proposal whose parent was created by an earlier cohort; admitted means it beat that parent on the same validation cases"
+      },
+      "levels": {
+        "11.0": 4,
+        "9.0": 30,
+        "7.5": 156,
+        "6.5": null
+      },
+      "per_cohort": [
+        {
+          "cohort": 0,
+          "proposals": 32,
+          "admitted": 8,
+          "cross_generation_attempts": 0,
+          "cross_generation_admitted": 0,
+          "search_energy": 32,
+          "evaluation_energy": 118,
+          "produced_alloy": 162,
+          "production_energy_per_alloy": 6.259259,
+          "charged_energy_per_alloy": 8.283951
+        },
+        {
+          "cohort": 1,
+          "proposals": 32,
+          "admitted": 7,
+          "cross_generation_attempts": 0,
+          "cross_generation_admitted": 0,
+          "search_energy": 32,
+          "evaluation_energy": 128,
+          "produced_alloy": 142,
+          "production_energy_per_alloy": 6.669014,
+          "charged_energy_per_alloy": 9.133803
+        },
+        {
+          "cohort": 2,
+          "proposals": 32,
+          "admitted": 10,
+          "cross_generation_attempts": 0,
+          "cross_generation_admitted": 0,
+          "search_energy": 32,
+          "evaluation_energy": 128,
+          "produced_alloy": 138,
+          "production_energy_per_alloy": 6.463768,
+          "charged_energy_per_alloy": 9.115942
+        }
+      ],
+      "ore_left": 2384
+    },
+    {
+      "seed": 77,
+      "condition": "preserved",
+      "status": "completed",
+      "baseline_sealed": 14.897436,
+      "cohort_best": [
+        {
+          "cohort": 0,
+          "reason": "cohort boundary",
+          "validation": 10.096774,
+          "sealed": 11.72549,
+          "generation": 1
+        },
+        {
+          "cohort": 1,
+          "reason": "cohort boundary",
+          "validation": 9.764706,
+          "sealed": 10.931034,
+          "generation": 4
+        },
+        {
+          "cohort": 2,
+          "reason": "run closed",
+          "validation": 8.6,
+          "sealed": 10.196429,
+          "generation": 6
+        }
+      ],
+      "final_accessible": {
+        "validation": 8.6,
+        "sealed": 10.196429,
+        "cohort": 2,
+        "generation": 6
+      },
+      "cross_generation": {
+        "revision_attempts": 31,
+        "admitted_revisions": 4,
+        "definition": "a proposal whose parent was created by an earlier cohort; admitted means it beat that parent on the same validation cases"
+      },
+      "levels": {
+        "11.0": 3,
+        "9.0": 126,
+        "7.5": null,
+        "6.5": null
+      },
+      "per_cohort": [
+        {
+          "cohort": 0,
+          "proposals": 32,
+          "admitted": 7,
+          "cross_generation_attempts": 0,
+          "cross_generation_admitted": 0,
+          "search_energy": 32,
+          "evaluation_energy": 126,
+          "produced_alloy": 152,
+          "production_energy_per_alloy": 6.888158,
+          "charged_energy_per_alloy": 9.105263
+        },
+        {
+          "cohort": 1,
+          "proposals": 32,
+          "admitted": 5,
+          "cross_generation_attempts": 17,
+          "cross_generation_admitted": 2,
+          "search_energy": 32,
+          "evaluation_energy": 124,
+          "produced_alloy": 146,
+          "production_energy_per_alloy": 5.794521,
+          "charged_energy_per_alloy": 8.212329
+        },
+        {
+          "cohort": 2,
+          "proposals": 32,
+          "admitted": 3,
+          "cross_generation_attempts": 14,
+          "cross_generation_admitted": 2,
+          "search_energy": 32,
+          "evaluation_energy": 112,
+          "produced_alloy": 159,
+          "production_energy_per_alloy": 4.522013,
+          "charged_energy_per_alloy": 6.628931
+        }
+      ],
+      "ore_left": 2284
+    },
+    {
+      "seed": 77,
+      "condition": "reset",
+      "status": "completed",
+      "baseline_sealed": 14.897436,
+      "cohort_best": [
+        {
+          "cohort": 0,
+          "reason": "cohort boundary",
+          "validation": 10.096774,
+          "sealed": 11.72549,
+          "generation": 1
+        },
+        {
+          "cohort": 1,
+          "reason": "cohort boundary",
+          "validation": 12.0,
+          "sealed": 14.575,
+          "generation": 1
+        },
+        {
+          "cohort": 2,
+          "reason": "run closed",
+          "validation": 10.148148,
+          "sealed": 11.45098,
+          "generation": 3
+        }
+      ],
+      "final_accessible": {
+        "validation": 10.148148,
+        "sealed": 11.45098,
+        "cohort": 2,
+        "generation": 3
+      },
+      "cross_generation": {
+        "revision_attempts": 0,
+        "admitted_revisions": 0,
+        "definition": "a proposal whose parent was created by an earlier cohort; admitted means it beat that parent on the same validation cases"
+      },
+      "levels": {
+        "11.0": 3,
+        "9.0": null,
+        "7.5": null,
+        "6.5": null
+      },
+      "per_cohort": [
+        {
+          "cohort": 0,
+          "proposals": 32,
+          "admitted": 7,
+          "cross_generation_attempts": 0,
+          "cross_generation_admitted": 0,
+          "search_energy": 32,
+          "evaluation_energy": 126,
+          "produced_alloy": 152,
+          "production_energy_per_alloy": 6.888158,
+          "charged_energy_per_alloy": 9.105263
+        },
+        {
+          "cohort": 1,
+          "proposals": 32,
+          "admitted": 3,
+          "cross_generation_attempts": 0,
+          "cross_generation_admitted": 0,
+          "search_energy": 32,
+          "evaluation_energy": 120,
+          "produced_alloy": 139,
+          "production_energy_per_alloy": 8.230216,
+          "charged_energy_per_alloy": 10.604317
+        },
+        {
+          "cohort": 2,
+          "proposals": 32,
+          "admitted": 6,
+          "cross_generation_attempts": 0,
+          "cross_generation_admitted": 0,
+          "search_energy": 32,
+          "evaluation_energy": 124,
+          "produced_alloy": 140,
+          "production_energy_per_alloy": 6.635714,
+          "charged_energy_per_alloy": 9.135714
+        }
+      ],
+      "ore_left": 2244
+    },
+    {
+      "seed": 5,
+      "condition": "preserved",
+      "status": "completed",
+      "baseline_sealed": 12.634146,
+      "cohort_best": [
+        {
+          "cohort": 0,
+          "reason": "cohort boundary",
+          "validation": 8.115385,
+          "sealed": 8.796296,
+          "generation": 3
+        },
+        {
+          "cohort": 1,
+          "reason": "cohort boundary",
+          "validation": 6.0,
+          "sealed": 7.544118,
+          "generation": 8
+        },
+        {
+          "cohort": 2,
+          "reason": "run closed",
+          "validation": 7.588235,
+          "sealed": 10.62,
+          "generation": 4
+        }
+      ],
+      "final_accessible": {
+        "validation": 6.0,
+        "sealed": 7.544118,
+        "cohort": 1,
+        "generation": 8
+      },
+      "cross_generation": {
+        "revision_attempts": 40,
+        "admitted_revisions": 3,
+        "definition": "a proposal whose parent was created by an earlier cohort; admitted means it beat that parent on the same validation cases"
+      },
+      "levels": {
+        "11.0": 4,
+        "9.0": 7,
+        "7.5": 66,
+        "6.5": 88
+      },
+      "per_cohort": [
+        {
+          "cohort": 0,
+          "proposals": 32,
+          "admitted": 7,
+          "cross_generation_attempts": 0,
+          "cross_generation_admitted": 0,
+          "search_energy": 32,
+          "evaluation_energy": 112,
+          "produced_alloy": 169,
+          "production_energy_per_alloy": 5.952663,
+          "charged_energy_per_alloy": 7.852071
+        },
+        {
+          "cohort": 1,
+          "proposals": 32,
+          "admitted": 6,
+          "cross_generation_attempts": 15,
+          "cross_generation_admitted": 2,
+          "search_energy": 32,
+          "evaluation_energy": 118,
+          "produced_alloy": 156,
+          "production_energy_per_alloy": 4.961538,
+          "charged_energy_per_alloy": 7.198718
+        },
+        {
+          "cohort": 2,
+          "proposals": 32,
+          "admitted": 1,
+          "cross_generation_attempts": 25,
+          "cross_generation_admitted": 1,
+          "search_energy": 32,
+          "evaluation_energy": 110,
+          "produced_alloy": 168,
+          "production_energy_per_alloy": 4.595238,
+          "charged_energy_per_alloy": 6.482143
+        }
+      ],
+      "ore_left": 2312
+    },
+    {
+      "seed": 5,
+      "condition": "reset",
+      "status": "completed",
+      "baseline_sealed": 12.634146,
+      "cohort_best": [
+        {
+          "cohort": 0,
+          "reason": "cohort boundary",
+          "validation": 8.115385,
+          "sealed": 8.796296,
+          "generation": 3
+        },
+        {
+          "cohort": 1,
+          "reason": "cohort boundary",
+          "validation": 7.205882,
+          "sealed": 9.811321,
+          "generation": 2
+        },
+        {
+          "cohort": 2,
+          "reason": "run closed",
+          "validation": 7.75,
+          "sealed": 10.038462,
+          "generation": 4
+        }
+      ],
+      "final_accessible": {
+        "validation": 7.75,
+        "sealed": 10.038462,
+        "cohort": 2,
+        "generation": 4
+      },
+      "cross_generation": {
+        "revision_attempts": 0,
+        "admitted_revisions": 0,
+        "definition": "a proposal whose parent was created by an earlier cohort; admitted means it beat that parent on the same validation cases"
+      },
+      "levels": {
+        "11.0": 4,
+        "9.0": 7,
+        "7.5": 78,
+        "6.5": null
+      },
+      "per_cohort": [
+        {
+          "cohort": 0,
+          "proposals": 32,
+          "admitted": 7,
+          "cross_generation_attempts": 0,
+          "cross_generation_admitted": 0,
+          "search_energy": 32,
+          "evaluation_energy": 112,
+          "produced_alloy": 169,
+          "production_energy_per_alloy": 5.952663,
+          "charged_energy_per_alloy": 7.852071
+        },
+        {
+          "cohort": 1,
+          "proposals": 32,
+          "admitted": 6,
+          "cross_generation_attempts": 0,
+          "cross_generation_admitted": 0,
+          "search_energy": 32,
+          "evaluation_energy": 114,
+          "produced_alloy": 156,
+          "production_energy_per_alloy": 6.423077,
+          "charged_energy_per_alloy": 8.480769
+        },
+        {
+          "cohort": 2,
+          "proposals": 32,
+          "admitted": 8,
+          "cross_generation_attempts": 0,
+          "cross_generation_admitted": 0,
+          "search_energy": 32,
+          "evaluation_energy": 118,
+          "produced_alloy": 153,
+          "production_energy_per_alloy": 6.0,
+          "charged_energy_per_alloy": 8.228758
+        }
+      ],
+      "ore_left": 2384
+    },
+    {
+      "seed": 23,
+      "condition": "preserved",
+      "status": "completed",
+      "baseline_sealed": 13.05,
+      "cohort_best": [
+        {
+          "cohort": 0,
+          "reason": "cohort boundary",
+          "validation": 8.0,
+          "sealed": 8.482143,
+          "generation": 3
+        },
+        {
+          "cohort": 1,
+          "reason": "cohort boundary",
+          "validation": 6.513514,
+          "sealed": 8.258065,
+          "generation": 6
+        },
+        {
+          "cohort": 2,
+          "reason": "run closed",
+          "validation": null,
+          "sealed": null,
+          "generation": null
+        }
+      ],
+      "final_accessible": {
+        "validation": 6.513514,
+        "sealed": 8.258065,
+        "cohort": 1,
+        "generation": 6
+      },
+      "cross_generation": {
+        "revision_attempts": 40,
+        "admitted_revisions": 2,
+        "definition": "a proposal whose parent was created by an earlier cohort; admitted means it beat that parent on the same validation cases"
+      },
+      "levels": {
+        "11.0": 4,
+        "9.0": 7,
+        "7.5": 66,
+        "6.5": null
+      },
+      "per_cohort": [
+        {
+          "cohort": 0,
+          "proposals": 32,
+          "admitted": 8,
+          "cross_generation_attempts": 0,
+          "cross_generation_admitted": 0,
+          "search_energy": 32,
+          "evaluation_energy": 114,
+          "produced_alloy": 167,
+          "production_energy_per_alloy": 5.508982,
+          "charged_energy_per_alloy": 7.479042
+        },
+        {
+          "cohort": 1,
+          "proposals": 32,
+          "admitted": 7,
+          "cross_generation_attempts": 8,
+          "cross_generation_admitted": 2,
+          "search_energy": 32,
+          "evaluation_energy": 122,
+          "produced_alloy": 161,
+          "production_energy_per_alloy": 4.47205,
+          "charged_energy_per_alloy": 6.689441
+        },
+        {
+          "cohort": 2,
+          "proposals": 32,
+          "admitted": 0,
+          "cross_generation_attempts": 32,
+          "cross_generation_admitted": 0,
+          "search_energy": 32,
+          "evaluation_energy": 108,
+          "produced_alloy": 167,
+          "production_energy_per_alloy": 4.017964,
+          "charged_energy_per_alloy": 5.916168
+        }
+      ],
+      "ore_left": 2316
+    },
+    {
+      "seed": 23,
+      "condition": "reset",
+      "status": "completed",
+      "baseline_sealed": 13.05,
+      "cohort_best": [
+        {
+          "cohort": 0,
+          "reason": "cohort boundary",
+          "validation": 8.0,
+          "sealed": 8.482143,
+          "generation": 3
+        },
+        {
+          "cohort": 1,
+          "reason": "cohort boundary",
+          "validation": 7.205882,
+          "sealed": 10.076923,
+          "generation": 2
+        },
+        {
+          "cohort": 2,
+          "reason": "run closed",
+          "validation": 7.060606,
+          "sealed": 8.213115,
+          "generation": 3
+        }
+      ],
+      "final_accessible": {
+        "validation": 7.060606,
+        "sealed": 8.213115,
+        "cohort": 2,
+        "generation": 3
+      },
+      "cross_generation": {
+        "revision_attempts": 0,
+        "admitted_revisions": 0,
+        "definition": "a proposal whose parent was created by an earlier cohort; admitted means it beat that parent on the same validation cases"
+      },
+      "levels": {
+        "11.0": 4,
+        "9.0": 7,
+        "7.5": 78,
+        "6.5": null
+      },
+      "per_cohort": [
+        {
+          "cohort": 0,
+          "proposals": 32,
+          "admitted": 8,
+          "cross_generation_attempts": 0,
+          "cross_generation_admitted": 0,
+          "search_energy": 32,
+          "evaluation_energy": 114,
+          "produced_alloy": 167,
+          "production_energy_per_alloy": 5.508982,
+          "charged_energy_per_alloy": 7.479042
+        },
+        {
+          "cohort": 1,
+          "proposals": 32,
+          "admitted": 7,
+          "cross_generation_attempts": 0,
+          "cross_generation_admitted": 0,
+          "search_energy": 32,
+          "evaluation_energy": 114,
+          "produced_alloy": 151,
+          "production_energy_per_alloy": 6.496689,
+          "charged_energy_per_alloy": 8.695364
+        },
+        {
+          "cohort": 2,
+          "proposals": 32,
+          "admitted": 9,
+          "cross_generation_attempts": 0,
+          "cross_generation_admitted": 0,
+          "search_energy": 32,
+          "evaluation_energy": 124,
+          "produced_alloy": 143,
+          "production_energy_per_alloy": 6.321678,
+          "charged_energy_per_alloy": 8.783217
+        }
+      ],
+      "ore_left": 2396
+    }
+  ],
+  "aggregates": {
+    "preserved": {
+      "worlds": 5,
+      "mean_final_accessible_sealed": 9.0628,
+      "final_accessible_sealed_by_world": [
+        9.333333,
+        9.981818,
+        10.196429,
+        7.544118,
+        8.258065
+      ],
+      "cohort2_created_best_sealed_by_world": [
+        9.333333,
+        10.089286,
+        10.196429,
+        10.62,
+        null
+      ],
+      "cross_generation_admitted_total": 15,
+      "cross_generation_attempts_total": 158
+    },
+    "reset": {
+      "worlds": 5,
+      "mean_final_accessible_sealed": 9.734,
+      "final_accessible_sealed_by_world": [
+        9.875,
+        9.092593,
+        11.45098,
+        10.038462,
+        8.213115
+      ],
+      "cohort2_created_best_sealed_by_world": [
+        9.875,
+        9.092593,
+        11.45098,
+        10.038462,
+        8.213115
+      ],
+      "cross_generation_admitted_total": 0,
+      "cross_generation_attempts_total": 0
+    }
+  },
+  "parity": [
+    {
+      "seed": 11,
+      "identical_at_first_boundary": true
+    },
+    {
+      "seed": 42,
+      "identical_at_first_boundary": true
+    },
+    {
+      "seed": 77,
+      "identical_at_first_boundary": true
+    },
+    {
+      "seed": 5,
+      "identical_at_first_boundary": true
+    },
+    {
+      "seed": 23,
+      "identical_at_first_boundary": true
+    }
+  ],
+  "note": "mean of world values; worlds are the replication unit; exploratory (5 seeds)"
+}

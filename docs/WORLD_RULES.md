@@ -1,6 +1,6 @@
-# World rules (`phase-world-3`)
+# World rules (`phase-world-4`)
 
-Everything here is enforced by `genesis/engine.py` and `genesis/world.py`. A controller's words never change state. Only an accepted action or a scheduled environment process does.
+Everything here is enforced by `genesis/engine.py`, `genesis/world.py` and, for the `workshop-1` task, `genesis/workshop.py`. v0.4 additions (task `workshop-1`, teaching, cohorts) are scenario fields whose defaults (`task: phase-1`, `teaching: false`, `lifecycle: single`) reproduce v0.3 behaviour exactly; see `test_v030_scenarios_reproduce_under_v040_rules`. A controller's words never change state. Only an accepted action or a scheduled environment process does.
 
 ## Map and time
 
@@ -123,3 +123,67 @@ There is no other route. Messages use a two-word vocabulary, observations exclud
 `invention: "frozen"` rejects every new proposal. Diagnostic experiments use it so that relearning cannot mask inherited retention.
 
 All of this is simulated lifecycle management. It is not death, reproduction or culture.
+
+
+## Task `workshop-1` (v0.4)
+
+A batch workflow replaces single conversions. `produce` runs the baseline workflow. `use_artifact` runs an admitted workflow the agent holds. A program decides four things from local measurements (`phase`, `humidity`) and the agent's own `ore` and `energy`:
+
+- **batch** b (1–4)
+- **heat** h (0–3)
+- **mode** (0/1)
+- **flux** (0/1, costs 1 food)
+
+Hidden per-world parameters are drawn from the world seed and never observed:
+
+- a phase split `s` ∈ 4–8
+- a heat offset `o` ∈ 0–2
+- a flux threshold `f` ∈ 4–6
+
+| Quantity | Rule |
+|---|---|
+| Optimal heat | `h* = min(3, (humidity + o) // 3)` |
+| Ore | `2b + ⌈b·|h − h*|/2⌉`, plus 1 if `humidity ≥ f` and no flux |
+| Energy | `3 + b·(2 if mode matches the phase split else 5) + 2h` |
+| Output | `b` alloy |
+| Busy time | The agent is busy for `b − 1` more ticks. Only `wait` and `consume` are accepted while busy. |
+
+An infeasible batch is rejected and nothing changes. All flows go through the ledger: ore sink, food sink for flux, and alloy source.
+
+**Proposal and test actions:**
+
+| Action | Cost | Result |
+|---|---|---|
+| `propose_artifact` | 1 energy | Workshop programs may name composition `sources` and call held components. |
+| `test_artifact` | 3 energy | Development role: per-case results on the 24 development cases, for your own proposal or any workflow you hold. |
+| `submit_artifact` | 2 energy | Validation role on 24 validation cases. The proposer learns only *admitted* or *not admitted*. An admitted revision supersedes its parent. |
+
+## Teaching sessions (`teaching-1`, when `teaching: true`)
+
+| Action | Requirements | Cost |
+|---|---|---|
+| `offer_teaching {learner, artifact}` | Teacher **holds** the artifact; same settlement; within 2 tiles; learner lacks it; neither is in another session | 1 |
+| `accept_teaching {session}` | Learner, before expiry (6 ticks), co-located (≤ 1). If the program calls components the learner does not hold, the session **fails** with the reason recorded. | 0 |
+| `teach_step` / `learn_step {session}` | Co-located; 3 work units per side | 2 / 1 |
+| `practice_step {session}` | A real supervised execution with the learner's own inputs. After 2 runs, **acquired** only if every run cost no more per alloy than the baseline under the same conditions, otherwise **failed**. | as production |
+| `abandon_session {session}` | Either participant | 0 |
+
+**Reservation.** During instruction, both participants may only take their step, `consume`, `wait` or abandon.
+
+**Interruption.** The environment step interrupts a session when a participant is no longer active, or when there has been no progress for more than 8 ticks. Unaccepted offers expire.
+
+**Recording.** Acquisition adds the artifact to the learner's holdings, with a `teaching session` transmission. The learner's first later `use_artifact` is recorded as `first_independent_use`.
+
+**Request channel.** `request_lesson` is added to the message vocabulary only when teaching is on. Messages still cannot carry programs.
+
+## Cohort lifecycle (`lifecycle: cohorts`)
+
+At each tick `k·cohort_ticks` (for `k = 1…cohort_count−1`), the environment step:
+
+1. records a **freeze**,
+2. retires every active agent, moving their inventory to storage,
+3. creates one fresh agent per retiree, with the same home and role, cohort `k`, and no memories or holdings.
+
+A final freeze is recorded at `max_ticks`.
+
+With `cross_cohort_access: false`, the library hides artifacts created by earlier cohorts. Within a cohort, sharing is unchanged.

@@ -1,0 +1,92 @@
+{
+  "frozen_at": "2026-10-14T18:08:03.405194+00:00",
+  "source": {
+    "git_commit": "01e7a2d4f4f70e38f07c7b3b6453e1e2b2b9f780",
+    "runtime_code_dirty": true,
+    "dirty_files": [
+      "M genesis/api.py"
+    ],
+    "source_sha256": "17c0b912678eb78a2166d8a298e542f824f2b17384a49896d718ea034cf773a5",
+    "files": 22
+  },
+  "versions": {
+    "engine": "0.4.0",
+    "rules": "phase-world-4",
+    "evaluator": "phase-evaluator-3+workshop-evaluator-1",
+    "sealed": "workshop-sealed-1"
+  },
+  "calibration_seeds": [
+    100,
+    101,
+    103
+  ],
+  "evaluation_seeds": [
+    11,
+    42,
+    77,
+    5,
+    23
+  ],
+  "calibration_note": "calibration seeds have hidden world parameters different from every evaluation seed; evaluation seeds were not run before this freeze",
+  "settings": {
+    "cohort_ticks": 60,
+    "cohort_count": 3,
+    "ore_per_site": 900,
+    "search_budget": 16,
+    "checkpoint": 60,
+    "window": 60,
+    "population": 8
+  },
+  "objective": "pooled (energy + 4 x ore wasted + 3 x food) / alloy over the case set; infeasible case = cost 10, alloy 0; lower is better",
+  "partition_seed": 20261014,
+  "partitions": {
+    "development": 24,
+    "validation": 24,
+    "sealed": 48
+  },
+  "sealed_commitment": "e44450c21be34468ebec9793036165a1869e0f404e4fec92c1588dbcc541d9e0",
+  "selection_rule": "freeze: lowest validation score among admitted or superseded workflows; ties by creation tick then id; no sealed input",
+  "admission_rule": "original: validation score >= 5% below baseline; revision: validation score strictly below parent's on the same cases",
+  "performance_levels": [
+    11.0,
+    9.0,
+    7.5,
+    6.5
+  ],
+  "experiment_A": {
+    "protocol": "teaching-acquisition-1",
+    "conditions": [
+      "teaching",
+      "library",
+      "no-transfer",
+      "direct-control"
+    ],
+    "checkpoint": 60,
+    "window": 60,
+    "metrics": [
+      "instruction cost by role",
+      "ticks to acquisition",
+      "session failures/interruptions",
+      "ticks to use with saving",
+      "successor and settlement production energy per alloy",
+      "charged energy per alloy",
+      "survival"
+    ]
+  },
+  "experiment_B": {
+    "protocol": "cumulative-invention-1",
+    "conditions": [
+      "preserved",
+      "reset"
+    ],
+    "metrics": [
+      "frozen cohort-best and accessible-best validation scores",
+      "sealed scores of frozen artifacts (after close)",
+      "cross-generation revision attempts and admissions",
+      "ticks to reach performance levels",
+      "costs by category"
+    ]
+  },
+  "stopping_rules": "fixed run lengths; no early stopping; every attempted world is reported",
+  "exclusions": "none planned; failures and ineligible seeds are reported, never dropped"
+}

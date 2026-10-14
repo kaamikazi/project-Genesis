@@ -1,0 +1,214 @@
+{
+  "settings": {
+    "cohort_ticks": 60,
+    "ore_per_site": 900,
+    "search_budget": 16,
+    "checkpoint": 60,
+    "window": 60
+  },
+  "A": {
+    "teaching": {
+      "acquired": 6,
+      "used_with_saving": 6,
+      "successors": 6,
+      "median_ticks_to_acquisition": 26.0,
+      "sessions_failed": 6,
+      "sessions_interrupted": 0
+    },
+    "library": {
+      "acquired": 6,
+      "used_with_saving": 6,
+      "successors": 6,
+      "median_ticks_to_acquisition": 2.0,
+      "sessions_failed": 0,
+      "sessions_interrupted": 0
+    },
+    "no-transfer": {
+      "acquired": 0,
+      "used_with_saving": 0,
+      "successors": 6,
+      "median_ticks_to_acquisition": null,
+      "sessions_failed": 0,
+      "sessions_interrupted": 0
+    },
+    "direct-control": {
+      "acquired": 6,
+      "used_with_saving": 6,
+      "successors": 6,
+      "median_ticks_to_acquisition": 0.0,
+      "sessions_failed": 0,
+      "sessions_interrupted": 0
+    }
+  },
+  "A_status": [
+    [
+      100,
+      "completed",
+      true
+    ],
+    [
+      101,
+      "completed",
+      true
+    ],
+    [
+      103,
+      "completed",
+      true
+    ]
+  ],
+  "B": [
+    {
+      "seed": 100,
+      "condition": "preserved",
+      "status": "completed",
+      "freeze_scores": [
+        [
+          0,
+          8.0,
+          8.0
+        ],
+        [
+          1,
+          9.133333,
+          8.0
+        ],
+        [
+          2,
+          null,
+          8.0
+        ]
+      ],
+      "ore_left": 2332
+    },
+    {
+      "seed": 100,
+      "condition": "reset",
+      "status": "completed",
+      "freeze_scores": [
+        [
+          0,
+          8.0,
+          8.0
+        ],
+        [
+          1,
+          8.297297,
+          8.297297
+        ],
+        [
+          2,
+          9.230769,
+          9.230769
+        ]
+      ],
+      "ore_left": 2292
+    },
+    {
+      "seed": 101,
+      "condition": "preserved",
+      "status": "completed",
+      "freeze_scores": [
+        [
+          0,
+          9.076923,
+          9.076923
+        ],
+        [
+          1,
+          7.27027,
+          7.27027
+        ],
+        [
+          2,
+          8.588235,
+          7.27027
+        ]
+      ],
+      "ore_left": 2320
+    },
+    {
+      "seed": 101,
+      "condition": "reset",
+      "status": "completed",
+      "freeze_scores": [
+        [
+          0,
+          9.076923,
+          9.076923
+        ],
+        [
+          1,
+          8.742857,
+          8.742857
+        ],
+        [
+          2,
+          8.862069,
+          8.862069
+        ]
+      ],
+      "ore_left": 2312
+    },
+    {
+      "seed": 103,
+      "condition": "preserved",
+      "status": "completed",
+      "freeze_scores": [
+        [
+          0,
+          8.387097,
+          8.387097
+        ],
+        [
+          1,
+          6.871795,
+          6.871795
+        ],
+        [
+          2,
+          7.852941,
+          6.871795
+        ]
+      ],
+      "ore_left": 2324
+    },
+    {
+      "seed": 103,
+      "condition": "reset",
+      "status": "completed",
+      "freeze_scores": [
+        [
+          0,
+          8.387097,
+          8.387097
+        ],
+        [
+          1,
+          7.470588,
+          7.470588
+        ],
+        [
+          2,
+          7.676471,
+          7.676471
+        ]
+      ],
+      "ore_left": 2316
+    }
+  ],
+  "B_parity": [
+    {
+      "seed": 100,
+      "identical_at_first_boundary": true
+    },
+    {
+      "seed": 101,
+      "identical_at_first_boundary": true
+    },
+    {
+      "seed": 103,
+      "identical_at_first_boundary": true
+    }
+  ]
+}

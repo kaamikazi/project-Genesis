@@ -1,0 +1,85 @@
+{
+  "steps": [
+    {
+      "step": "calibration (development seeds only)",
+      "command": "python tools/calibrate_m4.py evidence\\v0.4.0\\calibration 60 900 16 60 60",
+      "exit_code": 0,
+      "seconds": 186.3,
+      "stderr_tail": "",
+      "finished_at": "2026-10-14T18:08:03.095338+00:00"
+    },
+    {
+      "step": "freeze protocol and sealed commitment",
+      "command": "(in-process) freeze_protocol()",
+      "exit_code": 0,
+      "seconds": 0.4,
+      "stderr_tail": "",
+      "finished_at": "2026-10-14T18:08:03.499102+00:00"
+    },
+    {
+      "step": "experiment A: teaching and acquisition",
+      "command": "python -c import sys; from genesis.experiments4 import TeachingExperiment as T; T().run([11, 42, 77, 5, 23], r'evidence\\v0.4.0\\teaching', 60, 60, 900)",
+      "exit_code": 0,
+      "seconds": 114.0,
+      "stderr_tail": "",
+      "finished_at": "2026-10-14T18:09:57.453645+00:00"
+    },
+    {
+      "step": "experiment B: cumulative invention",
+      "command": "python -c from genesis.experiments4 import CumulativeExperiment as C; C().run([11, 42, 77, 5, 23], r'evidence\\v0.4.0\\cumulative', 60, 3, 900, 16)",
+      "exit_code": 0,
+      "seconds": 207.5,
+      "stderr_tail": "",
+      "finished_at": "2026-10-14T18:13:24.937537+00:00"
+    },
+    {
+      "step": "sealed scoring of closed runs",
+      "command": "(in-process) sealed_scoring()",
+      "exit_code": 0,
+      "seconds": 2.3,
+      "stderr_tail": "",
+      "finished_at": "2026-10-14T18:13:27.222573+00:00"
+    },
+    {
+      "step": "restart during active teaching",
+      "command": "python tools/verify_restart_m4.py evidence\\v0.4.0\\verification\\restart-teaching.json",
+      "exit_code": 0,
+      "seconds": 6.7,
+      "stderr_tail": "",
+      "finished_at": "2026-10-14T18:13:33.944419+00:00"
+    },
+    {
+      "step": "profile 8/20 agents, workshop-1 with teaching active",
+      "command": "python -m genesis.profiling evidence\\v0.4.0\\benchmark\\profile-workshop-teaching.json 100 3 scoped {\"task\": \"workshop-1\", \"teaching\": true, \"sharing\": false, \"ore_per_site\": 900}",
+      "exit_code": 0,
+      "seconds": 79.9,
+      "stderr_tail": "",
+      "finished_at": "2026-10-14T18:14:53.818552+00:00"
+    },
+    {
+      "step": "profile 8/20 agents, legacy phase-1",
+      "command": "python -m genesis.profiling evidence\\v0.4.0\\benchmark\\profile-phase1.json 100 3 scoped",
+      "exit_code": 0,
+      "seconds": 55.9,
+      "stderr_tail": "",
+      "finished_at": "2026-10-14T18:15:49.705841+00:00"
+    }
+  ],
+  "source_at_start": {
+    "git_commit": "01e7a2d4f4f70e38f07c7b3b6453e1e2b2b9f780",
+    "runtime_code_dirty": false,
+    "dirty_files": [],
+    "source_sha256": "587470091d8c4cc6b653ff7f3232439dbd2e61e3a777ea4863c605df02b6a8ef",
+    "files": 22
+  },
+  "source_at_end": {
+    "git_commit": "01e7a2d4f4f70e38f07c7b3b6453e1e2b2b9f780",
+    "runtime_code_dirty": true,
+    "dirty_files": [
+      "M genesis/api.py",
+      "?? tools/summarize_m4.py"
+    ],
+    "source_sha256": "53655f6b5d67a2e43853f36e7da14c86cb2a9c87c39873c840a32d65e4d01bc3",
+    "files": 23
+  }
+}

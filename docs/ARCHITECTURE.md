@@ -20,6 +20,9 @@ GENESIS is a single-process modular monolith: Python 3.10+, Pydantic, SQLite, Fa
 | `genesis/engine.py` | Action rules (including storage), the copy-on-write `attempt`, the lifecycle transition (retirement and succession), and `advance`, which runs one complete tick. |
 | `genesis/invention.py` | The bounded AST interpreter, phase evaluator, candidate grammar and revision neighbourhood. |
 | `genesis/controllers.py` | The offline deterministic and bounded-search controller. It holds its own seed privately. |
+| `genesis/workshop.py` | `workshop-1`: language, bounded interpreter, hidden parameters, outcome function, development and validation partitions, evaluator, search neighbourhood. |
+| `genesis/sealed.py` | Sealed final evaluator: protected manifest, commitment check, scoring of frozen artifacts in closed runs. Imported only by evidence tools. |
+| `genesis/experiments4.py` | Experiment A (teaching and acquisition) and B (cumulative invention), plus `score_sealed` for closed runs. |
 | `genesis/reducer.py` | **Independent metrics.** It reconstructs every holding, energy category, window and successor milestone from an export's initial state and events, then reconciles the result against the final state. It imports nothing from the engine. |
 | `genesis/profiling.py` | Profiling harness: timing, cProfile breakdown, export, snapshot, UI payload and memory, each measured as a separate pass. |
 | `genesis/storage.py` | Event store: transactional ticks, hash-chained records, snapshots, replay, fork, import/export, idempotency, and the version boundary. |
@@ -73,6 +76,15 @@ Profiling (`evidence/v0.3.0/benchmark/profile-*.json`) showed that copying the w
 - `tests/test_optimization.py` requires identical per-tick state hashes from both strategies across six scenarios, including randomized submissions of every action kind.
 
 The rules did not change.
+
+## v0.4 state additions
+
+- `state.sessions` holds teaching sessions.
+- `state.lifecycle` gains `cohort`, `transitions` and `freezes`.
+- Agents gain `cohort`, `busy_until` and `dev_notes`.
+- Workshop artifacts carry `task`, `kind`, `cohort`, `origin`, `sources`, `development` and `validation`. The `validation` field is observer-only.
+
+The scoped copy-on-write also copies session participants and the session's artifact. Equivalence with the full-copy reference is tested for workshop, teaching and cohort worlds, including fuzzed submissions of every action kind.
 
 ## Version boundary
 

@@ -1,0 +1,1281 @@
+{
+  "version": "workshop-sealed-1",
+  "commitment": "e44450c21be34468ebec9793036165a1869e0f404e4fec92c1588dbcc541d9e0",
+  "worlds": [
+    {
+      "seed": 11,
+      "condition": "preserved",
+      "status": "scored",
+      "version": "workshop-sealed-1",
+      "commitment": "e44450c21be34468ebec9793036165a1869e0f404e4fec92c1588dbcc541d9e0",
+      "world_seed": 11,
+      "run_closed_at": 180,
+      "baseline_sealed": {
+        "score": 13.425,
+        "cost": 537,
+        "alloy": 40,
+        "infeasible_cases": 8
+      },
+      "freezes": [
+        {
+          "tick": 60,
+          "cohort": 0,
+          "reason": "cohort boundary",
+          "cohort_best": {
+            "artifact": "584c155d2c6c22cae0abec545501e9f99f5fe70c655f2a961bd7532d94bcbd7c",
+            "cohort": 0,
+            "creator": "a00",
+            "dev_score": 10.4,
+            "generation": 1,
+            "origin": "search-revision",
+            "selection_score": 9.709677,
+            "status_at_freeze": "admitted",
+            "sealed": {
+              "score": 10.490909,
+              "cost": 577,
+              "alloy": 55,
+              "infeasible_cases": 13
+            }
+          },
+          "accessible_best": {
+            "artifact": "584c155d2c6c22cae0abec545501e9f99f5fe70c655f2a961bd7532d94bcbd7c",
+            "cohort": 0,
+            "creator": "a00",
+            "dev_score": 10.4,
+            "generation": 1,
+            "origin": "search-revision",
+            "selection_score": 9.709677,
+            "status_at_freeze": "admitted",
+            "sealed": {
+              "score": 10.490909,
+              "cost": 577,
+              "alloy": 55,
+              "infeasible_cases": 13
+            }
+          }
+        },
+        {
+          "tick": 120,
+          "cohort": 1,
+          "reason": "cohort boundary",
+          "cohort_best": {
+            "artifact": "7ee59a2e26923758743b5856bc60390cf00019f9e0db40bbcd60d2cf73fd1d15",
+            "cohort": 1,
+            "creator": "a12",
+            "dev_score": 8.727273,
+            "generation": 4,
+            "origin": "search-revision",
+            "selection_score": 7.675676,
+            "status_at_freeze": "admitted",
+            "sealed": {
+              "score": 9.0,
+              "cost": 549,
+              "alloy": 61,
+              "infeasible_cases": 14
+            }
+          },
+          "accessible_best": {
+            "artifact": "7ee59a2e26923758743b5856bc60390cf00019f9e0db40bbcd60d2cf73fd1d15",
+            "cohort": 1,
+            "creator": "a12",
+            "dev_score": 8.727273,
+            "generation": 4,
+            "origin": "search-revision",
+            "selection_score": 7.675676,
+            "status_at_freeze": "admitted",
+            "sealed": {
+              "score": 9.0,
+              "cost": 549,
+              "alloy": 61,
+              "infeasible_cases": 14
+            }
+          }
+        },
+        {
+          "tick": 180,
+          "cohort": 2,
+          "reason": "run closed",
+          "cohort_best": {
+            "artifact": "b38e7a6b153920e8b660d5522c5387eb9f7bac6fa931067dcba7c3bf6ad9050d",
+            "cohort": 2,
+            "creator": "a20",
+            "dev_score": 8.542857,
+            "generation": 5,
+            "origin": "search-revision",
+            "selection_score": 7.255814,
+            "status_at_freeze": "admitted",
+            "sealed": {
+              "score": 9.333333,
+              "cost": 560,
+              "alloy": 60,
+              "infeasible_cases": 17
+            }
+          },
+          "accessible_best": {
+            "artifact": "b38e7a6b153920e8b660d5522c5387eb9f7bac6fa931067dcba7c3bf6ad9050d",
+            "cohort": 2,
+            "creator": "a20",
+            "dev_score": 8.542857,
+            "generation": 5,
+            "origin": "search-revision",
+            "selection_score": 7.255814,
+            "status_at_freeze": "admitted",
+            "sealed": {
+              "score": 9.333333,
+              "cost": 560,
+              "alloy": 60,
+              "infeasible_cases": 17
+            }
+          }
+        }
+      ],
+      "independence": "artifacts were selected by validation evidence inside the run; sealed cases never influenced any run"
+    },
+    {
+      "seed": 11,
+      "condition": "reset",
+      "status": "scored",
+      "version": "workshop-sealed-1",
+      "commitment": "e44450c21be34468ebec9793036165a1869e0f404e4fec92c1588dbcc541d9e0",
+      "world_seed": 11,
+      "run_closed_at": 180,
+      "baseline_sealed": {
+        "score": 13.425,
+        "cost": 537,
+        "alloy": 40,
+        "infeasible_cases": 8
+      },
+      "freezes": [
+        {
+          "tick": 60,
+          "cohort": 0,
+          "reason": "cohort boundary",
+          "cohort_best": {
+            "artifact": "584c155d2c6c22cae0abec545501e9f99f5fe70c655f2a961bd7532d94bcbd7c",
+            "cohort": 0,
+            "creator": "a00",
+            "dev_score": 10.4,
+            "generation": 1,
+            "origin": "search-revision",
+            "selection_score": 9.709677,
+            "status_at_freeze": "admitted",
+            "sealed": {
+              "score": 10.490909,
+              "cost": 577,
+              "alloy": 55,
+              "infeasible_cases": 13
+            }
+          },
+          "accessible_best": {
+            "artifact": "584c155d2c6c22cae0abec545501e9f99f5fe70c655f2a961bd7532d94bcbd7c",
+            "cohort": 0,
+            "creator": "a00",
+            "dev_score": 10.4,
+            "generation": 1,
+            "origin": "search-revision",
+            "selection_score": 9.709677,
+            "status_at_freeze": "admitted",
+            "sealed": {
+              "score": 10.490909,
+              "cost": 577,
+              "alloy": 55,
+              "infeasible_cases": 13
+            }
+          }
+        },
+        {
+          "tick": 120,
+          "cohort": 1,
+          "reason": "cohort boundary",
+          "cohort_best": {
+            "artifact": "4dc6646cdd2b5fc5c43f1135623d29b915b34401a184c659ade6ae20cd2679ff",
+            "cohort": 1,
+            "creator": "a12",
+            "dev_score": 12.115385,
+            "generation": 2,
+            "origin": "search-revision",
+            "selection_score": 9.793103,
+            "status_at_freeze": "admitted",
+            "sealed": {
+              "score": 11.854167,
+              "cost": 569,
+              "alloy": 48,
+              "infeasible_cases": 7
+            }
+          },
+          "accessible_best": {
+            "artifact": "4dc6646cdd2b5fc5c43f1135623d29b915b34401a184c659ade6ae20cd2679ff",
+            "cohort": 1,
+            "creator": "a12",
+            "dev_score": 12.115385,
+            "generation": 2,
+            "origin": "search-revision",
+            "selection_score": 9.793103,
+            "status_at_freeze": "admitted",
+            "sealed": {
+              "score": 11.854167,
+              "cost": 569,
+              "alloy": 48,
+              "infeasible_cases": 7
+            }
+          }
+        },
+        {
+          "tick": 180,
+          "cohort": 2,
+          "reason": "run closed",
+          "cohort_best": {
+            "artifact": "c93f27035293fd629f1cca3a3009d3f7db25a8ccd245d00de669783118c41395",
+            "cohort": 2,
+            "creator": "a16",
+            "dev_score": 9.46875,
+            "generation": 3,
+            "origin": "search-revision",
+            "selection_score": 8.71875,
+            "status_at_freeze": "admitted",
+            "sealed": {
+              "score": 9.875,
+              "cost": 553,
+              "alloy": 56,
+              "infeasible_cases": 11
+            }
+          },
+          "accessible_best": {
+            "artifact": "c93f27035293fd629f1cca3a3009d3f7db25a8ccd245d00de669783118c41395",
+            "cohort": 2,
+            "creator": "a16",
+            "dev_score": 9.46875,
+            "generation": 3,
+            "origin": "search-revision",
+            "selection_score": 8.71875,
+            "status_at_freeze": "admitted",
+            "sealed": {
+              "score": 9.875,
+              "cost": 553,
+              "alloy": 56,
+              "infeasible_cases": 11
+            }
+          }
+        }
+      ],
+      "independence": "artifacts were selected by validation evidence inside the run; sealed cases never influenced any run"
+    },
+    {
+      "seed": 42,
+      "condition": "preserved",
+      "status": "scored",
+      "version": "workshop-sealed-1",
+      "commitment": "e44450c21be34468ebec9793036165a1869e0f404e4fec92c1588dbcc541d9e0",
+      "world_seed": 42,
+      "run_closed_at": 180,
+      "baseline_sealed": {
+        "score": 16.055556,
+        "cost": 578,
+        "alloy": 36,
+        "infeasible_cases": 12
+      },
+      "freezes": [
+        {
+          "tick": 60,
+          "cohort": 0,
+          "reason": "cohort boundary",
+          "cohort_best": {
+            "artifact": "2784daaacfe92aee9087a118838a99b6fe15aa89aa9bdfc98f544910ff168a67",
+            "cohort": 0,
+            "creator": "a00",
+            "dev_score": 10.0,
+            "generation": 3,
+            "origin": "search-revision",
+            "selection_score": 8.692308,
+            "status_at_freeze": "admitted",
+            "sealed": {
+              "score": 10.019231,
+              "cost": 521,
+              "alloy": 52,
+              "infeasible_cases": 11
+            }
+          },
+          "accessible_best": {
+            "artifact": "2784daaacfe92aee9087a118838a99b6fe15aa89aa9bdfc98f544910ff168a67",
+            "cohort": 0,
+            "creator": "a00",
+            "dev_score": 10.0,
+            "generation": 3,
+            "origin": "search-revision",
+            "selection_score": 8.692308,
+            "status_at_freeze": "admitted",
+            "sealed": {
+              "score": 10.019231,
+              "cost": 521,
+              "alloy": 52,
+              "infeasible_cases": 11
+            }
+          }
+        },
+        {
+          "tick": 120,
+          "cohort": 1,
+          "reason": "cohort boundary",
+          "cohort_best": {
+            "artifact": "f13f33fc4a614a2baee26f0a4af91cb193ebe102077fc09584f260f2f9b34770",
+            "cohort": 1,
+            "creator": "a08",
+            "dev_score": 8.0,
+            "generation": 6,
+            "origin": "search-revision",
+            "selection_score": 7.162162,
+            "status_at_freeze": "admitted",
+            "sealed": {
+              "score": 9.981818,
+              "cost": 549,
+              "alloy": 55,
+              "infeasible_cases": 15
+            }
+          },
+          "accessible_best": {
+            "artifact": "f13f33fc4a614a2baee26f0a4af91cb193ebe102077fc09584f260f2f9b34770",
+            "cohort": 1,
+            "creator": "a08",
+            "dev_score": 8.0,
+            "generation": 6,
+            "origin": "search-revision",
+            "selection_score": 7.162162,
+            "status_at_freeze": "admitted",
+            "sealed": {
+              "score": 9.981818,
+              "cost": 549,
+              "alloy": 55,
+              "infeasible_cases": 15
+            }
+          }
+        },
+        {
+          "tick": 180,
+          "cohort": 2,
+          "reason": "run closed",
+          "cohort_best": {
+            "artifact": "5e1fc480840f10cd8b353f4f92183e491305595935f1ebf8a40d9106f600e669",
+            "cohort": 2,
+            "creator": "a20",
+            "dev_score": 9.0,
+            "generation": 8,
+            "origin": "search-revision",
+            "selection_score": 8.088235,
+            "status_at_freeze": "admitted",
+            "sealed": {
+              "score": 10.089286,
+              "cost": 565,
+              "alloy": 56,
+              "infeasible_cases": 20
+            }
+          },
+          "accessible_best": {
+            "artifact": "f13f33fc4a614a2baee26f0a4af91cb193ebe102077fc09584f260f2f9b34770",
+            "cohort": 1,
+            "creator": "a08",
+            "dev_score": 8.0,
+            "generation": 6,
+            "origin": "search-revision",
+            "selection_score": 7.162162,
+            "status_at_freeze": "admitted",
+            "sealed": {
+              "score": 9.981818,
+              "cost": 549,
+              "alloy": 55,
+              "infeasible_cases": 15
+            }
+          }
+        }
+      ],
+      "independence": "artifacts were selected by validation evidence inside the run; sealed cases never influenced any run"
+    },
+    {
+      "seed": 42,
+      "condition": "reset",
+      "status": "scored",
+      "version": "workshop-sealed-1",
+      "commitment": "e44450c21be34468ebec9793036165a1869e0f404e4fec92c1588dbcc541d9e0",
+      "world_seed": 42,
+      "run_closed_at": 180,
+      "baseline_sealed": {
+        "score": 16.055556,
+        "cost": 578,
+        "alloy": 36,
+        "infeasible_cases": 12
+      },
+      "freezes": [
+        {
+          "tick": 60,
+          "cohort": 0,
+          "reason": "cohort boundary",
+          "cohort_best": {
+            "artifact": "2784daaacfe92aee9087a118838a99b6fe15aa89aa9bdfc98f544910ff168a67",
+            "cohort": 0,
+            "creator": "a00",
+            "dev_score": 10.0,
+            "generation": 3,
+            "origin": "search-revision",
+            "selection_score": 8.692308,
+            "status_at_freeze": "admitted",
+            "sealed": {
+              "score": 10.019231,
+              "cost": 521,
+              "alloy": 52,
+              "infeasible_cases": 11
+            }
+          },
+          "accessible_best": {
+            "artifact": "2784daaacfe92aee9087a118838a99b6fe15aa89aa9bdfc98f544910ff168a67",
+            "cohort": 0,
+            "creator": "a00",
+            "dev_score": 10.0,
+            "generation": 3,
+            "origin": "search-revision",
+            "selection_score": 8.692308,
+            "status_at_freeze": "admitted",
+            "sealed": {
+              "score": 10.019231,
+              "cost": 521,
+              "alloy": 52,
+              "infeasible_cases": 11
+            }
+          }
+        },
+        {
+          "tick": 120,
+          "cohort": 1,
+          "reason": "cohort boundary",
+          "cohort_best": {
+            "artifact": "cb6981831fe393380ac4286088edbb5753d773ca5c6402467212b2157177de0a",
+            "cohort": 1,
+            "creator": "a08",
+            "dev_score": 10.09375,
+            "generation": 2,
+            "origin": "search-revision",
+            "selection_score": 7.911765,
+            "status_at_freeze": "admitted",
+            "sealed": {
+              "score": 11.294118,
+              "cost": 576,
+              "alloy": 51,
+              "infeasible_cases": 14
+            }
+          },
+          "accessible_best": {
+            "artifact": "cb6981831fe393380ac4286088edbb5753d773ca5c6402467212b2157177de0a",
+            "cohort": 1,
+            "creator": "a08",
+            "dev_score": 10.09375,
+            "generation": 2,
+            "origin": "search-revision",
+            "selection_score": 7.911765,
+            "status_at_freeze": "admitted",
+            "sealed": {
+              "score": 11.294118,
+              "cost": 576,
+              "alloy": 51,
+              "infeasible_cases": 14
+            }
+          }
+        },
+        {
+          "tick": 180,
+          "cohort": 2,
+          "reason": "run closed",
+          "cohort_best": {
+            "artifact": "57c418f96734239fb61e0bc68f913e4d1b57bdf821b36cf8a8b02638dbddf276",
+            "cohort": 2,
+            "creator": "a20",
+            "dev_score": 7.71875,
+            "generation": 4,
+            "origin": "search-revision",
+            "selection_score": 6.911765,
+            "status_at_freeze": "admitted",
+            "sealed": {
+              "score": 9.092593,
+              "cost": 491,
+              "alloy": 54,
+              "infeasible_cases": 14
+            }
+          },
+          "accessible_best": {
+            "artifact": "57c418f96734239fb61e0bc68f913e4d1b57bdf821b36cf8a8b02638dbddf276",
+            "cohort": 2,
+            "creator": "a20",
+            "dev_score": 7.71875,
+            "generation": 4,
+            "origin": "search-revision",
+            "selection_score": 6.911765,
+            "status_at_freeze": "admitted",
+            "sealed": {
+              "score": 9.092593,
+              "cost": 491,
+              "alloy": 54,
+              "infeasible_cases": 14
+            }
+          }
+        }
+      ],
+      "independence": "artifacts were selected by validation evidence inside the run; sealed cases never influenced any run"
+    },
+    {
+      "seed": 77,
+      "condition": "preserved",
+      "status": "scored",
+      "version": "workshop-sealed-1",
+      "commitment": "e44450c21be34468ebec9793036165a1869e0f404e4fec92c1588dbcc541d9e0",
+      "world_seed": 77,
+      "run_closed_at": 180,
+      "baseline_sealed": {
+        "score": 14.897436,
+        "cost": 581,
+        "alloy": 39,
+        "infeasible_cases": 9
+      },
+      "freezes": [
+        {
+          "tick": 60,
+          "cohort": 0,
+          "reason": "cohort boundary",
+          "cohort_best": {
+            "artifact": "584c155d2c6c22cae0abec545501e9f99f5fe70c655f2a961bd7532d94bcbd7c",
+            "cohort": 0,
+            "creator": "a00",
+            "dev_score": 11.655172,
+            "generation": 1,
+            "origin": "search-revision",
+            "selection_score": 10.096774,
+            "status_at_freeze": "admitted",
+            "sealed": {
+              "score": 11.72549,
+              "cost": 598,
+              "alloy": 51,
+              "infeasible_cases": 15
+            }
+          },
+          "accessible_best": {
+            "artifact": "584c155d2c6c22cae0abec545501e9f99f5fe70c655f2a961bd7532d94bcbd7c",
+            "cohort": 0,
+            "creator": "a00",
+            "dev_score": 11.655172,
+            "generation": 1,
+            "origin": "search-revision",
+            "selection_score": 10.096774,
+            "status_at_freeze": "admitted",
+            "sealed": {
+              "score": 11.72549,
+              "cost": 598,
+              "alloy": 51,
+              "infeasible_cases": 15
+            }
+          }
+        },
+        {
+          "tick": 120,
+          "cohort": 1,
+          "reason": "cohort boundary",
+          "cohort_best": {
+            "artifact": "7842945fd67a7edda2b5752de93329a382f4f47e2b021e36b8186b66bb1e73d3",
+            "cohort": 1,
+            "creator": "a08",
+            "dev_score": 10.171429,
+            "generation": 4,
+            "origin": "search-revision",
+            "selection_score": 9.764706,
+            "status_at_freeze": "admitted",
+            "sealed": {
+              "score": 10.931034,
+              "cost": 634,
+              "alloy": 58,
+              "infeasible_cases": 16
+            }
+          },
+          "accessible_best": {
+            "artifact": "7842945fd67a7edda2b5752de93329a382f4f47e2b021e36b8186b66bb1e73d3",
+            "cohort": 1,
+            "creator": "a08",
+            "dev_score": 10.171429,
+            "generation": 4,
+            "origin": "search-revision",
+            "selection_score": 9.764706,
+            "status_at_freeze": "admitted",
+            "sealed": {
+              "score": 10.931034,
+              "cost": 634,
+              "alloy": 58,
+              "infeasible_cases": 16
+            }
+          }
+        },
+        {
+          "tick": 180,
+          "cohort": 2,
+          "reason": "run closed",
+          "cohort_best": {
+            "artifact": "e6452a917d7911561c50f27ffa3643bba3e5006e4110f340f3cc19eaad910b7e",
+            "cohort": 2,
+            "creator": "a16",
+            "dev_score": 9.2,
+            "generation": 6,
+            "origin": "search-revision",
+            "selection_score": 8.6,
+            "status_at_freeze": "admitted",
+            "sealed": {
+              "score": 10.196429,
+              "cost": 571,
+              "alloy": 56,
+              "infeasible_cases": 18
+            }
+          },
+          "accessible_best": {
+            "artifact": "e6452a917d7911561c50f27ffa3643bba3e5006e4110f340f3cc19eaad910b7e",
+            "cohort": 2,
+            "creator": "a16",
+            "dev_score": 9.2,
+            "generation": 6,
+            "origin": "search-revision",
+            "selection_score": 8.6,
+            "status_at_freeze": "admitted",
+            "sealed": {
+              "score": 10.196429,
+              "cost": 571,
+              "alloy": 56,
+              "infeasible_cases": 18
+            }
+          }
+        }
+      ],
+      "independence": "artifacts were selected by validation evidence inside the run; sealed cases never influenced any run"
+    },
+    {
+      "seed": 77,
+      "condition": "reset",
+      "status": "scored",
+      "version": "workshop-sealed-1",
+      "commitment": "e44450c21be34468ebec9793036165a1869e0f404e4fec92c1588dbcc541d9e0",
+      "world_seed": 77,
+      "run_closed_at": 180,
+      "baseline_sealed": {
+        "score": 14.897436,
+        "cost": 581,
+        "alloy": 39,
+        "infeasible_cases": 9
+      },
+      "freezes": [
+        {
+          "tick": 60,
+          "cohort": 0,
+          "reason": "cohort boundary",
+          "cohort_best": {
+            "artifact": "584c155d2c6c22cae0abec545501e9f99f5fe70c655f2a961bd7532d94bcbd7c",
+            "cohort": 0,
+            "creator": "a00",
+            "dev_score": 11.655172,
+            "generation": 1,
+            "origin": "search-revision",
+            "selection_score": 10.096774,
+            "status_at_freeze": "admitted",
+            "sealed": {
+              "score": 11.72549,
+              "cost": 598,
+              "alloy": 51,
+              "infeasible_cases": 15
+            }
+          },
+          "accessible_best": {
+            "artifact": "584c155d2c6c22cae0abec545501e9f99f5fe70c655f2a961bd7532d94bcbd7c",
+            "cohort": 0,
+            "creator": "a00",
+            "dev_score": 11.655172,
+            "generation": 1,
+            "origin": "search-revision",
+            "selection_score": 10.096774,
+            "status_at_freeze": "admitted",
+            "sealed": {
+              "score": 11.72549,
+              "cost": 598,
+              "alloy": 51,
+              "infeasible_cases": 15
+            }
+          }
+        },
+        {
+          "tick": 120,
+          "cohort": 1,
+          "reason": "cohort boundary",
+          "cohort_best": {
+            "artifact": "df8451c08ba272eaa9888e544a511be44a66f55b7ff2ca7bb30755a1cd0ece6c",
+            "cohort": 1,
+            "creator": "a08",
+            "dev_score": 13.652174,
+            "generation": 1,
+            "origin": "search-revision",
+            "selection_score": 12.0,
+            "status_at_freeze": "admitted",
+            "sealed": {
+              "score": 14.575,
+              "cost": 583,
+              "alloy": 40,
+              "infeasible_cases": 8
+            }
+          },
+          "accessible_best": {
+            "artifact": "df8451c08ba272eaa9888e544a511be44a66f55b7ff2ca7bb30755a1cd0ece6c",
+            "cohort": 1,
+            "creator": "a08",
+            "dev_score": 13.652174,
+            "generation": 1,
+            "origin": "search-revision",
+            "selection_score": 12.0,
+            "status_at_freeze": "admitted",
+            "sealed": {
+              "score": 14.575,
+              "cost": 583,
+              "alloy": 40,
+              "infeasible_cases": 8
+            }
+          }
+        },
+        {
+          "tick": 180,
+          "cohort": 2,
+          "reason": "run closed",
+          "cohort_best": {
+            "artifact": "1ea048c526d863b5a0ba40f302bb6cbcbab0c017b424f3d833ca242ff88d17fe",
+            "cohort": 2,
+            "creator": "a20",
+            "dev_score": 10.655172,
+            "generation": 3,
+            "origin": "search-revision",
+            "selection_score": 10.148148,
+            "status_at_freeze": "admitted",
+            "sealed": {
+              "score": 11.45098,
+              "cost": 584,
+              "alloy": 51,
+              "infeasible_cases": 13
+            }
+          },
+          "accessible_best": {
+            "artifact": "1ea048c526d863b5a0ba40f302bb6cbcbab0c017b424f3d833ca242ff88d17fe",
+            "cohort": 2,
+            "creator": "a20",
+            "dev_score": 10.655172,
+            "generation": 3,
+            "origin": "search-revision",
+            "selection_score": 10.148148,
+            "status_at_freeze": "admitted",
+            "sealed": {
+              "score": 11.45098,
+              "cost": 584,
+              "alloy": 51,
+              "infeasible_cases": 13
+            }
+          }
+        }
+      ],
+      "independence": "artifacts were selected by validation evidence inside the run; sealed cases never influenced any run"
+    },
+    {
+      "seed": 5,
+      "condition": "preserved",
+      "status": "scored",
+      "version": "workshop-sealed-1",
+      "commitment": "e44450c21be34468ebec9793036165a1869e0f404e4fec92c1588dbcc541d9e0",
+      "world_seed": 5,
+      "run_closed_at": 180,
+      "baseline_sealed": {
+        "score": 12.634146,
+        "cost": 518,
+        "alloy": 41,
+        "infeasible_cases": 7
+      },
+      "freezes": [
+        {
+          "tick": 60,
+          "cohort": 0,
+          "reason": "cohort boundary",
+          "cohort_best": {
+            "artifact": "2784daaacfe92aee9087a118838a99b6fe15aa89aa9bdfc98f544910ff168a67",
+            "cohort": 0,
+            "creator": "a00",
+            "dev_score": 10.041667,
+            "generation": 3,
+            "origin": "search-revision",
+            "selection_score": 8.115385,
+            "status_at_freeze": "admitted",
+            "sealed": {
+              "score": 8.796296,
+              "cost": 475,
+              "alloy": 54,
+              "infeasible_cases": 10
+            }
+          },
+          "accessible_best": {
+            "artifact": "2784daaacfe92aee9087a118838a99b6fe15aa89aa9bdfc98f544910ff168a67",
+            "cohort": 0,
+            "creator": "a00",
+            "dev_score": 10.041667,
+            "generation": 3,
+            "origin": "search-revision",
+            "selection_score": 8.115385,
+            "status_at_freeze": "admitted",
+            "sealed": {
+              "score": 8.796296,
+              "cost": 475,
+              "alloy": 54,
+              "infeasible_cases": 10
+            }
+          }
+        },
+        {
+          "tick": 120,
+          "cohort": 1,
+          "reason": "cohort boundary",
+          "cohort_best": {
+            "artifact": "6c12be95069c863c38aeb4cc285f408b23d175900bd8dc64bcfa77ffdd8e86c7",
+            "cohort": 1,
+            "creator": "a08",
+            "dev_score": 6.666667,
+            "generation": 8,
+            "origin": "search-revision",
+            "selection_score": 6.0,
+            "status_at_freeze": "admitted",
+            "sealed": {
+              "score": 7.544118,
+              "cost": 513,
+              "alloy": 68,
+              "infeasible_cases": 7
+            }
+          },
+          "accessible_best": {
+            "artifact": "6c12be95069c863c38aeb4cc285f408b23d175900bd8dc64bcfa77ffdd8e86c7",
+            "cohort": 1,
+            "creator": "a08",
+            "dev_score": 6.666667,
+            "generation": 8,
+            "origin": "search-revision",
+            "selection_score": 6.0,
+            "status_at_freeze": "admitted",
+            "sealed": {
+              "score": 7.544118,
+              "cost": 513,
+              "alloy": 68,
+              "infeasible_cases": 7
+            }
+          }
+        },
+        {
+          "tick": 180,
+          "cohort": 2,
+          "reason": "run closed",
+          "cohort_best": {
+            "artifact": "877f35cdb7e128a81259ab36f0359fb0a3d48f823f71512a9940c497966f6c3c",
+            "cohort": 2,
+            "creator": "a20",
+            "dev_score": 9.15625,
+            "generation": 4,
+            "origin": "search-revision",
+            "selection_score": 7.588235,
+            "status_at_freeze": "admitted",
+            "sealed": {
+              "score": 10.62,
+              "cost": 531,
+              "alloy": 50,
+              "infeasible_cases": 12
+            }
+          },
+          "accessible_best": {
+            "artifact": "6c12be95069c863c38aeb4cc285f408b23d175900bd8dc64bcfa77ffdd8e86c7",
+            "cohort": 1,
+            "creator": "a08",
+            "dev_score": 6.666667,
+            "generation": 8,
+            "origin": "search-revision",
+            "selection_score": 6.0,
+            "status_at_freeze": "admitted",
+            "sealed": {
+              "score": 7.544118,
+              "cost": 513,
+              "alloy": 68,
+              "infeasible_cases": 7
+            }
+          }
+        }
+      ],
+      "independence": "artifacts were selected by validation evidence inside the run; sealed cases never influenced any run"
+    },
+    {
+      "seed": 5,
+      "condition": "reset",
+      "status": "scored",
+      "version": "workshop-sealed-1",
+      "commitment": "e44450c21be34468ebec9793036165a1869e0f404e4fec92c1588dbcc541d9e0",
+      "world_seed": 5,
+      "run_closed_at": 180,
+      "baseline_sealed": {
+        "score": 12.634146,
+        "cost": 518,
+        "alloy": 41,
+        "infeasible_cases": 7
+      },
+      "freezes": [
+        {
+          "tick": 60,
+          "cohort": 0,
+          "reason": "cohort boundary",
+          "cohort_best": {
+            "artifact": "2784daaacfe92aee9087a118838a99b6fe15aa89aa9bdfc98f544910ff168a67",
+            "cohort": 0,
+            "creator": "a00",
+            "dev_score": 10.041667,
+            "generation": 3,
+            "origin": "search-revision",
+            "selection_score": 8.115385,
+            "status_at_freeze": "admitted",
+            "sealed": {
+              "score": 8.796296,
+              "cost": 475,
+              "alloy": 54,
+              "infeasible_cases": 10
+            }
+          },
+          "accessible_best": {
+            "artifact": "2784daaacfe92aee9087a118838a99b6fe15aa89aa9bdfc98f544910ff168a67",
+            "cohort": 0,
+            "creator": "a00",
+            "dev_score": 10.041667,
+            "generation": 3,
+            "origin": "search-revision",
+            "selection_score": 8.115385,
+            "status_at_freeze": "admitted",
+            "sealed": {
+              "score": 8.796296,
+              "cost": 475,
+              "alloy": 54,
+              "infeasible_cases": 10
+            }
+          }
+        },
+        {
+          "tick": 120,
+          "cohort": 1,
+          "reason": "cohort boundary",
+          "cohort_best": {
+            "artifact": "cb6981831fe393380ac4286088edbb5753d773ca5c6402467212b2157177de0a",
+            "cohort": 1,
+            "creator": "a08",
+            "dev_score": 8.181818,
+            "generation": 2,
+            "origin": "search-revision",
+            "selection_score": 7.205882,
+            "status_at_freeze": "admitted",
+            "sealed": {
+              "score": 9.811321,
+              "cost": 520,
+              "alloy": 53,
+              "infeasible_cases": 12
+            }
+          },
+          "accessible_best": {
+            "artifact": "cb6981831fe393380ac4286088edbb5753d773ca5c6402467212b2157177de0a",
+            "cohort": 1,
+            "creator": "a08",
+            "dev_score": 8.181818,
+            "generation": 2,
+            "origin": "search-revision",
+            "selection_score": 7.205882,
+            "status_at_freeze": "admitted",
+            "sealed": {
+              "score": 9.811321,
+              "cost": 520,
+              "alloy": 53,
+              "infeasible_cases": 12
+            }
+          }
+        },
+        {
+          "tick": 180,
+          "cohort": 2,
+          "reason": "run closed",
+          "cohort_best": {
+            "artifact": "362b1901260ab5daf1def56cd5379c923cbb18330f72ae678769cb5d9350e839",
+            "cohort": 2,
+            "creator": "a16",
+            "dev_score": 7.970588,
+            "generation": 4,
+            "origin": "search-revision",
+            "selection_score": 7.75,
+            "status_at_freeze": "admitted",
+            "sealed": {
+              "score": 10.038462,
+              "cost": 522,
+              "alloy": 52,
+              "infeasible_cases": 22
+            }
+          },
+          "accessible_best": {
+            "artifact": "362b1901260ab5daf1def56cd5379c923cbb18330f72ae678769cb5d9350e839",
+            "cohort": 2,
+            "creator": "a16",
+            "dev_score": 7.970588,
+            "generation": 4,
+            "origin": "search-revision",
+            "selection_score": 7.75,
+            "status_at_freeze": "admitted",
+            "sealed": {
+              "score": 10.038462,
+              "cost": 522,
+              "alloy": 52,
+              "infeasible_cases": 22
+            }
+          }
+        }
+      ],
+      "independence": "artifacts were selected by validation evidence inside the run; sealed cases never influenced any run"
+    },
+    {
+      "seed": 23,
+      "condition": "preserved",
+      "status": "scored",
+      "version": "workshop-sealed-1",
+      "commitment": "e44450c21be34468ebec9793036165a1869e0f404e4fec92c1588dbcc541d9e0",
+      "world_seed": 23,
+      "run_closed_at": 180,
+      "baseline_sealed": {
+        "score": 13.05,
+        "cost": 522,
+        "alloy": 40,
+        "infeasible_cases": 8
+      },
+      "freezes": [
+        {
+          "tick": 60,
+          "cohort": 0,
+          "reason": "cohort boundary",
+          "cohort_best": {
+            "artifact": "2784daaacfe92aee9087a118838a99b6fe15aa89aa9bdfc98f544910ff168a67",
+            "cohort": 0,
+            "creator": "a00",
+            "dev_score": 9.038462,
+            "generation": 3,
+            "origin": "search-revision",
+            "selection_score": 8.0,
+            "status_at_freeze": "admitted",
+            "sealed": {
+              "score": 8.482143,
+              "cost": 475,
+              "alloy": 56,
+              "infeasible_cases": 9
+            }
+          },
+          "accessible_best": {
+            "artifact": "2784daaacfe92aee9087a118838a99b6fe15aa89aa9bdfc98f544910ff168a67",
+            "cohort": 0,
+            "creator": "a00",
+            "dev_score": 9.038462,
+            "generation": 3,
+            "origin": "search-revision",
+            "selection_score": 8.0,
+            "status_at_freeze": "admitted",
+            "sealed": {
+              "score": 8.482143,
+              "cost": 475,
+              "alloy": 56,
+              "infeasible_cases": 9
+            }
+          }
+        },
+        {
+          "tick": 120,
+          "cohort": 1,
+          "reason": "cohort boundary",
+          "cohort_best": {
+            "artifact": "f13f33fc4a614a2baee26f0a4af91cb193ebe102077fc09584f260f2f9b34770",
+            "cohort": 1,
+            "creator": "a08",
+            "dev_score": 7.162162,
+            "generation": 6,
+            "origin": "search-revision",
+            "selection_score": 6.513514,
+            "status_at_freeze": "admitted",
+            "sealed": {
+              "score": 8.258065,
+              "cost": 512,
+              "alloy": 62,
+              "infeasible_cases": 12
+            }
+          },
+          "accessible_best": {
+            "artifact": "f13f33fc4a614a2baee26f0a4af91cb193ebe102077fc09584f260f2f9b34770",
+            "cohort": 1,
+            "creator": "a08",
+            "dev_score": 7.162162,
+            "generation": 6,
+            "origin": "search-revision",
+            "selection_score": 6.513514,
+            "status_at_freeze": "admitted",
+            "sealed": {
+              "score": 8.258065,
+              "cost": 512,
+              "alloy": 62,
+              "infeasible_cases": 12
+            }
+          }
+        },
+        {
+          "tick": 180,
+          "cohort": 2,
+          "reason": "run closed",
+          "cohort_best": null,
+          "accessible_best": {
+            "artifact": "f13f33fc4a614a2baee26f0a4af91cb193ebe102077fc09584f260f2f9b34770",
+            "cohort": 1,
+            "creator": "a08",
+            "dev_score": 7.162162,
+            "generation": 6,
+            "origin": "search-revision",
+            "selection_score": 6.513514,
+            "status_at_freeze": "admitted",
+            "sealed": {
+              "score": 8.258065,
+              "cost": 512,
+              "alloy": 62,
+              "infeasible_cases": 12
+            }
+          }
+        }
+      ],
+      "independence": "artifacts were selected by validation evidence inside the run; sealed cases never influenced any run"
+    },
+    {
+      "seed": 23,
+      "condition": "reset",
+      "status": "scored",
+      "version": "workshop-sealed-1",
+      "commitment": "e44450c21be34468ebec9793036165a1869e0f404e4fec92c1588dbcc541d9e0",
+      "world_seed": 23,
+      "run_closed_at": 180,
+      "baseline_sealed": {
+        "score": 13.05,
+        "cost": 522,
+        "alloy": 40,
+        "infeasible_cases": 8
+      },
+      "freezes": [
+        {
+          "tick": 60,
+          "cohort": 0,
+          "reason": "cohort boundary",
+          "cohort_best": {
+            "artifact": "2784daaacfe92aee9087a118838a99b6fe15aa89aa9bdfc98f544910ff168a67",
+            "cohort": 0,
+            "creator": "a00",
+            "dev_score": 9.038462,
+            "generation": 3,
+            "origin": "search-revision",
+            "selection_score": 8.0,
+            "status_at_freeze": "admitted",
+            "sealed": {
+              "score": 8.482143,
+              "cost": 475,
+              "alloy": 56,
+              "infeasible_cases": 9
+            }
+          },
+          "accessible_best": {
+            "artifact": "2784daaacfe92aee9087a118838a99b6fe15aa89aa9bdfc98f544910ff168a67",
+            "cohort": 0,
+            "creator": "a00",
+            "dev_score": 9.038462,
+            "generation": 3,
+            "origin": "search-revision",
+            "selection_score": 8.0,
+            "status_at_freeze": "admitted",
+            "sealed": {
+              "score": 8.482143,
+              "cost": 475,
+              "alloy": 56,
+              "infeasible_cases": 9
+            }
+          }
+        },
+        {
+          "tick": 120,
+          "cohort": 1,
+          "reason": "cohort boundary",
+          "cohort_best": {
+            "artifact": "cb6981831fe393380ac4286088edbb5753d773ca5c6402467212b2157177de0a",
+            "cohort": 1,
+            "creator": "a08",
+            "dev_score": 8.9375,
+            "generation": 2,
+            "origin": "search-revision",
+            "selection_score": 7.205882,
+            "status_at_freeze": "admitted",
+            "sealed": {
+              "score": 10.076923,
+              "cost": 524,
+              "alloy": 52,
+              "infeasible_cases": 13
+            }
+          },
+          "accessible_best": {
+            "artifact": "cb6981831fe393380ac4286088edbb5753d773ca5c6402467212b2157177de0a",
+            "cohort": 1,
+            "creator": "a08",
+            "dev_score": 8.9375,
+            "generation": 2,
+            "origin": "search-revision",
+            "selection_score": 7.205882,
+            "status_at_freeze": "admitted",
+            "sealed": {
+              "score": 10.076923,
+              "cost": 524,
+              "alloy": 52,
+              "infeasible_cases": 13
+            }
+          }
+        },
+        {
+          "tick": 180,
+          "cohort": 2,
+          "reason": "run closed",
+          "cohort_best": {
+            "artifact": "1ea048c526d863b5a0ba40f302bb6cbcbab0c017b424f3d833ca242ff88d17fe",
+            "cohort": 2,
+            "creator": "a20",
+            "dev_score": 7.969697,
+            "generation": 3,
+            "origin": "search-revision",
+            "selection_score": 7.060606,
+            "status_at_freeze": "admitted",
+            "sealed": {
+              "score": 8.213115,
+              "cost": 501,
+              "alloy": 61,
+              "infeasible_cases": 7
+            }
+          },
+          "accessible_best": {
+            "artifact": "1ea048c526d863b5a0ba40f302bb6cbcbab0c017b424f3d833ca242ff88d17fe",
+            "cohort": 2,
+            "creator": "a20",
+            "dev_score": 7.969697,
+            "generation": 3,
+            "origin": "search-revision",
+            "selection_score": 7.060606,
+            "status_at_freeze": "admitted",
+            "sealed": {
+              "score": 8.213115,
+              "cost": 501,
+              "alloy": 61,
+              "infeasible_cases": 7
+            }
+          }
+        }
+      ],
+      "independence": "artifacts were selected by validation evidence inside the run; sealed cases never influenced any run"
+    }
+  ]
+}
