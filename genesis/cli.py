@@ -71,6 +71,8 @@ def main():
     inherit.add_argument("--checkpoint", type=int, default=60)
     inherit.add_argument("--window", type=int, default=40)
     inherit.add_argument("--live-window", type=int, default=100)
+    inherit.add_argument("--population", type=int, default=8)
+    inherit.add_argument("--ore-per-site", type=int, default=240)
     inherit.add_argument("--out", default=f"{CURRENT_EVIDENCE}/inheritance")
     bench = commands.add_parser("benchmark")
     bench.add_argument("--ticks", type=int, default=60)
@@ -91,7 +93,7 @@ def main():
         print(json.dumps({"completed": report["completed_runs"], "attempted": len(report["attempts"]), "runs": summary, "output": args.out}, indent=2))
         return
     if args.command == "inherit":
-        report = InheritanceExperiment().run(args.seeds, args.out, args.checkpoint, args.window, args.live_window)
+        report = InheritanceExperiment().run(args.seeds, args.out, args.checkpoint, args.window, args.live_window, population=args.population, ore_per_site=args.ore_per_site)
         print(json.dumps({"seeds": [{"seed": s["seed"], "status": s["status"], "parity": s.get("physical_parity", {}).get("identical")} for s in report["seeds"]],
                           "aggregates": report["aggregates"], "output": args.out}, indent=2))
         return

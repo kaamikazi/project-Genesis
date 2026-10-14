@@ -1,56 +1,67 @@
-# Five-minute walkthrough
+# Walkthrough
 
 Start the server with `python -m genesis.cli serve` and open <http://127.0.0.1:8000>.
 
 ## 1. Watch actual actions (Observatory)
 
-Press ▶. Inhabitants move on the atlas, and the tick counter advances, driven by the server clock and not by your browser. Click any inhabitant on the map, or use the inspector's name picker.
+Press ▶. The server's clock drives the world, and your browser only watches. Click an inhabitant on the map, or pick one in the inspector.
 
-**Latest action** shows the committed outcome. Click it to see the raw event JSON, and for a rejection the exact rule that refused it (for example `insufficient energy`).
+**Latest action** shows the committed outcome. Click it to see the raw event, including `energy_charged`, and, for a rejection, the exact rule that refused it.
 
 ## 2. See an invention earn its place (Invention lab)
 
-After about 10–30 ticks, the researchers (Ada in Hearth, Eno in Haven) have proposed and tested candidates.
+Within about 20 ticks, Ada (Hearth) and Eno (Haven) have tested candidates.
 
-- **Rejected** cards say why, for example `phase 5: 6 energy is worse than baseline 2`.
-- Open a **verified** card. You'll see the immutable program, the evaluator's totals against the fixed-mode baseline, and all 12 cases with training and held-out phases kept apart.
-- Further down is the **lineage**: each revision has to beat its parent, and superseded ancestors remain on record.
+- **Rejected** cards give the evaluator's reason.
+- A **verified** card opens the immutable program, all 12 cases (training and held-out), and the lineage, where each revision beat its parent on the same cases.
+- The event for a test shows only what the agent itself learned: training totals and partition pass/fail. Held-out case detail stays on the procedure record.
 
-## 3. Trace knowledge moving (same dialog)
+## 3. Watch inheritance: creators leave, successors take over
 
-**Transmission & independent use** lists each recipient, such as *Eno → settlement library → Tao*. It shows the tick they learned the procedure and the tick their own production first reproduced the saving (2 vs 6 energy). An adoption is never counted without both.
+1. Click **＋ New world**.
+2. Choose *Retire procedure creators* at tick 30, tick *Replace retirees with fresh successors*, and keep *Settlement library access*.
+3. Press ▶ and select the 10 ticks per second speed.
 
-## 4. Remove the inventors
+At tick 30:
 
-Click **＋ New world**, choose *Retire procedure creators* at tick 40, and press ▶. At tick 40 the banner reports who retired and counts the procedure uses since. The **Inhabitants** page shows the creators as `retired`.
+- The **lifecycle banner** names the retirees and their successors (for example Oren and Kaia) and shows the post-removal window.
+- The **Inhabitants** page shows the retirees last, linked to their successors.
+- The inspector says "history archived, not inherited".
+- **Settlement storage** shows the retirees' goods arriving (`From retirees`) and members withdrawing them.
+- **Why this counts as retention** walks through six links for each successor: creator, retirement, access policy, learning event, own execution, and measured saving against the fixed-mode baseline. Each link shows its event.
 
-Repeat with *Retire matched non-creators (control)* and with sharing switched off to compare.
+Now repeat with *No library access*. The chain stops at the access policy and is marked incomplete, and the successor keeps producing in fixed mode at higher cost.
 
-## 5. Compare conditions (Experiments)
+## 4. The controlled experiment (Experiments)
 
-This page reads `evidence/comparison/comparison.json`, which contains:
+This page reads `evidence/v0.3.0/` (regenerate it with `python tools/generate_evidence.py`).
 
-- energy per alloy, sharing vs restricted, for each seed
-- energy after removal, creators vs matched, with and without sharing
-- every attempt, including failures
+- **Inheritance diagnostic.** For each seed, three continuations forked from one checkpoint, with a parity badge showing that the physical state was identical at the boundary. For every successor it shows the library acquisition tick, the first saving, uses, energy per alloy, settlement totals and the ore left. Aggregates show the mean of ratios and the pooled ratio separately.
+- **Live continuation.** Successor researchers with invention open: who learned, who re-derived the procedure by search, and the total charged energy per alloy.
+- **Twenty-agent replication.** Expand it to see the same protocol at 20 agents.
+- **Whole-run comparison.** Descriptive only. Output, efficiency and total cost are separate columns, and unavailable ratios are labelled, never drawn as zero.
 
-Regenerate the report with `python -m genesis.cli compare`.
+## 5. Pause, checkpoint, restart, replay (Archive)
 
-## 6. Pause, checkpoint, restart, replay (Archive)
+1. Pause, then press ◫ to checkpoint.
+2. Stop the server and start it again. The same world returns at the same tick with the same hash (`evidence/v0.3.0/verification/restart.json` records this check).
+3. In **Archive**, choose a tick and click **Inspect**. This replays recorded transitions read-only, including retirements, successors and storage.
+4. Click **Fork** to create a labelled continuation, or **Export** to download a full, checksummed run.
 
-1. Pause, then press ◫ to save a checkpoint.
-2. Stop the server (Ctrl+C) and start it again. The same world comes back at the same tick.
-3. In **Archive**, choose a tick and click **Inspect**. This replays recorded transitions read-only and never calls a controller.
-4. Click **Fork displayed state** to branch a new run with recorded parent lineage.
-5. Click **Export complete run** to download the manifest, every tick record, snapshots and a checksum.
+## 6. Check any number yourself
 
-## 7. What is designed, scripted, searched or model-controlled?
+```bash
+python -m genesis.cli reduce evidence/v0.3.0/inheritance/42-successor-library.json.gz
+```
+
+The reducer recomputes everything from events and reports whether its reconstruction matches the final state.
+
+## What is designed, scripted, searched or model-controlled?
 
 | Behaviour | Source |
 |---|---|
-| Survival, gathering and production | deterministic rules |
-| Trades and gifts | scripted on a fixed tick schedule |
-| Candidate programs and revisions | bounded search |
-| Model-controlled behaviour | none; there are no model calls (shown in the sidebar and footer) |
-
-Open **Field notes & rules** in the sidebar for the full rules.
+| Survival, gathering, storage use and production | Deterministic rules |
+| Trades and gifts | Scripted on a fixed tick schedule |
+| Candidate programs and revisions | Bounded search |
+| Retirement and succession | Scheduled by the scenario |
+| Model-controlled behaviour | None; no model calls are made |

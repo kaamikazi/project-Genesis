@@ -1,4 +1,4 @@
-# Invention protocol (`phase-evaluator-2`)
+# Invention protocol (`phase-evaluator-3`)
 
 An invention in GENESIS is an immutable program that is executed and measured. A claim about one changes nothing. This document describes the language, the search that generates candidates, and the evaluator that accepts or rejects them.
 
@@ -28,7 +28,8 @@ An artifact's ID is the SHA-256 of `{program, creator, parent, language}`. Each 
 - `status`: `proposed` → `verified` | `rejected`, and later `superseded`
 - the full evaluation, including every case
 - transmissions (who learned it, when, and through which channel)
-- uses, each with the phase, chosen mode, energy and baseline energy
+- uses (the last 64), each with the phase, chosen mode, energy and baseline energy
+- `first_uses`: each agent's first execution, kept permanently so a successor's first use is never truncated
 - independent adopters
 
 Content hashes are re-checked whenever an artifact is accessed, loaded, imported or stored. SQLite triggers make the artifact table immutable.
@@ -37,11 +38,21 @@ Content hashes are re-checked whenever an artifact is accessed, loaded, imported
 
 The offline researcher (one per settlement) is **not** a language model. It searches a declared, finite space.
 
-1. **Original candidates:** the grammar `if_phase_lt t → mode d else mode 1−d` for `t ∈ 2..9`, `d ∈ {0, 1}`, giving 16 programs. Each researcher tries them in an order keyed by its own controller seed. It stops at the first verified result.
-2. **Revisions:** once it has a current verified artifact, the researcher tries the neighbourhood `{threshold − 1, threshold + 1, swap branches}`. The order is again keyed. It stops when every neighbour of its current best has been tried, which is a local optimum.
-3. **Budget:** 16 proposals per researcher (`search_budget`), counting originals and revisions. Each proposal costs 1 energy and each test costs 3. These search costs appear in the metrics.
+1. **Learn before searching.** If its library offers a verified procedure and it holds none, the researcher inspects it first. Successor researchers rely on this.
+2. **Original candidates.** If it holds no verified procedure, it searches the grammar `if_phase_lt t → mode d else mode 1−d` for `t ∈ 2..9`, `d ∈ {0, 1}`: 16 programs, tried in an order keyed by the controller's private seed.
+3. **Revisions.** Starting from the best verified procedure it holds, whether its own or inherited, it tries the neighbourhood `{threshold − 1, threshold + 1, swap branches}`. It stops once every neighbour has been tried (a local optimum).
+4. **Budget.** 16 proposals per researcher (`search_budget`). A proposal costs 1 energy and a test costs 3. The reducer reports these as the `search` and `evaluation` energy categories.
 
-The researcher does not know where the optimal threshold lies. It learns only pass/fail and total energy from its own tests, through its memory of the action results. Held-out cases are never shown case by case to any controller. The observer UI can show them.
+A revision of someone else's procedure keeps the full chain: the parent's creator, the reviser, the generation, and the transmission that put the parent in the reviser's hands.
+
+**Feedback separation.** After `test_artifact`, the proposer receives only:
+
+- `status`
+- training energy against the training baseline
+- `training` and `held_out` as `pass` or `fail`
+- `improves_on_parent`
+
+Case-level results, including which held-out phases failed, stay on the artifact record, which only the observer reads. v0.2.0 leaked held-out case failures into agent memories; see [audit](audit/AUDIT-v0.2.0.md), item 8. Partition-level pass/fail still gives a little aggregate information about the held-out set over repeated tests.
 
 ## Evaluation
 
@@ -50,28 +61,36 @@ The researcher does not know where the optimal threshold lies. It learns only pa
 - **Training phases:** 1, 4, 7, 10
 - **Held-out phases:** 0, 2, 3, 5, 6, 8, 9, 11, disjoint from training
 - **Baseline:** fixed mode 0 (the `produce` action)
+- **Inputs:** every case converts 2 ore into 1 alloy. Only energy varies, so no gain can come from cheaper inputs.
 
 A program is **verified** only if all of the following hold:
 
-1. No case uses more energy than the baseline.
-2. The training partition saves at least 25% against the baseline.
-3. The held-out partition saves at least 25% against the baseline.
-4. For a revision: its total energy is strictly lower than the parent's. The evaluator recomputes the parent's energy itself and does not read the stored value.
+1. No case in either partition uses more energy than the baseline.
+2. Each partition saves at least 25% against the baseline.
+3. For a revision: total energy is strictly lower than the parent's **on the same cases**. The evaluator re-executes the parent itself and asserts that the case lists are identical.
 
-Otherwise the program is **rejected**, and every failed criterion is listed in `evaluation.failures`. For example: `phase 5: 6 energy is worse than baseline 2`, `held-out saving 0% is below 25%`, or `no improvement over parent (36 vs 36 energy)`.
+Otherwise the program is **rejected**, and every failed criterion is listed in `evaluation.failures`. Examples: `held-out phase 5: 6 energy is worse than baseline 2`, `training saving 0% is below 25%`, `no improvement over parent (24 vs 24 energy)`. Duplicate proposals (same program, creator and parent) are rejected at proposal time as a logged `action_rejected`.
 
-When a revision is verified, its parent becomes `superseded` (`superseded_by` points to the revision). The library then offers only the newest version. Agents who learned an older version may keep using it.
+When a revision is verified, its parent becomes `superseded`. Holders of an older version may keep using it.
 
-**Scope of "verified":** phase 0..11, 2 ore → 1 alloy, energy only, in this world. It says nothing about generalising across worlds.
+**Scope of "verified":** phase 0..11, 2 ore → 1 alloy, energy only, in this world.
 
-## What a run actually shows
+## Optimality, scoped
 
-With seed 42, both researchers first verify `threshold 9`, which uses 36 energy against a baseline of 48. They then climb verified revisions to 8 (32), 7 (28) and 6 (24). Here 6 is the optimum, and the evaluator rejects every neighbour of it. Each step is a separate artifact linked to its parent. `tests/test_engine.py::test_search_climbs_a_verified_lineage_during_the_run` checks this behaviour.
+[`evidence/v0.3.0/invention/search-space.json`](../evidence/v0.3.0/invention/search-space.json) evaluates every single-threshold program (thresholds 0–12, both orientations) and both constants.
+
+**Lower bound.** Every case costs at least 2 energy under `conversion()`, and there are 12 cases, so **no program in the language can score below 24** on this evaluation set. Threshold 6 (then mode 0) reaches 24 and is the only program that does. Four programs in the controller's grammar verify (thresholds 6, 7, 8 and 9 with mode 0).
+
+"24 is optimal" therefore means optimal **for these 12 cases, this conversion rule, and energy as the objective**, and nothing more.
+
+## What a run actually shows (v0.3.0)
+
+With the default controller seed, the Hearth researcher climbs 32 → 28 → 24 and the Haven researcher finds 24 directly (all seeds; see `test_search_climbs_a_verified_lineage_during_the_run`). In the live succession continuation, successor researchers learn the inherited 24-energy procedure and then propose its three neighbours. All three are rejected for not improving on the parent. This is a real, recorded cross-generation revision attempt, and it fails because the inherited procedure is already optimal.
 
 This is a small hill-climb in a 1-D space. It is real and measured, and it is not open-ended invention.
 
 ## Known limitations
 
-- The search space is tiny and was designed by hand. The optimum is reachable by design.
-- A researcher still receives aggregate pass/fail feedback after each held-out evaluation, so repeated testing slowly leaks information about the held-out set.
+- The search space is tiny and designed by hand. The optimum is reachable by design and is reached within about 20 ticks.
+- Partition-level feedback slowly leaks aggregate information about the held-out set.
 - No arbitrary code is executed. An unrestricted-code sandbox would be a separate project.

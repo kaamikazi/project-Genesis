@@ -120,7 +120,8 @@ def create_app(db_path: str | Path | None = None, evidence_dir: str | Path | Non
             path = evidence / name
             return json.loads(path.read_text(encoding="utf-8")) if path.exists() else None
         report, inheritance = load("comparison/comparison.json"), load("inheritance/inheritance.json")
-        return {"available": report is not None, "report": report, "inheritance": inheritance, "evidence_dir": evidence.name}
+        return {"available": report is not None, "report": report, "inheritance": inheritance,
+                "inheritance_twenty": load("twenty/inheritance/inheritance.json"), "evidence_dir": evidence.name}
 
     @app.post("/api/runs")
     def create(config: Scenario):

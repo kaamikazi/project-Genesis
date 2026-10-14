@@ -1,0 +1,32 @@
+{
+  "checks": [
+    {
+      "check": "resume selects the same run",
+      "passed": true
+    },
+    {
+      "check": "same committed tick and state hash after restart",
+      "passed": true,
+      "tick": 40,
+      "hash": "4e0d2f224fc4b8d43fb349efe35b0377111cdfebacb0eed9b89ec0c735db7f2b"
+    },
+    {
+      "check": "duplicate step request advances once",
+      "passed": true,
+      "tick": 41
+    },
+    {
+      "check": "replay of tick 40 reproduces the pre-restart hash",
+      "passed": true
+    },
+    {
+      "check": "replayed state contains lifecycle, storage and successor records",
+      "passed": true
+    },
+    {
+      "check": "idempotent action submission",
+      "passed": true
+    }
+  ],
+  "all_passed": true
+}

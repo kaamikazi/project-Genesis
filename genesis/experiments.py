@@ -164,12 +164,12 @@ class InheritanceExperiment:
     """Controlled succession: matched continuations forked from one committed checkpoint per seed."""
 
     def run(self, seeds: list[int], output: str, checkpoint_tick: int = 60, window: int = 40, live_window: int = 100,
-            ore_margin: float = 1.5) -> JSON:
+            ore_margin: float = 1.5, population: int = 8, ore_per_site: int = 240) -> JSON:
         out = Path(output)
         store = Store(out / "inheritance.sqlite")
         boundary = checkpoint_tick + 1
         rec = Recorder(out, "inheritance.json", {
-            "protocol": "inheritance-diagnostic-1", "exploratory": True, "versions": VERSIONS, "planned_seeds": seeds,
+            "protocol": "inheritance-diagnostic-1", "exploratory": True, "versions": VERSIONS, "planned_seeds": seeds, "population": population, "ore_per_site": ore_per_site,
             "checkpoint_tick": checkpoint_tick, "removal_boundary_tick": boundary,
             "diagnostic_window": Window(boundary, boundary + window, "diagnostic").describe() | {"label": "diagnostic"},
             "live_window_ticks": live_window,
@@ -187,7 +187,7 @@ class InheritanceExperiment:
             rec.report["seeds"].append(row)
             rec.save()
             try:
-                base = store.create(Scenario(seed=seed, sharing=True, controller="search", max_ticks=checkpoint_tick))
+                base = store.create(Scenario(seed=seed, population=population, ore_per_site=ore_per_site, sharing=True, controller="search", max_ticks=checkpoint_tick))
                 row["base_run"] = base
                 for _ in range(checkpoint_tick):
                     store.step(base)

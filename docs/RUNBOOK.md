@@ -16,13 +16,17 @@ cd frontend && npm install && npm run build
 |---|---|
 | Start the observatory | `python -m genesis.cli serve`, then open <http://127.0.0.1:8000> |
 | Frontend hot reload | Run `serve` in one terminal, then `cd frontend && npm run dev` (port 5173 proxies `/api`) |
-| Create a world, print its run ID | `python -m genesis.cli new --seed 7 [--restricted] [--baseline] [--removal creators --removal-tick 80]` |
+| Create a world, print its run ID | `python -m genesis.cli new --seed 7 [--population 20] [--restricted] [--baseline] [--removal creators --removal-tick 80 --succession fresh --successor-access library\|none\|direct]` |
 | Create from a scenario file | `python -m genesis.cli new --scenario scenarios/creator-removal.json` |
 | Advance a world headless | `python -m genesis.cli step RUN_ID --ticks 50` |
 | List runs | `python -m genesis.cli list` |
-| One-shot demo with export | `python -m genesis.cli demo --ticks 120 --out evidence/offline-demo.json` |
-| Paired experiment | `python -m genesis.cli compare --seeds 11 42 77 --ticks 160` |
-| Benchmark | `python -m genesis.cli benchmark --ticks 200` |
+| One-shot demo with export | `python -m genesis.cli demo --ticks 120 --removal creators --removal-tick 60 --succession fresh` |
+| **Regenerate all evidence** | `python tools/generate_evidence.py` (logs every step to `evidence/v0.3.0/runs.json`) |
+| Inheritance experiment | `python -m genesis.cli inherit --seeds 11 42 77` (20 agents: `--population 20 --ore-per-site 960 --out evidence/v0.3.0/twenty/inheritance`) |
+| Descriptive comparison | `python -m genesis.cli compare --seeds 11 42 77 --ticks 160` |
+| Independent metrics for any export | `python -m genesis.cli reduce PATH.json.gz` (or `reduce-run RUN_ID` for a stored run) |
+| Profile 8 and 20 agents | `python -m genesis.profiling OUT.json 100 3 [scoped\|full]` |
+| Benchmark | `python -m genesis.cli benchmark --ticks 200 --population 20` |
 | Tests | `python -m pytest -q` |
 
 ## Interruption and restart
@@ -36,14 +40,15 @@ Each tick commits atomically. If the server or CLI is killed, the database holds
 | Checkpoint | `python -m genesis.cli checkpoint RUN_ID` (or the ◫ button) |
 | Replay to a tick | `python -m genesis.cli replay RUN_ID 40`. Prints the state hash; no controllers run. |
 | Fork from a tick | `python -m genesis.cli fork RUN_ID 40`. Creates a new run ID with `parent` lineage; the original is untouched. |
+| Fork with an intervention | `python -m genesis.cli fork RUN_ID 60 --intervention '{"removal":"creators","removal_tick":61,"succession":"fresh","successor_access":"none","invention":"frozen","max_ticks":101}' --label diag-none`. Only lifecycle, invention and `max_ticks` may change, and the intervention is recorded in the child manifest. |
 
 In the UI, **Archive** has the same functions: inspect a tick read-only, fork the displayed state, or jump to a checkpoint.
 
 ## Export and import
 
 ```bash
-python -m genesis.cli export RUN_ID --out evidence/my-run.json
-python -m genesis.cli --db other.sqlite import evidence/my-run.json          # .json or .json.gz
+python -m genesis.cli export RUN_ID --out my-run.json
+python -m genesis.cli --db other.sqlite import my-run.json          # .json or .json.gz
 ```
 
 Import re-verifies the checksum, every record hash, the chain links and every intermediate state hash before writing anything. A tampered export is rejected.
@@ -67,6 +72,6 @@ Runs written by a different engine, rule or evaluator version remain listed (mar
 The benchmark reports bytes per tick (see [IMPLEMENTATION_STATUS](IMPLEMENTATION_STATUS.md)). To keep things small:
 
 - raise `snapshot_every`, which trades replay speed for space
-- delete experiment databases under `evidence/comparison/experiments.sqlite`; the gzipped exports next to them are the durable evidence
+- delete experiment databases (`evidence/v0.3.0/**/*.sqlite`, which git ignores); the gzipped exports next to them are the durable evidence
 
 `data/` and `*.sqlite` are git-ignored.

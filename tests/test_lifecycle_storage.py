@@ -100,10 +100,10 @@ def test_production_continues_from_deposited_ore():
 
 # --- retirement and succession ------------------------------------------------------------------
 
-def at_boundary(access="library", succession="fresh", role="producer", ticks=60):
+def at_boundary(access="library", succession="fresh", role="producer", ticks=60, invention="frozen"):
     state = run(new_world(Scenario(max_ticks=400)), ticks)
     state = with_policy(state, removal="creators", removal_tick=ticks + 1, succession=succession,
-                        successor_access=access, successor_role=role, invention="frozen")
+                        successor_access=access, successor_role=role, invention=invention)
     held = {aid: dict(a["inventory"]) for aid, a in state["agents"].items()}
     after, events, _ = advance(state, OfflineController(state["config"]["controller_seed"]))
     return state, after, events, held
@@ -259,3 +259,20 @@ def test_replay_reconstructs_lifecycle_and_storage_at_every_tick(tmp_path):
     assert sum(s["flows"]["retirement"]["food"] + s["flows"]["retirement"]["ore"] for s in final["settlements"].values()) >= 0
     imported = Store(tmp_path / "copy.sqlite").import_run(restarted.export(rid))
     assert digest(Store(tmp_path / "copy.sqlite").load(imported)) == hashes[50]
+
+
+def test_successor_researcher_revises_the_inherited_procedure():
+    _, state, _, _ = at_boundary(access="library", role="researcher", invention="open")
+    state = run(state, 25)
+    heirs = [a for a in state["agents"].values() if a["predecessor"]]
+    for heir in heirs:
+        inherited = [aid for aid, art in state["artifacts"].items() if any(t["to"] == heir["id"] for t in art["transmissions"])]
+        assert inherited, "the successor must learn before revising"
+        revisions = [art for art in state["artifacts"].values() if art["creator"] == heir["id"]]
+        assert revisions and all(r["parent"] in inherited for r in revisions)
+        for r in revisions:
+            parent = state["artifacts"][r["parent"]]
+            assert parent["creator"] == heir["predecessor"] and r["generation"] == parent["generation"] + 1
+            assert r["evaluation"] and r["evaluation"]["parent_energy"] == parent["evaluation"]["energy"]
+            if r["status"] == "rejected":   # the inherited procedure is already optimal (24) for this evaluation set
+                assert any("no improvement over parent" in f for f in r["evaluation"]["failures"])

@@ -1,0 +1,74 @@
+{
+  "steps": [
+    {
+      "step": "search-space enumeration",
+      "command": "python tools/enumerate_space.py evidence/v0.3.0/invention/search-space.json",
+      "exit_code": 0,
+      "seconds": 0.4,
+      "stderr_tail": ""
+    },
+    {
+      "step": "restart and idempotency verification",
+      "command": "python tools/verify_restart.py evidence/v0.3.0/verification/restart.json",
+      "exit_code": 0,
+      "seconds": 2.9,
+      "stderr_tail": ""
+    },
+    {
+      "step": "inheritance experiment, 8 agents",
+      "command": "python -m genesis.cli inherit --seeds 11 42 77 --checkpoint 60 --window 40 --live-window 100 --out evidence/v0.3.0/inheritance",
+      "exit_code": 0,
+      "seconds": 60.4,
+      "stderr_tail": ""
+    },
+    {
+      "step": "inheritance experiment, 20 agents",
+      "command": "python -m genesis.cli inherit --seeds 11 42 77 --checkpoint 60 --window 40 --live-window 100 --population 20 --ore-per-site 960 --out evidence/v0.3.0/twenty/inheritance",
+      "exit_code": 0,
+      "seconds": 111.3,
+      "stderr_tail": ""
+    },
+    {
+      "step": "descriptive paired comparison",
+      "command": "python -m genesis.cli compare --seeds 11 42 77 --ticks 160 --out evidence/v0.3.0/comparison",
+      "exit_code": 0,
+      "seconds": 138.0,
+      "stderr_tail": ""
+    },
+    {
+      "step": "demo world with succession, 8 agents",
+      "command": "python -m genesis.cli --db evidence/v0.3.0/demo/demo.sqlite demo --seed 42 --ticks 120 --removal creators --removal-tick 60 --succession fresh --out evidence/v0.3.0/demo/offline-demo.json",
+      "exit_code": 0,
+      "seconds": 5.9,
+      "stderr_tail": ""
+    },
+    {
+      "step": "profile before optimisation (full-copy reference)",
+      "command": "python -m genesis.profiling evidence/v0.3.0/benchmark/profile-before-optimization.json 100 3 full",
+      "exit_code": 0,
+      "seconds": 184.2,
+      "stderr_tail": ""
+    },
+    {
+      "step": "profile after optimisation (scoped copy)",
+      "command": "python -m genesis.profiling evidence/v0.3.0/benchmark/profile-after-optimization.json 100 3 scoped",
+      "exit_code": 0,
+      "seconds": 55.9,
+      "stderr_tail": ""
+    },
+    {
+      "step": "benchmark, 8 agents",
+      "command": "python -m genesis.cli --db evidence/v0.3.0/benchmark/bench8.sqlite benchmark --ticks 200 --population 8 --out evidence/v0.3.0/benchmark/benchmark-8.json",
+      "exit_code": 0,
+      "seconds": 13.1,
+      "stderr_tail": ""
+    },
+    {
+      "step": "benchmark, 20 agents",
+      "command": "python -m genesis.cli --db evidence/v0.3.0/benchmark/bench20.sqlite benchmark --ticks 200 --population 20 --out evidence/v0.3.0/benchmark/benchmark-20.json",
+      "exit_code": 0,
+      "seconds": 21.2,
+      "stderr_tail": ""
+    }
+  ]
+}

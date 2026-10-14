@@ -131,8 +131,11 @@ def _ui_payload(store: Store, rid: str) -> JSON:
 
 if __name__ == "__main__":
     import sys
+    from . import engine
     out = Path(sys.argv[1]) if len(sys.argv) > 1 else Path("evidence/v0.3.0/benchmark/profile.json")
+    engine.COPY_STRATEGY = sys.argv[4] if len(sys.argv) > 4 else "scoped"
     result = profile([8, 20], int(sys.argv[2]) if len(sys.argv) > 2 else 100, int(sys.argv[3]) if len(sys.argv) > 3 else 3)
+    result["settings"]["copy_strategy"] = engine.COPY_STRATEGY
     out.parent.mkdir(parents=True, exist_ok=True)
     out.write_text(json.dumps(result, indent=2), encoding="utf-8")
     print(json.dumps({p: {k: v for k, v in r.items() if k in ("median_tick_ms_across_runs", "ticks_per_second", "profiled_breakdown", "ui_payload")}

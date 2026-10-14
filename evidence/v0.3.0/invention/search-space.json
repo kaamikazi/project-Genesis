@@ -1,0 +1,411 @@
+{
+  "evaluation_cases": {
+    "training": [
+      1,
+      4,
+      7,
+      10
+    ],
+    "held_out": [
+      0,
+      2,
+      3,
+      5,
+      6,
+      8,
+      9,
+      11
+    ]
+  },
+  "lower_bound": {
+    "per_case_minimum_energy": 2,
+    "cases": 12,
+    "bound": 24,
+    "argument": "every case costs at least the per-case minimum under conversion(); no program in the bounded language can go below cases x minimum on this evaluation set"
+  },
+  "best_found": 24,
+  "optimal_programs": [
+    "threshold 6, then 0"
+  ],
+  "scope": "optimal only for these 12 phase cases, the fictional conversion rule, and energy as the objective",
+  "verified_in_controller_grammar": [
+    "threshold 6, then 0",
+    "threshold 7, then 0",
+    "threshold 8, then 0",
+    "threshold 9, then 0"
+  ],
+  "programs": [
+    {
+      "program": "constant mode 0",
+      "in_controller_grammar": false,
+      "energy": 48,
+      "training_energy": 16,
+      "status": "rejected",
+      "failures": [
+        "training saving 0% is below 25%",
+        "held-out saving 0% is below 25%"
+      ]
+    },
+    {
+      "program": "constant mode 1",
+      "in_controller_grammar": false,
+      "energy": 48,
+      "training_energy": 16,
+      "status": "rejected",
+      "failures": [
+        "training phase 1: 6 energy is worse than baseline 2",
+        "training phase 4: 6 energy is worse than baseline 2",
+        "training saving 0% is below 25%",
+        "held-out phase 0: 6 energy is worse than baseline 2",
+        "held-out phase 2: 6 energy is worse than baseline 2",
+        "held-out phase 3: 6 energy is worse than baseline 2",
+        "held-out phase 5: 6 energy is worse than baseline 2",
+        "held-out saving 0% is below 25%"
+      ]
+    },
+    {
+      "program": "threshold 0, then 0",
+      "in_controller_grammar": false,
+      "energy": 48,
+      "training_energy": 16,
+      "status": "rejected",
+      "failures": [
+        "training phase 1: 6 energy is worse than baseline 2",
+        "training phase 4: 6 energy is worse than baseline 2",
+        "training saving 0% is below 25%",
+        "held-out phase 0: 6 energy is worse than baseline 2",
+        "held-out phase 2: 6 energy is worse than baseline 2",
+        "held-out phase 3: 6 energy is worse than baseline 2",
+        "held-out phase 5: 6 energy is worse than baseline 2",
+        "held-out saving 0% is below 25%"
+      ]
+    },
+    {
+      "program": "threshold 0, then 1",
+      "in_controller_grammar": false,
+      "energy": 48,
+      "training_energy": 16,
+      "status": "rejected",
+      "failures": [
+        "training saving 0% is below 25%",
+        "held-out saving 0% is below 25%"
+      ]
+    },
+    {
+      "program": "threshold 1, then 0",
+      "in_controller_grammar": false,
+      "energy": 44,
+      "training_energy": 16,
+      "status": "rejected",
+      "failures": [
+        "training phase 1: 6 energy is worse than baseline 2",
+        "training phase 4: 6 energy is worse than baseline 2",
+        "training saving 0% is below 25%",
+        "held-out phase 2: 6 energy is worse than baseline 2",
+        "held-out phase 3: 6 energy is worse than baseline 2",
+        "held-out phase 5: 6 energy is worse than baseline 2",
+        "held-out saving 12% is below 25%"
+      ]
+    },
+    {
+      "program": "threshold 1, then 1",
+      "in_controller_grammar": false,
+      "energy": 52,
+      "training_energy": 16,
+      "status": "rejected",
+      "failures": [
+        "training saving 0% is below 25%",
+        "held-out phase 0: 6 energy is worse than baseline 2",
+        "held-out saving -12% is below 25%"
+      ]
+    },
+    {
+      "program": "threshold 2, then 0",
+      "in_controller_grammar": true,
+      "energy": 40,
+      "training_energy": 12,
+      "status": "rejected",
+      "failures": [
+        "training phase 4: 6 energy is worse than baseline 2",
+        "held-out phase 2: 6 energy is worse than baseline 2",
+        "held-out phase 3: 6 energy is worse than baseline 2",
+        "held-out phase 5: 6 energy is worse than baseline 2",
+        "held-out saving 12% is below 25%"
+      ]
+    },
+    {
+      "program": "threshold 2, then 1",
+      "in_controller_grammar": true,
+      "energy": 56,
+      "training_energy": 20,
+      "status": "rejected",
+      "failures": [
+        "training phase 1: 6 energy is worse than baseline 2",
+        "training saving -25% is below 25%",
+        "held-out phase 0: 6 energy is worse than baseline 2",
+        "held-out saving -12% is below 25%"
+      ]
+    },
+    {
+      "program": "threshold 3, then 0",
+      "in_controller_grammar": true,
+      "energy": 36,
+      "training_energy": 12,
+      "status": "rejected",
+      "failures": [
+        "training phase 4: 6 energy is worse than baseline 2",
+        "held-out phase 3: 6 energy is worse than baseline 2",
+        "held-out phase 5: 6 energy is worse than baseline 2"
+      ]
+    },
+    {
+      "program": "threshold 3, then 1",
+      "in_controller_grammar": true,
+      "energy": 60,
+      "training_energy": 20,
+      "status": "rejected",
+      "failures": [
+        "training phase 1: 6 energy is worse than baseline 2",
+        "training saving -25% is below 25%",
+        "held-out phase 0: 6 energy is worse than baseline 2",
+        "held-out phase 2: 6 energy is worse than baseline 2",
+        "held-out saving -25% is below 25%"
+      ]
+    },
+    {
+      "program": "threshold 4, then 0",
+      "in_controller_grammar": true,
+      "energy": 32,
+      "training_energy": 12,
+      "status": "rejected",
+      "failures": [
+        "training phase 4: 6 energy is worse than baseline 2",
+        "held-out phase 5: 6 energy is worse than baseline 2"
+      ]
+    },
+    {
+      "program": "threshold 4, then 1",
+      "in_controller_grammar": true,
+      "energy": 64,
+      "training_energy": 20,
+      "status": "rejected",
+      "failures": [
+        "training phase 1: 6 energy is worse than baseline 2",
+        "training saving -25% is below 25%",
+        "held-out phase 0: 6 energy is worse than baseline 2",
+        "held-out phase 2: 6 energy is worse than baseline 2",
+        "held-out phase 3: 6 energy is worse than baseline 2",
+        "held-out saving -38% is below 25%"
+      ]
+    },
+    {
+      "program": "threshold 5, then 0",
+      "in_controller_grammar": true,
+      "energy": 28,
+      "training_energy": 8,
+      "status": "rejected",
+      "failures": [
+        "held-out phase 5: 6 energy is worse than baseline 2"
+      ]
+    },
+    {
+      "program": "threshold 5, then 1",
+      "in_controller_grammar": true,
+      "energy": 68,
+      "training_energy": 24,
+      "status": "rejected",
+      "failures": [
+        "training phase 1: 6 energy is worse than baseline 2",
+        "training phase 4: 6 energy is worse than baseline 2",
+        "training saving -50% is below 25%",
+        "held-out phase 0: 6 energy is worse than baseline 2",
+        "held-out phase 2: 6 energy is worse than baseline 2",
+        "held-out phase 3: 6 energy is worse than baseline 2",
+        "held-out saving -38% is below 25%"
+      ]
+    },
+    {
+      "program": "threshold 6, then 0",
+      "in_controller_grammar": true,
+      "energy": 24,
+      "training_energy": 8,
+      "status": "verified",
+      "failures": []
+    },
+    {
+      "program": "threshold 6, then 1",
+      "in_controller_grammar": true,
+      "energy": 72,
+      "training_energy": 24,
+      "status": "rejected",
+      "failures": [
+        "training phase 1: 6 energy is worse than baseline 2",
+        "training phase 4: 6 energy is worse than baseline 2",
+        "training saving -50% is below 25%",
+        "held-out phase 0: 6 energy is worse than baseline 2",
+        "held-out phase 2: 6 energy is worse than baseline 2",
+        "held-out phase 3: 6 energy is worse than baseline 2",
+        "held-out phase 5: 6 energy is worse than baseline 2",
+        "held-out saving -50% is below 25%"
+      ]
+    },
+    {
+      "program": "threshold 7, then 0",
+      "in_controller_grammar": true,
+      "energy": 28,
+      "training_energy": 8,
+      "status": "verified",
+      "failures": []
+    },
+    {
+      "program": "threshold 7, then 1",
+      "in_controller_grammar": true,
+      "energy": 68,
+      "training_energy": 24,
+      "status": "rejected",
+      "failures": [
+        "training phase 1: 6 energy is worse than baseline 2",
+        "training phase 4: 6 energy is worse than baseline 2",
+        "training saving -50% is below 25%",
+        "held-out phase 0: 6 energy is worse than baseline 2",
+        "held-out phase 2: 6 energy is worse than baseline 2",
+        "held-out phase 3: 6 energy is worse than baseline 2",
+        "held-out phase 5: 6 energy is worse than baseline 2",
+        "held-out saving -38% is below 25%"
+      ]
+    },
+    {
+      "program": "threshold 8, then 0",
+      "in_controller_grammar": true,
+      "energy": 32,
+      "training_energy": 12,
+      "status": "verified",
+      "failures": []
+    },
+    {
+      "program": "threshold 8, then 1",
+      "in_controller_grammar": true,
+      "energy": 64,
+      "training_energy": 20,
+      "status": "rejected",
+      "failures": [
+        "training phase 1: 6 energy is worse than baseline 2",
+        "training phase 4: 6 energy is worse than baseline 2",
+        "training saving -25% is below 25%",
+        "held-out phase 0: 6 energy is worse than baseline 2",
+        "held-out phase 2: 6 energy is worse than baseline 2",
+        "held-out phase 3: 6 energy is worse than baseline 2",
+        "held-out phase 5: 6 energy is worse than baseline 2",
+        "held-out saving -38% is below 25%"
+      ]
+    },
+    {
+      "program": "threshold 9, then 0",
+      "in_controller_grammar": true,
+      "energy": 36,
+      "training_energy": 12,
+      "status": "verified",
+      "failures": []
+    },
+    {
+      "program": "threshold 9, then 1",
+      "in_controller_grammar": true,
+      "energy": 60,
+      "training_energy": 20,
+      "status": "rejected",
+      "failures": [
+        "training phase 1: 6 energy is worse than baseline 2",
+        "training phase 4: 6 energy is worse than baseline 2",
+        "training saving -25% is below 25%",
+        "held-out phase 0: 6 energy is worse than baseline 2",
+        "held-out phase 2: 6 energy is worse than baseline 2",
+        "held-out phase 3: 6 energy is worse than baseline 2",
+        "held-out phase 5: 6 energy is worse than baseline 2",
+        "held-out saving -25% is below 25%"
+      ]
+    },
+    {
+      "program": "threshold 10, then 0",
+      "in_controller_grammar": false,
+      "energy": 40,
+      "training_energy": 12,
+      "status": "rejected",
+      "failures": [
+        "held-out saving 12% is below 25%"
+      ]
+    },
+    {
+      "program": "threshold 10, then 1",
+      "in_controller_grammar": false,
+      "energy": 56,
+      "training_energy": 20,
+      "status": "rejected",
+      "failures": [
+        "training phase 1: 6 energy is worse than baseline 2",
+        "training phase 4: 6 energy is worse than baseline 2",
+        "training saving -25% is below 25%",
+        "held-out phase 0: 6 energy is worse than baseline 2",
+        "held-out phase 2: 6 energy is worse than baseline 2",
+        "held-out phase 3: 6 energy is worse than baseline 2",
+        "held-out phase 5: 6 energy is worse than baseline 2",
+        "held-out saving -12% is below 25%"
+      ]
+    },
+    {
+      "program": "threshold 11, then 0",
+      "in_controller_grammar": false,
+      "energy": 44,
+      "training_energy": 16,
+      "status": "rejected",
+      "failures": [
+        "training saving 0% is below 25%",
+        "held-out saving 12% is below 25%"
+      ]
+    },
+    {
+      "program": "threshold 11, then 1",
+      "in_controller_grammar": false,
+      "energy": 52,
+      "training_energy": 16,
+      "status": "rejected",
+      "failures": [
+        "training phase 1: 6 energy is worse than baseline 2",
+        "training phase 4: 6 energy is worse than baseline 2",
+        "training saving 0% is below 25%",
+        "held-out phase 0: 6 energy is worse than baseline 2",
+        "held-out phase 2: 6 energy is worse than baseline 2",
+        "held-out phase 3: 6 energy is worse than baseline 2",
+        "held-out phase 5: 6 energy is worse than baseline 2",
+        "held-out saving -12% is below 25%"
+      ]
+    },
+    {
+      "program": "threshold 12, then 0",
+      "in_controller_grammar": false,
+      "energy": 48,
+      "training_energy": 16,
+      "status": "rejected",
+      "failures": [
+        "training saving 0% is below 25%",
+        "held-out saving 0% is below 25%"
+      ]
+    },
+    {
+      "program": "threshold 12, then 1",
+      "in_controller_grammar": false,
+      "energy": 48,
+      "training_energy": 16,
+      "status": "rejected",
+      "failures": [
+        "training phase 1: 6 energy is worse than baseline 2",
+        "training phase 4: 6 energy is worse than baseline 2",
+        "training saving 0% is below 25%",
+        "held-out phase 0: 6 energy is worse than baseline 2",
+        "held-out phase 2: 6 energy is worse than baseline 2",
+        "held-out phase 3: 6 energy is worse than baseline 2",
+        "held-out phase 5: 6 energy is worse than baseline 2",
+        "held-out saving 0% is below 25%"
+      ]
+    }
+  ]
+}

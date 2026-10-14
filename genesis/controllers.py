@@ -51,20 +51,22 @@ class OfflineController:
         pending = [v for v in own if v["status"] == "proposed"]
         if pending:
             return act("test_artifact", artifact=pending[0]["id"])
+        known = [o["artifacts"][k] for k in a["known"] if k in o["artifacts"]]
+        learnable = [v for v in o["artifacts"].values() if v["status"] == "verified" and v["id"] not in a["known"]]
+        if learnable and not any(v["status"] == "verified" for v in known):
+            # Learn an accessible verified procedure before searching from scratch (researchers then revise it).
+            return act("inspect_artifact", artifact=learnable[0]["id"])
         if a["role"] == "researcher" and o["rules"]["invention_open"] and SearchBudget().available(a, o["rules"]["search_budget"]):
-            best = sorted((v for v in own if v["status"] == "verified"), key=lambda v: -v["created_tick"])
+            best = sorted((v for v in known if v["status"] == "verified"), key=lambda v: -v["created_tick"])
             if not best:
                 return act("propose_artifact", program=candidate(self.seed, a["id"], a["search_count"]), parent=None)
-            # Local search: try each untried revision of the current best; stop at a local optimum.
+            # Local search from the best verified procedure it holds (its own or one learned from the library):
+            # try each untried revision; stop at a local optimum.
             tried = {canonical(v["program"]) for v in own if v["parent"] == best[0]["id"]}
             options = [r for r in revisions(best[0]["program"]) if canonical(r) not in tried]
             options.sort(key=lambda r: keyed(self.seed, "controller-revision", a["id"], canonical(r)))
             if options:
                 return act("propose_artifact", program=options[0], parent=best[0]["id"])
-        known = [o["artifacts"][k] for k in a["known"] if k in o["artifacts"]]
-        learnable = [v for v in o["artifacts"].values() if v["status"] == "verified" and v["id"] not in a["known"]]
-        if learnable and not any(v["status"] == "verified" for v in known):
-            return act("inspect_artifact", artifact=learnable[0]["id"])
         # Small, explicitly scripted exchange policy; all effects still pass engine validation.
         if tick % 31 == 9 and a["inventory"]["alloy"] >= 2 and o["neighbors"]:
             return act("offer_trade", target=o["neighbors"][0]["id"], give="alloy", give_amount=1, want="food", want_amount=1)

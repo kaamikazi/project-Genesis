@@ -46,6 +46,8 @@ class Scenario(BaseModel):
     invention: Literal["open", "frozen"] = "open"
     # Controller randomness is independent of the world seed and never placed in observations.
     controller_seed: int = Field(default=7, ge=0, le=2**31 - 1)
+    # Declared resource scale: ore placed on each of the four ore sites at world creation (never replenished).
+    ore_per_site: int = Field(default=240, ge=0, le=5000)
 
 
 class Action(BaseModel):

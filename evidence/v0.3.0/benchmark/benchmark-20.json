@@ -1,0 +1,39 @@
+{
+  "run_id": "aee38969aca6",
+  "ticks": 200,
+  "population": 20,
+  "platform": "Windows-10-10.0.26300-SP0",
+  "processor": "AMD64 Family 25 Model 68 Stepping 1, AuthenticAMD",
+  "python": "3.10.11",
+  "versions": {
+    "engine": "0.3.0",
+    "rules": "phase-world-3",
+    "evaluator": "phase-evaluator-3"
+  },
+  "committed": {
+    "total_seconds": 12.455,
+    "ticks_per_second": 16.06,
+    "median_tick_ms": 60.24,
+    "p95_tick_ms": 82.7,
+    "stdev_tick_ms": 11.7,
+    "note": "store.step wall time: load + validate + engine + delta + SQLite commit with fsync"
+  },
+  "engine_only": {
+    "median_tick_ms": 25.09,
+    "p95_tick_ms": 38.35,
+    "note": "advance() in memory, no persistence"
+  },
+  "memory": {
+    "peak_traced_python_bytes": 1613990,
+    "ticks": 40,
+    "note": "tracemalloc Python allocations during engine-only ticks, not process RSS; measured separately from timing"
+  },
+  "storage": {
+    "record_bytes_total": 5218756,
+    "record_bytes_per_tick": 26094,
+    "database_bytes": 7933952
+  },
+  "model_overhead_ms": 0,
+  "model_calls": 0,
+  "cost_usd": 0
+}

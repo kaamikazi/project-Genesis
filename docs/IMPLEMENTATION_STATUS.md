@@ -1,103 +1,134 @@
-# Implementation status, v0.2.0 (2026-10-14)
+# Implementation status, v0.3.0 (2026-10-14)
 
-Engine `0.2.0` · rules `phase-world-2` · evaluator `phase-evaluator-2` · storage schema 1.
+Engine `0.3.0` · rules `phase-world-3` · evaluator `phase-evaluator-3` · storage schema 1. Evidence: [`evidence/v0.3.0/`](../evidence/v0.3.0/README.md). The previous release's claims are audited in [audit/AUDIT-v0.2.0.md](audit/AUDIT-v0.2.0.md).
+
+**Verification run at release:**
+
+- `python -m pytest -q`: **70 passed** (it was 35 before this milestone, recorded in [audit/baseline-verification.md](audit/baseline-verification.md))
+- `npm run build`: succeeded
+- `python tools/generate_evidence.py`: 11 of 11 steps exited 0
 
 ## Works and is verified
 
 | Capability | Evidence |
 |---|---|
-| Grid world, two settlements, eight persistent agents, finite and replenishing resources, integer accounting with conservation invariants | `tests/test_engine.py` (rejections never mutate state, long-run accounting, production and consumption sinks, randomized invalid transfers) |
-| Move, gather, consume, transfer, offer/accept trade (atomic, re-validated), finite message vocabulary, wait | rejection, trade and double-spend tests |
-| Deterministic contention with rotating priority; every rejection logged with a reason | `test_contention_rotates_and_records_rejection` |
-| Restricted observations: no world seed, no ledger or metrics, no evaluations, no other agents' histories | `test_observations_do_not_leak_world_seed_or_hidden_phase_inputs`, `test_real_search_transmission_and_access_boundaries` |
-| Bounded AST language with node, depth, byte, step and capability limits; unknown operators rejected; no host code execution | `test_ast_capability_steps_unknown_operator_and_heldout` |
-| Independent evaluator with disjoint training and held-out phases, a named baseline, explicit failure reasons | same, plus evaluator failure assertions |
-| **Bounded search generates candidates during the run; verified revisions climb a lineage** (seed 42: 36 → 32 → 28 → 24 energy) | `test_search_climbs_a_verified_lineage_during_the_run`, `test_revisions_must_beat_parent_and_supersede_it` |
-| Library transmission with logged paths; adoption only after a measured saving that follows a logged transmission | transmission and adoption tests; evidence dialogs in the UI |
-| Sharing restriction: no artifact visibility, inspection rejected, zero adoptions | `test_real_search_transmission_and_access_boundaries[False]` |
-| Creator removal and matched-control removal with inventory moved to storage; knowledge persists only through logged transfers | three removal tests |
-| Transactional ticks, hash chain, snapshots, replay without controllers, fork lineage, export and verified import, corrupt-data rejection, crash rollback, idempotency under concurrent writers | `tests/test_storage_api.py` |
-| Version boundary: older runs are read-only but replayable | `test_older_engine_runs_are_read_only_and_skipped_at_startup` |
-| Compact deltas for shifting logs | `test_list_shift_deltas_round_trip` (300 randomized cases) |
-| FastAPI control and inspection; server-owned clock; the built observatory served by the API | `test_api_offline_controls_submission_and_idempotency`, `test_built_observatory_is_served_with_the_api` |
-| Observatory: atlas, run/pause/step/speed, inspector, timeline filters, artifact gallery with lineage and evaluation tables, experiments view, archive with replay, fork, checkpoints and export, removal banner, light and dark themes, phone layout | Exercised manually in the built-in browser on 2026-10-14 (see below) |
+| Independent reducer: holdings, energy by category, windows, successor milestones, reconciliation | `tests/test_reducer.py`. Every energy change per agent is explained by events alone, holdings match the final state, and zero denominators are reported as unavailable. The reducer does not import the engine. |
+| Settlement storage: deposit, withdraw, membership, reach, stock contention, flows ledger | `tests/test_lifecycle_storage.py`. Unauthorized access is rejected, competing withdrawals never overdraw, the ledger is preserved, and production continues from deposited ore. |
+| Retirement to withdrawable storage; retired agents cannot act by any path | `test_retirement_moves_inventory_to_withdrawable_storage`, `test_retired_agents_cannot_act_by_any_path` |
+| Fresh successors with a declared inheritance package (library / none / direct control) | `test_successors_start_fresh_with_only_the_declared_package`, `test_direct_transfer_control_is_labelled` |
+| Library successors discover, learn and use the procedure, with logged evidence | `test_library_successor_discovers_learns_and_uses_with_logged_evidence`, `test_successor_evidence_is_derived_from_events` |
+| Restricted successors have no alternate path (direct IDs, observations, transmissions) | `test_restricted_successor_has_no_alternate_path_to_procedures` |
+| Cross-generation revision attempts with an intact lineage | `test_successor_researcher_revises_the_inherited_procedure` |
+| Fork interventions validated and recorded; physical parity across matched continuations | `test_forked_continuations_share_physical_conditions`, `test_fork_interventions_are_validated` |
+| Replay reconstructs every tick, including lifecycle, storage and successors; export and import | `test_replay_reconstructs_lifecycle_and_storage_at_every_tick` |
+| Observation boundary: independent of hidden parameters; agent feedback carries no held-out case detail | `test_observations_are_independent_of_hidden_parameters`, `test_agent_feedback_never_carries_held_out_case_detail` |
+| Copy-on-write attempts identical to the full-copy reference | `tests/test_optimization.py`: 6 scenarios, including 20 agents and fuzzed submissions of every action kind, with shared-state verification |
+| Resume after restart, idempotent steps and actions | `evidence/v0.3.0/verification/restart.json` (6 of 6 checks), plus the existing storage and API tests |
+| All v0.1–v0.2 behaviour (accounting, contention, trades, the evaluator, revisions, hash chain, corruption rejection, crash rollback, version boundary) | the original tests, retained |
 
-**Test suite:** `python -m pytest -q` reports **35 passed**.
+## Browser verification (built-in browser, 2026-10-14)
 
-## Browser verification (2026-10-14)
+Checked against `genesis serve` with a world in which the creators retire at tick 30 and library successors replace them:
 
-All of the following were exercised in the app's built-in browser against `genesis serve`:
+- The removal banner names the retirees and their successors with the access policy, and shows the post-removal window.
+- The inspector shows "Succeeded by Oren" and "Retired at tick 30 · history archived, not inherited".
+- The Inhabitants page lists active agents first and retirees last, with links in both directions.
+- The *Why this counts as retention* panel shows all six links for both successors.
+- Settlement storage shows the retirement, deposit and withdrawal flows.
+- The Experiments page renders the inheritance diagnostic (with parity badges), the live continuation, the 20-agent replication, and the descriptive comparison from the reducer.
+- At 375 px, none of the five pages scrolls horizontally, and there are no console errors.
+- Screenshots sometimes timed out because the app window was behind another window. Text and DOM checks were used instead.
 
-- run and pause
-- live ticks reaching a verified procedure
-- the Invention lab cards, including rejection reasons
-- the evidence dialog with the full case table, a four-generation lineage and transmission records
-- creating a new world through the dialog with a removal policy; the matched control retired Ivo and Mira at tick 30
-- the Experiments page rendering the real report
-- the light theme
-- the 375 px phone layout with no horizontal scroll
-- no console errors
+## Corrected claims from v0.2.0
 
-After a server restart, the same run resumed at tick 34 with an identical state hash. A duplicated step `request_id` advanced only one tick, and replaying tick 34 reproduced the hash.
+| v0.2.0 claim | Correction (evidence) |
+|---|---|
+| "Every world hits the same 512-alloy cap" | 512 is the theoretical maximum (1,024 ore ÷ 2). In v0.2.0 it was reached in **9 of 21** worlds; retirement worlds stranded 2–6 ore in storage that could not be withdrawn. In v0.3.0, **18 of 21** reach 512, and the other three end at 511 with 2 ore still accessible. |
+| "Retirement comparison is fair / isolates knowledge" | It is **descriptive only**: the retired creators were researchers (21–31 pre-removal productions) and the matched retirees were producers (38–42). The controlled test is the inheritance diagnostic. |
+| "Controllers never receive the world seed" | v0.2.0 leaked a seed-derived value. The seed was recovered in at most 78 guesses. Fixed: an independent controller seed, never observed, guarded by a test. |
+| "Held-out cases never shown case by case" | v0.2.0 leaked 38 held-out case failures into memories (seed 42). Fixed: agents now receive aggregate feedback only. |
+| "24 energy is optimal" | Now scoped and proved: a lower bound of 2 energy × 12 cases, reached only by threshold 6 (`invention/search-space.json`). |
+| "Lineage 36 → 32 → 28 → 24" | That was v0.2.0's ordering. With the independent controller seed it is 32 → 28 → 24 (Hearth); Haven finds 24 directly. |
 
-## Experiment results
+## Results (exploratory; 3 seeds; designed mechanics)
 
-From `evidence/comparison/` (protocol `paired-phase-2`, seeds 11, 42 and 77, 160 ticks, removal at tick 80). **21 of 21 attempts completed, 0 failed, and every final state was replay-verified.** Exploratory; no significance claim.
+### Controlled succession, 8 agents
 
-| Energy per alloy | Seed 11 | Seed 42 | Seed 77 |
-|---|---|---|---|
-| sharing | 2.22 | 2.15 | 2.15 |
-| restricted | 3.56 | 3.83 | 3.66 |
-| baseline (no search) | 4.10 | 4.20 | 4.17 |
+Fork at tick 60, retirement at tick 61, diagnostic window ticks 62–101, invention frozen. Physical parity was verified for all three seeds.
 
-| Energy per alloy **after removal** | Seed 11 | Seed 42 | Seed 77 |
-|---|---|---|---|
-| sharing, creators removed | 2.00 | 2.00 | 2.00 |
-| sharing, matched non-creators removed | 2.00 | 2.00 | 2.00 |
-| restricted, creators removed | 3.87 | 4.11 | 3.96 |
-| restricted, matched non-creators removed | 3.19 | 3.40 | 3.36 |
+| Continuation | Successors acquiring via library | With a measured saving | Successor production energy / alloy (mean of 6 · pooled) | Settlement production energy / alloy, by seed |
+|---|---|---|---|---|
+| successor-library | 6 / 6 (tick 63) | 6 / 6 (ticks 65–69) | 2.00 · 2.00 | 2.00, 2.00, 2.00 |
+| successor-no-library | 0 / 6 | 0 / 6 | 4.21 · 4.21 | 2.60, 2.52, 2.46 |
+| successor-direct-control | package | 6 / 6 (ticks 64–67) | 2.00 · 2.00 | 2.00, 2.00, 2.00 |
 
-**Reading:**
+Charged energy per alloy for the whole settlement, by seed:
 
-- Every search world makes 512 alloy because ore is finite, so sharing changes cost, not volume.
-- With sharing, producers used the creators' procedure 207, 225 and 210 times after the creators retired, and efficiency did not change. Under restriction, losing the creators cost 0.60–0.71 more energy per alloy than losing the same number of ordinary workers.
-- These outcomes follow from the designed mechanics. The software measures and exposes them; it did not discover them.
+- library: 2.76, 2.87, 2.80
+- no library: 3.31, 3.32, 3.26
 
-The 120-tick demo (`evidence/offline-demo.json`, seed 42, creators removed at tick 60) recorded:
+Ore left at the end of the window: 236–244, so there was no depletion.
 
-- 387 alloy and 6 verified revisions
-- 19 adoptions, and 177 procedure uses after the creators left
-- 0 rejected actions and 0 controller failures
-- final hash `97fd102c…`
+### Controlled succession, 20 agents (declared `ore_per_site: 960`)
+
+Parity was verified for all seeds. Library successors: 6 of 6 acquired the procedure (ticks 63–65), 6 of 6 showed a saving, at 2.00. No-library successors: 0 of 6, pooled 4.19. Settlement production energy per alloy was 2.00 vs 2.18–2.22. 1,948–1,976 ore remained.
+
+At the default ore scale, 20 agents left only 42–54 ore at tick 60, and every seed was correctly marked **ineligible**.
+
+### Live continuation (separate experiment; successor researchers; invention open; ticks 62–161)
+
+- **Library successors** learned the inherited procedure at tick 63. Each proposed its three neighbours, and all were rejected (`no improvement over parent`, against a 24-energy parent). No new verified creator appeared.
+- **No-library successors** made 8 proposals each and re-verified the optimum at tick 72.
+- Production efficiency ended equal (2.00). Total charged energy per alloy differed: 2.93–2.96 with the library, 3.05–3.09 without (8 agents).
+- **Caveat:** 8-agent live runs ran out of ore before tick 161 (flagged `depleted`). 20-agent live runs did not (792–864 ore left).
+
+### Descriptive whole-run comparison (`paired-phase-3`, 21/21 completed and replay-verified)
+
+| Condition | Production energy / alloy | Charged energy / alloy |
+|---|---|---|
+| sharing | 2.16, 2.13, 2.20 | 3.11, 3.10, 3.15 |
+| restricted | 3.56, 3.73, 3.64 | 4.46, 4.65, 4.55 |
+| baseline | 4.10, 4.20, 4.17 | 4.91, 5.02, 4.99 |
+
+Retirement rows are in `comparison.json`. They are descriptive only.
 
 ## Performance
 
-Measured with `evidence/benchmark.json`: Ryzen 7 6800HS, Windows 11, Python 3.10.11, 8 agents, 200 ticks.
+Ryzen 7 6800HS, Windows 11, Python 3.10.11, SQLite WAL with `synchronous=FULL`, seed 42.
 
-| Measure | Value |
-|---|---|
-| Committed tick (load, validate, engine, delta, SQLite commit with fsync) | median **75.9 ms**, p95 88.3 ms, **13.6 ticks/s** |
-| Engine only (`advance`, in memory) | median 44.7 ms, p95 52.6 ms |
-| Peak traced Python allocations (40 ticks) | 1.24 MB |
-| Tick records | about 14.9 KB per tick; 4.7 MB database after 200 ticks |
-| Export size | 7.3 MB for 120 ticks as plain JSON; 180–280 KB per 160-tick gzipped export |
-| Model calls, tokens, cost | 0 |
+| Measure | 8 agents | 20 agents |
+|---|---|---|
+| Committed tick, full-copy reference (3 × 100 ticks, median · run-to-run SD) | 65.1 ms · 0.3 | 215.7 ms · 3.5 |
+| Committed tick, scoped copy (same protocol) | **33.3 ms** · 0.7 (30.3 ticks/s) | **58.2 ms** · 2.2 (16.9 ticks/s) |
+| 200-tick benchmark, committed median / p95 | 42.5 / 65.3 ms (22.5 ticks/s) | 60.2 / 82.7 ms (16.1 ticks/s) |
+| Engine only (`advance`, in memory), median | 12.5 ms | 25.1 ms |
+| Profiled share of state copying, before → after | 85% → 64% | 93% → 65% |
+| Other notable shares after (overlapping) | observations 19%, canonical JSON 13%, SHA-256 12%, commit + fsync 6% | 21%, 14%, 12%, 5% |
+| UI payload `GET /api/runs/{id}` after 100 ticks | 46 ms, 152 KB uncompressed | 63 ms, 214 KB |
+| Export after 100 ticks: build / serialise / gzip | 0.08 / 0.03 / 0.08 s; 2.59 MB → 0.19 MB | 0.19 / 0.05 / 0.16 s; 4.65 MB → 0.37 MB |
+| Snapshot size / serialise time | 118 KB / 6.3 ms | 196 KB / 10.9 ms |
+| Tick records (200-tick run) | 15.2 KB per tick | 26.1 KB per tick |
+| Peak traced Python memory (separate pass) | 0.9–2.1 MB | 1.6–3.9 MB |
 
-**Initial target:** keep committed ticks above the UI's maximum of 10 ticks/s at 8 agents. That is met.
+**Notes:**
 
-Engine time is dominated by `deepcopy` of the full state for each action attempt. Fixing that is the first task in milestone 1.
+- cProfile shares overlap, because nested calls are counted at each level, and profiling adds overhead.
+- In the earlier pre-release profile the commit and fsync time was hidden in `Connection.__exit__`. The profiler now captures it.
+- The 200-tick benchmark is slower per tick than the 100-tick profiles, because state, events and artifacts grow over the run.
+- Both populations exceed the UI's maximum of 10 ticks per second.
 
-## Not implemented (by design or deferred)
+## Not implemented
 
-- **The LLM controller.** The interface and zeroed budget counters exist, but no provider adapter does. See [AGENT_MODEL](AGENT_MODEL.md).
-- **Teaching, institutions, governance, currency, contracts, reputation.** Settlement storage has no withdraw action yet, so retirees' inventory is conserved but unusable.
-- **Succession with new agents** and inheritance packages. Removal is the only lifecycle event.
-- **Social behaviour is scripted:** trades and gifts follow a fixed tick schedule.
-- **Populations over 20, multi-settlement worlds, human visitors.**
-- **A related-work review** beyond the three primary references.
+- **LLM controller:** the interface exists, but no adapter. Building one needs your choice of provider and budget.
+- **Teaching, institutions, governance, currency, contracts, reputation:** not implemented.
+- **Successor births** are scheduled by the scenario. There is no reproduction, and nothing is inherited beyond the declared package.
+- **Social behaviour** (trades and gifts) is scripted.
+- **Invention** reaches its optimum within about 20 ticks, so the inheritance results concern *retention* of a solved procedure, not cumulative improvement across generations.
 
-## Known issues
+## Known issues and limitations
 
-- With deterministic controllers, seeds vary only the environment. Variance across seeds therefore understates what a stochastic controller would show.
-- Researchers receive aggregate pass/fail feedback after held-out evaluation, which leaks some information over repeated tests.
-- The workspace is not a git repository yet.
+- The controllers are deterministic, so variation across seeds is environmental only. Three seeds are a smoke test.
+- Successors in one world are not independent samples. Pooled successor ratios are labelled as such.
+- Partition-level evaluation feedback leaks aggregate information about the held-out set over repeated tests.
+- `artifact.uses` keeps only the last 64 uses. The observatory therefore labels a "first saving" taken from that list as the earliest *retained* one; the reducer gives the exact first tick.
+- The 8-agent live continuation depletes ore before its window ends.

@@ -63,7 +63,7 @@ def new_world(config: Scenario) -> JSON:
         for resource, dx, dy in (("food", -1, 0), ("ore", 1, 0), ("food", 0, 2), ("ore", 0, -2)):
             sid = f'{s["id"]}-{resource}-{dx}-{dy}'
             sites[sid] = {"id": sid, "resource": resource, "x": s["x"] + dx, "y": s["y"] + dy,
-                          "stock": 120 if resource == "food" else 240, "capacity": 120 if resource == "food" else 240}
+                          "stock": 120 if resource == "food" else c["ore_per_site"], "capacity": 120 if resource == "food" else c["ore_per_site"]}
     agents = {}
     split = (c["population"] + 1) // 2
     for i in range(c["population"]):
