@@ -9,7 +9,8 @@ from genesis.models import Action, Scenario, digest
 from genesis.world import new_world
 
 KINDS = ["wait", "move", "gather", "consume", "transfer", "offer_trade", "accept_trade", "send_message", "inspect_artifact",
-         "propose_artifact", "test_artifact", "use_artifact", "produce", "deposit", "withdraw"]
+         "propose_artifact", "test_artifact", "use_artifact", "produce", "deposit", "withdraw",
+         "submit_artifact", "offer_teaching", "accept_teaching", "teach_step", "learn_step", "practice_step", "abandon_session"]
 
 
 def random_action(rng: random.Random, state, aid: str) -> Action:
@@ -29,6 +30,9 @@ def random_action(rng: random.Random, state, aid: str) -> Action:
                                                  "else": {"op": "mode", "value": 1}}, "parent": None},
         "deposit": lambda: {"settlement": rng.choice(["hearth", "haven"]), "resource": "ore", "amount": rng.randint(1, 3)},
         "withdraw": lambda: {"settlement": rng.choice(["hearth", "haven"]), "resource": rng.choice(["ore", "food"]), "amount": rng.randint(1, 3)},
+        "submit_artifact": lambda: {"artifact": rng.choice(arts)},
+        "offer_teaching": lambda: {"learner": rng.choice(agents), "artifact": rng.choice(arts)},
+        **{k: (lambda: {"session": rng.choice(list(state.get("sessions", {})) or ["none"])}) for k in ("accept_teaching", "teach_step", "learn_step", "practice_step", "abandon_session")},
     }.get(kind, lambda: {})()
     return Action(id=f"fuzz-{state['tick']}-{aid}", agent=aid, tick=state["tick"], kind=kind, params=params)
 
@@ -58,6 +62,8 @@ def trajectory(strategy: str, config: Scenario, ticks: int, fuzz_seed: int | Non
     (Scenario(seed=5, population=20, removal="matched", removal_tick=30, succession="fresh", successor_access="direct", max_ticks=500), None),
     (Scenario(seed=42, max_ticks=500), 1),
     (Scenario(seed=9, population=12, removal="creators", removal_tick=25, succession="fresh", max_ticks=500), 2),
+    (Scenario(seed=101, task="workshop-1", teaching=True, lifecycle="cohorts", cohort_ticks=25, sharing=False, ore_per_site=900, max_ticks=500), None),
+    (Scenario(seed=103, task="workshop-1", teaching=True, ore_per_site=900, max_ticks=500), 3),
 ])
 def test_scoped_copy_matches_full_copy_reference(config, fuzz):
     ticks = 70 if fuzz is None else 50

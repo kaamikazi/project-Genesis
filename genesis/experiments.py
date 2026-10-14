@@ -147,7 +147,8 @@ PARITY_MASK = "successor_access, successor capabilities/known/inheritance, succe
 def physical_view(state: JSON) -> str:
     """State hash with the declared knowledge-policy differences masked out."""
     s = json.loads(canonical(state))
-    s["config"].pop("successor_access")
+    for policy_field in ("successor_access", "teaching", "cross_cohort_access"):
+        s["config"].pop(policy_field, None)
     successors = {x["successor"] for x in s["lifecycle"]["successions"]}
     for aid in successors:
         for k in ("capabilities", "known", "inheritance"):

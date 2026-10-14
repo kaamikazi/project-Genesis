@@ -44,9 +44,12 @@ def _cumulative(stats: pstats.Stats) -> dict[str, float]:
     return result
 
 
+OVERRIDES: JSON = {}   # extra Scenario fields for the profiled runs (e.g. workshop-1 with teaching active)
+
+
 def _run(population: int, ticks: int, folder: Path, profiler: cProfile.Profile | None = None) -> tuple[Store, str, list[float]]:
     store = Store(folder / f"p{population}-{time.perf_counter_ns()}.sqlite")
-    rid = store.create(Scenario(population=population, max_ticks=ticks, seed=42))
+    rid = store.create(Scenario(**{"seed": 42, **OVERRIDES, "population": population, "max_ticks": ticks}))
     samples = []
     for _ in range(ticks):
         start = time.perf_counter()
@@ -134,8 +137,11 @@ if __name__ == "__main__":
     from . import engine
     out = Path(sys.argv[1]) if len(sys.argv) > 1 else Path("evidence/v0.3.0/benchmark/profile.json")
     engine.COPY_STRATEGY = sys.argv[4] if len(sys.argv) > 4 else "scoped"
+    if len(sys.argv) > 5:
+        OVERRIDES.update(json.loads(sys.argv[5]))
     result = profile([8, 20], int(sys.argv[2]) if len(sys.argv) > 2 else 100, int(sys.argv[3]) if len(sys.argv) > 3 else 3)
     result["settings"]["copy_strategy"] = engine.COPY_STRATEGY
+    result["settings"]["scenario_overrides"] = OVERRIDES
     out.parent.mkdir(parents=True, exist_ok=True)
     out.write_text(json.dumps(result, indent=2), encoding="utf-8")
     print(json.dumps({p: {k: v for k, v in r.items() if k in ("median_tick_ms_across_runs", "ticks_per_second", "profiled_breakdown", "ui_payload")}

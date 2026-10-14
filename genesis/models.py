@@ -32,7 +32,7 @@ class Scenario(BaseModel):
     controller: Literal["search", "baseline"] = "search"
     max_ticks: int = Field(default=300, ge=1, le=10000)
     snapshot_every: int = Field(default=20, ge=1, le=1000)
-    search_budget: int = Field(default=16, ge=0, le=16)
+    search_budget: int = Field(default=16, ge=0, le=64)
     # Scenario-scheduled lifecycle removal (not death): "creators" retires verified-artifact creators;
     # "matched" retires the same number of non-creators from the same settlements as a control.
     removal: Literal["none", "creators", "matched"] = "none"
@@ -48,6 +48,13 @@ class Scenario(BaseModel):
     controller_seed: int = Field(default=7, ge=0, le=2**31 - 1)
     # Declared resource scale: ore placed on each of the four ore sites at world creation (never replenished).
     ore_per_site: int = Field(default=240, ge=0, le=5000)
+    # v0.4: task family, teaching sessions and cohort lifecycle. Defaults reproduce v0.3 behaviour.
+    task: Literal["phase-1", "workshop-1"] = "phase-1"
+    teaching: bool = False
+    lifecycle: Literal["single", "cohorts"] = "single"
+    cohort_ticks: int = Field(default=60, ge=5, le=10000)
+    cohort_count: int = Field(default=3, ge=1, le=20)
+    cross_cohort_access: bool = True
 
 
 class Action(BaseModel):
@@ -56,7 +63,8 @@ class Action(BaseModel):
     agent: str = Field(min_length=1, max_length=40)
     tick: int = Field(ge=0)
     version: Literal[1] = 1
-    kind: Literal["wait", "move", "gather", "consume", "transfer", "offer_trade", "accept_trade", "send_message", "inspect_artifact", "propose_artifact", "test_artifact", "use_artifact", "produce", "deposit", "withdraw"]
+    kind: Literal["wait", "move", "gather", "consume", "transfer", "offer_trade", "accept_trade", "send_message", "inspect_artifact", "propose_artifact", "test_artifact", "use_artifact", "produce", "deposit", "withdraw",
+                  "submit_artifact", "offer_teaching", "accept_teaching", "teach_step", "learn_step", "practice_step", "abandon_session"]
     params: JSON = Field(default_factory=dict)
 
 

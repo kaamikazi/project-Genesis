@@ -16,7 +16,11 @@ ENERGY_CATEGORY = {
     "propose_artifact": "search", "test_artifact": "evaluation", "inspect_artifact": "learning",
     "transfer": "exchange", "offer_trade": "exchange", "accept_trade": "exchange", "send_message": "exchange",
     "deposit": "storage", "withdraw": "storage", "consume": "eating", "wait": "none",
+    "submit_artifact": "evaluation", "offer_teaching": "teaching", "teach_step": "teaching", "abandon_session": "teaching",
+    "accept_teaching": "instruction", "learn_step": "instruction", "practice_step": "practice",
 }
+PRODUCING = ("produce", "use_artifact", "practice_step")
+SESSION_TIME = ("teach_step", "learn_step", "practice_step")
 
 
 def ratio(numerator: float, denominator: float, unit: str) -> JSON:
@@ -63,6 +67,11 @@ def reduce_export(export: JSON, windows: list[Window] | None = None) -> JSON:
         site_resource[sid] = s["resource"]
     ore_initial = sum(h["ore"] for h in holdings.values())
     removal_tick = None
+    origin_artifacts = initial.get("artifacts", {})
+
+    def initial_cohort(aid: str | None) -> int | None:
+        art = origin_artifacts.get(aid or "")
+        return art.get("cohort", 0) if art else None
     successors: dict[str, JSON] = {}
     windows = list(windows or [])
 
@@ -70,11 +79,27 @@ def reduce_export(export: JSON, windows: list[Window] | None = None) -> JSON:
         return {"produced_alloy": 0, "production_energy": 0, "energy": defaultdict(int), "proposals": 0, "verified": 0,
                 "rejected_tests": 0, "revisions_verified": 0, "library_acquisitions": 0, "use_executions": 0,
                 "uses_with_saving": 0, "independent_adoptions": 0, "active_agent_ticks": 0, "rejected_actions": 0,
-                "accepted_actions": 0}
+                "accepted_actions": 0, "submissions": 0, "admitted": 0, "dev_tests": 0, "session_ticks": 0, "batch_busy_ticks": 0,
+                "teaching_offers": 0, "acquisitions_by_teaching": 0, "failed_sessions": 0, "interrupted_sessions": 0}
 
     overall, per_window = blank(), {w.label: blank() for w in windows}
     per_agent: dict[str, JSON] = defaultdict(lambda: {"produced_alloy": 0, "production_energy": 0, "use_executions": 0, "uses_with_saving": 0,
-                                                      "first_library_acquisition": None, "first_use_with_saving": None})
+                                                      "first_library_acquisition": None, "first_use_with_saving": None,
+                                                      "first_acquisition_by_teaching": None})
+    sessions: dict[str, JSON] = {}
+    lineage: dict[str, JSON] = {}
+    freezes: list[JSON] = []
+    transitions: list[JSON] = []
+    cohort_of: dict[str, int] = {aid: a.get("cohort", 0) for aid, a in initial["agents"].items()}
+
+    def end_session(sid: str, stage: str, reason: str | None, tick: int, bs: list[JSON]) -> None:
+        if sid in sessions and sessions[sid]["outcome"] is None:
+            sessions[sid].update(outcome=stage, reason=reason, ended_tick=tick)
+            for x in bs:
+                if stage == "failed":
+                    x["failed_sessions"] += 1
+                elif stage in ("interrupted", "expired"):
+                    x["interrupted_sessions"] += 1
 
     def buckets(tick: int) -> list[JSON]:
         return [overall] + [per_window[w.label] for w in windows if tick in w]
@@ -99,21 +124,31 @@ def reduce_export(export: JSON, windows: list[Window] | None = None) -> JSON:
                 move(f'site:{r["site"]}', agent, r["resource"], r["amount"])
             elif kind == "consume":
                 holdings[agent]["food"] -= r["amount"]
-            elif kind in ("produce", "use_artifact"):
+            elif kind in PRODUCING:
                 holdings[agent]["ore"] -= r["ore"]
+                holdings[agent]["food"] -= r.get("food", 0)
                 holdings[agent]["alloy"] += r["alloy"]
+                for b in buckets(tick):
+                    b["batch_busy_ticks"] += r.get("busy_ticks", 0)
                 per_agent[e["agent"]]["produced_alloy"] += r["alloy"]
                 per_agent[e["agent"]]["production_energy"] += r["energy"]
                 for b in buckets(tick):
                     b["produced_alloy"] += r["alloy"]
                     b["production_energy"] += r["energy"]
                 if kind == "use_artifact":
-                    saving = r["evidence"]["energy"] < r["evidence"]["baseline_energy"]
+                    ev = r["evidence"]
+                    saving = r["saving"] if "saving" in r else ev["energy"] < ev["baseline_energy"]
                     per_agent[e["agent"]]["use_executions"] += 1
                     per_agent[e["agent"]]["uses_with_saving"] += saving
                     if saving and per_agent[e["agent"]]["first_use_with_saving"] is None:
                         per_agent[e["agent"]]["first_use_with_saving"] = {"tick": tick, "event": e["id"], "artifact": r["artifact"],
-                                                                         "energy": r["evidence"]["energy"], "baseline_energy": r["evidence"]["baseline_energy"]}
+                                                                          "energy": ev.get("energy"), "baseline_energy": ev.get("baseline_energy"),
+                                                                          "cost_per_alloy": ev.get("cost_per_alloy"), "baseline_cost_per_alloy": ev.get("baseline_cost_per_alloy")}
+                    if r.get("first_independent_use") in sessions:
+                        sessions[r["first_independent_use"]]["first_independent_use_tick"] = tick
+                    if r["artifact"] in lineage:
+                        lineage[r["artifact"]]["world_executions"] += 1
+                        lineage[r["artifact"]]["executions_with_saving"] += bool(saving)
                     for b in buckets(tick):
                         b["use_executions"] += 1
                         b["uses_with_saving"] += saving
@@ -132,10 +167,68 @@ def reduce_export(export: JSON, windows: list[Window] | None = None) -> JSON:
             elif kind == "propose_artifact":
                 for b in buckets(tick):
                     b["proposals"] += 1
+                if "origin" in r:
+                    parent = r.get("parent")
+                    lineage[r["artifact"]] = {"artifact": r["artifact"], "creator": e["agent"], "cohort": r.get("cohort", cohort_of.get(e["agent"], 0)),
+                                              "parent": parent, "parent_cohort": lineage.get(parent, {}).get("cohort", initial_cohort(parent)) if parent else None,
+                                              "sources": r.get("sources", []), "origin": r["origin"], "generation": r.get("generation"),
+                                              "proposed_tick": tick, "dev_score": None, "admitted": None, "admitted_tick": None,
+                                              "world_executions": 0, "executions_with_saving": 0, "search_energy": r.get("energy_charged", 0),
+                                              "evaluation_energy": 0}
+            elif kind == "test_artifact" and r.get("role") == "development":
+                for b in buckets(tick):
+                    b["dev_tests"] += 1
+                if r["artifact"] in lineage and lineage[r["artifact"]]["creator"] == e["agent"] and lineage[r["artifact"]]["dev_score"] is None:
+                    lineage[r["artifact"]].update(dev_score=r.get("dev_score"))
+                    lineage[r["artifact"]]["evaluation_energy"] += r.get("energy_charged", 0)
             elif kind == "test_artifact":
                 for b in buckets(tick):
                     b["verified" if r["status"] == "verified" else "rejected_tests"] += 1
                     b["revisions_verified"] += bool(r.get("supersedes"))
+            elif kind == "submit_artifact":
+                for b in buckets(tick):
+                    b["submissions"] += 1
+                    b["admitted"] += bool(r.get("admitted"))
+                    b["revisions_verified"] += bool(r.get("supersedes"))
+                if r["artifact"] in lineage:
+                    lineage[r["artifact"]].update(admitted=bool(r.get("admitted")), admitted_tick=tick if r.get("admitted") else None)
+                    lineage[r["artifact"]]["evaluation_energy"] += r.get("energy_charged", 0)
+            elif kind == "offer_teaching":
+                sessions[r["session"]] = {"session": r["session"], "teacher": r["teacher"], "learner": r["learner"], "artifact": r["artifact"],
+                                          "offered_tick": tick, "accepted_tick": None, "instruction_done_tick": None, "practice": [],
+                                          "acquired_tick": None, "outcome": None, "reason": None, "ended_tick": None,
+                                          "teacher_energy": r.get("energy_charged", 0), "learner_energy": 0, "teacher_ticks": 1, "learner_ticks": 0,
+                                          "first_independent_use_tick": None}
+                for b in buckets(tick):
+                    b["teaching_offers"] += 1
+            if kind in ("accept_teaching", "teach_step", "learn_step", "practice_step", "abandon_session") and r.get("session") in sessions:
+                se = sessions[r["session"]]
+                role = r.get("role")
+                if role:
+                    se[f"{role}_energy"] += r.get("energy_charged", 0)
+                    se[f"{role}_ticks"] += 1
+                if kind == "accept_teaching":
+                    se["accepted_tick"] = tick
+                    if r.get("stage") == "failed":
+                        end_session(r["session"], "failed", r.get("reason"), tick, buckets(tick))
+                if kind in SESSION_TIME:
+                    for b in buckets(tick):
+                        b["session_ticks"] += 1
+                if kind in ("teach_step", "learn_step") and r.get("stage") == "practice" and se["instruction_done_tick"] is None:
+                    se["instruction_done_tick"] = tick
+                if kind == "practice_step":
+                    se["practice"].append(r["practice"])
+                    if r.get("stage") == "acquired":
+                        se["acquired_tick"] = tick
+                        end_session(r["session"], "acquired", None, tick, buckets(tick))
+                        for b in buckets(tick):
+                            b["acquisitions_by_teaching"] += 1
+                        if per_agent[e["agent"]]["first_acquisition_by_teaching"] is None:
+                            per_agent[e["agent"]]["first_acquisition_by_teaching"] = {"tick": tick, "session": r["session"], "artifact": se["artifact"]}
+                    elif r.get("stage") == "failed":
+                        end_session(r["session"], "failed", "practice outcome costlier than the baseline", tick, buckets(tick))
+                if kind == "abandon_session":
+                    end_session(r["session"], r.get("stage", "interrupted"), r.get("reason"), tick, buckets(tick))
             elif kind == "inspect_artifact":
                 if per_agent[e["agent"]]["first_library_acquisition"] is None:
                     per_agent[e["agent"]]["first_library_acquisition"] = {"tick": tick, "event": e["id"], "artifact": r["artifact"]}
@@ -143,6 +236,20 @@ def reduce_export(export: JSON, windows: list[Window] | None = None) -> JSON:
                     b["library_acquisitions"] += 1
         elif e["type"] == "agent_inactive":
             status[e["agent"]] = "inactive"
+        elif e["type"] == "session_ended":
+            end_session(e["session"], e["stage"], e.get("reason"), tick, buckets(tick))
+        elif e["type"] == "freeze":
+            freezes.append({k: e.get(k) for k in ("tick", "cohort", "reason", "rule", "cohort_best", "accessible_best")})
+        elif e["type"] == "cohort_transition":
+            transitions.append({"tick": tick, "cohort": e["cohort"], "retired": e["retired"], "successors": [x["successor"] for x in e["successors"]]})
+            for m in e["inventory_moved"]:
+                for res, n in m["inventory"].items():
+                    move(f'agent:{m["agent"]}', f'settlement:{m["to"]}', res, n)
+                status[m["agent"]] = "retired"
+            for x in e["successors"]:
+                holdings[f'agent:{x["successor"]}'] = dict(x["inventory"])
+                status[x["successor"]], home[x["successor"]] = "active", x["home"]
+                cohort_of[x["successor"]] = e["cohort"]
         elif e["type"] == "lifecycle_removal":
             removal_tick = tick
             for m in e["inventory_moved"]:
@@ -153,6 +260,7 @@ def reduce_export(export: JSON, windows: list[Window] | None = None) -> JSON:
                 holdings[f'agent:{s["successor"]}'] = dict(s["inventory"])
                 status[s["successor"]], home[s["successor"]] = "active", s["home"]
                 successors[s["successor"]] = s
+                cohort_of[s["successor"]] = cohort_of.get(s["predecessor"], 0)
         elif e["type"] == "environment":
             for food in e["food_sources"]:
                 holdings[f'site:{food["site"]}'][site_resource[food["site"]]] += food["amount"]
@@ -204,6 +312,7 @@ def reduce_export(export: JSON, windows: list[Window] | None = None) -> JSON:
         pa = per_agent[sid]
         successor_rows.append({"successor": sid, "predecessor": s["predecessor"], "policy": s["policy"], "role": s["role"],
                                "package": s["package"], "first_library_acquisition": pa["first_library_acquisition"],
+                               "first_acquisition_by_teaching": pa["first_acquisition_by_teaching"],
                                "first_use_with_saving": pa["first_use_with_saving"], "use_executions": pa["use_executions"],
                                "uses_with_saving": pa["uses_with_saving"], "produced_alloy": pa["produced_alloy"],
                                "production_energy_per_alloy": ratio(pa["production_energy"], pa["produced_alloy"], "energy per produced alloy")})
@@ -220,6 +329,12 @@ def reduce_export(export: JSON, windows: list[Window] | None = None) -> JSON:
                                                  "retired_at_end": sum(v == "retired" for v in status.values()),
                                                  "inactive_at_end": sum(v == "inactive" for v in status.values())},
         "successors": successor_rows, "reconciliation": reconciliation,
+        "sessions": list(sessions.values()), "freezes": freezes, "cohort_transitions": transitions,
+        "lineage": list(lineage.values()),
+        "cross_generation": {
+            "revision_attempts": sum(1 for x in lineage.values() if x["parent_cohort"] is not None and x["cohort"] > x["parent_cohort"]),
+            "admitted_revisions": sum(1 for x in lineage.values() if x["parent_cohort"] is not None and x["cohort"] > x["parent_cohort"] and x["admitted"]),
+            "definition": "a proposal whose parent was created by an earlier cohort; admitted means it beat that parent on the same validation cases"},
         "agents": {aid: {"produced_alloy": v["produced_alloy"], "production_energy": v["production_energy"], "use_executions": v["use_executions"],
                          "uses_with_saving": v["uses_with_saving"]} for aid, v in sorted(per_agent.items())},
     }

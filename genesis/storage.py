@@ -265,7 +265,7 @@ class Store:
         with self.connection() as db:
             return self._replay(db, run_id, tick)
 
-    FORK_INTERVENTIONS = {"removal", "removal_tick", "succession", "successor_role", "successor_access", "invention", "max_ticks"}
+    FORK_INTERVENTIONS = {"removal", "removal_tick", "succession", "successor_role", "successor_access", "invention", "max_ticks", "teaching"}
 
     def fork(self, run_id: str, tick: int, intervention: JSON | None = None, label: str | None = None) -> str:
         """A distinct continuation from a committed tick. An intervention may change only lifecycle, invention

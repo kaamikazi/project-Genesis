@@ -19,9 +19,19 @@ def phase_at(state: JSON, agent: JSON) -> int:
     return keyed(state["config"]["seed"], "environment-phase", state["tick"], agent["x"], agent["y"]) % 12
 
 
-def library_access(agent: JSON, artifact: JSON) -> bool:
-    """Knowledge access is a capability, independent of physical storage access."""
-    return "library" in agent["capabilities"] and artifact["home"] == agent["home"] and artifact["status"] == "verified"
+def humidity_at(state: JSON, agent: JSON) -> int:
+    return keyed(state["config"]["seed"], "environment-humidity", state["tick"], agent["x"], agent["y"]) % 8
+
+
+USABLE = ("verified", "admitted")          # current library heads; holders may also keep using "superseded"
+
+
+def library_access(agent: JSON, artifact: JSON, config: JSON | None = None) -> bool:
+    """Knowledge access is a capability, independent of physical storage access. With cohorts and
+    cross_cohort_access off, the library hides artifacts created by earlier cohorts."""
+    if config is not None and not config.get("cross_cohort_access", True) and artifact.get("cohort", 0) != agent.get("cohort", 0):
+        return False
+    return "library" in agent["capabilities"] and artifact["home"] == agent["home"] and artifact["status"] in USABLE
 
 
 def new_agent(aid: str, name: str, home: JSON, y_offset: int, tick: int, role: str, library: bool) -> JSON:
@@ -32,7 +42,8 @@ def new_agent(aid: str, name: str, home: JSON, y_offset: int, tick: int, role: s
             "goals": ["maintain energy", "produce alloy", "evaluate procedures" if role == "researcher" else "learn accessible procedures"],
             "plan": "deterministic policy", "search_count": 0, "memories": [], "beliefs": [],
             "relationships": {}, "messages": [], "last_result": None,
-            "predecessor": None, "successor": None, "inheritance": None, "retired_tick": None}
+            "predecessor": None, "successor": None, "inheritance": None, "retired_tick": None,
+            "cohort": 0, "busy_until": 0, "dev_notes": {}}
 
 
 def new_world(config: Scenario) -> JSON:
@@ -79,7 +90,8 @@ def new_world(config: Scenario) -> JSON:
                          "controller_failures": 0, "model_calls": 0, "tokens": 0, "cost_usd": 0,
                          "produced_after_removal": 0, "production_energy_after_removal": 0,
                          "uses_after_creator_removal": 0, "learned_after_creator_removal": 0},
-             "lifecycle": {"removal": None, "successions": []}}
+             "lifecycle": {"removal": None, "successions": [], "cohort": 0, "transitions": [], "freezes": []},
+             "sessions": {}}
     state["initial_totals"] = totals(state)
     return state
 
@@ -116,20 +128,38 @@ class LocalMemory:
         return deepcopy(state["agents"][agent_id]["memories"][-min(16, max(0, limit)):]) if limit else []
 
 
+def session_view(session: JSON, agent_id: str) -> JSON:
+    """A participant's own view of a session: no program, no counterpart's private state."""
+    keys = ("id", "teacher", "learner", "artifact", "stage", "teacher_work", "learner_work", "required_work",
+            "practice_required", "expires", "reason")
+    view = {k: session.get(k) for k in keys}
+    view["role"] = "teacher" if session["teacher"] == agent_id else "learner"
+    view["practice_done"] = len(session["practice"])
+    return view
+
+
+ACTIVE_STAGES = ("offered", "instruction", "practice")
+
+
 class LocalObservations:
     """Builds controller input from an explicit allow-list. It never receives or reuses the observer payload,
-    and contains no seed, configuration, ledger, global metric or evaluation record."""
+    and contains no seed, configuration, ledger, global metric, evaluation record or hidden world parameter."""
 
     def build(self, state: JSON, agent_id: str) -> JSON:
         a = state["agents"][agent_id]
+        config = state["config"]
         nearby = [b for b in state["agents"].values() if b["id"] != agent_id and distance(a, b) <= REACH and b["status"] == "active"]
         accessible = {}
         for aid, artifact in state["artifacts"].items():
             own = artifact["creator"] == agent_id
-            if own or aid in a["known"] or library_access(a, artifact):
-                accessible[aid] = {k: deepcopy(artifact[k]) for k in ("id", "creator", "status", "created_tick", "parent", "generation")}
+            if own or aid in a["known"] or library_access(a, artifact, config):
+                accessible[aid] = {k: deepcopy(artifact.get(k)) for k in ("id", "creator", "status", "created_tick", "parent", "generation")}
+                if config.get("task") == "workshop-1":
+                    accessible[aid]["kind"] = artifact.get("kind", "phase-program")
                 if own or aid in a["known"]:
                     accessible[aid]["program"] = deepcopy(artifact["content"]["program"])
+                if own and artifact.get("development"):
+                    accessible[aid]["dev_score"] = artifact["development"]["score"]   # the proposer's own development result
         home = state["settlements"][a["home"]]
         r = OBSERVATION_RADIUS
         terrain = state["terrain"]
@@ -137,12 +167,18 @@ class LocalObservations:
                  for y in range(max(0, a["y"] - r), min(len(terrain), a["y"] + r + 1))
                  for x in range(max(0, a["x"] - r), min(len(terrain[0]), a["x"] + r + 1))
                  if abs(x - a["x"]) + abs(y - a["y"]) <= r]
-        return {"tick": state["tick"], "self": deepcopy(a), "phase": phase_at(state, a),
-                "rules": {"invention_open": state["config"]["invention"] == "open",
-                          "search_budget": state["config"]["search_budget"]},
-                "home_storage": dict(home["inventory"]) if distance(a, home) <= REACH else None,
-                "sites": deepcopy([s for s in state["sites"].values() if distance(a, s) <= r]),
-                "tiles": tiles,
-                "neighbors": [{k: b[k] for k in ("id", "name", "x", "y")} for b in nearby],
-                "offers": deepcopy([o for o in state["offers"].values() if o["target"] == agent_id and o["expires"] > state["tick"]]),
-                "artifacts": accessible, "memory": LocalMemory().retrieve(state, agent_id)}
+        sessions = state.get("sessions", {})
+        mine = [session_view(x, agent_id) for x in sessions.values() if agent_id in (x["teacher"], x["learner"]) and x["stage"] in ACTIVE_STAGES]
+        observation = {"tick": state["tick"], "self": deepcopy(a), "phase": phase_at(state, a),
+                       "rules": {"invention_open": config["invention"] == "open", "search_budget": config["search_budget"],
+                                 "task": config.get("task", "phase-1"), "teaching": config.get("teaching", False)},
+                       "home_storage": dict(home["inventory"]) if distance(a, home) <= REACH else None,
+                       "sites": deepcopy([s for s in state["sites"].values() if distance(a, s) <= r]),
+                       "tiles": tiles,
+                       "neighbors": [{k: b[k] for k in ("id", "name", "x", "y")} for b in nearby],
+                       "offers": deepcopy([o for o in state["offers"].values() if o["target"] == agent_id and o["expires"] > state["tick"]]),
+                       "artifacts": accessible, "memory": LocalMemory().retrieve(state, agent_id)}
+        if config.get("task") == "workshop-1" or config.get("teaching"):
+            observation["humidity"] = humidity_at(state, a)
+            observation["sessions"] = mine
+        return observation

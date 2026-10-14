@@ -90,3 +90,32 @@ def test_successor_evidence_is_derived_from_events(tmp_path):
     for row in reduced["successors"]:
         assert row["first_library_acquisition"]["tick"] <= row["first_use_with_saving"]["tick"]
         assert row["first_use_with_saving"]["energy"] < row["first_use_with_saving"]["baseline_energy"]
+
+
+def test_reducer_reconstructs_teaching_sessions_and_cohorts(tmp_path):
+    store = Store(tmp_path / "t.sqlite")
+    base = store.create(Scenario(seed=101, task="workshop-1", ore_per_site=900, max_ticks=60))
+    for _ in range(60):
+        store.step(base)
+    fork = store.fork(base, 60, {"removal": "creators", "removal_tick": 61, "succession": "fresh", "successor_access": "none",
+                                 "teaching": True, "invention": "frozen", "max_ticks": 110})
+    for _ in range(50):
+        store.step(fork)
+    export = store.export(fork)
+    reduced = reduce_export(export)
+    assert reduced["reconciliation"]["holdings_match_final_state"] and reduced["reconciliation"]["statuses_match_final_state"]
+    engine_sessions = export["state"]["sessions"]
+    assert reduced["sessions"] and len(reduced["sessions"]) == len(engine_sessions)
+    for row in reduced["sessions"]:
+        live = engine_sessions[row["session"]]
+        expected = None if live["stage"] in ("offered", "instruction", "practice") else live["stage"]
+        assert row["outcome"] == expected and row["acquired_tick"] == live["acquired_tick"]
+        assert [p["passed"] for p in row["practice"]] == [p["passed"] for p in live["practice"]]
+        assert row["teacher_energy"] == live["costs"]["teacher_energy"] and row["learner_energy"] == live["costs"]["learner_energy"]
+    cohorts = store.create(Scenario(seed=101, task="workshop-1", lifecycle="cohorts", cohort_ticks=20, cohort_count=3, ore_per_site=900, max_ticks=60))
+    for _ in range(60):
+        store.step(cohorts)
+    reduced = reduce_export(store.export(cohorts))
+    assert reduced["reconciliation"]["holdings_match_final_state"] and reduced["reconciliation"]["statuses_match_final_state"]
+    assert [t["tick"] for t in reduced["cohort_transitions"]] == [20, 40]
+    assert [f["tick"] for f in reduced["freezes"]] == [20, 40, 60]
