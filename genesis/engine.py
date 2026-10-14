@@ -310,8 +310,45 @@ def scheduled_removal(state: JSON) -> JSON | None:
     return {"tick": state["tick"], "type": "lifecycle_removal", **{k: v for k, v in record.items() if k != "tick"}}
 
 
+# Copy strategy for action attempts. "scoped" copies only objects an action can mutate and shares the rest;
+# "full" is the reference implementation. VERIFY_SHARED makes every attempt prove the input state was untouched.
+COPY_STRATEGY = "scoped"
+VERIFY_SHARED = False
+
+
+def scoped_copy(state: JSON, action: Action) -> JSON:
+    """A candidate state sharing every subtree the action cannot mutate (terrain, config, untouched agents,
+    sites and artifacts). The touched set is a superset derived from parameters, independent of the action kind."""
+    p = action.params
+
+    def ref(key: str) -> str | None:
+        value = p.get(key)
+        return value if isinstance(value, str) else None
+
+    offer = state["offers"].get(ref("offer") or "")
+    agent_ids = {action.agent, ref("target"), offer["maker"] if offer else None}
+    artifact = state["artifacts"].get(ref("artifact") or "")
+    artifact_ids = {ref("artifact"), artifact["parent"] if artifact else None}
+    candidate = dict(state)
+    candidate["agents"] = {k: deepcopy(v) if k in agent_ids else v for k, v in state["agents"].items()}
+    candidate["artifacts"] = {k: deepcopy(v) if k in artifact_ids else v for k, v in state["artifacts"].items()}
+    candidate["sites"] = {k: deepcopy(v) if k == ref("site") else v for k, v in state["sites"].items()}
+    for key in ("settlements", "offers", "ledger", "metrics", "lifecycle"):
+        candidate[key] = deepcopy(state[key])
+    return candidate
+
+
 def attempt(state: JSON, action: Action) -> tuple[JSON, JSON]:
-    candidate = deepcopy(state)
+    candidate = scoped_copy(state, action) if COPY_STRATEGY == "scoped" else deepcopy(state)
+    guard = digest(state) if VERIFY_SHARED else None
+    try:
+        return _attempt(state, candidate, action)
+    finally:
+        if guard is not None and digest(state) != guard:
+            raise AssertionError(f"attempt mutated shared state for action {action.kind}")
+
+
+def _attempt(state: JSON, candidate: JSON, action: Action) -> tuple[JSON, JSON]:
     try:
         before = state["agents"][action.agent]["energy"] if action.agent in state["agents"] else 0
         result = Rules().apply(candidate, action)
