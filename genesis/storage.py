@@ -299,6 +299,19 @@ class Store:
                     break
             return result[:limit]
 
+    def diagnostics(self, run_id: str, through: int | None = None, ticks: int = 40) -> list[JSON]:
+        """Recent controller search diagnostics (stored with decisions in tick records, never in world state)."""
+        with self.connection() as db:
+            row = self._row(db, run_id)
+            records = db.execute("SELECT record FROM ticks WHERE run_id=? AND tick<=? ORDER BY tick DESC LIMIT ?",
+                                 (run_id, through if through is not None else row["tick"], min(ticks, 200)))
+            result = []
+            for r in records:
+                record = json.loads(r[0])
+                result.extend({"tick": record["tick"], "agent": d["action"]["agent"], "action": d["action"]["kind"], **d["diagnostic"]}
+                              for d in record["decisions"] if d.get("diagnostic"))
+            return result
+
     def export(self, run_id: str) -> JSON:
         with self.connection() as db:
             db.execute("BEGIN")

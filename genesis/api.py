@@ -80,6 +80,7 @@ def create_app(db_path: str | Path | None = None, evidence_dir: str | Path | Non
     store = Store(db_path or os.getenv("GENESIS_DB", "data/genesis.sqlite"))
     evidence = Path(evidence_dir or os.getenv("GENESIS_EVIDENCE", Path(__file__).resolve().parent.parent / "evidence" / "v0.3.0"))
     milestone4 = Path(os.getenv("GENESIS_EVIDENCE_M4", evidence.parent / "v0.4.0"))
+    milestone5 = Path(os.getenv("GENESIS_EVIDENCE_M5", evidence.parent / "v0.5.0"))
     service = SimulationService(store)
 
     @asynccontextmanager
@@ -115,6 +116,10 @@ def create_app(db_path: str | Path | None = None, evidence_dir: str | Path | Non
     def runs():
         return store.list_runs()
 
+    def load_from(folder: Path, name: str):
+        path = folder / name
+        return json.loads(path.read_text(encoding="utf-8")) if path.exists() else None
+
     @app.get("/api/experiments")
     def experiments():
         def load(name: str):
@@ -128,7 +133,12 @@ def create_app(db_path: str | Path | None = None, evidence_dir: str | Path | Non
         return {"available": report is not None, "report": report, "inheritance": inheritance,
                 "inheritance_twenty": load("twenty/inheritance/inheritance.json"), "evidence_dir": evidence.name,
                 "teaching": load_m4("teaching/teaching.json"), "cumulative": load_m4("cumulative/cumulative.json"),
-                "sealed": load_m4("cumulative/sealed-results.json"), "milestone4_dir": milestone4.name}
+                "sealed": load_m4("cumulative/sealed-results.json"), "milestone4_dir": milestone4.name,
+                "m5": {name: load_from(milestone5, path) for name, path in (
+                    ("summary", "summary.json"), ("protocol", "protocol/protocol.json"), ("demonstration", "demonstration/component-chain.json"),
+                    ("restart", "verification/restart.json"), ("search_cpu", "benchmark/search-cpu.json"),
+                    ("diagnosis", "diagnosis/search-diagnosis.json"), ("inherited", "diagnosis/inherited-improvements.json"),
+                    ("patch_audit", "verification/generation-patch-audit.json"))}, "milestone5_dir": milestone5.name}
 
     @app.post("/api/runs")
     def create(config: Scenario):
@@ -144,6 +154,7 @@ def create_app(db_path: str | Path | None = None, evidence_dir: str | Path | Non
             w = store.load(run_id) if tick is None else store.replay(run_id, tick)
             return {"state": w, "hash": digest(w), "metrics": metrics(w), "status": service.status(),
                     "events": store.events(run_id, through=w["tick"]), "checkpoints": store.checkpoints(run_id),
+                    "diagnostics": store.diagnostics(run_id, through=w["tick"]),
                     "telemetry": store.telemetry(run_id)}
 
     @app.post("/api/control")
