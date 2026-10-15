@@ -4,14 +4,14 @@
 
 GENESIS runs fully offline on a laptop. It needs no API key, GPU or cloud service. Every reported number is recomputed from immutable events by an independent reducer.
 
-> **v0.5.0** adds:
-> - **search diagnostics and shared search credits:** proposals, tests and submissions draw on one pool per researcher lifetime
-> - **a beam search policy**, compared under the same pool with the v0.4 first-improvement policy, which is kept as the reference
-> - **live reusable components:** extraction, in-host admission, refactoring, revision, and closures resolved by hash
-> - **dependency-aware lessons** and **overlapping generations**
-> - **a fresh sealed final evaluation** (`workshop-sealed-2`)
+> **v0.5.1 (M5b)** repairs three defects found after v0.5.0:
+> - a stale-reference resubmission loop
+> - first-improvement revising superseded workflows
+> - library copies that left out components
 >
-> The inhabitants still follow designed offline policies, and nothing is emergent. **Beam search turned out not to be stronger.** See [docs/IMPLEMENTATION_STATUS.md](docs/IMPLEMENTATION_STATUS.md). v0.4.0 and v0.3.0 are preserved as git tags.
+> It also corrects metric definitions and comparison denominators, and runs two prospective experiments: allocation and mentorship. v0.5.0 is preserved unchanged and is described as run with those defects.
+>
+> The inhabitants still follow designed offline policies, and nothing is emergent. **The allocation bundle made search worse, and teaching did not improve outcomes.** See [docs/IMPLEMENTATION_STATUS.md](docs/IMPLEMENTATION_STATUS.md). v0.5.0, v0.4.0 and v0.3.0 are preserved as git tags.
 
 ## What happens in a run
 
@@ -22,33 +22,23 @@ GENESIS runs fully offline on a laptop. It needs no API key, GPU or cloud servic
 5. With library access, other inhabitants learn the current procedure. An adoption counts only after a logged transmission followed by a measured saving.
 6. Creators can retire and be replaced by **fresh successors**. A successor starts with nothing and must acquire the procedure through the path its policy allows. The observatory's *Why this counts as retention* panel shows every link.
 
-## What v0.5.0 found
+## What v0.5.1 found
 
-These results are exploratory: 5 new evaluation worlds, a protocol and claim rule frozen before running, and offline controllers. Scores are cost per alloy, so lower is better. A direction is claimed only if it holds in at least 4 of 5 paired worlds.
+**Repairs.** Minimal reproductions that failed on every tick in v0.5.0 now fail 0 times. In the repaired rerun of the v0.5.0 worlds, beam/preserved's alloy rose from 1,560 to 2,230: its v0.5.0 production deficit came from 1,390 executions rejected for a missing component. The rerun is labelled retrospective.
 
-**Experiment P: is beam search stronger under the same 48-credit budget?** No.
+**Prospective experiments.** Protocol frozen first; seeds 221–226; fresh sealed-3 cases. Scores are cost per alloy, so lower is better.
 
-| Final held best | first-improvement (v0.4 policy) | beam |
+| Final held best, sealed-3 (mean of 6) | preserved access | reset access |
 |---|---|---|
-| Preserved access, validation / sealed | 7.43 / 9.58 | 8.39 / 9.55 |
-| Reset access, validation / sealed | 8.32 / 8.72 | 9.69 / 11.31 |
+| repaired beam | 10.56 | 10.32 |
+| beam + allocation bundle | 11.05 | 12.74 |
+| first-improvement (reference) | 9.71 | 11.66 |
 
-- **Validation:** first-improvement was better in 4 of 5 worlds.
-- **Sealed cases:** no consistent difference.
-- **Credits:** both spent almost all of them, but beam turned them into 30% fewer novel evaluations. It produced more repeated results, left more proposals untested, and spent credits on component tests.
-- **Component operators** made no consistent difference.
+- **The allocation bundle was worse than plain beam** in every world. It did remove repeated behaviour (211 → 100) and untested proposals (4 → 0), but it spent fewer credits and withdrew stepping stones. Which guard caused the loss is not identified.
+- **Dependency teaching now finishes sometimes.** On the 80/40 schedule chosen in calibration, 8 of 26 dependency lessons were acquired, and learners used the taught component workflows 233 times after their teachers retired. Final outcomes still matched no-transfer in 5 of 6 worlds.
+- **Caveat found after the runs.** Seeds 221/222 and 225/226 have identical hidden parameters, and the controller seed is the same everywhere, so those pairs duplicated each other's invention outcomes. There are 4 distinct worlds, not 6; the post-hoc analysis over them agrees with every direction above.
 
-**Preserved knowledge looked better on validation (5 of 5) but was worse on fresh sealed cases (4 of 5)** for the first-improvement policy. Lineages repeatedly admitted against the same adaptive validation cases overfit them.
-
-**Experiment T: does teaching carry knowledge across overlapping generations?**
-
-- **Yes, but as retention.** 49 cross-generation lessons: 22 acquired, 12 failed, 15 interrupted (mostly by scheduled retirement).
-- In 2 of 5 worlds, teaching carried a better workflow to the next generation, which then created nothing better.
-- **Teaching-only vs none:** no consistent difference.
-- **Library vs none:** library better in 4 of 5.
-- **Dependencies:** the 4 lessons that carried a component dependency were all cut off by retirement. A complete component handoff is shown only by a labelled, scripted demonstration.
-
-**Earlier milestones:** the v0.4.0 results (protected evaluation, teaching, cumulative cohorts) are in [evidence/v0.4.0](evidence/v0.4.0/README.md) and [docs/history](docs/history/IMPLEMENTATION_STATUS-v0.4.0.md). the v0.3.0 results (phase-1 task, controlled succession) are in [evidence/v0.3.0](evidence/v0.3.0/README.md). The v0.2.0 corrections are in the [audit](docs/audit/AUDIT-v0.2.0.md).
+**Earlier milestones:** the v0.5.0 results (beam search, components, overlapping generations) are in [evidence/v0.5.0](evidence/v0.5.0/README.md), with labelled corrections in [evidence/v0.5.1/corrections-v0.5.0](evidence/v0.5.1/corrections-v0.5.0/CORRECTIONS.md). The v0.4.0 results (protected evaluation, teaching, cumulative cohorts) are in [evidence/v0.4.0](evidence/v0.4.0/README.md) and [docs/history](docs/history/IMPLEMENTATION_STATUS-v0.4.0.md). The v0.3.0 results (phase-1 task, controlled succession) are in [evidence/v0.3.0](evidence/v0.3.0/README.md). The v0.2.0 corrections are in the [audit](docs/audit/AUDIT-v0.2.0.md).
 
 ## Documentation
 
@@ -62,11 +52,12 @@ These results are exploratory: 5 new evaluation worlds, a protocol and claim rul
 | [EXPERIMENT_PROTOCOL](docs/EXPERIMENT_PROTOCOL.md) | Descriptive vs controlled experiments, metric definitions, aggregation, Milestone 4 and 5 protocols |
 | [audit/AUDIT-v0.2.0](docs/audit/AUDIT-v0.2.0.md) | Claim-by-claim audit of the previous release |
 | [IMPLEMENTATION_STATUS](docs/IMPLEMENTATION_STATUS.md) | What works, measurements, gaps |
+| [METRICS](docs/METRICS.md) | The versioned metric dictionary |
 | [ROADMAP](docs/ROADMAP.md) | Milestones and their dependencies |
 | [RUNBOOK](docs/RUNBOOK.md) | Restart, replay, forks with interventions, export, reducer, profiling |
 | [DEMO](docs/DEMO.md) | A guided walkthrough |
 | [RELATED_WORK](docs/RELATED_WORK.md) | Primary references and open questions |
-| ADRs: [001](docs/ADR-001-foundation.md), [002](docs/ADR-002-revisions-removal-versioning.md), [003](docs/ADR-003-storage-succession-audit.md), [004](docs/ADR-004-evaluation-teaching-workshop.md), [005](docs/ADR-005-search-components-mentorship.md) | Architecture decisions |
+| ADRs: [001](docs/ADR-001-foundation.md), [002](docs/ADR-002-revisions-removal-versioning.md), [003](docs/ADR-003-storage-succession-audit.md), [004](docs/ADR-004-evaluation-teaching-workshop.md), [005](docs/ADR-005-search-components-mentorship.md), [006](docs/ADR-006-repair-allocation-mentorship.md) | Architecture decisions |
 
 ## Layout
 
@@ -76,6 +67,6 @@ frontend/     React + TypeScript + Vite observatory (built into frontend/dist an
 tests/        invariant, lifecycle, storage, reducer, optimisation, persistence and API tests
 tools/        evidence generation per release, calibration, diagnosis, restart verification, CPU benchmark, audits
 scenarios/    sample world configurations
-evidence/     v0.5.0/ (current: protocol, calibration, P, T, sealed-2, diagnosis, demonstration), v0.4.0/, v0.3.0/, superseded/v0.2.0/
+evidence/     v0.5.1/ (current: bugfix, corrections, rerun, calibration, protocol, allocation, mentorship, sealed-3), v0.5.0/, v0.4.0/, v0.3.0/, superseded/v0.2.0/
 docs/         the documents above
 ```

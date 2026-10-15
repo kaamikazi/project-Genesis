@@ -69,9 +69,17 @@ python -c "from genesis.demo5 import component_chain, summary; print(summary(com
 
 It extracts a component, admits it inside its host, refactors the workflow to call it, teaches the workflow and its dependency to the successor during the overlap, retires the teacher on schedule, executes the inherited workflow, admits a revision, and rewires the workflow to it. Its actions are submitted overrides checked by the ordinary rules. It is not experimental evidence.
 
+## 3d. Watch the v0.5.1 repairs and mentorship
+
+Create a **workshop-1** world with cohorts, teaching and **v0.5 search and mentorship** ticked, as in 3c.
+
+- **Search panel.** Attempts now show `withdraw-stale` when a candidate's reference was replaced by someone else's newer workflow. v0.5.0 resubmitted such candidates forever. Under `beam-alloc` (API scenario field `search_policy`), the panel also shows `reserve` stops and how many candidates the exact-novelty rule skipped.
+- **Transport bar.** It shows the target and the achieved ticks per second. The selected speed is a target; with 40 active agents during an overlap, the engine achieves fewer.
+- **Teaching (`teaching_policy: package-scheduled`).** Juniors keep asking seniors for lessons, and seniors don't start lessons they can't finish before retiring. Dependency lessons appear in the Generations panel with their package.
+
 ## 4. The controlled experiment (Experiments)
 
-This page reads `evidence/v0.5.0/` for Milestone 5 (Experiments P and T, sealed-2 results, the demonstration, search CPU and restart checks; regenerate with `python tools/generate_evidence_m5.py`), `evidence/v0.4.0/` for Milestone 4 (Experiments A and B, sealed results) and `evidence/v0.3.0/` for the historical Milestone 3 reports. Regenerate with `python tools/generate_evidence_m4.py` (v0.4) or `python tools/generate_evidence.py` (v0.3).
+This page reads `evidence/v0.5.1/` for M5b (repairs, corrected comparisons, allocation and mentorship experiments, achieved speed; `python tools/generate_evidence_m5b.py`), `evidence/v0.5.0/` for Milestone 5 (Experiments P and T, sealed-2 results, the demonstration, search CPU and restart checks; regenerate with `python tools/generate_evidence_m5.py`), `evidence/v0.4.0/` for Milestone 4 (Experiments A and B, sealed results) and `evidence/v0.3.0/` for the historical Milestone 3 reports. Regenerate with `python tools/generate_evidence_m4.py` (v0.4) or `python tools/generate_evidence.py` (v0.3).
 
 - **Inheritance diagnostic.** For each seed, three continuations forked from one checkpoint, with a parity badge showing that the physical state was identical at the boundary. For every successor it shows the library acquisition tick, the first saving, uses, energy per alloy, settlement totals and the ore left. Aggregates show the mean of ratios and the pooled ratio separately.
 - **Live continuation.** Successor researchers with invention open: who learned, who re-derived the procedure by search, and the total charged energy per alloy.

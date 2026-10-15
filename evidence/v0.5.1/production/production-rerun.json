@@ -1,0 +1,435 @@
+{
+  "source": "evidence\\v0.5.1\\rerun\\rerun.json",
+  "metrics_version": "genesis-metrics-1",
+  "conditions": {
+    "first-improvement/preserved": {
+      "worlds": 5,
+      "production.actions": 1365,
+      "production.alloy": 2217,
+      "production.busy_ticks": 852,
+      "production.rejected_use_missing_prerequisite": 0,
+      "search.stale_reference_rejections": 0,
+      "search.credit_actions": 1423,
+      "alloy_per_action": 1.6242,
+      "agent_ticks_by_activity": {
+        "eating": 1153,
+        "exchange": 29,
+        "gathering": 1768,
+        "learning": 304,
+        "movement": 98,
+        "production": 1365,
+        "rejected learning": 1,
+        "rejected production": 26,
+        "rejected search": 6,
+        "rejected storage": 42,
+        "search": 1423,
+        "storage": 155,
+        "waiting": 830
+      },
+      "active_agent_ticks": 7200,
+      "top_rejections": {
+        "withdraw: insufficient settlement stock": 42,
+        "use_artifact: insufficient ore for batch (needs 9)": 10,
+        "submit_artifact: search credits exhausted": 6,
+        "use_artifact: insufficient energy for batch (needs 13)": 6,
+        "produce: insufficient ore for batch (needs 3)": 4,
+        "use_artifact: insufficient energy for batch (needs 17)": 3,
+        "produce: insufficient ore for batch (needs 4)": 3,
+        "inspect_artifact: artifact must be current, in your library and no": 1
+      },
+      "population_base_peak": [
+        [
+          8,
+          8
+        ]
+      ]
+    },
+    "first-improvement/reset": {
+      "worlds": 5,
+      "production.actions": 1666,
+      "production.alloy": 2089,
+      "production.busy_ticks": 423,
+      "production.rejected_use_missing_prerequisite": 0,
+      "search.stale_reference_rejections": 0,
+      "search.credit_actions": 1420,
+      "alloy_per_action": 1.2539,
+      "agent_ticks_by_activity": {
+        "eating": 1227,
+        "exchange": 29,
+        "gathering": 1745,
+        "learning": 360,
+        "movement": 100,
+        "production": 1666,
+        "rejected production": 37,
+        "rejected search": 8,
+        "rejected storage": 24,
+        "search": 1420,
+        "storage": 177,
+        "waiting": 407
+      },
+      "active_agent_ticks": 7200,
+      "top_rejections": {
+        "withdraw: insufficient settlement stock": 24,
+        "produce: insufficient ore for batch (needs 3)": 16,
+        "produce: insufficient ore for batch (needs 4)": 15,
+        "submit_artifact: search credits exhausted": 8,
+        "use_artifact: insufficient ore for batch (needs 9)": 3,
+        "use_artifact: insufficient energy for batch (needs 13)": 2,
+        "use_artifact: insufficient energy for batch (needs 17)": 1
+      },
+      "population_base_peak": [
+        [
+          8,
+          8
+        ]
+      ]
+    },
+    "beam/preserved": {
+      "worlds": 5,
+      "production.actions": 1472,
+      "production.alloy": 2230,
+      "production.busy_ticks": 758,
+      "production.rejected_use_missing_prerequisite": 0,
+      "search.stale_reference_rejections": 0,
+      "search.credit_actions": 1384,
+      "alloy_per_action": 1.5149,
+      "agent_ticks_by_activity": {
+        "eating": 1174,
+        "exchange": 30,
+        "gathering": 1819,
+        "learning": 180,
+        "movement": 100,
+        "production": 1472,
+        "rejected production": 127,
+        "rejected storage": 26,
+        "search": 1384,
+        "storage": 158,
+        "waiting": 730
+      },
+      "active_agent_ticks": 7200,
+      "top_rejections": {
+        "produce: insufficient ore for batch (needs 3)": 50,
+        "produce: insufficient ore for batch (needs 4)": 32,
+        "withdraw: insufficient settlement stock": 26,
+        "use_artifact: insufficient energy for batch (needs 13)": 21,
+        "use_artifact: insufficient energy for batch (needs 18)": 9,
+        "use_artifact: insufficient energy for batch (needs 15)": 5,
+        "use_artifact: insufficient ore for batch (needs 9)": 4,
+        "use_artifact: insufficient energy for batch (needs 20)": 2
+      },
+      "population_base_peak": [
+        [
+          8,
+          8
+        ]
+      ]
+    },
+    "beam/reset": {
+      "worlds": 5,
+      "production.actions": 1764,
+      "production.alloy": 2067,
+      "production.busy_ticks": 303,
+      "production.rejected_use_missing_prerequisite": 0,
+      "search.stale_reference_rejections": 0,
+      "search.credit_actions": 1394,
+      "alloy_per_action": 1.1718,
+      "agent_ticks_by_activity": {
+        "eating": 1266,
+        "exchange": 23,
+        "gathering": 1790,
+        "learning": 192,
+        "movement": 100,
+        "production": 1764,
+        "rejected production": 200,
+        "rejected storage": 34,
+        "search": 1394,
+        "storage": 151,
+        "waiting": 286
+      },
+      "active_agent_ticks": 7200,
+      "top_rejections": {
+        "produce: insufficient ore for batch (needs 4)": 91,
+        "produce: insufficient ore for batch (needs 3)": 86,
+        "withdraw: insufficient settlement stock": 34,
+        "use_artifact: insufficient energy for batch (needs 15)": 8,
+        "use_artifact: insufficient energy for batch (needs 13)": 7,
+        "use_artifact: insufficient energy for batch (needs 20)": 6,
+        "use_artifact: insufficient ore for batch (needs 9)": 1,
+        "use_artifact: insufficient ore for batch (needs 10)": 1
+      },
+      "population_base_peak": [
+        [
+          8,
+          8
+        ]
+      ]
+    },
+    "beam-nocomponents/preserved": {
+      "worlds": 5,
+      "production.actions": 1445,
+      "production.alloy": 2245,
+      "production.busy_ticks": 800,
+      "production.rejected_use_missing_prerequisite": 0,
+      "search.stale_reference_rejections": 0,
+      "search.credit_actions": 1394,
+      "alloy_per_action": 1.5536,
+      "agent_ticks_by_activity": {
+        "eating": 1160,
+        "exchange": 36,
+        "gathering": 1812,
+        "learning": 177,
+        "movement": 100,
+        "production": 1445,
+        "rejected production": 127,
+        "rejected storage": 33,
+        "search": 1394,
+        "storage": 150,
+        "waiting": 766
+      },
+      "active_agent_ticks": 7200,
+      "top_rejections": {
+        "produce: insufficient ore for batch (needs 3)": 50,
+        "withdraw: insufficient settlement stock": 33,
+        "produce: insufficient ore for batch (needs 4)": 32,
+        "use_artifact: insufficient energy for batch (needs 13)": 21,
+        "use_artifact: insufficient energy for batch (needs 18)": 9,
+        "use_artifact: insufficient energy for batch (needs 15)": 5,
+        "use_artifact: insufficient ore for batch (needs 9)": 4,
+        "use_artifact: insufficient energy for batch (needs 20)": 2
+      },
+      "population_base_peak": [
+        [
+          8,
+          8
+        ]
+      ]
+    },
+    "library": {
+      "worlds": 5,
+      "production.actions": 1960,
+      "production.alloy": 3280,
+      "production.busy_ticks": 1320,
+      "production.rejected_use_missing_prerequisite": 0,
+      "search.stale_reference_rejections": 1,
+      "search.credit_actions": 1381,
+      "alloy_per_action": 1.6735,
+      "agent_ticks_by_activity": {
+        "eating": 1570,
+        "exchange": 35,
+        "gathering": 2592,
+        "learning": 259,
+        "movement": 116,
+        "production": 1960,
+        "rejected gathering": 3,
+        "rejected production": 165,
+        "rejected search": 1,
+        "rejected storage": 25,
+        "search": 1429,
+        "storage": 155,
+        "waiting": 1290
+      },
+      "active_agent_ticks": 9600,
+      "top_rejections": {
+        "produce: insufficient ore for batch (needs 3)": 45,
+        "produce: insufficient ore for batch (needs 4)": 26,
+        "withdraw: insufficient settlement stock": 25,
+        "use_artifact: insufficient energy for batch (needs 13)": 24,
+        "use_artifact: insufficient energy for batch (needs 18)": 22,
+        "use_artifact: insufficient ore for batch (needs 10)": 19,
+        "use_artifact: insufficient energy for batch (needs 15)": 12,
+        "use_artifact: insufficient ore for batch (needs 9)": 9
+      },
+      "population_base_peak": [
+        [
+          8,
+          16
+        ]
+      ]
+    },
+    "teaching-only": {
+      "worlds": 5,
+      "production.actions": 1932,
+      "production.alloy": 2653,
+      "production.busy_ticks": 721,
+      "production.rejected_use_missing_prerequisite": 0,
+      "search.stale_reference_rejections": 0,
+      "search.credit_actions": 1357,
+      "alloy_per_action": 1.3732,
+      "agent_ticks_by_activity": {
+        "eating": 1552,
+        "exchange": 449,
+        "gathering": 2211,
+        "learning": 144,
+        "movement": 100,
+        "practice": 102,
+        "production": 1830,
+        "rejected learning": 1,
+        "rejected practice": 108,
+        "rejected production": 211,
+        "rejected storage": 21,
+        "rejected teaching": 11,
+        "search": 1357,
+        "storage": 161,
+        "teaching": 533,
+        "waiting": 809
+      },
+      "active_agent_ticks": 9600,
+      "top_rejections": {
+        "produce: insufficient ore for batch (needs 4)": 93,
+        "produce: insufficient ore for batch (needs 3)": 57,
+        "practice_step: insufficient ore for batch (needs 5)": 44,
+        "practice_step: insufficient ore for batch (needs 6)": 27,
+        "practice_step: insufficient ore for batch (needs 7)": 26,
+        "use_artifact: insufficient energy for batch (needs 13)": 24,
+        "withdraw: insufficient settlement stock": 21,
+        "use_artifact: insufficient energy for batch (needs 15)": 19
+      },
+      "population_base_peak": [
+        [
+          8,
+          16
+        ]
+      ]
+    },
+    "none": {
+      "worlds": 5,
+      "production.actions": 2471,
+      "production.alloy": 3073,
+      "production.busy_ticks": 602,
+      "production.rejected_use_missing_prerequisite": 0,
+      "search.stale_reference_rejections": 0,
+      "search.credit_actions": 1425,
+      "alloy_per_action": 1.2436,
+      "agent_ticks_by_activity": {
+        "eating": 1724,
+        "exchange": 64,
+        "gathering": 2610,
+        "learning": 195,
+        "movement": 107,
+        "production": 2471,
+        "rejected production": 250,
+        "rejected storage": 19,
+        "search": 1425,
+        "storage": 151,
+        "waiting": 584
+      },
+      "active_agent_ticks": 9600,
+      "top_rejections": {
+        "produce: insufficient ore for batch (needs 4)": 105,
+        "produce: insufficient ore for batch (needs 3)": 99,
+        "use_artifact: insufficient energy for batch (needs 15)": 21,
+        "withdraw: insufficient settlement stock": 19,
+        "use_artifact: insufficient energy for batch (needs 13)": 12,
+        "use_artifact: insufficient energy for batch (needs 20)": 11,
+        "use_artifact: insufficient ore for batch (needs 9)": 2
+      },
+      "population_base_peak": [
+        [
+          8,
+          16
+        ]
+      ]
+    }
+  },
+  "decomposition": [
+    {
+      "pair": [
+        "first-improvement/preserved",
+        "beam/preserved"
+      ],
+      "delta_alloy": 13,
+      "actions_term": 173.79,
+      "yield_term": -160.79,
+      "identity_check": 0.0,
+      "delta_production_actions": 107,
+      "delta_agent_ticks_by_activity": {
+        "eating": 21,
+        "exchange": 1,
+        "gathering": 51,
+        "learning": -124,
+        "movement": 2,
+        "production": 107,
+        "rejected learning": -1,
+        "rejected production": 101,
+        "rejected search": -6,
+        "rejected storage": -16,
+        "search": -39,
+        "storage": 3,
+        "waiting": -100
+      },
+      "delta_active_agent_ticks": 0,
+      "attributed_by_event_class": {
+        "rejected production (missing component)": 0,
+        "rejected submissions (stale reference)": 0
+      },
+      "unexplained": "shifts between accepted activities (gathering, eating, search, learning, waiting) are reported, not attributed"
+    },
+    {
+      "pair": [
+        "none",
+        "library"
+      ],
+      "delta_alloy": 207,
+      "actions_term": -635.49,
+      "yield_term": 842.49,
+      "identity_check": 0.0,
+      "delta_production_actions": -511,
+      "delta_agent_ticks_by_activity": {
+        "eating": -154,
+        "exchange": -29,
+        "gathering": -18,
+        "learning": 64,
+        "movement": 9,
+        "production": -511,
+        "rejected gathering": 3,
+        "rejected production": -85,
+        "rejected search": 1,
+        "rejected storage": 6,
+        "search": 4,
+        "storage": 4,
+        "waiting": 706
+      },
+      "delta_active_agent_ticks": 0,
+      "attributed_by_event_class": {
+        "rejected production (missing component)": 0,
+        "rejected submissions (stale reference)": 1
+      },
+      "unexplained": "shifts between accepted activities (gathering, eating, search, learning, waiting) are reported, not attributed"
+    },
+    {
+      "pair": [
+        "none",
+        "teaching-only"
+      ],
+      "delta_alloy": -420,
+      "actions_term": -670.31,
+      "yield_term": 250.31,
+      "identity_check": 0.0,
+      "delta_production_actions": -539,
+      "delta_agent_ticks_by_activity": {
+        "eating": -172,
+        "exchange": 385,
+        "gathering": -399,
+        "learning": -51,
+        "movement": -7,
+        "practice": 102,
+        "production": -641,
+        "rejected learning": 1,
+        "rejected practice": 108,
+        "rejected production": -39,
+        "rejected storage": 2,
+        "rejected teaching": 11,
+        "search": -68,
+        "storage": 10,
+        "teaching": 533,
+        "waiting": 225
+      },
+      "delta_active_agent_ticks": 0,
+      "attributed_by_event_class": {
+        "rejected production (missing component)": 0,
+        "rejected submissions (stale reference)": 0
+      },
+      "unexplained": "shifts between accepted activities (gathering, eating, search, learning, waiting) are reported, not attributed"
+    }
+  ]
+}

@@ -1,0 +1,43 @@
+{
+  "platform": "Windows-10-10.0.26300-SP0",
+  "python": "3.10.11",
+  "seeds": [
+    310,
+    311
+  ],
+  "policies": {
+    "first-improvement": {
+      "decisions": 2880,
+      "proposals": 244,
+      "mean_ms_per_decision": 2.0456,
+      "mean_ms_per_proposal_decision": 23.6505,
+      "p95_ms_per_proposal_decision": 38.4792,
+      "mean_run_seconds_180_ticks": 14.24
+    },
+    "beam": {
+      "decisions": 2880,
+      "proposals": 240,
+      "mean_ms_per_decision": 1.2976,
+      "mean_ms_per_proposal_decision": 15.173,
+      "p95_ms_per_proposal_decision": 29.9484,
+      "mean_run_seconds_180_ticks": 11.47
+    },
+    "beam-nocomponents": {
+      "decisions": 2880,
+      "proposals": 248,
+      "mean_ms_per_decision": 1.2244,
+      "mean_ms_per_proposal_decision": 13.9324,
+      "p95_ms_per_proposal_decision": 28.3388,
+      "mean_run_seconds_180_ticks": 10.35
+    },
+    "beam-alloc": {
+      "decisions": 2880,
+      "proposals": 223,
+      "mean_ms_per_decision": 2.1255,
+      "mean_ms_per_proposal_decision": 27.1429,
+      "p95_ms_per_proposal_decision": 102.2276,
+      "mean_run_seconds_180_ticks": 11.44
+    }
+  },
+  "note": "controller wall time around propose(); proposal decisions are those whose chosen action was propose_artifact"
+}

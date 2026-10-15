@@ -1,0 +1,193 @@
+{
+  "seeds": [
+    310,
+    311,
+    312
+  ],
+  "rules": "M5b calibration on development seeds 310-312 only (never used for evaluation; distinct from v0.5 calibration seeds).\n\nUsage: python tools/calibrate_m5b.py OUT_DIR BASE_SETTINGS_JSON\nDecision rules (declared here, before running):\n1. Mentorship schedule. Candidates (cohort_ticks, overlap) = (60, 30), then (80, 40). Choose the FIRST candidate under\n   which at least one cross-generation lesson whose workflow has a non-empty dependency closure is acquired across the\n   three calibration seeds (teaching-only condition). If none qualifies, choose the last candidate and report that no\n   dependency lesson completed in calibration. The chosen schedule is used for every mentorship condition.\n2. Sample size. Estimate evaluation runtime as (allocation conditions + mentorship conditions) x N x mean world seconds\n   x 1.2; choose the largest N in (10, 8, 6, 5) whose estimate is at most 45 minutes.\nNothing here is tuned on outcome quality; the allocation runs only check that every condition completes and measure cost.\n",
+  "schedules": [
+    {
+      "cohort_ticks": 60,
+      "overlap": 30,
+      "dependency_lessons": {
+        "offered": 0,
+        "acquired": 0,
+        "lessons": []
+      },
+      "cross_generation_lessons": 27,
+      "failures": []
+    },
+    {
+      "cohort_ticks": 80,
+      "overlap": 40,
+      "dependency_lessons": {
+        "offered": 17,
+        "acquired": 7,
+        "lessons": [
+          {
+            "seed": 310,
+            "outcome": "failed",
+            "reason": "practice outcome costlier than the baseline",
+            "offered_tick": 52,
+            "package": 1
+          },
+          {
+            "seed": 310,
+            "outcome": "acquired",
+            "reason": null,
+            "offered_tick": 65,
+            "package": 1
+          },
+          {
+            "seed": 310,
+            "outcome": "interrupted",
+            "reason": "a06 retired",
+            "offered_tick": 69,
+            "package": 1
+          },
+          {
+            "seed": 310,
+            "outcome": "acquired",
+            "reason": null,
+            "offered_tick": 135,
+            "package": 1
+          },
+          {
+            "seed": 311,
+            "outcome": "failed",
+            "reason": "practice outcome costlier than the baseline",
+            "offered_tick": 52,
+            "package": 1
+          },
+          {
+            "seed": 311,
+            "outcome": "failed",
+            "reason": "practice outcome costlier than the baseline",
+            "offered_tick": 53,
+            "package": 1
+          },
+          {
+            "seed": 311,
+            "outcome": "acquired",
+            "reason": null,
+            "offered_tick": 67,
+            "package": 1
+          },
+          {
+            "seed": 311,
+            "outcome": "interrupted",
+            "reason": "a04 retired",
+            "offered_tick": 69,
+            "package": 1
+          },
+          {
+            "seed": 311,
+            "outcome": "interrupted",
+            "reason": "a06 retired",
+            "offered_tick": 69,
+            "package": 1
+          },
+          {
+            "seed": 311,
+            "outcome": "failed",
+            "reason": "practice outcome costlier than the baseline",
+            "offered_tick": 145,
+            "package": 1
+          },
+          {
+            "seed": 312,
+            "outcome": "acquired",
+            "reason": null,
+            "offered_tick": 51,
+            "package": 1
+          },
+          {
+            "seed": 312,
+            "outcome": "acquired",
+            "reason": null,
+            "offered_tick": 53,
+            "package": 1
+          },
+          {
+            "seed": 312,
+            "outcome": "acquired",
+            "reason": null,
+            "offered_tick": 55,
+            "package": 1
+          },
+          {
+            "seed": 312,
+            "outcome": "interrupted",
+            "reason": "a04 retired",
+            "offered_tick": 68,
+            "package": 1
+          },
+          {
+            "seed": 312,
+            "outcome": "failed",
+            "reason": "practice outcome costlier than the baseline",
+            "offered_tick": 133,
+            "package": 1
+          },
+          {
+            "seed": 312,
+            "outcome": "acquired",
+            "reason": null,
+            "offered_tick": 137,
+            "package": 1
+          },
+          {
+            "seed": 312,
+            "outcome": "interrupted",
+            "reason": "a14 retired",
+            "offered_tick": 148,
+            "package": 1
+          }
+        ]
+      },
+      "cross_generation_lessons": 43,
+      "failures": []
+    }
+  ],
+  "chosen_schedule": {
+    "cohort_ticks": 80,
+    "overlap": 40,
+    "qualified": true,
+    "note": "a dependency lesson was acquired under this schedule in calibration"
+  },
+  "allocation_check": {
+    "failures": [],
+    "novelty_rejections": {
+      "beam/preserved": {
+        "energy": 18,
+        "budget-exhausted": 2
+      },
+      "beam/reset": {
+        "energy": 20,
+        "budget-exhausted": 3
+      },
+      "beam-alloc/preserved": {
+        "energy": 17,
+        "reserve": 7
+      },
+      "beam-alloc/reset": {
+        "energy": 17,
+        "reserve": 5
+      },
+      "first-improvement/preserved": {
+        "energy": 6,
+        "budget-exhausted": 5
+      },
+      "first-improvement/reset": {
+        "energy": 12,
+        "budget-exhausted": 4
+      }
+    }
+  },
+  "sample_size": {
+    "mean_world_seconds": 28.2,
+    "estimated_minutes_per_seed": 5.6,
+    "chosen_n": 6,
+    "estimated_total_minutes": 33.9
+  }
+}

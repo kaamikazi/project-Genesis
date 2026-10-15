@@ -1,0 +1,294 @@
+{
+  "before_v0.5.0": {
+    "engine": "0.5.0",
+    "stale_submission_beam": {
+      "actions": [
+        {
+          "kind": "submit_artifact",
+          "accepted": false,
+          "reason": "the nearest admitted ancestor is no longer current"
+        },
+        {
+          "kind": "submit_artifact",
+          "accepted": false,
+          "reason": "the nearest admitted ancestor is no longer current"
+        },
+        {
+          "kind": "submit_artifact",
+          "accepted": false,
+          "reason": "the nearest admitted ancestor is no longer current"
+        },
+        {
+          "kind": "submit_artifact",
+          "accepted": false,
+          "reason": "the nearest admitted ancestor is no longer current"
+        },
+        {
+          "kind": "submit_artifact",
+          "accepted": false,
+          "reason": "the nearest admitted ancestor is no longer current"
+        },
+        {
+          "kind": "submit_artifact",
+          "accepted": false,
+          "reason": "the nearest admitted ancestor is no longer current"
+        },
+        {
+          "kind": "submit_artifact",
+          "accepted": false,
+          "reason": "the nearest admitted ancestor is no longer current"
+        },
+        {
+          "kind": "submit_artifact",
+          "accepted": false,
+          "reason": "the nearest admitted ancestor is no longer current"
+        },
+        {
+          "kind": "submit_artifact",
+          "accepted": false,
+          "reason": "the nearest admitted ancestor is no longer current"
+        },
+        {
+          "kind": "submit_artifact",
+          "accepted": false,
+          "reason": "the nearest admitted ancestor is no longer current"
+        }
+      ],
+      "rejected": 10
+    },
+    "stale_parent_first_improvement": {
+      "actions": [
+        {
+          "kind": "submit_artifact",
+          "accepted": false,
+          "reason": "the nearest admitted ancestor is no longer current"
+        },
+        {
+          "kind": "submit_artifact",
+          "accepted": false,
+          "reason": "the nearest admitted ancestor is no longer current"
+        },
+        {
+          "kind": "submit_artifact",
+          "accepted": false,
+          "reason": "the nearest admitted ancestor is no longer current"
+        },
+        {
+          "kind": "submit_artifact",
+          "accepted": false,
+          "reason": "the nearest admitted ancestor is no longer current"
+        },
+        {
+          "kind": "submit_artifact",
+          "accepted": false,
+          "reason": "the nearest admitted ancestor is no longer current"
+        },
+        {
+          "kind": "submit_artifact",
+          "accepted": false,
+          "reason": "the nearest admitted ancestor is no longer current"
+        },
+        {
+          "kind": "submit_artifact",
+          "accepted": false,
+          "reason": "the nearest admitted ancestor is no longer current"
+        },
+        {
+          "kind": "submit_artifact",
+          "accepted": false,
+          "reason": "the nearest admitted ancestor is no longer current"
+        },
+        {
+          "kind": "submit_artifact",
+          "accepted": false,
+          "reason": "the nearest admitted ancestor is no longer current"
+        },
+        {
+          "kind": "submit_artifact",
+          "accepted": false,
+          "reason": "the nearest admitted ancestor is no longer current"
+        }
+      ],
+      "rejected": 10
+    },
+    "library_copy_without_dependency": {
+      "component_copied_with_workflow": false,
+      "uses": [
+        {
+          "accepted": false,
+          "reason": "missing prerequisite component 1a508a4a"
+        },
+        {
+          "accepted": false,
+          "reason": "missing prerequisite component 1a508a4a"
+        },
+        {
+          "accepted": false,
+          "reason": "missing prerequisite component 1a508a4a"
+        },
+        {
+          "accepted": false,
+          "reason": "missing prerequisite component 1a508a4a"
+        },
+        {
+          "accepted": false,
+          "reason": "missing prerequisite component 1a508a4a"
+        }
+      ],
+      "rejected": 5
+    }
+  },
+  "after_current": {
+    "engine": "0.5.1",
+    "stale_submission_beam": {
+      "actions": [
+        {
+          "kind": "withdraw_artifact",
+          "accepted": true,
+          "reason": ""
+        },
+        {
+          "kind": "inspect_artifact",
+          "accepted": true,
+          "reason": ""
+        },
+        {
+          "kind": "test_artifact",
+          "accepted": true,
+          "reason": ""
+        },
+        {
+          "kind": "propose_artifact",
+          "accepted": true,
+          "reason": ""
+        },
+        {
+          "kind": "test_artifact",
+          "accepted": true,
+          "reason": ""
+        },
+        {
+          "kind": "propose_artifact",
+          "accepted": true,
+          "reason": ""
+        },
+        {
+          "kind": "use_artifact",
+          "accepted": true,
+          "reason": ""
+        },
+        {
+          "kind": "wait",
+          "accepted": true,
+          "reason": ""
+        },
+        {
+          "kind": "consume",
+          "accepted": true,
+          "reason": ""
+        },
+        {
+          "kind": "test_artifact",
+          "accepted": true,
+          "reason": ""
+        }
+      ],
+      "rejected": 0
+    },
+    "stale_parent_first_improvement": {
+      "actions": [
+        {
+          "kind": "withdraw_artifact",
+          "accepted": true,
+          "reason": ""
+        },
+        {
+          "kind": "inspect_artifact",
+          "accepted": true,
+          "reason": ""
+        },
+        {
+          "kind": "test_artifact",
+          "accepted": true,
+          "reason": ""
+        },
+        {
+          "kind": "propose_artifact",
+          "accepted": true,
+          "reason": ""
+        },
+        {
+          "kind": "test_artifact",
+          "accepted": true,
+          "reason": ""
+        },
+        {
+          "kind": "submit_artifact",
+          "accepted": true,
+          "reason": ""
+        },
+        {
+          "kind": "consume",
+          "accepted": true,
+          "reason": ""
+        },
+        {
+          "kind": "propose_artifact",
+          "accepted": true,
+          "reason": ""
+        },
+        {
+          "kind": "test_artifact",
+          "accepted": true,
+          "reason": ""
+        },
+        {
+          "kind": "propose_artifact",
+          "accepted": true,
+          "reason": ""
+        }
+      ],
+      "rejected": 0
+    },
+    "library_copy_without_dependency": {
+      "component_copied_with_workflow": true,
+      "uses": [
+        {
+          "accepted": true,
+          "reason": ""
+        },
+        {
+          "accepted": true,
+          "reason": ""
+        },
+        {
+          "accepted": true,
+          "reason": ""
+        },
+        {
+          "accepted": true,
+          "reason": ""
+        },
+        {
+          "accepted": true,
+          "reason": ""
+        }
+      ],
+      "rejected": 0
+    }
+  },
+  "summary": {
+    "stale_submission_beam": {
+      "rejected_before": 10,
+      "rejected_after": 0
+    },
+    "stale_parent_first_improvement": {
+      "rejected_before": 10,
+      "rejected_after": 0
+    },
+    "library_copy_without_dependency": {
+      "rejected_before": 5,
+      "rejected_after": 0
+    }
+  }
+}

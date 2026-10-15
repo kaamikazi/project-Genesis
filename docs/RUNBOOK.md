@@ -21,6 +21,10 @@ cd frontend && npm install && npm run build
 | Advance a world headless | `python -m genesis.cli step RUN_ID --ticks 50` |
 | List runs | `python -m genesis.cli list` |
 | One-shot demo with export | `python -m genesis.cli demo --ticks 120 --removal creators --removal-tick 60 --succession fresh` |
+| **Regenerate v0.5.1 (M5b) evidence** | `python tools/generate_evidence_m5b.py` (bugfix before/after, v0.5.0 corrections, repaired rerun, calibration, protocol freeze with sealed-3, allocation and mentorship experiments, sealed-3 scoring, production accounting, demonstration, restart, CPU, server speed, profiles, summaries; logs to `evidence/v0.5.1/runs.json`; the freeze step refuses to overwrite an existing protocol) |
+| Production accounting for any experiment | `python tools/production_accounting.py REPORT.json OUT.json [COND_A COND_B ...]` |
+| Achieved server speed | `python tools/measure_server_speed.py OUT.json 10` (also shown live in the transport bar: target vs achieved) |
+| Metric definitions | `docs/METRICS.md` (generated from `genesis/metrics_dictionary.py`) |
 | **Regenerate v0.5.0 evidence** | `python tools/generate_evidence_m5.py` (calibration, protocol freeze, P, T, sealed-2, demonstration, restart, CPU, profiles, summaries; logs every step to `evidence/v0.5.0/runs.json`). The freeze step refuses to overwrite an existing protocol: move `evidence/v0.5.0` aside first. |
 | v0.5 search diagnosis and inherited improvements | `python tools/diagnose_v05_search.py evidence/v0.5.0 OUT.json`, `python tools/inherited_m5.py evidence/v0.5.0 OUT.json` |
 | v0.5 demonstration fixture (scripted, labelled) | `python -c "from genesis.demo5 import component_chain, summary; print(summary(component_chain(101)))"` |

@@ -1,0 +1,63 @@
+{
+  "platform": "Windows-10-10.0.26300-SP0",
+  "python": "3.10.11",
+  "pacing": "fixed-rate (v0.5.1); catch-up capped at 1 s",
+  "durability": "SQLite WAL, synchronous=FULL (unchanged)",
+  "cases": [
+    {
+      "base_population": 8,
+      "overlap": 0,
+      "run_id": "eb523ede45f8",
+      "target_ticks_per_second": 10,
+      "achieved_ticks_per_second_median": 9.8,
+      "last_step_ms_median": 78.0,
+      "max_lag_seconds": 0.441,
+      "active_agents_seen": [
+        8
+      ],
+      "samples": 18
+    },
+    {
+      "base_population": 8,
+      "overlap": 40,
+      "run_id": "935ec409764d",
+      "target_ticks_per_second": 10,
+      "achieved_ticks_per_second_median": 6.72,
+      "last_step_ms_median": 157.0,
+      "max_lag_seconds": 0.988,
+      "active_agents_seen": [
+        8,
+        16
+      ],
+      "samples": 17
+    },
+    {
+      "base_population": 20,
+      "overlap": 0,
+      "run_id": "4fea8f15e7f7",
+      "target_ticks_per_second": 10,
+      "achieved_ticks_per_second_median": 8.5,
+      "last_step_ms_median": 109.5,
+      "max_lag_seconds": 0.866,
+      "active_agents_seen": [
+        20
+      ],
+      "samples": 18
+    },
+    {
+      "base_population": 20,
+      "overlap": 40,
+      "run_id": "efb53d9693ea",
+      "target_ticks_per_second": 10,
+      "achieved_ticks_per_second_median": 4.09,
+      "last_step_ms_median": 266.0,
+      "max_lag_seconds": 1.006,
+      "active_agents_seen": [
+        20,
+        40
+      ],
+      "samples": 17
+    }
+  ],
+  "note": "the selected speed is a target; achieved is measured over the last 20 committed ticks"
+}

@@ -77,3 +77,12 @@ The clock now schedules ticks at a fixed rate rather than 1/speed after each ste
 ## Compatibility
 
 Defaults reproduce v0.4/v0.5 behaviour where no defect was involved; the stored v0.4 experiment-B regression still matches. Runs written by v0.5.0 are read-only under 0.5.1.
+
+## Outcome (recorded after evaluation; no decision above was changed)
+
+- **Repairs.** All three defects are repaired on minimal reproductions (10, 10 and 5 rejected actions per 10 ticks under v0.5.0, 0 after). In the repaired rerun, beam/preserved's production deficit disappeared.
+- **Allocation bundle.** It made the repaired beam worse on sealed-3 in every frozen world (6 of 6; 4 of 4 distinct), although it removed repeated behaviour and untested proposals. Which guard caused the loss is not identified.
+- **Declared mentorship.** At 80/40, chosen in calibration, 8 of 26 dependency lessons were acquired and the taught workflows were used independently after the teachers retired. Final selections matched no-transfer in 5 of 6 worlds.
+- **Sample.** A constant controller seed plus a small hidden-parameter space made two seed pairs duplicates, so the evaluation has 4 distinct worlds.
+
+Details: [IMPLEMENTATION_STATUS](IMPLEMENTATION_STATUS.md).

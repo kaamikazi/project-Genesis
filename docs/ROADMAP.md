@@ -12,7 +12,8 @@ Each milestone depends on the ones above it. Statuses: **done** (implemented and
 | M3 | **Audit and inheritance (v0.3.0).** Audit of v0.2 claims; independent event reducer; usable storage; knowledge as a capability; retirement and succession with typed inheritance packages; controlled succession experiment with physical parity; cross-generation revision attempts; observation-boundary repairs; copy-on-write optimisation; 20-agent validation | F1–F5 | **done** |
 | M4 | **Protected evaluation, costly teaching, richer invention (v0.4.0).** Development, validation and sealed evaluation roles; freezes; a teaching session contract with costs, reservations, interruption and assessed acquisition; the `workshop-1` task; cohort lifecycle; Experiments A and B | M3 | **done** |
 | M5 | **Search diagnostics, budget-matched search, live components, teaching across generations (v0.5.0).** Shared search credits and decision diagnostics; a beam policy beside the unchanged v0.4 reference; components with in-host admission, refactor path, closures by hash; dependency-aware lessons; overlapping cohorts; sealed-2; Experiments P and T | M4 | **done** (beam not stronger; see status) |
-| M5b | **Controlled search follow-up** (proposed below) | M5 | next, offline |
+| M5b | **Repair, allocation and prospective validation (v0.5.1).** Stale-reference and library-dependency repairs, metric dictionary and paired denominators, creation-time attribution, allocation bundle, declared mentorship, admission-panel infrastructure, sealed-3 | M5 | **done** (bundle worse; teaching did not change outcomes; see status) |
+| M5c | **Independent worlds and adaptive validation** (proposed below) | M5b | next, offline |
 | M6 | **One LLM controller under budgets.** A provider adapter behind `AgentController`, receiving the existing restricted observation. Budgets per run and per agent (calls, tokens, time, price), counting failures and repair calls. Recorded and redacted prompts and responses. An explicit fallback. Replay from recorded decisions. Model calls only for deliberation. Simulation skills kept separate from pretrained knowledge. | M5 | needs your choice of provider and budget |
 | M7 | **Settlement institutions.** Storage policies decided by members, library governance, shared infrastructure with maintenance, reputation from observed interactions | M4 | deferred |
 | M8 | **Richer invention.** A larger program language, multi-step production chains, problems where the optimum is not reachable in about 20 ticks, held-out *mechanics* (not just held-out cases) | M3 | deferred |
@@ -23,13 +24,17 @@ Each milestone depends on the ones above it. Statuses: **done** (implemented and
 
 Milestone IDs were renumbered at v0.5.0 so that M5 is the release that shipped; the LLM controller moved from M5 to M6 and later items shifted by one.
 
-## Immediate next step: M5b, a controlled search follow-up (proposed, not started)
+## Immediate next step: M5c, independent worlds and adaptive validation (proposed, not started)
 
-v0.5.0 is preserved as released. The beam policy was not stronger, and three things it measured deserve a separate, pre-registered test rather than tuning on the v0.5 evaluation seeds:
+v0.5.1 is preserved as released. Its most important finding is about the experiment itself, not the agents. Every world uses the same controller seed, and hidden parameters have only 45 combinations, so some seeds duplicated each other's invention outcomes. No further comparative claim is worth making until that is fixed. One focused milestone:
 
-1. **Fix the known defect first, as a declared change:** a researcher must drop a pending candidate whose admission reference is no longer current (it livelocked in T/library). Re-run T/library alone on the v0.5 seeds as a labelled repair check, not as new evidence for any claim.
-2. **Isolate allocation from algorithm.** Hold the 48-credit pool fixed and vary one factor at a time, each on new calibration seeds and fresh evaluation seeds with a new sealed set: (a) beam with behaviour-hash de-duplication before proposing (does H1, redundant neighbours, explain the 30% fewer novel evaluations?); (b) beam that never proposes without the credits to test (no untested proposals); (c) first-improvement with private stepping stones (does the frontier, not the operator order, cause the lower admission rate, H2?).
-3. **Make validation less adaptive across generations,** since preserved lineages overfit it: e.g. rotate validation partitions per cohort, or charge admission against a fresh partition, so that "further improvement" can be judged without sealed-only checks (H3).
-4. **Give dependency lessons room to finish:** forbid a teacher from offering a lesson that cannot complete before its scheduled retirement, or start dependency lessons earlier in the overlap; measure whether dependencies are then acquired and used.
+1. **Independent replicates.**
+   - Derive each world's controller seed from its world seed (a declared rule change; legacy scenarios keep the fixed seed for reproduction).
+   - Widen or stratify the hidden-parameter space, and require distinct hidden parameters across a protocol's evaluation seeds. The protocol must check this before freezing.
+   - Choose sample size so that at least 12 distinct worlds per condition fit the runtime budget.
+2. **Run the deferred admission-panel experiment**, using the infrastructure already in v0.5.1. Compare fixed validation with cohort panels for first-improvement and repaired beam. The question is whether preserved lineages still look better on admission cases than on fresh cases.
+3. **A predeclared ablation of the allocation bundle**, one guard removed at a time, to test H1–H3, because the bundle as a whole made beam worse.
 
-Alternatives that remain open: **M6** (LLM controller, needs your provider and budget decision) and **M7** (institutions).
+Teaching and libraries are carried along unchanged as measured conditions; no new mechanics are added.
+
+Alternatives that remain open: **M6** (LLM controller; needs your provider and budget decision) and **M7** (institutions).

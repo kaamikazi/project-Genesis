@@ -189,3 +189,28 @@ python tools/generate_evidence_m5.py
 ```
 
 The pipeline runs calibration, then the protocol freeze (it refuses to overwrite an existing protocol), P, T, sealed-2 scoring, the demonstration fixture, the restart check, the search CPU benchmark, the 8- and 20-agent profiles, and the summaries (`evidence/v0.5.0/SUMMARY.md`).
+
+# M5b protocols (v0.5.1)
+
+Frozen in `evidence/v0.5.1/protocol/protocol.json` before evaluation, with implementation and controller fingerprints, seeds, settings, conditions, primary contrasts, selection rules, metric version, missing-data handling, stopping and exclusion rules, and the sealed-3 commitment.
+
+Results are kept in separate stages and are never merged into one claim:
+
+1. **Regression and bugfix evidence.** Minimal reproductions against tag v0.5.0 and the current code.
+2. **Post-hoc corrections to v0.5.0 summaries.** Computed from the unchanged raw evidence.
+3. **Repaired retrospective rerun.** Every v0.5.0 world configuration re-run under v0.5.1. Its sealed-2 scores are retrospective, because those cases were already known.
+4. **Calibration on seeds 310–312.** The mentorship schedule and the sample size are chosen by rules written before running (`tools/calibrate_m5b.py`).
+5. **Prospective allocation experiment (`allocation-1`).**
+   - Conditions: repaired beam vs beam + allocation bundle, × preserved/reset access, plus first-improvement as a fixed reference.
+   - Primary measure: final held-best sealed-3 score, paired by seed.
+   - Limit: identifies the bundle's combined effect, not each guard's.
+6. **Prospective mentorship experiment (`mentorship-1`).**
+   - Conditions: library / teaching-only (package-scheduled) / none, on the calibrated schedule, identical in every condition.
+   - Primary measures: dependency-lesson eligibility, attempts and outcomes, independent post-retirement execution, and final held-best sealed-3 for teaching-only vs none.
+7. **Validation-panel experiment.** Infrastructure only; deferred.
+
+**Paired-comparison rule** (descriptive). A direction is reported only if at least 75% of expected worlds are eligible pairs and one side is lower in at least 75% of eligible pairs. Every comparison lists expected, eligible and missing worlds with reasons, and the denominator. The exact sign-test probability is shown as a description. Agents and cohort transitions within a world are not independent replications.
+
+```
+python tools/generate_evidence_m5b.py
+```

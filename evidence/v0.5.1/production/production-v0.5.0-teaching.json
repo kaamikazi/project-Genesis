@@ -1,0 +1,202 @@
+{
+  "source": "evidence\\v0.5.0\\teaching\\teaching.json",
+  "metrics_version": "genesis-metrics-1",
+  "conditions": {
+    "library": {
+      "worlds": 5,
+      "production.actions": 1704,
+      "production.alloy": 2801,
+      "production.busy_ticks": 1097,
+      "production.rejected_use_missing_prerequisite": 903,
+      "search.stale_reference_rejections": 209,
+      "search.credit_actions": 1282,
+      "alloy_per_action": 1.6438,
+      "agent_ticks_by_activity": {
+        "eating": 1428,
+        "exchange": 40,
+        "gathering": 2244,
+        "learning": 254,
+        "movement": 118,
+        "production": 1704,
+        "rejected gathering": 1,
+        "rejected production": 1065,
+        "rejected search": 209,
+        "rejected storage": 29,
+        "search": 1282,
+        "storage": 162,
+        "waiting": 1064
+      },
+      "active_agent_ticks": 9600,
+      "top_rejections": {
+        "use_artifact: missing prerequisite component 7e1a291b": 472,
+        "use_artifact: missing prerequisite component c4fc9d0c": 328,
+        "submit_artifact: the nearest admitted ancestor is no longer curre": 209,
+        "use_artifact: missing prerequisite component 50717551": 103,
+        "produce: insufficient ore for batch (needs 3)": 45,
+        "withdraw: insufficient settlement stock": 29,
+        "produce: insufficient ore for batch (needs 4)": 26,
+        "use_artifact: insufficient energy for batch (needs 18)": 22
+      },
+      "population_base_peak": [
+        [
+          8,
+          16
+        ]
+      ]
+    },
+    "teaching-only": {
+      "worlds": 5,
+      "production.actions": 1757,
+      "production.alloy": 2401,
+      "production.busy_ticks": 644,
+      "production.rejected_use_missing_prerequisite": 522,
+      "search.stale_reference_rejections": 0,
+      "search.credit_actions": 1356,
+      "alloy_per_action": 1.3665,
+      "agent_ticks_by_activity": {
+        "eating": 1482,
+        "exchange": 450,
+        "gathering": 2026,
+        "learning": 144,
+        "movement": 100,
+        "practice": 104,
+        "production": 1653,
+        "rejected learning": 1,
+        "rejected practice": 108,
+        "rejected production": 724,
+        "rejected storage": 13,
+        "rejected teaching": 22,
+        "search": 1356,
+        "storage": 168,
+        "teaching": 513,
+        "waiting": 736
+      },
+      "active_agent_ticks": 9600,
+      "top_rejections": {
+        "use_artifact: missing prerequisite component a14adc86": 178,
+        "produce: insufficient ore for batch (needs 4)": 90,
+        "use_artifact: missing prerequisite component 6dfa2639": 88,
+        "use_artifact: missing prerequisite component 7e1a291b": 73,
+        "use_artifact: missing prerequisite component b129277c": 66,
+        "use_artifact: missing prerequisite component eb96b83e": 59,
+        "produce: insufficient ore for batch (needs 3)": 55,
+        "use_artifact: missing prerequisite component a71e7ec8": 50
+      },
+      "population_base_peak": [
+        [
+          8,
+          16
+        ]
+      ]
+    },
+    "none": {
+      "worlds": 5,
+      "production.actions": 2179,
+      "production.alloy": 2705,
+      "production.busy_ticks": 526,
+      "production.rejected_use_missing_prerequisite": 753,
+      "search.stale_reference_rejections": 0,
+      "search.credit_actions": 1425,
+      "alloy_per_action": 1.2414,
+      "agent_ticks_by_activity": {
+        "eating": 1616,
+        "exchange": 64,
+        "gathering": 2328,
+        "learning": 195,
+        "movement": 102,
+        "production": 2179,
+        "rejected production": 998,
+        "rejected storage": 25,
+        "search": 1425,
+        "storage": 160,
+        "waiting": 508
+      },
+      "active_agent_ticks": 9600,
+      "top_rejections": {
+        "use_artifact: missing prerequisite component a14adc86": 211,
+        "produce: insufficient ore for batch (needs 3)": 103,
+        "produce: insufficient ore for batch (needs 4)": 97,
+        "use_artifact: missing prerequisite component 7e1a291b": 92,
+        "use_artifact: missing prerequisite component 6dfa2639": 92,
+        "use_artifact: missing prerequisite component f91d6324": 85,
+        "use_artifact: missing prerequisite component 82278025": 78,
+        "use_artifact: missing prerequisite component eb96b83e": 74
+      },
+      "population_base_peak": [
+        [
+          8,
+          16
+        ]
+      ]
+    }
+  },
+  "decomposition": [
+    {
+      "pair": [
+        "none",
+        "library"
+      ],
+      "delta_alloy": 96,
+      "actions_term": -589.66,
+      "yield_term": 685.66,
+      "identity_check": 0.0,
+      "delta_production_actions": -475,
+      "delta_agent_ticks_by_activity": {
+        "eating": -188,
+        "exchange": -24,
+        "gathering": -84,
+        "learning": 59,
+        "movement": 16,
+        "production": -475,
+        "rejected gathering": 1,
+        "rejected production": 67,
+        "rejected search": 209,
+        "rejected storage": 4,
+        "search": -143,
+        "storage": 2,
+        "waiting": 556
+      },
+      "delta_active_agent_ticks": 0,
+      "attributed_by_event_class": {
+        "rejected production (missing component)": 150,
+        "rejected submissions (stale reference)": 209
+      },
+      "unexplained": "shifts between accepted activities (gathering, eating, search, learning, waiting) are reported, not attributed"
+    },
+    {
+      "pair": [
+        "none",
+        "teaching-only"
+      ],
+      "delta_alloy": -304,
+      "actions_term": -523.87,
+      "yield_term": 219.87,
+      "identity_check": -0.0,
+      "delta_production_actions": -422,
+      "delta_agent_ticks_by_activity": {
+        "eating": -134,
+        "exchange": 386,
+        "gathering": -302,
+        "learning": -51,
+        "movement": -2,
+        "practice": 104,
+        "production": -526,
+        "rejected learning": 1,
+        "rejected practice": 108,
+        "rejected production": -274,
+        "rejected storage": -12,
+        "rejected teaching": 22,
+        "search": -69,
+        "storage": 8,
+        "teaching": 513,
+        "waiting": 228
+      },
+      "delta_active_agent_ticks": 0,
+      "attributed_by_event_class": {
+        "rejected production (missing component)": -231,
+        "rejected submissions (stale reference)": 0
+      },
+      "unexplained": "shifts between accepted activities (gathering, eating, search, learning, waiting) are reported, not attributed"
+    }
+  ]
+}

@@ -1,0 +1,57 @@
+{
+  "config": {
+    "seed": 310,
+    "task": "workshop-1",
+    "ore_per_site": 900,
+    "lifecycle": "cohorts",
+    "cohort_ticks": 40,
+    "cohort_count": 2,
+    "cohort_overlap": 20,
+    "teaching": true,
+    "teaching_policy": "package-scheduled",
+    "search_policy": "beam-alloc",
+    "budget_unit": "credits",
+    "search_budget": 48,
+    "cross_cohort_access": false,
+    "max_ticks": 80
+  },
+  "checks": [
+    {
+      "check": "during a pending (development-tested, unsubmitted) candidate: condition holds at the interruption point",
+      "passed": true,
+      "tick": 6
+    },
+    {
+      "check": "during a pending (development-tested, unsubmitted) candidate: reopened database holds the same committed state",
+      "passed": true
+    },
+    {
+      "check": "during a pending (development-tested, unsubmitted) candidate: continuation matches an uninterrupted reference for 20 ticks",
+      "passed": true,
+      "tick": 26
+    },
+    {
+      "check": "during a pending (development-tested, unsubmitted) candidate: replay to the interruption tick restores sessions, credits and lifecycle",
+      "passed": true
+    },
+    {
+      "check": "during declared mentorship (lesson in progress): condition holds at the interruption point",
+      "passed": true,
+      "tick": 24
+    },
+    {
+      "check": "during declared mentorship (lesson in progress): reopened database holds the same committed state",
+      "passed": true
+    },
+    {
+      "check": "during declared mentorship (lesson in progress): continuation matches an uninterrupted reference for 20 ticks",
+      "passed": true,
+      "tick": 44
+    },
+    {
+      "check": "during declared mentorship (lesson in progress): replay to the interruption tick restores sessions, credits and lifecycle",
+      "passed": true
+    }
+  ],
+  "all_passed": true
+}

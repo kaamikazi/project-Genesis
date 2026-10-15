@@ -1,0 +1,190 @@
+{
+  "steps": [
+    {
+      "step": "bugfix evidence (v0.5.0 vs v0.5.1, minimal reproductions)",
+      "command": "python tools/bugfix_evidence_m5b.py evidence\\v0.5.1\\bugfix\\bugfix-evidence.json",
+      "exit_code": 0,
+      "seconds": 2.6,
+      "stderr_tail": "",
+      "finished_at": "2026-10-15T06:01:30.402965+00:00"
+    },
+    {
+      "step": "post-hoc corrections to v0.5.0 summaries",
+      "command": "python tools/corrections_v05.py evidence\\v0.5.1\\corrections-v0.5.0",
+      "exit_code": 0,
+      "seconds": 20.4,
+      "stderr_tail": "",
+      "finished_at": "2026-10-15T06:01:50.765788+00:00"
+    },
+    {
+      "step": "production accounting: v0.5.0 P",
+      "command": "python tools/production_accounting.py evidence/v0.5.0/policy/policy.json evidence\\v0.5.1\\production\\production-v0.5.0-policy.json first-improvement/preserved beam/preserved beam-nocomponents/preserved beam/preserved first-improvement/reset beam/reset",
+      "exit_code": 0,
+      "seconds": 5.9,
+      "stderr_tail": "",
+      "finished_at": "2026-10-15T06:01:56.703978+00:00"
+    },
+    {
+      "step": "production accounting: v0.5.0 T",
+      "command": "python tools/production_accounting.py evidence/v0.5.0/teaching/teaching.json evidence\\v0.5.1\\production\\production-v0.5.0-teaching.json none library none teaching-only",
+      "exit_code": 0,
+      "seconds": 4.5,
+      "stderr_tail": "",
+      "finished_at": "2026-10-15T06:02:01.222071+00:00"
+    },
+    {
+      "step": "repaired retrospective rerun of v0.5.0 worlds",
+      "command": "(in-process) rerun()",
+      "exit_code": 0,
+      "seconds": 1100.7,
+      "stderr_tail": "",
+      "finished_at": "2026-10-15T06:20:21.926857+00:00"
+    },
+    {
+      "step": "retrospective sealed-2 scoring of the rerun",
+      "command": "(in-process) rerun_sealed()",
+      "exit_code": 0,
+      "seconds": 12.8,
+      "stderr_tail": "",
+      "finished_at": "2026-10-15T06:20:34.678281+00:00"
+    },
+    {
+      "step": "production accounting: rerun",
+      "command": "python tools/production_accounting.py evidence\\v0.5.1\\rerun\\rerun.json evidence\\v0.5.1\\production\\production-rerun.json first-improvement/preserved beam/preserved none library none teaching-only",
+      "exit_code": 0,
+      "seconds": 12.2,
+      "stderr_tail": "",
+      "finished_at": "2026-10-15T06:20:46.888707+00:00"
+    },
+    {
+      "step": "calibration (development seeds 310-312)",
+      "command": "python tools/calibrate_m5b.py evidence\\v0.5.1\\calibration {\"population\": 8, \"cohort_ticks\": 60, \"cohort_count\": 3, \"cohort_overlap\": 30, \"allocation_overlap\": 0, \"ore_per_site\": 900, \"search_budget\": 48}",
+      "exit_code": 0,
+      "seconds": 689.6,
+      "stderr_tail": "",
+      "finished_at": "2026-10-15T06:32:16.530806+00:00"
+    },
+    {
+      "step": "freeze protocol and sealed-3 commitment",
+      "command": "(in-process) freeze_protocol()",
+      "exit_code": 0,
+      "seconds": 2.1,
+      "stderr_tail": "",
+      "finished_at": "2026-10-15T06:32:18.587714+00:00"
+    },
+    {
+      "step": "allocation experiment (prospective)",
+      "command": "(in-process) allocation()",
+      "exit_code": 0,
+      "seconds": 1045.5,
+      "stderr_tail": "",
+      "finished_at": "2026-10-15T06:49:44.102451+00:00"
+    },
+    {
+      "step": "mentorship experiment (prospective)",
+      "command": "(in-process) mentorship()",
+      "exit_code": 0,
+      "seconds": 969.5,
+      "stderr_tail": "",
+      "finished_at": "2026-10-15T07:05:53.593562+00:00"
+    },
+    {
+      "step": "sealed-3 scoring of closed runs",
+      "command": "(in-process) sealed_scoring()",
+      "exit_code": 0,
+      "seconds": 20.6,
+      "stderr_tail": "",
+      "finished_at": "2026-10-15T07:06:14.147029+00:00"
+    },
+    {
+      "step": "production accounting: allocation",
+      "command": "python tools/production_accounting.py evidence\\v0.5.1\\allocation\\allocation.json evidence\\v0.5.1\\production\\production-allocation.json beam/preserved beam-alloc/preserved beam/reset beam-alloc/reset first-improvement/preserved beam/preserved",
+      "exit_code": 0,
+      "seconds": 10.3,
+      "stderr_tail": "",
+      "finished_at": "2026-10-15T07:06:24.490470+00:00"
+    },
+    {
+      "step": "production accounting: mentorship",
+      "command": "python tools/production_accounting.py evidence\\v0.5.1\\mentorship\\mentorship.json evidence\\v0.5.1\\production\\production-mentorship.json none teaching-only none library",
+      "exit_code": 0,
+      "seconds": 8.5,
+      "stderr_tail": "",
+      "finished_at": "2026-10-15T07:06:33.036470+00:00"
+    },
+    {
+      "step": "deterministic demonstration fixture (labelled)",
+      "command": "(in-process) demonstration()",
+      "exit_code": 0,
+      "seconds": 3.8,
+      "stderr_tail": "",
+      "finished_at": "2026-10-15T07:06:36.825337+00:00"
+    },
+    {
+      "step": "restart with pending submission and mentorship",
+      "command": "python tools/verify_restart_m5b.py evidence\\v0.5.1\\verification\\restart.json",
+      "exit_code": 0,
+      "seconds": 13.2,
+      "stderr_tail": "",
+      "finished_at": "2026-10-15T07:06:49.994898+00:00"
+    },
+    {
+      "step": "search CPU by policy",
+      "command": "python tools/benchmark_search_m5.py evidence\\v0.5.1\\benchmark\\search-cpu.json 310 311",
+      "exit_code": 0,
+      "seconds": 95.9,
+      "stderr_tail": "",
+      "finished_at": "2026-10-15T07:08:25.944628+00:00"
+    },
+    {
+      "step": "server speed (target vs achieved)",
+      "command": "python tools/measure_server_speed.py evidence\\v0.5.1\\benchmark\\server-speed.json 10",
+      "exit_code": 0,
+      "seconds": 53.5,
+      "stderr_tail": "",
+      "finished_at": "2026-10-15T07:09:19.440359+00:00"
+    },
+    {
+      "step": "profile base 8/20 agents with overlap (peak doubles)",
+      "command": "python -m genesis.profiling evidence\\v0.5.1\\benchmark\\profile-overlap.json 100 3 scoped {\"task\": \"workshop-1\", \"ore_per_site\": 900, \"lifecycle\": \"cohorts\", \"cohort_ticks\": 50, \"cohort_count\": 2, \"cohort_overlap\": 25, \"teaching\": true, \"teaching_policy\": \"package-scheduled\", \"search_policy\": \"beam-alloc\", \"budget_unit\": \"credits\", \"search_budget\": 48, \"cross_cohort_access\": false}",
+      "exit_code": 0,
+      "seconds": 170.7,
+      "stderr_tail": "",
+      "finished_at": "2026-10-15T07:12:10.182429+00:00"
+    },
+    {
+      "step": "metric dictionary",
+      "command": "(in-process) metrics_doc()",
+      "exit_code": 0,
+      "seconds": 0.0,
+      "stderr_tail": "",
+      "finished_at": "2026-10-15T07:12:10.183430+00:00"
+    },
+    {
+      "step": "summaries",
+      "command": "python tools/summarize_m5b.py evidence\\v0.5.1",
+      "exit_code": 0,
+      "seconds": 30.6,
+      "stderr_tail": "",
+      "finished_at": "2026-10-15T07:15:19.686044+00:00"
+    }
+  ],
+  "source_at_start": {
+    "git_commit": "e20e84e3965366aed09e34fd9102e3398c156c95",
+    "runtime_code_dirty": false,
+    "dirty_files": [],
+    "source_sha256": "b76819a9090d0d14f9402f54c2eec3f1a0aa268d963e46b2c829c5f3361165a5",
+    "files": 45,
+    "controller_sha256": "d24d01bd0e71b167767a69a69998e2890a13b8adce24a4b96c8cf72a2f26832e",
+    "engine_sha256": "1129e2f3ea05bdc5dbddf3b2f7e4ae6734458bcaf4a1c217b1454f54490e60c1"
+  },
+  "source_at_end": {
+    "git_commit": "e20e84e3965366aed09e34fd9102e3398c156c95",
+    "runtime_code_dirty": false,
+    "dirty_files": [],
+    "source_sha256": "b76819a9090d0d14f9402f54c2eec3f1a0aa268d963e46b2c829c5f3361165a5",
+    "files": 45,
+    "controller_sha256": "d24d01bd0e71b167767a69a69998e2890a13b8adce24a4b96c8cf72a2f26832e",
+    "engine_sha256": "1129e2f3ea05bdc5dbddf3b2f7e4ae6734458bcaf4a1c217b1454f54490e60c1"
+  }
+}

@@ -97,6 +97,15 @@ A fixed schedule defines only cohort transitions. Acquisition and improvement ar
 
 Observations gain, for the agent's *own* artifacts only: the development host, the host's development score, behaviour equality with the host, and the operator. Validation scores, sealed cases, hidden parameters and seeds remain absent (tested).
 
+## v0.5.1 offline policies (developer-supplied)
+
+| Role | Change |
+|---|---|
+| **Researcher, all policies (repair)** | At the point of submitting, a candidate whose reference is no longer admitted is withdrawn, never resubmitted. first-improvement revises only a currently admitted workflow (or the baseline). Library entries whose dependencies cannot be obtained are skipped. |
+| **Researcher, `beam-alloc`** | The repaired beam plus the allocation bundle: reserve (3 credits and 4 ticks of lifetime), exact decision novelty, at most 200 candidates examined per decision, and no spending on stale lineages. |
+| **Learner, `package-scheduled`** | Re-requests lessons from earlier-cohort neighbours every 8 ticks, including after it holds something. |
+| **Teacher, `package-scheduled`** | Skips workflows it already offered to that learner (from its own recent memory). Never starts a lesson that cannot finish before its own scheduled retirement. |
+
 ## Memory
 
 Memory is a bounded window of the agent's own action results (16 stored, 8 retrieved). Test results carry only aggregate feedback; full evaluations stay on the artifact record. The authoritative history is the event log.

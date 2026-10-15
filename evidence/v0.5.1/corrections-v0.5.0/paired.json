@@ -1,0 +1,1520 @@
+{
+  "P": [
+    {
+      "a": "beam/preserved",
+      "b": "first-improvement/preserved",
+      "metric": "final_held_best_validation",
+      "expected_worlds": 5,
+      "completed_worlds": {
+        "beam/preserved": 5,
+        "first-improvement/preserved": 5
+      },
+      "eligible_pairs": 5,
+      "missing": [],
+      "a_lower": 1,
+      "b_lower": 4,
+      "ties": 0,
+      "decision_denominator": 5,
+      "mean_a_over_eligible": 8.3909,
+      "mean_b_over_eligible": 7.4313,
+      "sign_test_p_descriptive": 0.375,
+      "pairs": [
+        {
+          "seed": 201,
+          "beam/preserved": 7.5405,
+          "first-improvement/preserved": 7.3056
+        },
+        {
+          "seed": 202,
+          "beam/preserved": 8.2895,
+          "first-improvement/preserved": 8.6
+        },
+        {
+          "seed": 203,
+          "beam/preserved": 7.2368,
+          "first-improvement/preserved": 6.2927
+        },
+        {
+          "seed": 204,
+          "beam/preserved": 9.1875,
+          "first-improvement/preserved": 7.3636
+        },
+        {
+          "seed": 205,
+          "beam/preserved": 9.7,
+          "first-improvement/preserved": 7.5946
+        }
+      ],
+      "verdict": "first-improvement/preserved lower in 4/5 eligible",
+      "rule": "a direction is reported only if at least 75% of expected worlds are eligible pairs AND the same side is lower in at least 75% of eligible pairs; otherwise 'no consistent difference' or 'insufficient eligible pairs'. Descriptive, not a significance test."
+    },
+    {
+      "a": "beam/preserved",
+      "b": "first-improvement/preserved",
+      "metric": "final_held_best_sealed",
+      "expected_worlds": 5,
+      "completed_worlds": {
+        "beam/preserved": 5,
+        "first-improvement/preserved": 5
+      },
+      "eligible_pairs": 5,
+      "missing": [],
+      "a_lower": 3,
+      "b_lower": 2,
+      "ties": 0,
+      "decision_denominator": 5,
+      "mean_a_over_eligible": 9.5476,
+      "mean_b_over_eligible": 9.577,
+      "sign_test_p_descriptive": 1.0,
+      "pairs": [
+        {
+          "seed": 201,
+          "beam/preserved": 8.333333,
+          "first-improvement/preserved": 9.980769
+        },
+        {
+          "seed": 202,
+          "beam/preserved": 10.5,
+          "first-improvement/preserved": 10.479167
+        },
+        {
+          "seed": 203,
+          "beam/preserved": 8.145161,
+          "first-improvement/preserved": 9.017857
+        },
+        {
+          "seed": 204,
+          "beam/preserved": 10.555556,
+          "first-improvement/preserved": 8.112903
+        },
+        {
+          "seed": 205,
+          "beam/preserved": 10.203704,
+          "first-improvement/preserved": 10.294118
+        }
+      ],
+      "verdict": "no consistent difference",
+      "rule": "a direction is reported only if at least 75% of expected worlds are eligible pairs AND the same side is lower in at least 75% of eligible pairs; otherwise 'no consistent difference' or 'insufficient eligible pairs'. Descriptive, not a significance test."
+    },
+    {
+      "a": "beam/preserved",
+      "b": "first-improvement/preserved",
+      "metric": "final_cohort_best_validation",
+      "expected_worlds": 5,
+      "completed_worlds": {
+        "beam/preserved": 5,
+        "first-improvement/preserved": 5
+      },
+      "eligible_pairs": 1,
+      "missing": [
+        {
+          "seed": 201,
+          "reason": "beam/preserved: the final cohort created no admitted workflow (nothing frozen for it)"
+        },
+        {
+          "seed": 203,
+          "reason": "beam/preserved: the final cohort created no admitted workflow (nothing frozen for it)"
+        },
+        {
+          "seed": 204,
+          "reason": "beam/preserved: the final cohort created no admitted workflow (nothing frozen for it)"
+        },
+        {
+          "seed": 205,
+          "reason": "beam/preserved: the final cohort created no admitted workflow (nothing frozen for it)"
+        }
+      ],
+      "a_lower": 1,
+      "b_lower": 0,
+      "ties": 0,
+      "decision_denominator": 1,
+      "mean_a_over_eligible": 8.2895,
+      "mean_b_over_eligible": 8.6,
+      "sign_test_p_descriptive": 1.0,
+      "pairs": [
+        {
+          "seed": 202,
+          "beam/preserved": 8.2895,
+          "first-improvement/preserved": 8.6
+        }
+      ],
+      "verdict": "insufficient eligible pairs (1 of 5)",
+      "rule": "a direction is reported only if at least 75% of expected worlds are eligible pairs AND the same side is lower in at least 75% of eligible pairs; otherwise 'no consistent difference' or 'insufficient eligible pairs'. Descriptive, not a significance test."
+    },
+    {
+      "a": "beam/preserved",
+      "b": "first-improvement/preserved",
+      "metric": "final_cohort_best_sealed",
+      "expected_worlds": 5,
+      "completed_worlds": {
+        "beam/preserved": 5,
+        "first-improvement/preserved": 5
+      },
+      "eligible_pairs": 1,
+      "missing": [
+        {
+          "seed": 201,
+          "reason": "beam/preserved: the final cohort created no admitted workflow (nothing frozen for it)"
+        },
+        {
+          "seed": 203,
+          "reason": "beam/preserved: the final cohort created no admitted workflow (nothing frozen for it)"
+        },
+        {
+          "seed": 204,
+          "reason": "beam/preserved: the final cohort created no admitted workflow (nothing frozen for it)"
+        },
+        {
+          "seed": 205,
+          "reason": "beam/preserved: the final cohort created no admitted workflow (nothing frozen for it)"
+        }
+      ],
+      "a_lower": 0,
+      "b_lower": 1,
+      "ties": 0,
+      "decision_denominator": 1,
+      "mean_a_over_eligible": 10.5,
+      "mean_b_over_eligible": 10.4792,
+      "sign_test_p_descriptive": 1.0,
+      "pairs": [
+        {
+          "seed": 202,
+          "beam/preserved": 10.5,
+          "first-improvement/preserved": 10.479167
+        }
+      ],
+      "verdict": "insufficient eligible pairs (1 of 5)",
+      "rule": "a direction is reported only if at least 75% of expected worlds are eligible pairs AND the same side is lower in at least 75% of eligible pairs; otherwise 'no consistent difference' or 'insufficient eligible pairs'. Descriptive, not a significance test."
+    },
+    {
+      "a": "beam/reset",
+      "b": "first-improvement/reset",
+      "metric": "final_held_best_validation",
+      "expected_worlds": 5,
+      "completed_worlds": {
+        "beam/reset": 5,
+        "first-improvement/reset": 5
+      },
+      "eligible_pairs": 5,
+      "missing": [],
+      "a_lower": 1,
+      "b_lower": 4,
+      "ties": 0,
+      "decision_denominator": 5,
+      "mean_a_over_eligible": 9.6857,
+      "mean_b_over_eligible": 8.3166,
+      "sign_test_p_descriptive": 0.375,
+      "pairs": [
+        {
+          "seed": 201,
+          "beam/reset": 7.8857,
+          "first-improvement/reset": 7.6765
+        },
+        {
+          "seed": 202,
+          "beam/reset": 10.4444,
+          "first-improvement/reset": 9.3438
+        },
+        {
+          "seed": 203,
+          "beam/reset": 10.75,
+          "first-improvement/reset": 7.4242
+        },
+        {
+          "seed": 204,
+          "beam/reset": 8.5758,
+          "first-improvement/reset": 9.0385
+        },
+        {
+          "seed": 205,
+          "beam/reset": 10.7727,
+          "first-improvement/reset": 8.1
+        }
+      ],
+      "verdict": "first-improvement/reset lower in 4/5 eligible",
+      "rule": "a direction is reported only if at least 75% of expected worlds are eligible pairs AND the same side is lower in at least 75% of eligible pairs; otherwise 'no consistent difference' or 'insufficient eligible pairs'. Descriptive, not a significance test."
+    },
+    {
+      "a": "beam/reset",
+      "b": "first-improvement/reset",
+      "metric": "final_held_best_sealed",
+      "expected_worlds": 5,
+      "completed_worlds": {
+        "beam/reset": 5,
+        "first-improvement/reset": 5
+      },
+      "eligible_pairs": 5,
+      "missing": [],
+      "a_lower": 2,
+      "b_lower": 3,
+      "ties": 0,
+      "decision_denominator": 5,
+      "mean_a_over_eligible": 11.3105,
+      "mean_b_over_eligible": 8.7185,
+      "sign_test_p_descriptive": 1.0,
+      "pairs": [
+        {
+          "seed": 201,
+          "beam/reset": 8.338462,
+          "first-improvement/reset": 9.0
+        },
+        {
+          "seed": 202,
+          "beam/reset": 13.266667,
+          "first-improvement/reset": 9.388889
+        },
+        {
+          "seed": 203,
+          "beam/reset": 14.257143,
+          "first-improvement/reset": 8.240741
+        },
+        {
+          "seed": 204,
+          "beam/reset": 8.904762,
+          "first-improvement/reset": 9.396226
+        },
+        {
+          "seed": 205,
+          "beam/reset": 11.785714,
+          "first-improvement/reset": 7.566667
+        }
+      ],
+      "verdict": "no consistent difference",
+      "rule": "a direction is reported only if at least 75% of expected worlds are eligible pairs AND the same side is lower in at least 75% of eligible pairs; otherwise 'no consistent difference' or 'insufficient eligible pairs'. Descriptive, not a significance test."
+    },
+    {
+      "a": "beam/reset",
+      "b": "first-improvement/reset",
+      "metric": "final_cohort_best_validation",
+      "expected_worlds": 5,
+      "completed_worlds": {
+        "beam/reset": 5,
+        "first-improvement/reset": 5
+      },
+      "eligible_pairs": 5,
+      "missing": [],
+      "a_lower": 1,
+      "b_lower": 4,
+      "ties": 0,
+      "decision_denominator": 5,
+      "mean_a_over_eligible": 9.6857,
+      "mean_b_over_eligible": 8.3166,
+      "sign_test_p_descriptive": 0.375,
+      "pairs": [
+        {
+          "seed": 201,
+          "beam/reset": 7.8857,
+          "first-improvement/reset": 7.6765
+        },
+        {
+          "seed": 202,
+          "beam/reset": 10.4444,
+          "first-improvement/reset": 9.3438
+        },
+        {
+          "seed": 203,
+          "beam/reset": 10.75,
+          "first-improvement/reset": 7.4242
+        },
+        {
+          "seed": 204,
+          "beam/reset": 8.5758,
+          "first-improvement/reset": 9.0385
+        },
+        {
+          "seed": 205,
+          "beam/reset": 10.7727,
+          "first-improvement/reset": 8.1
+        }
+      ],
+      "verdict": "first-improvement/reset lower in 4/5 eligible",
+      "rule": "a direction is reported only if at least 75% of expected worlds are eligible pairs AND the same side is lower in at least 75% of eligible pairs; otherwise 'no consistent difference' or 'insufficient eligible pairs'. Descriptive, not a significance test."
+    },
+    {
+      "a": "beam/reset",
+      "b": "first-improvement/reset",
+      "metric": "final_cohort_best_sealed",
+      "expected_worlds": 5,
+      "completed_worlds": {
+        "beam/reset": 5,
+        "first-improvement/reset": 5
+      },
+      "eligible_pairs": 5,
+      "missing": [],
+      "a_lower": 2,
+      "b_lower": 3,
+      "ties": 0,
+      "decision_denominator": 5,
+      "mean_a_over_eligible": 11.3105,
+      "mean_b_over_eligible": 8.7185,
+      "sign_test_p_descriptive": 1.0,
+      "pairs": [
+        {
+          "seed": 201,
+          "beam/reset": 8.338462,
+          "first-improvement/reset": 9.0
+        },
+        {
+          "seed": 202,
+          "beam/reset": 13.266667,
+          "first-improvement/reset": 9.388889
+        },
+        {
+          "seed": 203,
+          "beam/reset": 14.257143,
+          "first-improvement/reset": 8.240741
+        },
+        {
+          "seed": 204,
+          "beam/reset": 8.904762,
+          "first-improvement/reset": 9.396226
+        },
+        {
+          "seed": 205,
+          "beam/reset": 11.785714,
+          "first-improvement/reset": 7.566667
+        }
+      ],
+      "verdict": "no consistent difference",
+      "rule": "a direction is reported only if at least 75% of expected worlds are eligible pairs AND the same side is lower in at least 75% of eligible pairs; otherwise 'no consistent difference' or 'insufficient eligible pairs'. Descriptive, not a significance test."
+    },
+    {
+      "a": "beam/preserved",
+      "b": "beam-nocomponents/preserved",
+      "metric": "final_held_best_validation",
+      "expected_worlds": 5,
+      "completed_worlds": {
+        "beam/preserved": 5,
+        "beam-nocomponents/preserved": 5
+      },
+      "eligible_pairs": 5,
+      "missing": [],
+      "a_lower": 1,
+      "b_lower": 1,
+      "ties": 3,
+      "decision_denominator": 5,
+      "mean_a_over_eligible": 8.3909,
+      "mean_b_over_eligible": 8.3601,
+      "sign_test_p_descriptive": 1.0,
+      "pairs": [
+        {
+          "seed": 201,
+          "beam/preserved": 7.5405,
+          "beam-nocomponents/preserved": 7.5455
+        },
+        {
+          "seed": 202,
+          "beam/preserved": 8.2895,
+          "beam-nocomponents/preserved": 8.2895
+        },
+        {
+          "seed": 203,
+          "beam/preserved": 7.2368,
+          "beam-nocomponents/preserved": 7.2368
+        },
+        {
+          "seed": 204,
+          "beam/preserved": 9.1875,
+          "beam-nocomponents/preserved": 9.0286
+        },
+        {
+          "seed": 205,
+          "beam/preserved": 9.7,
+          "beam-nocomponents/preserved": 9.7
+        }
+      ],
+      "verdict": "no consistent difference",
+      "rule": "a direction is reported only if at least 75% of expected worlds are eligible pairs AND the same side is lower in at least 75% of eligible pairs; otherwise 'no consistent difference' or 'insufficient eligible pairs'. Descriptive, not a significance test."
+    },
+    {
+      "a": "beam/preserved",
+      "b": "beam-nocomponents/preserved",
+      "metric": "final_held_best_sealed",
+      "expected_worlds": 5,
+      "completed_worlds": {
+        "beam/preserved": 5,
+        "beam-nocomponents/preserved": 5
+      },
+      "eligible_pairs": 5,
+      "missing": [],
+      "a_lower": 2,
+      "b_lower": 0,
+      "ties": 3,
+      "decision_denominator": 5,
+      "mean_a_over_eligible": 9.5476,
+      "mean_b_over_eligible": 10.8426,
+      "sign_test_p_descriptive": 0.5,
+      "pairs": [
+        {
+          "seed": 201,
+          "beam/preserved": 8.333333,
+          "beam-nocomponents/preserved": 9.25
+        },
+        {
+          "seed": 202,
+          "beam/preserved": 10.5,
+          "beam-nocomponents/preserved": 10.5
+        },
+        {
+          "seed": 203,
+          "beam/preserved": 8.145161,
+          "beam-nocomponents/preserved": 8.145161
+        },
+        {
+          "seed": 204,
+          "beam/preserved": 10.555556,
+          "beam-nocomponents/preserved": 16.114286
+        },
+        {
+          "seed": 205,
+          "beam/preserved": 10.203704,
+          "beam-nocomponents/preserved": 10.203704
+        }
+      ],
+      "verdict": "no consistent difference",
+      "rule": "a direction is reported only if at least 75% of expected worlds are eligible pairs AND the same side is lower in at least 75% of eligible pairs; otherwise 'no consistent difference' or 'insufficient eligible pairs'. Descriptive, not a significance test."
+    },
+    {
+      "a": "beam/preserved",
+      "b": "beam-nocomponents/preserved",
+      "metric": "final_cohort_best_validation",
+      "expected_worlds": 5,
+      "completed_worlds": {
+        "beam/preserved": 5,
+        "beam-nocomponents/preserved": 5
+      },
+      "eligible_pairs": 1,
+      "missing": [
+        {
+          "seed": 201,
+          "reason": "beam/preserved: the final cohort created no admitted workflow (nothing frozen for it); beam-nocomponents/preserved: the final cohort created no admitted workflow (nothing frozen for it)"
+        },
+        {
+          "seed": 203,
+          "reason": "beam/preserved: the final cohort created no admitted workflow (nothing frozen for it)"
+        },
+        {
+          "seed": 204,
+          "reason": "beam/preserved: the final cohort created no admitted workflow (nothing frozen for it)"
+        },
+        {
+          "seed": 205,
+          "reason": "beam/preserved: the final cohort created no admitted workflow (nothing frozen for it); beam-nocomponents/preserved: the final cohort created no admitted workflow (nothing frozen for it)"
+        }
+      ],
+      "a_lower": 0,
+      "b_lower": 0,
+      "ties": 1,
+      "decision_denominator": 1,
+      "mean_a_over_eligible": 8.2895,
+      "mean_b_over_eligible": 8.2895,
+      "sign_test_p_descriptive": null,
+      "pairs": [
+        {
+          "seed": 202,
+          "beam/preserved": 8.2895,
+          "beam-nocomponents/preserved": 8.2895
+        }
+      ],
+      "verdict": "insufficient eligible pairs (1 of 5)",
+      "rule": "a direction is reported only if at least 75% of expected worlds are eligible pairs AND the same side is lower in at least 75% of eligible pairs; otherwise 'no consistent difference' or 'insufficient eligible pairs'. Descriptive, not a significance test."
+    },
+    {
+      "a": "beam/preserved",
+      "b": "beam-nocomponents/preserved",
+      "metric": "final_cohort_best_sealed",
+      "expected_worlds": 5,
+      "completed_worlds": {
+        "beam/preserved": 5,
+        "beam-nocomponents/preserved": 5
+      },
+      "eligible_pairs": 1,
+      "missing": [
+        {
+          "seed": 201,
+          "reason": "beam/preserved: the final cohort created no admitted workflow (nothing frozen for it); beam-nocomponents/preserved: the final cohort created no admitted workflow (nothing frozen for it)"
+        },
+        {
+          "seed": 203,
+          "reason": "beam/preserved: the final cohort created no admitted workflow (nothing frozen for it)"
+        },
+        {
+          "seed": 204,
+          "reason": "beam/preserved: the final cohort created no admitted workflow (nothing frozen for it)"
+        },
+        {
+          "seed": 205,
+          "reason": "beam/preserved: the final cohort created no admitted workflow (nothing frozen for it); beam-nocomponents/preserved: the final cohort created no admitted workflow (nothing frozen for it)"
+        }
+      ],
+      "a_lower": 0,
+      "b_lower": 0,
+      "ties": 1,
+      "decision_denominator": 1,
+      "mean_a_over_eligible": 10.5,
+      "mean_b_over_eligible": 10.5,
+      "sign_test_p_descriptive": null,
+      "pairs": [
+        {
+          "seed": 202,
+          "beam/preserved": 10.5,
+          "beam-nocomponents/preserved": 10.5
+        }
+      ],
+      "verdict": "insufficient eligible pairs (1 of 5)",
+      "rule": "a direction is reported only if at least 75% of expected worlds are eligible pairs AND the same side is lower in at least 75% of eligible pairs; otherwise 'no consistent difference' or 'insufficient eligible pairs'. Descriptive, not a significance test."
+    },
+    {
+      "a": "first-improvement/preserved",
+      "b": "first-improvement/reset",
+      "metric": "final_held_best_validation",
+      "expected_worlds": 5,
+      "completed_worlds": {
+        "first-improvement/preserved": 5,
+        "first-improvement/reset": 5
+      },
+      "eligible_pairs": 5,
+      "missing": [],
+      "a_lower": 5,
+      "b_lower": 0,
+      "ties": 0,
+      "decision_denominator": 5,
+      "mean_a_over_eligible": 7.4313,
+      "mean_b_over_eligible": 8.3166,
+      "sign_test_p_descriptive": 0.0625,
+      "pairs": [
+        {
+          "seed": 201,
+          "first-improvement/preserved": 7.3056,
+          "first-improvement/reset": 7.6765
+        },
+        {
+          "seed": 202,
+          "first-improvement/preserved": 8.6,
+          "first-improvement/reset": 9.3438
+        },
+        {
+          "seed": 203,
+          "first-improvement/preserved": 6.2927,
+          "first-improvement/reset": 7.4242
+        },
+        {
+          "seed": 204,
+          "first-improvement/preserved": 7.3636,
+          "first-improvement/reset": 9.0385
+        },
+        {
+          "seed": 205,
+          "first-improvement/preserved": 7.5946,
+          "first-improvement/reset": 8.1
+        }
+      ],
+      "verdict": "first-improvement/preserved lower in 5/5 eligible",
+      "rule": "a direction is reported only if at least 75% of expected worlds are eligible pairs AND the same side is lower in at least 75% of eligible pairs; otherwise 'no consistent difference' or 'insufficient eligible pairs'. Descriptive, not a significance test."
+    },
+    {
+      "a": "first-improvement/preserved",
+      "b": "first-improvement/reset",
+      "metric": "final_held_best_sealed",
+      "expected_worlds": 5,
+      "completed_worlds": {
+        "first-improvement/preserved": 5,
+        "first-improvement/reset": 5
+      },
+      "eligible_pairs": 5,
+      "missing": [],
+      "a_lower": 1,
+      "b_lower": 4,
+      "ties": 0,
+      "decision_denominator": 5,
+      "mean_a_over_eligible": 9.577,
+      "mean_b_over_eligible": 8.7185,
+      "sign_test_p_descriptive": 0.375,
+      "pairs": [
+        {
+          "seed": 201,
+          "first-improvement/preserved": 9.980769,
+          "first-improvement/reset": 9.0
+        },
+        {
+          "seed": 202,
+          "first-improvement/preserved": 10.479167,
+          "first-improvement/reset": 9.388889
+        },
+        {
+          "seed": 203,
+          "first-improvement/preserved": 9.017857,
+          "first-improvement/reset": 8.240741
+        },
+        {
+          "seed": 204,
+          "first-improvement/preserved": 8.112903,
+          "first-improvement/reset": 9.396226
+        },
+        {
+          "seed": 205,
+          "first-improvement/preserved": 10.294118,
+          "first-improvement/reset": 7.566667
+        }
+      ],
+      "verdict": "first-improvement/reset lower in 4/5 eligible",
+      "rule": "a direction is reported only if at least 75% of expected worlds are eligible pairs AND the same side is lower in at least 75% of eligible pairs; otherwise 'no consistent difference' or 'insufficient eligible pairs'. Descriptive, not a significance test."
+    },
+    {
+      "a": "first-improvement/preserved",
+      "b": "first-improvement/reset",
+      "metric": "final_cohort_best_validation",
+      "expected_worlds": 5,
+      "completed_worlds": {
+        "first-improvement/preserved": 5,
+        "first-improvement/reset": 5
+      },
+      "eligible_pairs": 5,
+      "missing": [],
+      "a_lower": 5,
+      "b_lower": 0,
+      "ties": 0,
+      "decision_denominator": 5,
+      "mean_a_over_eligible": 7.6272,
+      "mean_b_over_eligible": 8.3166,
+      "sign_test_p_descriptive": 0.0625,
+      "pairs": [
+        {
+          "seed": 201,
+          "first-improvement/preserved": 7.3056,
+          "first-improvement/reset": 7.6765
+        },
+        {
+          "seed": 202,
+          "first-improvement/preserved": 8.6,
+          "first-improvement/reset": 9.3438
+        },
+        {
+          "seed": 203,
+          "first-improvement/preserved": 6.2927,
+          "first-improvement/reset": 7.4242
+        },
+        {
+          "seed": 204,
+          "first-improvement/preserved": 8.3429,
+          "first-improvement/reset": 9.0385
+        },
+        {
+          "seed": 205,
+          "first-improvement/preserved": 7.5946,
+          "first-improvement/reset": 8.1
+        }
+      ],
+      "verdict": "first-improvement/preserved lower in 5/5 eligible",
+      "rule": "a direction is reported only if at least 75% of expected worlds are eligible pairs AND the same side is lower in at least 75% of eligible pairs; otherwise 'no consistent difference' or 'insufficient eligible pairs'. Descriptive, not a significance test."
+    },
+    {
+      "a": "first-improvement/preserved",
+      "b": "first-improvement/reset",
+      "metric": "final_cohort_best_sealed",
+      "expected_worlds": 5,
+      "completed_worlds": {
+        "first-improvement/preserved": 5,
+        "first-improvement/reset": 5
+      },
+      "eligible_pairs": 5,
+      "missing": [],
+      "a_lower": 0,
+      "b_lower": 5,
+      "ties": 0,
+      "decision_denominator": 5,
+      "mean_a_over_eligible": 9.9835,
+      "mean_b_over_eligible": 8.7185,
+      "sign_test_p_descriptive": 0.0625,
+      "pairs": [
+        {
+          "seed": 201,
+          "first-improvement/preserved": 9.980769,
+          "first-improvement/reset": 9.0
+        },
+        {
+          "seed": 202,
+          "first-improvement/preserved": 10.479167,
+          "first-improvement/reset": 9.388889
+        },
+        {
+          "seed": 203,
+          "first-improvement/preserved": 9.017857,
+          "first-improvement/reset": 8.240741
+        },
+        {
+          "seed": 204,
+          "first-improvement/preserved": 10.145455,
+          "first-improvement/reset": 9.396226
+        },
+        {
+          "seed": 205,
+          "first-improvement/preserved": 10.294118,
+          "first-improvement/reset": 7.566667
+        }
+      ],
+      "verdict": "first-improvement/reset lower in 5/5 eligible",
+      "rule": "a direction is reported only if at least 75% of expected worlds are eligible pairs AND the same side is lower in at least 75% of eligible pairs; otherwise 'no consistent difference' or 'insufficient eligible pairs'. Descriptive, not a significance test."
+    },
+    {
+      "a": "beam/preserved",
+      "b": "beam/reset",
+      "metric": "final_held_best_validation",
+      "expected_worlds": 5,
+      "completed_worlds": {
+        "beam/preserved": 5,
+        "beam/reset": 5
+      },
+      "eligible_pairs": 5,
+      "missing": [],
+      "a_lower": 4,
+      "b_lower": 1,
+      "ties": 0,
+      "decision_denominator": 5,
+      "mean_a_over_eligible": 8.3909,
+      "mean_b_over_eligible": 9.6857,
+      "sign_test_p_descriptive": 0.375,
+      "pairs": [
+        {
+          "seed": 201,
+          "beam/preserved": 7.5405,
+          "beam/reset": 7.8857
+        },
+        {
+          "seed": 202,
+          "beam/preserved": 8.2895,
+          "beam/reset": 10.4444
+        },
+        {
+          "seed": 203,
+          "beam/preserved": 7.2368,
+          "beam/reset": 10.75
+        },
+        {
+          "seed": 204,
+          "beam/preserved": 9.1875,
+          "beam/reset": 8.5758
+        },
+        {
+          "seed": 205,
+          "beam/preserved": 9.7,
+          "beam/reset": 10.7727
+        }
+      ],
+      "verdict": "beam/preserved lower in 4/5 eligible",
+      "rule": "a direction is reported only if at least 75% of expected worlds are eligible pairs AND the same side is lower in at least 75% of eligible pairs; otherwise 'no consistent difference' or 'insufficient eligible pairs'. Descriptive, not a significance test."
+    },
+    {
+      "a": "beam/preserved",
+      "b": "beam/reset",
+      "metric": "final_held_best_sealed",
+      "expected_worlds": 5,
+      "completed_worlds": {
+        "beam/preserved": 5,
+        "beam/reset": 5
+      },
+      "eligible_pairs": 5,
+      "missing": [],
+      "a_lower": 4,
+      "b_lower": 1,
+      "ties": 0,
+      "decision_denominator": 5,
+      "mean_a_over_eligible": 9.5476,
+      "mean_b_over_eligible": 11.3105,
+      "sign_test_p_descriptive": 0.375,
+      "pairs": [
+        {
+          "seed": 201,
+          "beam/preserved": 8.333333,
+          "beam/reset": 8.338462
+        },
+        {
+          "seed": 202,
+          "beam/preserved": 10.5,
+          "beam/reset": 13.266667
+        },
+        {
+          "seed": 203,
+          "beam/preserved": 8.145161,
+          "beam/reset": 14.257143
+        },
+        {
+          "seed": 204,
+          "beam/preserved": 10.555556,
+          "beam/reset": 8.904762
+        },
+        {
+          "seed": 205,
+          "beam/preserved": 10.203704,
+          "beam/reset": 11.785714
+        }
+      ],
+      "verdict": "beam/preserved lower in 4/5 eligible",
+      "rule": "a direction is reported only if at least 75% of expected worlds are eligible pairs AND the same side is lower in at least 75% of eligible pairs; otherwise 'no consistent difference' or 'insufficient eligible pairs'. Descriptive, not a significance test."
+    },
+    {
+      "a": "beam/preserved",
+      "b": "beam/reset",
+      "metric": "final_cohort_best_validation",
+      "expected_worlds": 5,
+      "completed_worlds": {
+        "beam/preserved": 5,
+        "beam/reset": 5
+      },
+      "eligible_pairs": 1,
+      "missing": [
+        {
+          "seed": 201,
+          "reason": "beam/preserved: the final cohort created no admitted workflow (nothing frozen for it)"
+        },
+        {
+          "seed": 203,
+          "reason": "beam/preserved: the final cohort created no admitted workflow (nothing frozen for it)"
+        },
+        {
+          "seed": 204,
+          "reason": "beam/preserved: the final cohort created no admitted workflow (nothing frozen for it)"
+        },
+        {
+          "seed": 205,
+          "reason": "beam/preserved: the final cohort created no admitted workflow (nothing frozen for it)"
+        }
+      ],
+      "a_lower": 1,
+      "b_lower": 0,
+      "ties": 0,
+      "decision_denominator": 1,
+      "mean_a_over_eligible": 8.2895,
+      "mean_b_over_eligible": 10.4444,
+      "sign_test_p_descriptive": 1.0,
+      "pairs": [
+        {
+          "seed": 202,
+          "beam/preserved": 8.2895,
+          "beam/reset": 10.4444
+        }
+      ],
+      "verdict": "insufficient eligible pairs (1 of 5)",
+      "rule": "a direction is reported only if at least 75% of expected worlds are eligible pairs AND the same side is lower in at least 75% of eligible pairs; otherwise 'no consistent difference' or 'insufficient eligible pairs'. Descriptive, not a significance test."
+    },
+    {
+      "a": "beam/preserved",
+      "b": "beam/reset",
+      "metric": "final_cohort_best_sealed",
+      "expected_worlds": 5,
+      "completed_worlds": {
+        "beam/preserved": 5,
+        "beam/reset": 5
+      },
+      "eligible_pairs": 1,
+      "missing": [
+        {
+          "seed": 201,
+          "reason": "beam/preserved: the final cohort created no admitted workflow (nothing frozen for it)"
+        },
+        {
+          "seed": 203,
+          "reason": "beam/preserved: the final cohort created no admitted workflow (nothing frozen for it)"
+        },
+        {
+          "seed": 204,
+          "reason": "beam/preserved: the final cohort created no admitted workflow (nothing frozen for it)"
+        },
+        {
+          "seed": 205,
+          "reason": "beam/preserved: the final cohort created no admitted workflow (nothing frozen for it)"
+        }
+      ],
+      "a_lower": 1,
+      "b_lower": 0,
+      "ties": 0,
+      "decision_denominator": 1,
+      "mean_a_over_eligible": 10.5,
+      "mean_b_over_eligible": 13.2667,
+      "sign_test_p_descriptive": 1.0,
+      "pairs": [
+        {
+          "seed": 202,
+          "beam/preserved": 10.5,
+          "beam/reset": 13.266667
+        }
+      ],
+      "verdict": "insufficient eligible pairs (1 of 5)",
+      "rule": "a direction is reported only if at least 75% of expected worlds are eligible pairs AND the same side is lower in at least 75% of eligible pairs; otherwise 'no consistent difference' or 'insufficient eligible pairs'. Descriptive, not a significance test."
+    }
+  ],
+  "T": [
+    {
+      "a": "teaching-only",
+      "b": "none",
+      "metric": "final_held_best_validation",
+      "expected_worlds": 5,
+      "completed_worlds": {
+        "teaching-only": 5,
+        "none": 5
+      },
+      "eligible_pairs": 5,
+      "missing": [],
+      "a_lower": 2,
+      "b_lower": 0,
+      "ties": 3,
+      "decision_denominator": 5,
+      "mean_a_over_eligible": 8.4227,
+      "mean_b_over_eligible": 9.6857,
+      "sign_test_p_descriptive": 0.5,
+      "pairs": [
+        {
+          "seed": 201,
+          "teaching-only": 7.8857,
+          "none": 7.8857
+        },
+        {
+          "seed": 202,
+          "teaching-only": 10.4444,
+          "none": 10.4444
+        },
+        {
+          "seed": 203,
+          "teaching-only": 7.2368,
+          "none": 10.75
+        },
+        {
+          "seed": 204,
+          "teaching-only": 8.5758,
+          "none": 8.5758
+        },
+        {
+          "seed": 205,
+          "teaching-only": 7.9706,
+          "none": 10.7727
+        }
+      ],
+      "verdict": "no consistent difference",
+      "rule": "a direction is reported only if at least 75% of expected worlds are eligible pairs AND the same side is lower in at least 75% of eligible pairs; otherwise 'no consistent difference' or 'insufficient eligible pairs'. Descriptive, not a significance test."
+    },
+    {
+      "a": "teaching-only",
+      "b": "none",
+      "metric": "final_held_best_sealed",
+      "expected_worlds": 5,
+      "completed_worlds": {
+        "teaching-only": 5,
+        "none": 5
+      },
+      "eligible_pairs": 5,
+      "missing": [],
+      "a_lower": 2,
+      "b_lower": 0,
+      "ties": 3,
+      "decision_denominator": 5,
+      "mean_a_over_eligible": 9.5495,
+      "mean_b_over_eligible": 11.3105,
+      "sign_test_p_descriptive": 0.5,
+      "pairs": [
+        {
+          "seed": 201,
+          "teaching-only": 8.338462,
+          "none": 8.338462
+        },
+        {
+          "seed": 202,
+          "teaching-only": 13.266667,
+          "none": 13.266667
+        },
+        {
+          "seed": 203,
+          "teaching-only": 8.145161,
+          "none": 14.257143
+        },
+        {
+          "seed": 204,
+          "teaching-only": 8.904762,
+          "none": 8.904762
+        },
+        {
+          "seed": 205,
+          "teaching-only": 9.092593,
+          "none": 11.785714
+        }
+      ],
+      "verdict": "no consistent difference",
+      "rule": "a direction is reported only if at least 75% of expected worlds are eligible pairs AND the same side is lower in at least 75% of eligible pairs; otherwise 'no consistent difference' or 'insufficient eligible pairs'. Descriptive, not a significance test."
+    },
+    {
+      "a": "teaching-only",
+      "b": "none",
+      "metric": "final_cohort_best_validation",
+      "expected_worlds": 5,
+      "completed_worlds": {
+        "teaching-only": 5,
+        "none": 5
+      },
+      "eligible_pairs": 5,
+      "missing": [],
+      "a_lower": 1,
+      "b_lower": 1,
+      "ties": 3,
+      "decision_denominator": 5,
+      "mean_a_over_eligible": 9.1935,
+      "mean_b_over_eligible": 9.6857,
+      "sign_test_p_descriptive": 1.0,
+      "pairs": [
+        {
+          "seed": 201,
+          "teaching-only": 7.8857,
+          "none": 7.8857
+        },
+        {
+          "seed": 202,
+          "teaching-only": 10.4444,
+          "none": 10.4444
+        },
+        {
+          "seed": 203,
+          "teaching-only": 11.0909,
+          "none": 10.75
+        },
+        {
+          "seed": 204,
+          "teaching-only": 8.5758,
+          "none": 8.5758
+        },
+        {
+          "seed": 205,
+          "teaching-only": 7.9706,
+          "none": 10.7727
+        }
+      ],
+      "verdict": "no consistent difference",
+      "rule": "a direction is reported only if at least 75% of expected worlds are eligible pairs AND the same side is lower in at least 75% of eligible pairs; otherwise 'no consistent difference' or 'insufficient eligible pairs'. Descriptive, not a significance test."
+    },
+    {
+      "a": "teaching-only",
+      "b": "none",
+      "metric": "final_cohort_best_sealed",
+      "expected_worlds": 5,
+      "completed_worlds": {
+        "teaching-only": 5,
+        "none": 5
+      },
+      "eligible_pairs": 5,
+      "missing": [],
+      "a_lower": 2,
+      "b_lower": 0,
+      "ties": 3,
+      "decision_denominator": 5,
+      "mean_a_over_eligible": 10.2348,
+      "mean_b_over_eligible": 11.3105,
+      "sign_test_p_descriptive": 0.5,
+      "pairs": [
+        {
+          "seed": 201,
+          "teaching-only": 8.338462,
+          "none": 8.338462
+        },
+        {
+          "seed": 202,
+          "teaching-only": 13.266667,
+          "none": 13.266667
+        },
+        {
+          "seed": 203,
+          "teaching-only": 11.571429,
+          "none": 14.257143
+        },
+        {
+          "seed": 204,
+          "teaching-only": 8.904762,
+          "none": 8.904762
+        },
+        {
+          "seed": 205,
+          "teaching-only": 9.092593,
+          "none": 11.785714
+        }
+      ],
+      "verdict": "no consistent difference",
+      "rule": "a direction is reported only if at least 75% of expected worlds are eligible pairs AND the same side is lower in at least 75% of eligible pairs; otherwise 'no consistent difference' or 'insufficient eligible pairs'. Descriptive, not a significance test."
+    },
+    {
+      "a": "library",
+      "b": "none",
+      "metric": "final_held_best_validation",
+      "expected_worlds": 5,
+      "completed_worlds": {
+        "library": 5,
+        "none": 5
+      },
+      "eligible_pairs": 5,
+      "missing": [],
+      "a_lower": 4,
+      "b_lower": 1,
+      "ties": 0,
+      "decision_denominator": 5,
+      "mean_a_over_eligible": 8.3184,
+      "mean_b_over_eligible": 9.6857,
+      "sign_test_p_descriptive": 0.375,
+      "pairs": [
+        {
+          "seed": 201,
+          "library": 7.2051,
+          "none": 7.8857
+        },
+        {
+          "seed": 202,
+          "library": 8.2778,
+          "none": 10.4444
+        },
+        {
+          "seed": 203,
+          "library": 7.2368,
+          "none": 10.75
+        },
+        {
+          "seed": 204,
+          "library": 9.1724,
+          "none": 8.5758
+        },
+        {
+          "seed": 205,
+          "library": 9.7,
+          "none": 10.7727
+        }
+      ],
+      "verdict": "library lower in 4/5 eligible",
+      "rule": "a direction is reported only if at least 75% of expected worlds are eligible pairs AND the same side is lower in at least 75% of eligible pairs; otherwise 'no consistent difference' or 'insufficient eligible pairs'. Descriptive, not a significance test."
+    },
+    {
+      "a": "library",
+      "b": "none",
+      "metric": "final_held_best_sealed",
+      "expected_worlds": 5,
+      "completed_worlds": {
+        "library": 5,
+        "none": 5
+      },
+      "eligible_pairs": 5,
+      "missing": [],
+      "a_lower": 4,
+      "b_lower": 1,
+      "ties": 0,
+      "decision_denominator": 5,
+      "mean_a_over_eligible": 9.2468,
+      "mean_b_over_eligible": 11.3105,
+      "sign_test_p_descriptive": 0.375,
+      "pairs": [
+        {
+          "seed": 201,
+          "library": 8.206349,
+          "none": 8.338462
+        },
+        {
+          "seed": 202,
+          "library": 9.392857,
+          "none": 13.266667
+        },
+        {
+          "seed": 203,
+          "library": 8.145161,
+          "none": 14.257143
+        },
+        {
+          "seed": 204,
+          "library": 10.285714,
+          "none": 8.904762
+        },
+        {
+          "seed": 205,
+          "library": 10.203704,
+          "none": 11.785714
+        }
+      ],
+      "verdict": "library lower in 4/5 eligible",
+      "rule": "a direction is reported only if at least 75% of expected worlds are eligible pairs AND the same side is lower in at least 75% of eligible pairs; otherwise 'no consistent difference' or 'insufficient eligible pairs'. Descriptive, not a significance test."
+    },
+    {
+      "a": "library",
+      "b": "none",
+      "metric": "final_cohort_best_validation",
+      "expected_worlds": 5,
+      "completed_worlds": {
+        "library": 5,
+        "none": 5
+      },
+      "eligible_pairs": 3,
+      "missing": [
+        {
+          "seed": 203,
+          "reason": "library: the final cohort created no admitted workflow (nothing frozen for it)"
+        },
+        {
+          "seed": 205,
+          "reason": "library: the final cohort created no admitted workflow (nothing frozen for it)"
+        }
+      ],
+      "a_lower": 2,
+      "b_lower": 1,
+      "ties": 0,
+      "decision_denominator": 3,
+      "mean_a_over_eligible": 8.2184,
+      "mean_b_over_eligible": 8.9686,
+      "sign_test_p_descriptive": 1.0,
+      "pairs": [
+        {
+          "seed": 201,
+          "library": 7.2051,
+          "none": 7.8857
+        },
+        {
+          "seed": 202,
+          "library": 8.2778,
+          "none": 10.4444
+        },
+        {
+          "seed": 204,
+          "library": 9.1724,
+          "none": 8.5758
+        }
+      ],
+      "verdict": "insufficient eligible pairs (3 of 5)",
+      "rule": "a direction is reported only if at least 75% of expected worlds are eligible pairs AND the same side is lower in at least 75% of eligible pairs; otherwise 'no consistent difference' or 'insufficient eligible pairs'. Descriptive, not a significance test."
+    },
+    {
+      "a": "library",
+      "b": "none",
+      "metric": "final_cohort_best_sealed",
+      "expected_worlds": 5,
+      "completed_worlds": {
+        "library": 5,
+        "none": 5
+      },
+      "eligible_pairs": 3,
+      "missing": [
+        {
+          "seed": 203,
+          "reason": "library: the final cohort created no admitted workflow (nothing frozen for it)"
+        },
+        {
+          "seed": 205,
+          "reason": "library: the final cohort created no admitted workflow (nothing frozen for it)"
+        }
+      ],
+      "a_lower": 2,
+      "b_lower": 1,
+      "ties": 0,
+      "decision_denominator": 3,
+      "mean_a_over_eligible": 9.295,
+      "mean_b_over_eligible": 10.17,
+      "sign_test_p_descriptive": 1.0,
+      "pairs": [
+        {
+          "seed": 201,
+          "library": 8.206349,
+          "none": 8.338462
+        },
+        {
+          "seed": 202,
+          "library": 9.392857,
+          "none": 13.266667
+        },
+        {
+          "seed": 204,
+          "library": 10.285714,
+          "none": 8.904762
+        }
+      ],
+      "verdict": "insufficient eligible pairs (3 of 5)",
+      "rule": "a direction is reported only if at least 75% of expected worlds are eligible pairs AND the same side is lower in at least 75% of eligible pairs; otherwise 'no consistent difference' or 'insufficient eligible pairs'. Descriptive, not a significance test."
+    },
+    {
+      "a": "library",
+      "b": "teaching-only",
+      "metric": "final_held_best_validation",
+      "expected_worlds": 5,
+      "completed_worlds": {
+        "library": 5,
+        "teaching-only": 5
+      },
+      "eligible_pairs": 5,
+      "missing": [],
+      "a_lower": 2,
+      "b_lower": 2,
+      "ties": 1,
+      "decision_denominator": 5,
+      "mean_a_over_eligible": 8.3184,
+      "mean_b_over_eligible": 8.4227,
+      "sign_test_p_descriptive": 1.0,
+      "pairs": [
+        {
+          "seed": 201,
+          "library": 7.2051,
+          "teaching-only": 7.8857
+        },
+        {
+          "seed": 202,
+          "library": 8.2778,
+          "teaching-only": 10.4444
+        },
+        {
+          "seed": 203,
+          "library": 7.2368,
+          "teaching-only": 7.2368
+        },
+        {
+          "seed": 204,
+          "library": 9.1724,
+          "teaching-only": 8.5758
+        },
+        {
+          "seed": 205,
+          "library": 9.7,
+          "teaching-only": 7.9706
+        }
+      ],
+      "verdict": "no consistent difference",
+      "rule": "a direction is reported only if at least 75% of expected worlds are eligible pairs AND the same side is lower in at least 75% of eligible pairs; otherwise 'no consistent difference' or 'insufficient eligible pairs'. Descriptive, not a significance test."
+    },
+    {
+      "a": "library",
+      "b": "teaching-only",
+      "metric": "final_held_best_sealed",
+      "expected_worlds": 5,
+      "completed_worlds": {
+        "library": 5,
+        "teaching-only": 5
+      },
+      "eligible_pairs": 5,
+      "missing": [],
+      "a_lower": 2,
+      "b_lower": 2,
+      "ties": 1,
+      "decision_denominator": 5,
+      "mean_a_over_eligible": 9.2468,
+      "mean_b_over_eligible": 9.5495,
+      "sign_test_p_descriptive": 1.0,
+      "pairs": [
+        {
+          "seed": 201,
+          "library": 8.206349,
+          "teaching-only": 8.338462
+        },
+        {
+          "seed": 202,
+          "library": 9.392857,
+          "teaching-only": 13.266667
+        },
+        {
+          "seed": 203,
+          "library": 8.145161,
+          "teaching-only": 8.145161
+        },
+        {
+          "seed": 204,
+          "library": 10.285714,
+          "teaching-only": 8.904762
+        },
+        {
+          "seed": 205,
+          "library": 10.203704,
+          "teaching-only": 9.092593
+        }
+      ],
+      "verdict": "no consistent difference",
+      "rule": "a direction is reported only if at least 75% of expected worlds are eligible pairs AND the same side is lower in at least 75% of eligible pairs; otherwise 'no consistent difference' or 'insufficient eligible pairs'. Descriptive, not a significance test."
+    },
+    {
+      "a": "library",
+      "b": "teaching-only",
+      "metric": "final_cohort_best_validation",
+      "expected_worlds": 5,
+      "completed_worlds": {
+        "library": 5,
+        "teaching-only": 5
+      },
+      "eligible_pairs": 3,
+      "missing": [
+        {
+          "seed": 203,
+          "reason": "library: the final cohort created no admitted workflow (nothing frozen for it)"
+        },
+        {
+          "seed": 205,
+          "reason": "library: the final cohort created no admitted workflow (nothing frozen for it)"
+        }
+      ],
+      "a_lower": 2,
+      "b_lower": 1,
+      "ties": 0,
+      "decision_denominator": 3,
+      "mean_a_over_eligible": 8.2184,
+      "mean_b_over_eligible": 8.9686,
+      "sign_test_p_descriptive": 1.0,
+      "pairs": [
+        {
+          "seed": 201,
+          "library": 7.2051,
+          "teaching-only": 7.8857
+        },
+        {
+          "seed": 202,
+          "library": 8.2778,
+          "teaching-only": 10.4444
+        },
+        {
+          "seed": 204,
+          "library": 9.1724,
+          "teaching-only": 8.5758
+        }
+      ],
+      "verdict": "insufficient eligible pairs (3 of 5)",
+      "rule": "a direction is reported only if at least 75% of expected worlds are eligible pairs AND the same side is lower in at least 75% of eligible pairs; otherwise 'no consistent difference' or 'insufficient eligible pairs'. Descriptive, not a significance test."
+    },
+    {
+      "a": "library",
+      "b": "teaching-only",
+      "metric": "final_cohort_best_sealed",
+      "expected_worlds": 5,
+      "completed_worlds": {
+        "library": 5,
+        "teaching-only": 5
+      },
+      "eligible_pairs": 3,
+      "missing": [
+        {
+          "seed": 203,
+          "reason": "library: the final cohort created no admitted workflow (nothing frozen for it)"
+        },
+        {
+          "seed": 205,
+          "reason": "library: the final cohort created no admitted workflow (nothing frozen for it)"
+        }
+      ],
+      "a_lower": 2,
+      "b_lower": 1,
+      "ties": 0,
+      "decision_denominator": 3,
+      "mean_a_over_eligible": 9.295,
+      "mean_b_over_eligible": 10.17,
+      "sign_test_p_descriptive": 1.0,
+      "pairs": [
+        {
+          "seed": 201,
+          "library": 8.206349,
+          "teaching-only": 8.338462
+        },
+        {
+          "seed": 202,
+          "library": 9.392857,
+          "teaching-only": 13.266667
+        },
+        {
+          "seed": 204,
+          "library": 10.285714,
+          "teaching-only": 8.904762
+        }
+      ],
+      "verdict": "insufficient eligible pairs (3 of 5)",
+      "rule": "a direction is reported only if at least 75% of expected worlds are eligible pairs AND the same side is lower in at least 75% of eligible pairs; otherwise 'no consistent difference' or 'insufficient eligible pairs'. Descriptive, not a significance test."
+    }
+  ]
+}

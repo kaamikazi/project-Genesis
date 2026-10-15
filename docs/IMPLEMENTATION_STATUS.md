@@ -1,157 +1,155 @@
-# Implementation status, v0.5.0 (2026-10-15)
+# Implementation status, v0.5.1 / M5b (2026-10-16)
 
-Engine `0.5.0` · rules `phase-world-5` · evaluators `phase-evaluator-3` (legacy), `workshop-evaluator-2`, `workshop-sealed-2` · reducer `genesis.reducer/2` · storage schema 1.
+Engine `0.5.1` · rules `phase-world-5.1` · evaluators `phase-evaluator-3` (legacy), `workshop-evaluator-3`, `workshop-sealed-3` · reducer `genesis.reducer/3` · metrics `genesis-metrics-1` · storage schema 1.
 
-- **Evidence:** [`evidence/v0.5.0/`](../evidence/v0.5.0/README.md). The generated tables are in [SUMMARY.md](../evidence/v0.5.0/SUMMARY.md).
-- **Design decisions:** [ADR-005](ADR-005-search-components-mentorship.md)
-- **Previous status (v0.4.0):** [history/IMPLEMENTATION_STATUS-v0.4.0.md](history/IMPLEMENTATION_STATUS-v0.4.0.md). v0.4.0 is preserved as a tag.
-- **Baseline before this milestone:** [audit/baseline-v0.4.0-verification.md](audit/baseline-v0.4.0-verification.md) (104 passed, build OK)
-- **Why v0.4 search stalled:** [audit/v0.4-search-diagnosis.json](audit/v0.4-search-diagnosis.json)
+- **Evidence:** [`evidence/v0.5.1/`](../evidence/v0.5.1/README.md); generated tables in [SUMMARY.md](../evidence/v0.5.1/SUMMARY.md); metric definitions in [METRICS.md](METRICS.md)
+- **Decisions:** [ADR-006](ADR-006-repair-allocation-mentorship.md)
+- **Baseline and reproductions before any change:** [audit/baseline-v0.5.0-verification.md](audit/baseline-v0.5.0-verification.md)
+- **Previous status:** [v0.5.0](history/IMPLEMENTATION_STATUS-v0.5.0.md) and [v0.4.0](history/IMPLEMENTATION_STATUS-v0.4.0.md). v0.5.0 and its evidence are preserved unchanged; its results were produced **with the defects listed below**.
 
-## Verification at release
+## Verification
 
 | Check | Result |
 |---|---|
-| `python -m pytest -q` | **125 passed** (up from 104): 19 new tests in `tests/test_v05.py` and 2 new copy-on-write scenarios |
+| `python -m pytest -q` | **148 passed**: 21 new v0.5.1 tests and 2 new copy-on-write scenarios, one fuzzed with withdrawals and named references |
 | `npm run build` (with `tsc --noEmit`) | Succeeded |
-| `python tools/generate_evidence_m5.py` | All 10 steps exited 0 |
-| Mid-pipeline runtime edit | All 40 experiment worlds re-run from the clean commit: identical record hashes and final states. See the evidence README. |
-| Restart during overlap mentorship and during search | 8 of 8 checks pass |
-| v0.4.0 experiment-B world under v0.5 defaults | Reproduces its stored reducer output (`test_v040_cumulative_world_reproduces_under_v050_defaults`) |
+| `python tools/generate_evidence_m5b.py` | All 21 steps exited 0, from runtime commit `1e7dcad`, which was clean at the start and the end |
+| Reporting fix after generation (`e20e84e`) | The reducer's freeze copy omitted `created_upto_best`, which left creation-attributed validation values empty. Fixed. Only the summaries step was regenerated; runs and exports are unaffected. |
+| Restart with a pending submission and during mentorship | 8 of 8 checks pass |
+| v0.4.0 experiment-B world under current defaults | Reproduces its stored reducer output |
 
-## Works and is verified
+## Defects found and repaired
 
-| Capability | Tests / evidence |
-|---|---|
-| **Shared search credits.** Proposals, development tests, component tests and submissions draw on one per-lifetime pool, and exhaustion changes nothing. | `test_search_credits_are_one_shared_pool_and_exhaustion_changes_nothing`; reducer search actions reconcile with `search_spent` in every world |
-| **Decision diagnostics** (operator, parent, step, stop reason, remaining budget) are kept out of world state, with no wall time and no non-finite numbers | `test_beam_decisions_record_diagnostics_with_operators_and_stops` |
-| **Beam policy and restricted feedback.** No validation scores, sealed data or hidden parameters reach controllers. | `test_beam_observations_carry_no_validation_sealed_or_hidden_parameters` |
-| **Components.** Extraction preserves behaviour on every case; closures are transitive and ordered; missing dependencies, cycles, non-component calls and interface mismatches are rejected; splitting a program across components grants no extra depth; calls resolve by immutable hash after a revision. | `test_extraction_*`, `test_closure_*`, `test_splitting_*`, `test_engine_rejects_calls_*`, `test_calls_resolve_by_immutable_hash_*` |
-| **Dependency-aware teaching.** Strict mode rejects missing prerequisites; package mode teaches them, with work accounted per dependency. | `test_strict_policy_rejects_missing_prerequisites_and_package_policy_teaches_them` |
-| **Overlapping generations.** Arrival, then retirement on schedule, never delayed by an unfinished lesson; no hidden inheritance; physical parity until the first arrival. | `test_retirement_is_not_delayed_*`, `test_overlap_lifecycle_*`, `test_library_and_none_are_physically_identical_*`; parity held in every evaluation seed |
-| **Sealed-2 isolation.** Disjoint from development, validation and sealed-1; tampering is detected; frozen closures are verified by hash before scoring. | `test_sealed2_*`, `test_frozen_closures_*`, `test_no_world_path_module_imports_the_sealed_evaluator` |
-| **Reducer v2** reconciles search, components, sessions and transition phases | `test_reducer_reconciles_search_components_and_sessions` |
-| **Copy-on-write** equals the full copy with beam search, components, package lessons and overlap (one scenario fuzzed) | `tests/test_optimization.py` (10 scenarios) |
-| **Restart and replay** during overlap mentorship and during search | `test_restart_during_overlap_*`, `evidence/v0.5.0/verification/restart.json` |
-| **The full component path** (extract → admit in host → refactor → package lesson during overlap → retirement → successor execution → admitted revision → rewired workflow) | Scripted, labelled demonstration: `test_demonstration_chain_*`, `evidence/v0.5.0/demonstration/component-chain.json` |
+Each repair is shown on minimal reproductions run against tag v0.5.0 and the current code (`evidence/v0.5.1/bugfix/`). Rejected actions per 10 ticks:
 
-## Results
-
-Exploratory: 5 new evaluation worlds (seeds 201–205), offline designed controllers, and a claim rule frozen before running (a direction counts only if it holds in at least 4 of 5 paired seeds). Scores are pooled cost per alloy on held-out cases; **lower is better**. "Final held best" is the best admitted workflow held by the final cohort's members at the closing freeze, selected by validation.
-
-### Experiment P: search policy under the same credit pool
-
-Physical parity held on the initial state in all 5 seeds, and access parity at the first boundary for both policies. There were no failures.
-
-| Seed | Sealed baseline | first-improvement preserved (val / sealed) | first-improvement reset | beam preserved | beam reset | beam without components, preserved |
-|---|---|---|---|---|---|---|
-| 201 | 13.79 | 7.31 / 9.98 | 7.68 / 9.00 | 7.54 / 8.33 | 7.89 / 8.34 | 7.55 / 9.25 |
-| 202 | 14.18 | 8.60 / 10.48 | 9.34 / 9.39 | 8.29 / 10.50 | 10.44 / 13.27 | 8.29 / 10.50 |
-| 203 | 14.92 | 6.29 / 9.02 | 7.42 / 8.24 | 7.24 / 8.15 | 10.75 / 14.26 | 7.24 / 8.15 |
-| 204 | 13.32 | 7.36 / 8.11 | 9.04 / 9.40 | 9.19 / 10.56 | 8.58 / 8.90 | 9.03 / 16.11 |
-| 205 | 14.26 | 7.59 / 10.29 | 8.10 / 7.57 | 9.70 / 10.20 | 10.77 / 11.79 | 9.70 / 10.20 |
-| **mean** | | **7.43 / 9.58** | **8.32 / 8.72** | **8.39 / 9.55** | **9.69 / 11.31** | **8.36 / 10.84** |
-
-**Beam search is not stronger.**
-
-- **Validation:** first-improvement was better in 4 of 5 seeds under both preserved and reset access.
-- **Sealed, preserved:** no consistent difference (beam lower in 3, first-improvement in 2; means 9.55 vs 9.58).
-- **Sealed, reset:** no consistent difference by the claim rule (first-improvement lower in 3 of 5), but the mean favours first-improvement (8.72 vs 11.31).
-- **Component operators:** removing them made no consistent difference (validation: 1 better, 1 worse, 3 ties).
-
-**Preserved access looked better than reset on validation in 5 of 5 seeds, but was worse on sealed in 4 of 5** (first-improvement; means 9.58 vs 8.72). Lineages that build on inherited workflows were admitted again and again against the same 24 adaptive validation cases. Their sealed scores sit 2.15 above validation on average, against 0.40 for reset lineages.
-
-This repeats, more strongly, the v0.4 warning: validation-selected improvement across generations does not reliably transfer to fresh cases. For beam the ordering held (preserved better than reset on sealed in 4 of 5).
-
-### Search diagnosis (P, preserved access; all 30 researcher lifetimes per condition)
-
-| Measure | first-improvement | beam | Difference |
-|---|---|---|---|
-| Credits spent / available | 1,423 / 1,440 | 1,375 / 1,440 | beam left 48 more unspent (max 6 in any lifetime) |
-| Allocation: proposals · own-candidate tests · re-tests of held · component tests · submissions | 630 · 630 · 20 · 0 · 143 | 620 · 575 · 18 · 38 · 124 | beam left **45 proposals never tested** and spent 38 credits on component tests |
-| Novel evaluations (own-candidate tests with decisions new to the agent) | 499 (79% of own tests) | 349 (61%) | **−30%** |
-| Repeated evaluation results (a different program with the same decisions on all 24 development cases) | 131 | 226 | **+73%** |
-| Novel evaluations per 100 credits | 35.1 | 25.4 | −28% |
-| Duplicate programs (identical content proposed again by the same agent) | 0 | 0 | none in either |
-| Energy pauses | 24 one-tick pauses, all followed by more search | 84 one-tick pauses followed by more search; 10 one-tick pauses at the end of a lifetime | no sustained inability to act in either |
-| Admitted / submitted | 76 / 143 (53%) | 43 / 124 (35%; 39 improvements + 4 refactors) | |
-| Final held best: development / validation / sealed (means) | 8.09 / 7.43 / 9.58 | 8.81 / 8.39 / 9.55 | |
-
-The budget was matched in total, but **allocation was not equivalent**. With almost the same number of credits, beam produced 150 fewer novel evaluations. It spent credits on untested proposals and component tests, and its own-candidate tests repeated already-seen behaviour far more often. The many "energy" stop reasons were transient one-tick pauses, not a binding constraint.
-
-Explanations **not established** by this design (hypotheses):
-
-- **H1:** frontier rotation and recombination generate behaviourally redundant neighbours, because frontier members are similar to each other.
-- **H2:** choosing among more development-evaluated stepping stones selects candidates that overfit the 24 development cases (a winner's curse). This would explain the lower admission rate.
-- **H3:** the validation advantage of first-improvement is partly adaptive overfitting. On sealed cases the two policies tie under preserved access.
-
-Each is testable in a follow-up (below).
-
-Beam/preserved also produced less alloy (1,560 against 2,217 for first-improvement/preserved). This is **not explained** by these analyses.
-
-### Inherited-parent improvements (post-hoc sealed diagnostic)
-
-These are submissions whose admission reference was created by an earlier cohort. The sealed scores of non-frozen artifacts were computed after every run closed and are labelled post-hoc.
-
-| Condition | Submissions against an inherited reference | Admitted as improvements | Of those, better on sealed | Not better on sealed |
-|---|---|---|---|---|
-| P first-improvement / preserved | 44 | 16 | 11 | 5 |
-| P beam / preserved | 27 | 9 | 8 | 1 |
-| P beam without components / preserved | 22 | 9 | 6 | 3 |
-| T library | 29 | 9 (+1 refactor) | 9 | 0 |
-| T teaching-only | 3 | 1 (+1 refactor) | 1 | 0 |
-
-**Further improvement beyond all earlier-generation work** is a corrected, post-hoc metric. It compares cohort k's own best with the best workflow any earlier cohort produced. Results by condition (10 transitions each):
-
-| Condition | Beat earlier work on validation | Also on sealed |
+| Defect | v0.5.0 | v0.5.1 |
 |---|---|---|
-| P first-improvement / preserved | 9 | 6 |
-| P first-improvement / reset | 3 | 3 |
-| P beam / preserved | 5 | 5 |
-| T library | 7 | 6 |
-| T teaching-only | 6 | 5 |
-| T none | 6 | 5 |
+| Beam resubmitted a candidate whose reference had been superseded | 10 of 10 | 0 |
+| first-improvement kept revising a superseded workflow | 10 of 10 | 0 |
+| A library copy of a component-calling workflow did not copy its component, so every execution failed | 5 of 5 | 0 |
 
-Why the frozen metric was corrected: with library access during the overlap, seniors adopted juniors' workflows, so "the previous cohort's held best" sometimes contained the current cohort's own work.
+**Repairs:**
+- An explicit submission contract: the reference is shown, can be named in the submission (compare-and-swap), and conflicts are reported with their cause.
+- A free `withdraw_artifact` action.
+- Controllers withdraw a stale candidate instead of resubmitting it.
+- first-improvement revises only a currently admitted workflow.
+- Library copies bring the missing dependency closure, charged separately, or are refused.
 
-### Experiment T: teaching across overlapping generations
+**What the defects did to v0.5.0** (raw evidence unchanged; analysis in `corrections-v0.5.0/` and `production/`):
 
-Library and none were physically identical at the first arrival in all 5 seeds. There were no failures.
+- **Missing-component rejections.** v0.5.0 beam/preserved made 1,390 production attempts that were rejected for a missing component. Against first-improvement/preserved it produced 657 less alloy, which the identity *alloy = actions × yield* splits into −542 from fewer production actions and −115 from lower yield. Other component-using conditions had 356–903 such rejections; beam-nocomponents had none.
+- **Stale resubmissions.** In T/library, 209 resubmissions against a superseded reference were rejected, in 7 of 30 researcher lifetimes.
+- **Repaired retrospective rerun** (all 40 v0.5.0 worlds, labelled retrospective):
+  - beam/preserved alloy rose from 1,560 to 2,230 (first-improvement: 2,217), and its search outcomes were unchanged.
+  - T/library stale rejections fell from 209 to 1 (a same-tick race, then a single withdrawal).
+  - T/library's final held-best sealed-2 mean moved from 9.25 to 9.29. Sealed-2 is retrospective here, because those cases were already known.
 
-| Seed | library (val / sealed) | teaching-only | none | Cross-generation lessons in teaching-only (acquired / failed / interrupted) |
-|---|---|---|---|---|
-| 201 | 7.21 / 8.21 | 7.89 / 8.34 | 7.89 / 8.34 | 7 (3 / 1 / 3) |
-| 202 | 8.28 / 9.39 | 10.44 / 13.27 | 10.44 / 13.27 | 12 (3 / 4 / 5) |
-| 203 | 7.24 / 8.15 | 7.24 / 8.15 † | 10.75 / 14.26 | 9 (5 / 3 / 1) |
-| 204 | 9.17 / 10.29 | 8.58 / 8.90 | 8.58 / 8.90 | 9 (4 / 2 / 3) |
-| 205 | 9.70 / 10.20 | 7.97 / 9.09 † | 10.77 / 11.79 | 12 (7 / 2 / 3) |
-| **mean** | **8.32 / 9.25** | **8.42 / 9.55** | **9.69 / 11.31** | **49 (22 / 12 / 15)** |
+## Corrected measurements
 
-† The final cohort held a cohort-1 workflow acquired **by teaching**.
+`genesis-metrics-1` defines every counter: units, inclusion rules and event sources. The v0.5.0 counters were reconciled against it:
 
-**Knowledge crossed generations by teaching, but it was retention, not further improvement.**
+| v0.5.0 statement | Status | Correct value (beam/preserved) |
+|---|---|---|
+| "45 proposals were never tested" | **Defect** in the narrative arithmetic: component proposals are tested by component tests | **7** never tested, all within 5 ticks of retirement |
+| 226 "repeated evaluation results" (diagnosis) vs 259 "duplicate behaviour" (summary) | Intentional, different scopes | `repeated_decisions_own` = 213 (own-candidate tests only); `repeated_decisions_world` = 236 (world scope, component tests excluded) |
+| 6 "cross-generation admitted revisions" vs 9 "inherited-reference admissions" | Intentional: immediate parent (refactors included) vs admission reference | `improvements_on_earlier_cohort_parent` = 5; `improvements_on_earlier_cohort_reference` = 9 |
 
-- **Library vs none:** library beat none in 4 of 5 seeds on both validation and sealed. This is despite a controller defect that handicapped the library condition (evidence README: stale-reference re-submissions, 209 wasted turns in 7 lifetimes).
-- **Teaching-only vs none:** no consistent difference. Teaching-only was better in 2 seeds and identical in 3. In those 2 seeds (203, 205) the only difference was that teaching carried cohort 1's better workflow to cohort 2, which then created nothing better. Teaching-only produced 1 admitted improvement on an inherited reference in all 5 worlds; library produced 9.
-- **Lesson outcomes** (49 cross-generation lessons):
-  - 22 acquired.
-  - 12 failed: a practice run was costlier than the baseline under the learner's conditions.
-  - 15 interrupted: 13 by scheduled retirement, 2 by stalling.
-- **Dependency teaching:** 4 cross-generation lessons carried a component dependency. All 4 were interrupted by the teacher's scheduled retirement, so **no dependency was acquired by teaching in any experiment world**. Only the scripted demonstration completes that path.
-- **Teaching costs** (teaching-only, 5 worlds): 450 teacher energy, 190 learner instruction energy, and 936 practice energy (practice is real production). There were 450 energy of lesson-request messages, against 40–64 exchange energy in the other conditions. Total alloy was 2,401, against 2,801 (library) and 2,705 (none).
-- **T/none vs P/beam-reset:** every freeze pick in T/none is identical to P/beam-reset, although the overlap changed timing. Without transfer, a cohort's search outcome here appears independent of when the cohort starts. That is a hypothesis about determinism of private search sequences, not tested directly.
+- **Paired comparisons** now report expected, eligible and missing worlds and the denominator. Example: v0.5.0's "final cohort best, sealed: 0 / 1 / 0" for beam vs first-improvement had **1 eligible pair of 5**. In the other 4 worlds beam's final cohort created no admitted workflow.
+- **Further improvement is now attributed by creation event.** Freezes record what earlier cohorts had *created* by the boundary, so seniors adopting juniors' work cannot change it.
 
-### Costs and performance
+## Prospective results
 
-- **Controller CPU per proposal decision** (`benchmark/search-cpu.json`, seeds 300–301): first-improvement 17.5 ms mean (p95 28.1), beam 16.5 ms (p95 36.7), beam without components 17.1 ms (p95 35.3). All policies take about 8.7 s per 180-tick world.
-- **Tick time with every v0.5 feature active** (cohorts with a 20-tick overlap, beam, credits, package lessons): 8 agents 87.4 ± 2.9 ms (12.6 ticks/s); 20 agents 172.6 ± 4.9 ms (6.6 ticks/s). The population doubles during overlaps. **20 agents is now below the UI's 10 ticks/s.** State copying is 61–70% of profiled step time.
-- **Evidence generation:** 30 minutes in total. Experiment worlds took about 20–28 s each including replay verification.
+The protocol was frozen before evaluation (`evidence/v0.5.1/protocol/protocol.json`), with fresh seeds 221–226 and sealed-3 cases committed in advance. Scores are cost per alloy, so **lower is better**. "Held best" is the best admitted workflow held by the final cohort, selected by validation. Claim rule: at least 75% of expected worlds are eligible pairs, and one side is lower in at least 75% of them (descriptive).
 
-## Not implemented / limitations
+> **Sample-size caveat found after the runs.** Hidden world parameters have only 45 combinations, and every world uses the same controller seed. Invention outcomes depend on those two things, not on terrain or timing. Seeds 221 and 222 share parameters, as do 225 and 226, and they produced **identical** invention outcomes. The frozen comparisons below therefore count 6 worlds of which only **4 are distinct**. Each row also gives the post-hoc result over the 4 distinct worlds. Teaching interactions do differ between duplicate seeds, because terrain affects movement.
 
-- **Beam is not a stronger search** in this task and budget. The comparison does not support calling it stronger.
-- **Known defect:** beam does not check that a pending submission's admission reference is still current. It livelocked in T/library and was left unfixed in this release (evidence README).
-- **Dependencies were never acquired by teaching in the experiments.** Lessons that carried components were all cut off by scheduled retirement.
-- **Validation is adaptive and reused across generations,** and it increasingly overstates preserved lineages. Only sealed-2 scores are independent: frozen artifacts in the protocol, and the labelled post-hoc diagnostic.
-- **Five worlds per condition is a smoke test.** Agents within a world are not independent. No significance test is claimed.
-- **LLM controller:** not implemented. It needs your choice of provider and budget.
+### Allocation experiment (repaired beam vs beam + allocation bundle)
+
+| Seed | beam pres. (val / sealed) | beam reset | beam-alloc pres. | beam-alloc reset | first-impr. pres. | first-impr. reset |
+|---|---|---|---|---|---|---|
+| 221 (= 222) | 8.89 / 10.57 | 8.21 / 9.95 | 8.21 / 11.22 | 11.68 / 13.45 | 6.03 / 9.58 | 7.65 / 10.82 |
+| 223 | 9.04 / 11.09 | 8.33 / 10.37 | 8.33 / 11.61 | 11.89 / 14.08 | 6.13 / 9.95 | 7.77 / 11.38 |
+| 224 | 9.56 / 10.82 | 8.94 / 11.20 | 8.56 / 10.86 | 10.47 / 12.11 | 8.21 / 10.31 | 9.35 / 12.98 |
+| 225 (= 226) | 9.19 / 10.16 | 8.58 / 10.23 | 9.34 / 10.71 | 10.09 / 11.68 | 7.36 / 9.41 | 9.04 / 11.98 |
+| **mean of 6 frozen worlds (sealed)** | **10.56** | **10.32** | **11.05** | **12.74** | **9.71** | **11.66** |
+
+**The allocation bundle made the repaired beam worse.**
+
+- **Primary contrast, sealed-3:** plain beam was lower in 6 of 6 frozen worlds (4 of 4 distinct), both with preserved access (10.56 vs 11.05) and reset access (10.32 vs 12.74).
+- **Validation, preserved access:** no consistent difference (bundle lower in 4 of 6).
+- **First-improvement** beat both beams on preserved sealed-3 in 6 of 6.
+- **Preserved vs reset access:** preserved was better on sealed-3 for every policy (6 of 6). For first-improvement this is the opposite of v0.5.0, where reset beat preserved on sealed-2 in 4 of 5. The two small studies disagree; neither generalises.
+
+What the bundle did, from the counters (6 worlds each, preserved / reset):
+
+| Counter | beam | beam-alloc |
+|---|---|---|
+| Credit actions | 1,653 / 1,674 | 1,543 / 1,515 |
+| Repeated development decisions (own) | 211 / 216 | **100 / 133** |
+| Untested proposals | 4 / 6 | **0 / 0** |
+| Candidates skipped by exact novelty | — | 481 / 191 |
+| Reserve stops | — | 43 / 47 |
+| Withdrawals of stale-lineage candidates | 0 / 0 | **102 / 159** |
+| Improvement admissions | 54 / 94 | 55 / 85 |
+
+The bundle did what it was designed to do: fewer repeated behaviours and no untested proposals. It also spent 110–160 fewer credits, and it withdrew 102–159 private stepping stones whose reference had changed. Those stepping stones were ones the plain beam kept expanding.
+
+Which guard caused the loss is **not identified**. The design measures the bundle as a whole. Hypotheses:
+- **H1:** withdrawing stale stepping stones removed useful frontier members.
+- **H2:** reserve stops left budget unspent.
+- **H3:** novelty skipping changed which neighbours were tried, without making them better.
+
+A predeclared ablation would be needed to separate them.
+
+### Mentorship experiment (schedule 80/40, chosen in calibration: 60/30 produced no dependency lessons)
+
+| Seed | library (val / sealed) | teaching-only | none | Dependency lessons acquired / offered | Executions of taught dependency workflows after the teacher retired |
+|---|---|---|---|---|---|
+| 221 | 8.89 / 10.57 | 8.21 / 9.95 | 8.21 / 9.95 | 3 / 5 | 83 |
+| 222 | 8.89 / 10.57 | 8.21 / 9.95 | 8.21 / 9.95 | 2 / 3 | 61 |
+| 223 | 9.04 / 11.09 | 8.33 / 10.37 | 8.33 / 10.37 | 2 / 6 | 59 |
+| 224 | 9.66 / 10.77 | 8.94 / 11.20 | 8.94 / 11.20 | 0 / 4 | 0 |
+| 225 | 9.03 / 9.11 | 8.58 / 10.23 | 8.58 / 10.23 | 0 / 2 | 0 |
+| 226 | 9.03 / 9.11 | 9.19 / 10.16 | 8.58 / 10.23 | 1 / 6 | 30 |
+
+**Dependency teaching now works in exploratory worlds, but it did not change outcomes.**
+
+- **Dependency lessons:** 26 offered, 8 acquired, carrying 8 components in 4 of 6 worlds. Learners executed the taught component-calling workflows 233 times after their teachers had retired: real, independent use.
+- **Eligibility:** 8 of 12 cohort transitions had a senior component-calling workflow, so an opportunity existed.
+- **All cross-generation lessons:** 90 in total, of which 28 were acquired, 34 failed practice and 28 were interrupted.
+- **Final outcome:** teaching-only matched no-transfer's final held best in 5 of 6 worlds (4 of 4 distinct identical). Teaching's acquisitions did not end up as the final cohort's best.
+- **Library vs none:** no consistent difference on sealed-3 (3 vs 3); none was lower on validation in 6 of 6.
+- **Further improvement** (creation-attributed, 12 transitions per condition): sealed-3 improvement in 10 transitions (library), 11 (teaching-only) and 12 (none). No transfer route improved on independent re-search.
+- **Cost:** teaching-only produced 868 less alloy than none (identity: −819 from fewer production actions).
+
+## Costs and performance
+
+- **Controller CPU per proposal decision** (seeds 310–311, `benchmark/search-cpu.json`):
+
+  | Policy | Mean (ms) | p95 (ms) |
+  |---|---|---|
+  | beam | 15.2 | 29.9 |
+  | first-improvement | 23.7 | 38.5 |
+  | beam-alloc | 27.1 | **102.2** |
+
+  The novelty check is cheap on average, but its tail is long.
+- **Population.** Base population is 8 or 20; overlap doubles active agents to 16 or 40 for the overlap window.
+- **Achieved speed through the real server clock** (target 10 ticks/s, durability unchanged). Pacing is now fixed-rate and the UI shows target vs achieved. Two measurements on the same commit:
+
+  | Base agents | Active agents | Pipeline run (ticks/s) | Repeat (ticks/s) |
+  |---|---|---|---|
+  | 8 | 8 | 9.9 | 9.8 |
+  | 8 | 16 (overlap) | 4.8 | 6.7 |
+  | 20 | 20 | 5.8 | 8.5 |
+  | 20 | 40 (overlap) | 3.0 | 4.1 |
+
+  The spread shows machine-state sensitivity. Before the pacing fix the clock waited a full 1/speed after each step, so even a fast engine fell short of the target.
+- **Profile with every feature on** (cohorts 50/25, beam-alloc, scheduled mentorship): 8 base agents 145.8 ms/tick (7.2 ticks/s); 20 base agents 187.7 ms/tick (5.6 ticks/s). State copying still dominates. No optimisation was attempted in this release.
+
+## Not implemented, limitations and uncertainty
+
+- **Independence of worlds.** A constant controller seed and only 45 hidden-parameter combinations make some seeds duplicates for invention measures. Every M5b invention comparison rests on 4 distinct worlds. Agents and transitions within a world are not independent.
+- **Admission-panel experiment:** infrastructure only, deferred.
+- **Allocation bundle:** its per-guard effects are not identified.
+- **Teaching evidence** shows mechanics and use, not benefit. Final selections were unchanged.
+- **LLM controller:** not implemented; it needs your choice of provider and budget.

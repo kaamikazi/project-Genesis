@@ -1,0 +1,141 @@
+{
+  "milestone": "M5b",
+  "release": "v0.5.1",
+  "frozen_at": "2026-10-15T06:32:18.171032+00:00",
+  "source": {
+    "git_commit": "1e7dcad3786a268469a454cefde7dc238184c88e",
+    "runtime_code_dirty": false,
+    "dirty_files": [],
+    "source_sha256": "1ad36fc9fc6dd596dd13013a8786630e402475d3f0fad0a81dc963da51fa5c3b",
+    "files": 45,
+    "controller_sha256": "d24d01bd0e71b167767a69a69998e2890a13b8adce24a4b96c8cf72a2f26832e",
+    "engine_sha256": "1129e2f3ea05bdc5dbddf3b2f7e4ae6734458bcaf4a1c217b1454f54490e60c1"
+  },
+  "versions": {
+    "engine": "0.5.1",
+    "rules": "phase-world-5.1",
+    "evaluator": "phase-evaluator-3+workshop-evaluator-3",
+    "sealed": "workshop-sealed-3",
+    "metrics": "genesis-metrics-1"
+  },
+  "calibration_seeds": [
+    310,
+    311,
+    312
+  ],
+  "evaluation_seeds": [
+    221,
+    222,
+    223,
+    224,
+    225,
+    226
+  ],
+  "sample_size_rule": "M5b calibration on development seeds 310-312 only (never used for evaluation; distinct from v0.5 calibration seeds).\n\nUsage: python tools/calibrate_m5b.py OUT_DIR BASE_SETTINGS_JSON\nDecision rules (declared here, before running):\n1. Mentorship schedule. Candidates (cohort_ticks, overlap) = (60, 30), then (80, 40). Choose the FIRST candidate under\n   which at least one cross-generation lesson whose workflow has a non-empty dependency closure is acquired across the\n   three calibration seeds (teaching-only condition). If none qualifies, choose the last candidate and report that no\n   dependency lesson completed in calibration. The chosen schedule is used for every mentorship condition.\n2. Sample size. Estimate evaluation runtime as (allocation conditions + mentorship conditions) x N x mean world seconds\n   x 1.2; choose the largest N in (10, 8, 6, 5) whose estimate is at most 45 minutes.\nNothing here is tuned on outcome quality; the allocation runs only check that every condition completes and measure cost.\n",
+  "allocation_settings": {
+    "population": 8,
+    "cohort_ticks": 60,
+    "cohort_count": 3,
+    "cohort_overlap": 0,
+    "allocation_overlap": 0,
+    "ore_per_site": 900,
+    "search_budget": 48
+  },
+  "mentorship_settings": {
+    "population": 8,
+    "cohort_ticks": 80,
+    "cohort_count": 3,
+    "cohort_overlap": 40,
+    "allocation_overlap": 0,
+    "ore_per_site": 900,
+    "search_budget": 48
+  },
+  "mentorship_schedule_decision": {
+    "cohort_ticks": 80,
+    "overlap": 40,
+    "qualified": true,
+    "note": "a dependency lesson was acquired under this schedule in calibration"
+  },
+  "sealed_commitment": "d829b431d9e3c8773fc40bd9437491e4f46fbcede6eed421dbe37366d06d3a8f",
+  "sealed_disjoint_from": [
+    "dev-24",
+    "validation-24",
+    "cohort-panels-0..9",
+    "workshop-sealed-1",
+    "workshop-sealed-2"
+  ],
+  "selection_rules": {
+    "freeze": "lowest validation score among admitted or superseded workflows (components excluded); ties by creation tick then id",
+    "held_best": "held by the cohort's members at its freeze",
+    "created_upto_best": "created by this or earlier cohorts by the freeze tick (creation attribution)",
+    "cohort_best": "created by this cohort"
+  },
+  "experiments": {
+    "allocation": {
+      "conditions": {
+        "beam/preserved": {
+          "search_policy": "beam",
+          "cross_cohort_access": true
+        },
+        "beam/reset": {
+          "search_policy": "beam",
+          "cross_cohort_access": false
+        },
+        "beam-alloc/preserved": {
+          "search_policy": "beam-alloc",
+          "cross_cohort_access": true
+        },
+        "beam-alloc/reset": {
+          "search_policy": "beam-alloc",
+          "cross_cohort_access": false
+        },
+        "first-improvement/preserved": {
+          "search_policy": "first-improvement",
+          "cross_cohort_access": true
+        },
+        "first-improvement/reset": {
+          "search_policy": "first-improvement",
+          "cross_cohort_access": false
+        }
+      },
+      "primary": "final held_best sealed-3 score: beam-alloc vs beam, paired by seed, separately for preserved and reset",
+      "secondary": [
+        "final held_best validation",
+        "final created_upto_best sealed-3",
+        "allocation counters (genesis-metrics-1)",
+        "creation-attributed further improvement",
+        "first-improvement reference contrasts"
+      ],
+      "identifies": "the bundle's combined effect, not each guard's"
+    },
+    "mentorship": {
+      "conditions": {
+        "library": {
+          "cross_cohort_access": true,
+          "teaching": false
+        },
+        "teaching-only": {
+          "cross_cohort_access": false,
+          "teaching": true,
+          "teaching_policy": "package-scheduled"
+        },
+        "none": {
+          "cross_cohort_access": false,
+          "teaching": false
+        }
+      },
+      "primary": [
+        "dependency lessons: eligible transitions, offered, acquired, failed, interrupted; dependencies acquired; independent post-retirement execution",
+        "final held_best sealed-3: teaching-only vs none"
+      ],
+      "secondary": [
+        "library vs none, library vs teaching-only",
+        "creation-attributed further improvement"
+      ]
+    },
+    "validation_panels": "infrastructure implemented and tested; experiment deferred (not run)"
+  },
+  "missing_data": "a direction is reported only if at least 75% of expected worlds are eligible pairs AND the same side is lower in at least 75% of eligible pairs; otherwise 'no consistent difference' or 'insufficient eligible pairs'. Descriptive, not a significance test. Missing selections are never scored as zero; failed worlds are reported and excluded from pairs with the reason.",
+  "stopping_and_exclusion": "all planned worlds run; no early stopping; no world excluded except as failed (recorded)",
+  "no_tuning_after_freeze": "settings, policies, seeds and rules above are fixed; sealed-3 scores are computed only after every run is closed"
+}

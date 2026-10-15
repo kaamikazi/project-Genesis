@@ -170,3 +170,16 @@ The frontier holds the agent's best 4 own development-tested workflows and held 
 ### Final evaluation
 
 `workshop-sealed-2` is a new protected manifest (OS-drawn seed) whose 48 cases exclude development, validation and every `workshop-sealed-1` case. The exclusion is verified against sealed-1's commitment. Its commitment was written into the frozen protocol before any evaluation run. Sealed scoring verifies every frozen artifact and its closure by hash.
+
+## v0.5.1: submission contract, exact novelty, panels (`workshop-evaluator-3` · `workshop-sealed-3`)
+
+- **Submission contract.** A submission is judged against its candidate's reference: the nearest admitted ancestor, skipping private stepping stones.
+  - If the reference is no longer admitted, the submission is rejected with the stale reference and its successor named, at no credit or energy cost.
+  - `reference` lets a submitter state the reference it expects (compare-and-swap).
+  - `withdraw_artifact` (free) retires a pending candidate. A rebase is an ordinary, fully charged proposal against a current head.
+  - Child and reference are always re-scored on the same current cases; nothing is relabelled.
+- **Exact decision novelty** (used only by `beam-alloc`). Two workflows are equivalent when, for every field, their expressions agree at one point per threshold interval.
+  - Programs compare measures only through `measure < threshold`, so this decides equality for every integer input. It is not equality on the 24 development cases, which would be a sample.
+  - The check uses no task cases, outcomes or hidden parameters. Its work is recorded as point evaluations.
+- **Admission panels** (`validation_policy: cohort-panels`, experiment deferred). A precommitted 24-case panel per cohort, disjoint from development, validation and every other panel, with a per-agent query allowance. Freezes re-score on the active panel.
+- **`workshop-sealed-3`.** 48 cases disjoint from development, validation, sealed-1, sealed-2 and all ten panels, committed in the frozen M5b protocol before any evaluation run.

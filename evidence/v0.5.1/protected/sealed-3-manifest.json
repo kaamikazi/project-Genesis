@@ -1,0 +1,37 @@
+{
+  "version": "workshop-sealed-3",
+  "task": "workshop-1",
+  "sealed_seed": 1706182265,
+  "size": 48,
+  "disjoint_from": [
+    "dev-24",
+    "validation-24",
+    "cohort-panels-0..9",
+    "workshop-sealed-1",
+    "workshop-sealed-2"
+  ],
+  "excludes": [
+    {
+      "version": "workshop-sealed-1",
+      "sealed_seed": 1800730532,
+      "size": 48,
+      "commitment": "e44450c21be34468ebec9793036165a1869e0f404e4fec92c1588dbcc541d9e0"
+    },
+    {
+      "version": "workshop-sealed-2",
+      "sealed_seed": 494999852,
+      "size": 48,
+      "commitment": "537dbdddbadca7aa284da969377af14b8c720a3582fca2968b36f5d5b7d50c44",
+      "excludes": [
+        {
+          "version": "workshop-sealed-1",
+          "sealed_seed": 1800730532,
+          "size": 48,
+          "commitment": "e44450c21be34468ebec9793036165a1869e0f404e4fec92c1588dbcc541d9e0"
+        }
+      ]
+    }
+  ],
+  "excludes_panels": true,
+  "commitment": "d829b431d9e3c8773fc40bd9437491e4f46fbcede6eed421dbe37366d06d3a8f"
+}

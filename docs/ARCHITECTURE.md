@@ -24,6 +24,8 @@ GENESIS is a single-process modular monolith: Python 3.10+, Pydantic, SQLite, Fa
 | `genesis/sealed.py` | Sealed final evaluator: protected manifest, commitment check, scoring of frozen artifacts in closed runs. Imported only by evidence tools. |
 | `genesis/experiments4.py` | Experiment A (teaching and acquisition) and B (cumulative invention), plus `score_sealed` for closed runs. |
 | `genesis/experiments5.py` | Experiment P (search policy × access, shared credits) and T (library / teaching-only / none with overlapping generations), with parity hashes and reducer-based summaries. |
+| `genesis/experiments5b.py` | M5b protocols: the repaired retrospective rerun of v0.5.0 worlds, the prospective allocation experiment and the prospective mentorship experiment. |
+| `genesis/metrics_dictionary.py` | The versioned metric dictionary (`genesis-metrics-1`); the reducer's `metrics` block and `docs/METRICS.md` come from it. |
 | `genesis/demo5.py` | Labelled deterministic demonstration fixture: one component's path across a generational handoff (scripted overrides validated by the ordinary rules). |
 | `genesis/reducer.py` | **Independent metrics.** It reconstructs every holding, energy category, window and successor milestone from an export's initial state and events, then reconciles the result against the final state. It imports nothing from the engine. |
 | `genesis/profiling.py` | Profiling harness: timing, cProfile breakdown, export, snapshot, UI payload and memory, each measured as a separate pass. |
@@ -96,6 +98,16 @@ The scoped copy-on-write also copies session participants and the session's arti
 - **Decision diagnostics** (operator, parent, step, stop reason, remaining budget) are stored with decisions in tick records, never in world state, and never include wall-clock time, so records stay reproducible. `Store.diagnostics` serves the recent ones to the observatory.
 - **Scoped copy-on-write** also copies the host workflow of a component test, a session artifact's closure, and the full ancestor chain used to find the admission reference. Equivalence with the full copy is tested in two v0.5 scenarios, one with fuzzed actions.
 - **Reducer `genesis.reducer/2`** adds search accounting (proposals, unique programs, duplicate behaviour, operators, stop reasons, search actions per agent reconciled against `search_spent`), component accounting (extractions, revisions, compositions, refactor and improvement admissions, executions with dependencies), dependency teaching, inherited use, and transition phases.
+
+## v0.5.1 additions (M5b)
+
+- **New action and contract:** `withdraw_artifact`, plus the optional `reference` on `submit_artifact` (compare-and-swap). Rejected events carry the action's `params`.
+- **State:** artifacts gain `withdrawn` status and `withdrawn_tick`, `ancestor_cohorts` and `source_cohorts`. Agents gain `panel_queries` under admission panels. Freezes gain `created_upto_best`, `created_inventory` and `selection_cases`.
+- **Observations:** own pending candidates show `reference` and `reference_status`; library entries show dependency ids (`closure`); cohort runs show a public `schedule` and neighbours' cohort labels; admission panels show the agent's query count.
+- **Library copies** bring the missing closure components (charged separately) or are refused.
+- **Reducer `genesis.reducer/3`** adds `metrics` (the dictionary counters, time by activity, production, population base/peak, novelty/reserve work).
+- **Scoped copy-on-write** also copies the closure components of the artifact named by an action. Equivalence with the full copy is tested in two further scenarios, one fuzzed with withdrawals and named references.
+- **Server clock:** fixed-rate pacing; status reports target and achieved ticks/s, step time, lag, base and active population.
 
 ## Version boundary
 

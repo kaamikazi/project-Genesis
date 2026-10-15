@@ -1,0 +1,2252 @@
+{
+  "protocol": "mentorship-1",
+  "label": "calibration",
+  "versions": {
+    "engine": "0.5.1",
+    "rules": "phase-world-5.1",
+    "evaluator": "phase-evaluator-3+workshop-evaluator-3"
+  },
+  "planned_seeds": [
+    310,
+    311,
+    312
+  ],
+  "settings": {
+    "population": 8,
+    "cohort_ticks": 60,
+    "cohort_count": 3,
+    "cohort_overlap": 30,
+    "allocation_overlap": 0,
+    "ore_per_site": 900,
+    "search_budget": 48
+  },
+  "conditions": {
+    "teaching-only": {
+      "cross_cohort_access": false,
+      "teaching": true,
+      "teaching_policy": "package-scheduled"
+    }
+  },
+  "design": "Cohorts of 60 ticks; each successor cohort arrives 30 ticks before its seniors retire, identically in every condition (same physical population, resources and action time). Repaired beam search. 'teaching-only' uses the declared package-scheduled mentorship: juniors re-request lessons from earlier-cohort neighbours at a bounded interval, teachers skip workflows already offered to that learner and never start a lesson that cannot finish before their scheduled retirement; dependencies are taught inside the lesson at separately charged work. Retirement is never delayed.",
+  "worlds": [
+    {
+      "seed": 310,
+      "condition": "teaching-only",
+      "config": {
+        "seed": 310,
+        "width": 24,
+        "height": 16,
+        "population": 8,
+        "sharing": true,
+        "controller": "search",
+        "max_ticks": 180,
+        "snapshot_every": 20,
+        "search_budget": 48,
+        "removal": "none",
+        "removal_tick": 80,
+        "succession": "none",
+        "successor_role": "producer",
+        "successor_access": "library",
+        "invention": "open",
+        "controller_seed": 7,
+        "ore_per_site": 900,
+        "task": "workshop-1",
+        "teaching": true,
+        "lifecycle": "cohorts",
+        "cohort_ticks": 60,
+        "cohort_count": 3,
+        "cross_cohort_access": false,
+        "search_policy": "beam",
+        "budget_unit": "credits",
+        "teaching_policy": "package-scheduled",
+        "cohort_overlap": 30,
+        "validation_policy": "fixed",
+        "panel_queries": 12
+      },
+      "config_hash": "cfa458e505ec372896e3315d9d07cf4fde35ae0f12cb7cd3f634628f61e2839c",
+      "status": "completed",
+      "run_id": "7642a8478260",
+      "parity_hash_initial": "119e40fe89849250f2d403c2e0f4c8efed302706acce7c765c8490ba1697c215",
+      "access_parity_tick": 30,
+      "access_parity_hash": "5052560ccfebea39ce2e416c75bff4c74700daada49c5d3f8b14a7c3af213bfc",
+      "wall_seconds": 26.31,
+      "summary": {
+        "freezes": [
+          {
+            "tick": 60,
+            "cohort": 0,
+            "reason": "cohort boundary",
+            "rule": "lowest validation score among admitted or superseded workflows (legacy: lowest evaluation energy); ties by creation tick then id; no sealed input",
+            "cohort_best": {
+              "ancestor_cohorts": [
+                0
+              ],
+              "artifact": "ead6aefbbce4ac12bc9a25305c39faf2c45124daccfca13808912eb1d3cae98e",
+              "closure": [],
+              "cohort": 0,
+              "created_tick": 22,
+              "creator": "a00",
+              "dev_score": 11.115385,
+              "generation": 2,
+              "origin": "search-revision",
+              "selection_score": 12.192308,
+              "status_at_freeze": "admitted"
+            },
+            "accessible_best": {
+              "ancestor_cohorts": [
+                0
+              ],
+              "artifact": "ead6aefbbce4ac12bc9a25305c39faf2c45124daccfca13808912eb1d3cae98e",
+              "closure": [],
+              "cohort": 0,
+              "created_tick": 22,
+              "creator": "a00",
+              "dev_score": 11.115385,
+              "generation": 2,
+              "origin": "search-revision",
+              "selection_score": 12.192308,
+              "status_at_freeze": "admitted"
+            },
+            "held_best": {
+              "ancestor_cohorts": [
+                0
+              ],
+              "artifact": "ead6aefbbce4ac12bc9a25305c39faf2c45124daccfca13808912eb1d3cae98e",
+              "closure": [],
+              "cohort": 0,
+              "created_tick": 22,
+              "creator": "a00",
+              "dev_score": 11.115385,
+              "generation": 2,
+              "origin": "search-revision",
+              "selection_score": 12.192308,
+              "status_at_freeze": "admitted"
+            }
+          },
+          {
+            "tick": 120,
+            "cohort": 1,
+            "reason": "cohort boundary",
+            "rule": "lowest validation score among admitted or superseded workflows (legacy: lowest evaluation energy); ties by creation tick then id; no sealed input",
+            "cohort_best": {
+              "ancestor_cohorts": [
+                1
+              ],
+              "artifact": "5d8da60e3a830af280b1ba58226f945bbdbe69de5081616a4ce5bfb569937a6f",
+              "closure": [],
+              "cohort": 1,
+              "created_tick": 98,
+              "creator": "a08",
+              "dev_score": 11.703704,
+              "generation": 7,
+              "origin": "search-revision",
+              "selection_score": 11.307692,
+              "status_at_freeze": "admitted"
+            },
+            "accessible_best": {
+              "ancestor_cohorts": [
+                1
+              ],
+              "artifact": "5d8da60e3a830af280b1ba58226f945bbdbe69de5081616a4ce5bfb569937a6f",
+              "closure": [],
+              "cohort": 1,
+              "created_tick": 98,
+              "creator": "a08",
+              "dev_score": 11.703704,
+              "generation": 7,
+              "origin": "search-revision",
+              "selection_score": 11.307692,
+              "status_at_freeze": "admitted"
+            },
+            "held_best": {
+              "ancestor_cohorts": [
+                1
+              ],
+              "artifact": "5d8da60e3a830af280b1ba58226f945bbdbe69de5081616a4ce5bfb569937a6f",
+              "closure": [],
+              "cohort": 1,
+              "created_tick": 98,
+              "creator": "a08",
+              "dev_score": 11.703704,
+              "generation": 7,
+              "origin": "search-revision",
+              "selection_score": 11.307692,
+              "status_at_freeze": "admitted"
+            }
+          },
+          {
+            "tick": 180,
+            "cohort": 2,
+            "reason": "run closed",
+            "rule": "lowest validation score among admitted or superseded workflows (legacy: lowest evaluation energy); ties by creation tick then id; no sealed input",
+            "cohort_best": {
+              "ancestor_cohorts": [
+                2
+              ],
+              "artifact": "2b849846a07769b45ad87f232f0bf9912b5bd5949a4f88fb3073ea806579b360",
+              "closure": [],
+              "cohort": 2,
+              "created_tick": 141,
+              "creator": "a16",
+              "dev_score": 12.84,
+              "generation": 5,
+              "origin": "search-revision",
+              "selection_score": 10.296296,
+              "status_at_freeze": "admitted"
+            },
+            "accessible_best": {
+              "ancestor_cohorts": [
+                2
+              ],
+              "artifact": "2b849846a07769b45ad87f232f0bf9912b5bd5949a4f88fb3073ea806579b360",
+              "closure": [],
+              "cohort": 2,
+              "created_tick": 141,
+              "creator": "a16",
+              "dev_score": 12.84,
+              "generation": 5,
+              "origin": "search-revision",
+              "selection_score": 10.296296,
+              "status_at_freeze": "admitted"
+            },
+            "held_best": {
+              "ancestor_cohorts": [
+                2
+              ],
+              "artifact": "2b849846a07769b45ad87f232f0bf9912b5bd5949a4f88fb3073ea806579b360",
+              "closure": [],
+              "cohort": 2,
+              "created_tick": 141,
+              "creator": "a16",
+              "dev_score": 12.84,
+              "generation": 5,
+              "origin": "search-revision",
+              "selection_score": 10.296296,
+              "status_at_freeze": "admitted"
+            }
+          }
+        ],
+        "per_cohort": [
+          {
+            "cohort": 0,
+            "proposals": 32,
+            "admitted": 5,
+            "improvement_admissions": 4,
+            "refactor_admissions": 1,
+            "components_proposed": 1,
+            "components_admitted": 1,
+            "cross_generation_attempts": 0,
+            "cross_generation_admitted": 0,
+            "search_energy": 52,
+            "evaluation_energy": 177,
+            "teaching_energy": 193,
+            "produced_alloy": 171,
+            "production_energy_per_alloy": {
+              "value": 7.05848,
+              "status": "available",
+              "numerator": 1207,
+              "denominator": 171,
+              "unit": "energy per produced alloy"
+            }
+          },
+          {
+            "cohort": 1,
+            "proposals": 47,
+            "admitted": 2,
+            "improvement_admissions": 2,
+            "refactor_admissions": 0,
+            "components_proposed": 0,
+            "components_admitted": 0,
+            "cross_generation_attempts": 0,
+            "cross_generation_admitted": 0,
+            "search_energy": 44,
+            "evaluation_energy": 147,
+            "teaching_energy": 134,
+            "produced_alloy": 178,
+            "production_energy_per_alloy": {
+              "value": 7.235955,
+              "status": "available",
+              "numerator": 1288,
+              "denominator": 178,
+              "unit": "energy per produced alloy"
+            }
+          },
+          {
+            "cohort": 2,
+            "proposals": 36,
+            "admitted": 2,
+            "improvement_admissions": 2,
+            "refactor_admissions": 0,
+            "components_proposed": 0,
+            "components_admitted": 0,
+            "cross_generation_attempts": 0,
+            "cross_generation_admitted": 0,
+            "search_energy": 19,
+            "evaluation_energy": 89,
+            "teaching_energy": 58,
+            "produced_alloy": 160,
+            "production_energy_per_alloy": {
+              "value": 6.35,
+              "status": "available",
+              "numerator": 1016,
+              "denominator": 160,
+              "unit": "energy per produced alloy"
+            }
+          }
+        ],
+        "further_improvement": [
+          {
+            "cohort": 1,
+            "previous_cohort_held_best": 12.192308,
+            "own_cohort_best": 11.307692,
+            "held_best": 11.307692,
+            "held_best_created_by_cohort": 1,
+            "improved_beyond_previous_held": true,
+            "definition": "own cohort's best admitted workflow vs the best workflow the previous cohort's members held at their freeze"
+          },
+          {
+            "cohort": 2,
+            "previous_cohort_held_best": 11.307692,
+            "own_cohort_best": 10.296296,
+            "held_best": 10.296296,
+            "held_best_created_by_cohort": 2,
+            "improved_beyond_previous_held": true,
+            "definition": "own cohort's best admitted workflow vs the best workflow the previous cohort's members held at their freeze"
+          }
+        ],
+        "search": {
+          "proposals": 115,
+          "unique_programs": 115,
+          "duplicate_behaviour_dev_results": 44,
+          "distinct_dev_behaviours": 70,
+          "dev_evaluations": 115,
+          "component_tests": 1,
+          "submissions": 34,
+          "admissions": 9,
+          "refactor_admissions": 1,
+          "improvement_admissions": 8,
+          "private_parent_proposals": 92,
+          "parent_kinds": {
+            "none": 7,
+            "private": 92,
+            "admitted": 16
+          },
+          "operators": {
+            "call": {
+              "proposals": 1,
+              "admitted": 1
+            },
+            "compose": {
+              "proposals": 10,
+              "admitted": 0
+            },
+            "const": {
+              "proposals": 18,
+              "admitted": 1
+            },
+            "extract": {
+              "proposals": 1,
+              "admitted": 1
+            },
+            "split": {
+              "proposals": 49,
+              "admitted": 4
+            },
+            "threshold": {
+              "proposals": 36,
+              "admitted": 2
+            }
+          },
+          "stop_reasons": {
+            "energy": 23,
+            "budget-exhausted": 31
+          },
+          "diagnosed_decisions": 340,
+          "cpu": "not in records (wall time would make records non-reproducible); see the search CPU benchmark",
+          "search_actions_by_agent": {
+            "a00": 34,
+            "a04": 41,
+            "a08": 48,
+            "a12": 48,
+            "a16": 46,
+            "a20": 47
+          },
+          "definition": "search actions = proposals + development tests (incl. component tests) + submissions; under budget_unit credits each costs one credit"
+        },
+        "components": {
+          "extractions": 1,
+          "revisions": 0,
+          "compositions": 2,
+          "calling_workflow_admissions": 1,
+          "executions_with_dependencies": 6,
+          "executions_by_non_creator_cohort": 0,
+          "admitted_by_origin": {
+            "component-extraction": 1
+          },
+          "dependency_teaching": {
+            "sessions_with_dependencies": 0,
+            "dependencies_taught_in_package": 0,
+            "dependencies_already_known": 0,
+            "dependencies_acquired": 0,
+            "rejected_missing_prerequisites": 0
+          },
+          "definitions": {
+            "extraction": "component equal to an existing field (refactoring, not discovery)",
+            "revision": "component that changes behaviour; admitted only if strictly better in its host",
+            "composition": "workflow proposal that calls a component",
+            "calling_workflow_admissions": "admitted workflows with a non-empty dependency closure"
+          }
+        },
+        "inherited": {
+          "uses_of_earlier_cohort_artifacts": 44,
+          "agents_using_earlier_cohort_artifacts": 4,
+          "cross_generation_sessions": 9,
+          "cross_generation_acquisitions": 4
+        },
+        "cross_generation": {
+          "revision_attempts": 0,
+          "admitted_revisions": 0,
+          "definition": "a proposal whose parent was created by an earlier cohort; admitted means it beat that parent on the same validation cases"
+        },
+        "cohort_transitions": [
+          {
+            "tick": 30,
+            "cohort": 1,
+            "phase": "arrival",
+            "overlap": 30,
+            "retired": [],
+            "successors": [
+              "a08",
+              "a09",
+              "a10",
+              "a11",
+              "a12",
+              "a13",
+              "a14",
+              "a15"
+            ]
+          },
+          {
+            "tick": 60,
+            "cohort": 1,
+            "phase": "retirement",
+            "overlap": 30,
+            "retired": [
+              "a00",
+              "a01",
+              "a02",
+              "a03",
+              "a04",
+              "a05",
+              "a06",
+              "a07"
+            ],
+            "successors": []
+          },
+          {
+            "tick": 90,
+            "cohort": 2,
+            "phase": "arrival",
+            "overlap": 30,
+            "retired": [],
+            "successors": [
+              "a16",
+              "a17",
+              "a18",
+              "a19",
+              "a20",
+              "a21",
+              "a22",
+              "a23"
+            ]
+          },
+          {
+            "tick": 120,
+            "cohort": 2,
+            "phase": "retirement",
+            "overlap": 30,
+            "retired": [
+              "a08",
+              "a09",
+              "a10",
+              "a11",
+              "a12",
+              "a13",
+              "a14",
+              "a15"
+            ],
+            "successors": []
+          }
+        ],
+        "sessions": [
+          {
+            "teacher": "a00",
+            "learner": "a01",
+            "teacher_cohort": 0,
+            "learner_cohort": 0,
+            "outcome": "failed",
+            "reason": "practice outcome costlier than the baseline",
+            "closure": [],
+            "package": [],
+            "already_known": [],
+            "dependencies_acquired": [],
+            "offered_tick": 25,
+            "ended_tick": 36
+          },
+          {
+            "teacher": "a03",
+            "learner": "a11",
+            "teacher_cohort": 0,
+            "learner_cohort": 1,
+            "outcome": "interrupted",
+            "reason": "stalled: no progress for more than 8 ticks",
+            "closure": [],
+            "package": [],
+            "already_known": [],
+            "dependencies_acquired": [],
+            "offered_tick": 33,
+            "ended_tick": 52
+          },
+          {
+            "teacher": "a07",
+            "learner": "a14",
+            "teacher_cohort": 0,
+            "learner_cohort": 1,
+            "outcome": "failed",
+            "reason": "practice outcome costlier than the baseline",
+            "closure": [],
+            "package": [],
+            "already_known": [],
+            "dependencies_acquired": [],
+            "offered_tick": 34,
+            "ended_tick": 45
+          },
+          {
+            "teacher": "a00",
+            "learner": "a10",
+            "teacher_cohort": 0,
+            "learner_cohort": 1,
+            "outcome": "acquired",
+            "reason": null,
+            "closure": [],
+            "package": [],
+            "already_known": [],
+            "dependencies_acquired": [],
+            "offered_tick": 41,
+            "ended_tick": 55
+          },
+          {
+            "teacher": "a04",
+            "learner": "a15",
+            "teacher_cohort": 0,
+            "learner_cohort": 1,
+            "outcome": "failed",
+            "reason": "practice outcome costlier than the baseline",
+            "closure": [],
+            "package": [],
+            "already_known": [],
+            "dependencies_acquired": [],
+            "offered_tick": 41,
+            "ended_tick": 52
+          },
+          {
+            "teacher": "a01",
+            "learner": "a09",
+            "teacher_cohort": 0,
+            "learner_cohort": 1,
+            "outcome": "failed",
+            "reason": "practice outcome costlier than the baseline",
+            "closure": [],
+            "package": [],
+            "already_known": [],
+            "dependencies_acquired": [],
+            "offered_tick": 45,
+            "ended_tick": 57
+          },
+          {
+            "teacher": "a05",
+            "learner": "a14",
+            "teacher_cohort": 0,
+            "learner_cohort": 1,
+            "outcome": "failed",
+            "reason": "practice outcome costlier than the baseline",
+            "closure": [],
+            "package": [],
+            "already_known": [],
+            "dependencies_acquired": [],
+            "offered_tick": 47,
+            "ended_tick": 55
+          },
+          {
+            "teacher": "a08",
+            "learner": "a11",
+            "teacher_cohort": 1,
+            "learner_cohort": 1,
+            "outcome": "failed",
+            "reason": "practice outcome costlier than the baseline",
+            "closure": [],
+            "package": [],
+            "already_known": [],
+            "dependencies_acquired": [],
+            "offered_tick": 79,
+            "ended_tick": 95
+          },
+          {
+            "teacher": "a11",
+            "learner": "a18",
+            "teacher_cohort": 1,
+            "learner_cohort": 2,
+            "outcome": "acquired",
+            "reason": null,
+            "closure": [],
+            "package": [],
+            "already_known": [],
+            "dependencies_acquired": [],
+            "offered_tick": 96,
+            "ended_tick": 107
+          },
+          {
+            "teacher": "a08",
+            "learner": "a17",
+            "teacher_cohort": 1,
+            "learner_cohort": 2,
+            "outcome": "acquired",
+            "reason": null,
+            "closure": [],
+            "package": [],
+            "already_known": [],
+            "dependencies_acquired": [],
+            "offered_tick": 101,
+            "ended_tick": 115
+          },
+          {
+            "teacher": "a09",
+            "learner": "a19",
+            "teacher_cohort": 1,
+            "learner_cohort": 2,
+            "outcome": "acquired",
+            "reason": null,
+            "closure": [],
+            "package": [],
+            "already_known": [],
+            "dependencies_acquired": [],
+            "offered_tick": 105,
+            "ended_tick": 114
+          },
+          {
+            "teacher": "a17",
+            "learner": "a16",
+            "teacher_cohort": 2,
+            "learner_cohort": 2,
+            "outcome": "failed",
+            "reason": "practice outcome costlier than the baseline",
+            "closure": [],
+            "package": [],
+            "already_known": [],
+            "dependencies_acquired": [],
+            "offered_tick": 125,
+            "ended_tick": 138
+          },
+          {
+            "teacher": "a17",
+            "learner": "a16",
+            "teacher_cohort": 2,
+            "learner_cohort": 2,
+            "outcome": "acquired",
+            "reason": null,
+            "closure": [],
+            "package": [],
+            "already_known": [],
+            "dependencies_acquired": [],
+            "offered_tick": 143,
+            "ended_tick": 154
+          }
+        ],
+        "overall": {
+          "produced_alloy": 509,
+          "production_energy": 3511,
+          "charged_action_energy": 4836,
+          "proposals": 115,
+          "submissions": 34,
+          "admitted": 9,
+          "dev_tests": 115,
+          "energy_by_category": {
+            "exchange": 114,
+            "fatigue": 1920,
+            "production": 3256,
+            "search": 115,
+            "evaluation": 413,
+            "eating": 0,
+            "travel": 20,
+            "gathering": 451,
+            "learning": 50,
+            "teaching": 91,
+            "instruction": 39,
+            "none": 0,
+            "practice": 255,
+            "storage": 32
+          },
+          "production_energy_per_alloy": {
+            "value": 6.897839,
+            "status": "available",
+            "numerator": 3511,
+            "denominator": 509,
+            "unit": "energy per produced alloy"
+          }
+        },
+        "remaining": {
+          "accessible": {
+            "ore": 2153,
+            "food": 512
+          },
+          "inaccessible": {
+            "ore": 0,
+            "food": 0
+          },
+          "rule": "sites, active agents, and settlement storage with at least one active member are accessible"
+        },
+        "metrics": {
+          "search.credit_actions": 264,
+          "search.proposals": 115,
+          "search.identical_program_proposals": 0,
+          "search.distinct_programs": 115,
+          "search.own_candidate_tests": 113,
+          "search.held_retests": 1,
+          "search.component_tests": 1,
+          "search.repeated_decisions_own": 43,
+          "search.repeated_decisions_world": 43,
+          "search.matching_outcome_different_decisions_own": 6,
+          "search.untested_proposals": 1,
+          "search.submissions": 34,
+          "search.stale_reference_rejections": 0,
+          "search.repeated_rejected_attempts": 7,
+          "search.withdrawals": 0,
+          "search.withdrawals_of_stale_candidates": 0,
+          "search.reserve_stops": 0,
+          "search.novelty_rejected_candidates": 0,
+          "search.novelty_point_evaluations": 0,
+          "admission.improvement_admissions": 8,
+          "admission.refactor_admissions": 1,
+          "lineage.improvements_on_earlier_cohort_reference": 0,
+          "lineage.improvements_on_earlier_cohort_parent": 0,
+          "lineage.improvements_with_earlier_cohort_ancestry": 0,
+          "production.actions": 427,
+          "production.alloy": 509,
+          "production.rejected_use_missing_prerequisite": 0,
+          "production.busy_ticks": 82,
+          "population.base": 8,
+          "population.peak_active": 16,
+          "production.alloy_per_action": {
+            "value": 1.192037,
+            "status": "available",
+            "numerator": 509,
+            "denominator": 427,
+            "unit": "alloy per production action"
+          },
+          "time.agent_ticks_by_activity": {
+            "eating": 322,
+            "exchange": 114,
+            "gathering": 451,
+            "learning": 22,
+            "movement": 20,
+            "practice": 25,
+            "production": 402,
+            "rejected practice": 16,
+            "rejected production": 45,
+            "rejected storage": 1,
+            "search": 264,
+            "storage": 32,
+            "teaching": 104,
+            "waiting": 102
+          },
+          "rejections_by_class": {
+            "produce: insufficient ore for batch (needs 4)": 22,
+            "produce: insufficient ore for batch (needs 3)": 16,
+            "use_artifact: insufficient energy for batch (needs 15)": 7,
+            "practice_step: insufficient ore for batch (needs 5)": 6,
+            "practice_step: insufficient ore for batch (needs 6)": 5,
+            "practice_step: insufficient ore for batch (needs 7)": 5,
+            "withdraw: insufficient settlement stock": 1
+          }
+        },
+        "population": {
+          "base": 8,
+          "peak_active": 16
+        }
+      },
+      "export": {
+        "file": "310-mentorship-teaching-only.json.gz",
+        "uncompressed_bytes": 12219739,
+        "compressed_bytes": 1016571
+      }
+    },
+    {
+      "seed": 311,
+      "condition": "teaching-only",
+      "config": {
+        "seed": 311,
+        "width": 24,
+        "height": 16,
+        "population": 8,
+        "sharing": true,
+        "controller": "search",
+        "max_ticks": 180,
+        "snapshot_every": 20,
+        "search_budget": 48,
+        "removal": "none",
+        "removal_tick": 80,
+        "succession": "none",
+        "successor_role": "producer",
+        "successor_access": "library",
+        "invention": "open",
+        "controller_seed": 7,
+        "ore_per_site": 900,
+        "task": "workshop-1",
+        "teaching": true,
+        "lifecycle": "cohorts",
+        "cohort_ticks": 60,
+        "cohort_count": 3,
+        "cross_cohort_access": false,
+        "search_policy": "beam",
+        "budget_unit": "credits",
+        "teaching_policy": "package-scheduled",
+        "cohort_overlap": 30,
+        "validation_policy": "fixed",
+        "panel_queries": 12
+      },
+      "config_hash": "cc9b9066166f20f83f0169344ff6897da8b4049471b71ab78ab8c0434cb37d11",
+      "status": "completed",
+      "run_id": "ec4f1eccfa32",
+      "parity_hash_initial": "40c2ba7b65d4fe340ab1e17d4c21282515696a96acbdf820da43e1bf6eb6a020",
+      "access_parity_tick": 30,
+      "access_parity_hash": "c0b8a672ce93fb3070abe4761d21d58d59a91fe471b1d7f4885c5edca1643ec6",
+      "wall_seconds": 26.8,
+      "summary": {
+        "freezes": [
+          {
+            "tick": 60,
+            "cohort": 0,
+            "reason": "cohort boundary",
+            "rule": "lowest validation score among admitted or superseded workflows (legacy: lowest evaluation energy); ties by creation tick then id; no sealed input",
+            "cohort_best": {
+              "ancestor_cohorts": [
+                0
+              ],
+              "artifact": "ead6aefbbce4ac12bc9a25305c39faf2c45124daccfca13808912eb1d3cae98e",
+              "closure": [],
+              "cohort": 0,
+              "created_tick": 24,
+              "creator": "a00",
+              "dev_score": 11.115385,
+              "generation": 2,
+              "origin": "search-revision",
+              "selection_score": 12.192308,
+              "status_at_freeze": "admitted"
+            },
+            "accessible_best": {
+              "ancestor_cohorts": [
+                0
+              ],
+              "artifact": "ead6aefbbce4ac12bc9a25305c39faf2c45124daccfca13808912eb1d3cae98e",
+              "closure": [],
+              "cohort": 0,
+              "created_tick": 24,
+              "creator": "a00",
+              "dev_score": 11.115385,
+              "generation": 2,
+              "origin": "search-revision",
+              "selection_score": 12.192308,
+              "status_at_freeze": "admitted"
+            },
+            "held_best": {
+              "ancestor_cohorts": [
+                0
+              ],
+              "artifact": "ead6aefbbce4ac12bc9a25305c39faf2c45124daccfca13808912eb1d3cae98e",
+              "closure": [],
+              "cohort": 0,
+              "created_tick": 24,
+              "creator": "a00",
+              "dev_score": 11.115385,
+              "generation": 2,
+              "origin": "search-revision",
+              "selection_score": 12.192308,
+              "status_at_freeze": "admitted"
+            }
+          },
+          {
+            "tick": 120,
+            "cohort": 1,
+            "reason": "cohort boundary",
+            "rule": "lowest validation score among admitted or superseded workflows (legacy: lowest evaluation energy); ties by creation tick then id; no sealed input",
+            "cohort_best": {
+              "ancestor_cohorts": [
+                1
+              ],
+              "artifact": "5d8da60e3a830af280b1ba58226f945bbdbe69de5081616a4ce5bfb569937a6f",
+              "closure": [],
+              "cohort": 1,
+              "created_tick": 99,
+              "creator": "a08",
+              "dev_score": 11.703704,
+              "generation": 7,
+              "origin": "search-revision",
+              "selection_score": 11.307692,
+              "status_at_freeze": "admitted"
+            },
+            "accessible_best": {
+              "ancestor_cohorts": [
+                1
+              ],
+              "artifact": "5d8da60e3a830af280b1ba58226f945bbdbe69de5081616a4ce5bfb569937a6f",
+              "closure": [],
+              "cohort": 1,
+              "created_tick": 99,
+              "creator": "a08",
+              "dev_score": 11.703704,
+              "generation": 7,
+              "origin": "search-revision",
+              "selection_score": 11.307692,
+              "status_at_freeze": "admitted"
+            },
+            "held_best": {
+              "ancestor_cohorts": [
+                1
+              ],
+              "artifact": "5d8da60e3a830af280b1ba58226f945bbdbe69de5081616a4ce5bfb569937a6f",
+              "closure": [],
+              "cohort": 1,
+              "created_tick": 99,
+              "creator": "a08",
+              "dev_score": 11.703704,
+              "generation": 7,
+              "origin": "search-revision",
+              "selection_score": 11.307692,
+              "status_at_freeze": "admitted"
+            }
+          },
+          {
+            "tick": 180,
+            "cohort": 2,
+            "reason": "run closed",
+            "rule": "lowest validation score among admitted or superseded workflows (legacy: lowest evaluation energy); ties by creation tick then id; no sealed input",
+            "cohort_best": {
+              "ancestor_cohorts": [
+                2
+              ],
+              "artifact": "2b849846a07769b45ad87f232f0bf9912b5bd5949a4f88fb3073ea806579b360",
+              "closure": [],
+              "cohort": 2,
+              "created_tick": 127,
+              "creator": "a16",
+              "dev_score": 12.84,
+              "generation": 5,
+              "origin": "search-revision",
+              "selection_score": 10.296296,
+              "status_at_freeze": "admitted"
+            },
+            "accessible_best": {
+              "ancestor_cohorts": [
+                2
+              ],
+              "artifact": "2b849846a07769b45ad87f232f0bf9912b5bd5949a4f88fb3073ea806579b360",
+              "closure": [],
+              "cohort": 2,
+              "created_tick": 127,
+              "creator": "a16",
+              "dev_score": 12.84,
+              "generation": 5,
+              "origin": "search-revision",
+              "selection_score": 10.296296,
+              "status_at_freeze": "admitted"
+            },
+            "held_best": {
+              "ancestor_cohorts": [
+                2
+              ],
+              "artifact": "2b849846a07769b45ad87f232f0bf9912b5bd5949a4f88fb3073ea806579b360",
+              "closure": [],
+              "cohort": 2,
+              "created_tick": 127,
+              "creator": "a16",
+              "dev_score": 12.84,
+              "generation": 5,
+              "origin": "search-revision",
+              "selection_score": 10.296296,
+              "status_at_freeze": "admitted"
+            }
+          }
+        ],
+        "per_cohort": [
+          {
+            "cohort": 0,
+            "proposals": 33,
+            "admitted": 5,
+            "improvement_admissions": 4,
+            "refactor_admissions": 1,
+            "components_proposed": 1,
+            "components_admitted": 1,
+            "cross_generation_attempts": 0,
+            "cross_generation_admitted": 0,
+            "search_energy": 53,
+            "evaluation_energy": 178,
+            "teaching_energy": 199,
+            "produced_alloy": 175,
+            "production_energy_per_alloy": {
+              "value": 6.874286,
+              "status": "available",
+              "numerator": 1203,
+              "denominator": 175,
+              "unit": "energy per produced alloy"
+            }
+          },
+          {
+            "cohort": 1,
+            "proposals": 47,
+            "admitted": 2,
+            "improvement_admissions": 2,
+            "refactor_admissions": 0,
+            "components_proposed": 0,
+            "components_admitted": 0,
+            "cross_generation_attempts": 0,
+            "cross_generation_admitted": 0,
+            "search_energy": 44,
+            "evaluation_energy": 147,
+            "teaching_energy": 137,
+            "produced_alloy": 182,
+            "production_energy_per_alloy": {
+              "value": 7.137363,
+              "status": "available",
+              "numerator": 1299,
+              "denominator": 182,
+              "unit": "energy per produced alloy"
+            }
+          },
+          {
+            "cohort": 2,
+            "proposals": 37,
+            "admitted": 2,
+            "improvement_admissions": 2,
+            "refactor_admissions": 0,
+            "components_proposed": 0,
+            "components_admitted": 0,
+            "cross_generation_attempts": 0,
+            "cross_generation_admitted": 0,
+            "search_energy": 20,
+            "evaluation_energy": 91,
+            "teaching_energy": 0,
+            "produced_alloy": 166,
+            "production_energy_per_alloy": {
+              "value": 6.698795,
+              "status": "available",
+              "numerator": 1112,
+              "denominator": 166,
+              "unit": "energy per produced alloy"
+            }
+          }
+        ],
+        "further_improvement": [
+          {
+            "cohort": 1,
+            "previous_cohort_held_best": 12.192308,
+            "own_cohort_best": 11.307692,
+            "held_best": 11.307692,
+            "held_best_created_by_cohort": 1,
+            "improved_beyond_previous_held": true,
+            "definition": "own cohort's best admitted workflow vs the best workflow the previous cohort's members held at their freeze"
+          },
+          {
+            "cohort": 2,
+            "previous_cohort_held_best": 11.307692,
+            "own_cohort_best": 10.296296,
+            "held_best": 10.296296,
+            "held_best_created_by_cohort": 2,
+            "improved_beyond_previous_held": true,
+            "definition": "own cohort's best admitted workflow vs the best workflow the previous cohort's members held at their freeze"
+          }
+        ],
+        "search": {
+          "proposals": 117,
+          "unique_programs": 117,
+          "duplicate_behaviour_dev_results": 44,
+          "distinct_dev_behaviours": 72,
+          "dev_evaluations": 116,
+          "component_tests": 1,
+          "submissions": 34,
+          "admissions": 9,
+          "refactor_admissions": 1,
+          "improvement_admissions": 8,
+          "private_parent_proposals": 94,
+          "parent_kinds": {
+            "none": 7,
+            "private": 94,
+            "admitted": 16
+          },
+          "operators": {
+            "call": {
+              "proposals": 1,
+              "admitted": 1
+            },
+            "compose": {
+              "proposals": 10,
+              "admitted": 0
+            },
+            "const": {
+              "proposals": 19,
+              "admitted": 1
+            },
+            "extract": {
+              "proposals": 1,
+              "admitted": 1
+            },
+            "split": {
+              "proposals": 50,
+              "admitted": 4
+            },
+            "threshold": {
+              "proposals": 36,
+              "admitted": 2
+            }
+          },
+          "stop_reasons": {
+            "energy": 20,
+            "budget-exhausted": 47
+          },
+          "diagnosed_decisions": 355,
+          "cpu": "not in records (wall time would make records non-reproducible); see the search CPU benchmark",
+          "search_actions_by_agent": {
+            "a00": 33,
+            "a04": 43,
+            "a08": 48,
+            "a12": 48,
+            "a16": 48,
+            "a20": 47
+          },
+          "definition": "search actions = proposals + development tests (incl. component tests) + submissions; under budget_unit credits each costs one credit"
+        },
+        "components": {
+          "extractions": 1,
+          "revisions": 0,
+          "compositions": 2,
+          "calling_workflow_admissions": 1,
+          "executions_with_dependencies": 7,
+          "executions_by_non_creator_cohort": 0,
+          "admitted_by_origin": {
+            "component-extraction": 1
+          },
+          "dependency_teaching": {
+            "sessions_with_dependencies": 0,
+            "dependencies_taught_in_package": 0,
+            "dependencies_already_known": 0,
+            "dependencies_acquired": 0,
+            "rejected_missing_prerequisites": 0
+          },
+          "definitions": {
+            "extraction": "component equal to an existing field (refactoring, not discovery)",
+            "revision": "component that changes behaviour; admitted only if strictly better in its host",
+            "composition": "workflow proposal that calls a component",
+            "calling_workflow_admissions": "admitted workflows with a non-empty dependency closure"
+          }
+        },
+        "inherited": {
+          "uses_of_earlier_cohort_artifacts": 57,
+          "agents_using_earlier_cohort_artifacts": 4,
+          "cross_generation_sessions": 10,
+          "cross_generation_acquisitions": 5
+        },
+        "cross_generation": {
+          "revision_attempts": 0,
+          "admitted_revisions": 0,
+          "definition": "a proposal whose parent was created by an earlier cohort; admitted means it beat that parent on the same validation cases"
+        },
+        "cohort_transitions": [
+          {
+            "tick": 30,
+            "cohort": 1,
+            "phase": "arrival",
+            "overlap": 30,
+            "retired": [],
+            "successors": [
+              "a08",
+              "a09",
+              "a10",
+              "a11",
+              "a12",
+              "a13",
+              "a14",
+              "a15"
+            ]
+          },
+          {
+            "tick": 60,
+            "cohort": 1,
+            "phase": "retirement",
+            "overlap": 30,
+            "retired": [
+              "a00",
+              "a01",
+              "a02",
+              "a03",
+              "a04",
+              "a05",
+              "a06",
+              "a07"
+            ],
+            "successors": []
+          },
+          {
+            "tick": 90,
+            "cohort": 2,
+            "phase": "arrival",
+            "overlap": 30,
+            "retired": [],
+            "successors": [
+              "a16",
+              "a17",
+              "a18",
+              "a19",
+              "a20",
+              "a21",
+              "a22",
+              "a23"
+            ]
+          },
+          {
+            "tick": 120,
+            "cohort": 2,
+            "phase": "retirement",
+            "overlap": 30,
+            "retired": [
+              "a08",
+              "a09",
+              "a10",
+              "a11",
+              "a12",
+              "a13",
+              "a14",
+              "a15"
+            ],
+            "successors": []
+          }
+        ],
+        "sessions": [
+          {
+            "teacher": "a00",
+            "learner": "a01",
+            "teacher_cohort": 0,
+            "learner_cohort": 0,
+            "outcome": "failed",
+            "reason": "practice outcome costlier than the baseline",
+            "closure": [],
+            "package": [],
+            "already_known": [],
+            "dependencies_acquired": [],
+            "offered_tick": 29,
+            "ended_tick": 40
+          },
+          {
+            "teacher": "a03",
+            "learner": "a11",
+            "teacher_cohort": 0,
+            "learner_cohort": 1,
+            "outcome": "failed",
+            "reason": "practice outcome costlier than the baseline",
+            "closure": [],
+            "package": [],
+            "already_known": [],
+            "dependencies_acquired": [],
+            "offered_tick": 33,
+            "ended_tick": 44
+          },
+          {
+            "teacher": "a07",
+            "learner": "a14",
+            "teacher_cohort": 0,
+            "learner_cohort": 1,
+            "outcome": "failed",
+            "reason": "practice outcome costlier than the baseline",
+            "closure": [],
+            "package": [],
+            "already_known": [],
+            "dependencies_acquired": [],
+            "offered_tick": 33,
+            "ended_tick": 41
+          },
+          {
+            "teacher": "a00",
+            "learner": "a10",
+            "teacher_cohort": 0,
+            "learner_cohort": 1,
+            "outcome": "acquired",
+            "reason": null,
+            "closure": [],
+            "package": [],
+            "already_known": [],
+            "dependencies_acquired": [],
+            "offered_tick": 41,
+            "ended_tick": 54
+          },
+          {
+            "teacher": "a04",
+            "learner": "a15",
+            "teacher_cohort": 0,
+            "learner_cohort": 1,
+            "outcome": "acquired",
+            "reason": null,
+            "closure": [],
+            "package": [],
+            "already_known": [],
+            "dependencies_acquired": [],
+            "offered_tick": 41,
+            "ended_tick": 51
+          },
+          {
+            "teacher": "a05",
+            "learner": "a14",
+            "teacher_cohort": 0,
+            "learner_cohort": 1,
+            "outcome": "failed",
+            "reason": "practice outcome costlier than the baseline",
+            "closure": [],
+            "package": [],
+            "already_known": [],
+            "dependencies_acquired": [],
+            "offered_tick": 44,
+            "ended_tick": 52
+          },
+          {
+            "teacher": "a03",
+            "learner": "a11",
+            "teacher_cohort": 0,
+            "learner_cohort": 1,
+            "outcome": "interrupted",
+            "reason": "a03 retired",
+            "closure": [],
+            "package": [],
+            "already_known": [],
+            "dependencies_acquired": [],
+            "offered_tick": 52,
+            "ended_tick": 60
+          },
+          {
+            "teacher": "a08",
+            "learner": "a09",
+            "teacher_cohort": 1,
+            "learner_cohort": 1,
+            "outcome": "acquired",
+            "reason": null,
+            "closure": [],
+            "package": [],
+            "already_known": [],
+            "dependencies_acquired": [],
+            "offered_tick": 79,
+            "ended_tick": 90
+          },
+          {
+            "teacher": "a11",
+            "learner": "a18",
+            "teacher_cohort": 1,
+            "learner_cohort": 2,
+            "outcome": "acquired",
+            "reason": null,
+            "closure": [],
+            "package": [],
+            "already_known": [],
+            "dependencies_acquired": [],
+            "offered_tick": 94,
+            "ended_tick": 104
+          },
+          {
+            "teacher": "a15",
+            "learner": "a23",
+            "teacher_cohort": 1,
+            "learner_cohort": 2,
+            "outcome": "failed",
+            "reason": "practice outcome costlier than the baseline",
+            "closure": [],
+            "package": [],
+            "already_known": [],
+            "dependencies_acquired": [],
+            "offered_tick": 96,
+            "ended_tick": 107
+          },
+          {
+            "teacher": "a08",
+            "learner": "a19",
+            "teacher_cohort": 1,
+            "learner_cohort": 2,
+            "outcome": "acquired",
+            "reason": null,
+            "closure": [],
+            "package": [],
+            "already_known": [],
+            "dependencies_acquired": [],
+            "offered_tick": 102,
+            "ended_tick": 112
+          },
+          {
+            "teacher": "a10",
+            "learner": "a18",
+            "teacher_cohort": 1,
+            "learner_cohort": 2,
+            "outcome": "acquired",
+            "reason": null,
+            "closure": [],
+            "package": [],
+            "already_known": [],
+            "dependencies_acquired": [],
+            "offered_tick": 108,
+            "ended_tick": 119
+          }
+        ],
+        "overall": {
+          "produced_alloy": 523,
+          "production_energy": 3614,
+          "charged_action_energy": 4930,
+          "proposals": 117,
+          "submissions": 34,
+          "admitted": 9,
+          "dev_tests": 116,
+          "energy_by_category": {
+            "exchange": 109,
+            "fatigue": 1917,
+            "production": 3398,
+            "search": 117,
+            "evaluation": 416,
+            "eating": 0,
+            "travel": 20,
+            "gathering": 456,
+            "learning": 48,
+            "teaching": 84,
+            "none": 0,
+            "instruction": 36,
+            "practice": 216,
+            "storage": 30
+          },
+          "production_energy_per_alloy": {
+            "value": 6.910134,
+            "status": "available",
+            "numerator": 3614,
+            "denominator": 523,
+            "unit": "energy per produced alloy"
+          }
+        },
+        "remaining": {
+          "accessible": {
+            "ore": 2135,
+            "food": 519
+          },
+          "inaccessible": {
+            "ore": 0,
+            "food": 0
+          },
+          "rule": "sites, active agents, and settlement storage with at least one active member are accessible"
+        },
+        "metrics": {
+          "search.credit_actions": 267,
+          "search.proposals": 117,
+          "search.identical_program_proposals": 0,
+          "search.distinct_programs": 117,
+          "search.own_candidate_tests": 115,
+          "search.held_retests": 0,
+          "search.component_tests": 1,
+          "search.repeated_decisions_own": 43,
+          "search.repeated_decisions_world": 43,
+          "search.matching_outcome_different_decisions_own": 7,
+          "search.untested_proposals": 1,
+          "search.submissions": 34,
+          "search.stale_reference_rejections": 0,
+          "search.repeated_rejected_attempts": 1,
+          "search.withdrawals": 0,
+          "search.withdrawals_of_stale_candidates": 0,
+          "search.reserve_stops": 0,
+          "search.novelty_rejected_candidates": 0,
+          "search.novelty_point_evaluations": 0,
+          "admission.improvement_admissions": 8,
+          "admission.refactor_admissions": 1,
+          "lineage.improvements_on_earlier_cohort_reference": 0,
+          "lineage.improvements_on_earlier_cohort_parent": 0,
+          "lineage.improvements_with_earlier_cohort_ancestry": 0,
+          "production.actions": 446,
+          "production.alloy": 523,
+          "production.rejected_use_missing_prerequisite": 0,
+          "production.busy_ticks": 77,
+          "population.base": 8,
+          "population.peak_active": 16,
+          "production.alloy_per_action": {
+            "value": 1.172646,
+            "status": "available",
+            "numerator": 523,
+            "denominator": 446,
+            "unit": "alloy per production action"
+          },
+          "time.agent_ticks_by_activity": {
+            "eating": 327,
+            "exchange": 109,
+            "gathering": 456,
+            "learning": 21,
+            "movement": 20,
+            "practice": 23,
+            "production": 423,
+            "rejected practice": 5,
+            "rejected production": 47,
+            "rejected storage": 1,
+            "rejected teaching": 1,
+            "search": 267,
+            "storage": 30,
+            "teaching": 96,
+            "waiting": 94
+          },
+          "rejections_by_class": {
+            "produce: insufficient ore for batch (needs 4)": 24,
+            "produce: insufficient ore for batch (needs 3)": 15,
+            "use_artifact: insufficient energy for batch (needs 15)": 8,
+            "practice_step: insufficient ore for batch (needs 6)": 2,
+            "practice_step: insufficient ore for batch (needs 7)": 2,
+            "practice_step: insufficient ore for batch (needs 5)": 1,
+            "withdraw: insufficient settlement stock": 1,
+            "offer_teaching: learner already holds this artifact": 1
+          }
+        },
+        "population": {
+          "base": 8,
+          "peak_active": 16
+        }
+      },
+      "export": {
+        "file": "311-mentorship-teaching-only.json.gz",
+        "uncompressed_bytes": 12454996,
+        "compressed_bytes": 1025689
+      }
+    },
+    {
+      "seed": 312,
+      "condition": "teaching-only",
+      "config": {
+        "seed": 312,
+        "width": 24,
+        "height": 16,
+        "population": 8,
+        "sharing": true,
+        "controller": "search",
+        "max_ticks": 180,
+        "snapshot_every": 20,
+        "search_budget": 48,
+        "removal": "none",
+        "removal_tick": 80,
+        "succession": "none",
+        "successor_role": "producer",
+        "successor_access": "library",
+        "invention": "open",
+        "controller_seed": 7,
+        "ore_per_site": 900,
+        "task": "workshop-1",
+        "teaching": true,
+        "lifecycle": "cohorts",
+        "cohort_ticks": 60,
+        "cohort_count": 3,
+        "cross_cohort_access": false,
+        "search_policy": "beam",
+        "budget_unit": "credits",
+        "teaching_policy": "package-scheduled",
+        "cohort_overlap": 30,
+        "validation_policy": "fixed",
+        "panel_queries": 12
+      },
+      "config_hash": "6ecb98710bc19805c70b6546354a42fbfab8166c488ec7aa93d0ae01ade450c6",
+      "status": "completed",
+      "run_id": "94f0343aec96",
+      "parity_hash_initial": "32f8a49c09bef60013699eda06f715cbf23e00b94bbe580c7a41de3de99c9fd6",
+      "access_parity_tick": 30,
+      "access_parity_hash": "7d03d0e776efc10407241a989fd5cc74f9c9d5f715367924269046d6f16a4649",
+      "wall_seconds": 26.74,
+      "summary": {
+        "freezes": [
+          {
+            "tick": 60,
+            "cohort": 0,
+            "reason": "cohort boundary",
+            "rule": "lowest validation score among admitted or superseded workflows (legacy: lowest evaluation energy); ties by creation tick then id; no sealed input",
+            "cohort_best": {
+              "ancestor_cohorts": [
+                0
+              ],
+              "artifact": "7f859039880a0ae91ae7f2f388ce07b4bed8711ccae38acecfd68c6b02baab96",
+              "closure": [],
+              "cohort": 0,
+              "created_tick": 7,
+              "creator": "a04",
+              "dev_score": 10.73913,
+              "generation": 2,
+              "origin": "search-revision",
+              "selection_score": 10.545455,
+              "status_at_freeze": "admitted"
+            },
+            "accessible_best": {
+              "ancestor_cohorts": [
+                0
+              ],
+              "artifact": "7f859039880a0ae91ae7f2f388ce07b4bed8711ccae38acecfd68c6b02baab96",
+              "closure": [],
+              "cohort": 0,
+              "created_tick": 7,
+              "creator": "a04",
+              "dev_score": 10.73913,
+              "generation": 2,
+              "origin": "search-revision",
+              "selection_score": 10.545455,
+              "status_at_freeze": "admitted"
+            },
+            "held_best": {
+              "ancestor_cohorts": [
+                0
+              ],
+              "artifact": "7f859039880a0ae91ae7f2f388ce07b4bed8711ccae38acecfd68c6b02baab96",
+              "closure": [],
+              "cohort": 0,
+              "created_tick": 7,
+              "creator": "a04",
+              "dev_score": 10.73913,
+              "generation": 2,
+              "origin": "search-revision",
+              "selection_score": 10.545455,
+              "status_at_freeze": "admitted"
+            }
+          },
+          {
+            "tick": 120,
+            "cohort": 1,
+            "reason": "cohort boundary",
+            "rule": "lowest validation score among admitted or superseded workflows (legacy: lowest evaluation energy); ties by creation tick then id; no sealed input",
+            "cohort_best": {
+              "ancestor_cohorts": [
+                1
+              ],
+              "artifact": "9a93ec8e15a871656f9020c995a86a4b8b92d5f113fa7792ce28daeb6ee9cd15",
+              "closure": [],
+              "cohort": 1,
+              "created_tick": 94,
+              "creator": "a08",
+              "dev_score": 8.3125,
+              "generation": 8,
+              "origin": "search-revision",
+              "selection_score": 6.921053,
+              "status_at_freeze": "admitted"
+            },
+            "accessible_best": {
+              "ancestor_cohorts": [
+                1
+              ],
+              "artifact": "9a93ec8e15a871656f9020c995a86a4b8b92d5f113fa7792ce28daeb6ee9cd15",
+              "closure": [],
+              "cohort": 1,
+              "created_tick": 94,
+              "creator": "a08",
+              "dev_score": 8.3125,
+              "generation": 8,
+              "origin": "search-revision",
+              "selection_score": 6.921053,
+              "status_at_freeze": "admitted"
+            },
+            "held_best": {
+              "ancestor_cohorts": [
+                1
+              ],
+              "artifact": "9a93ec8e15a871656f9020c995a86a4b8b92d5f113fa7792ce28daeb6ee9cd15",
+              "closure": [],
+              "cohort": 1,
+              "created_tick": 94,
+              "creator": "a08",
+              "dev_score": 8.3125,
+              "generation": 8,
+              "origin": "search-revision",
+              "selection_score": 6.921053,
+              "status_at_freeze": "admitted"
+            }
+          },
+          {
+            "tick": 180,
+            "cohort": 2,
+            "reason": "run closed",
+            "rule": "lowest validation score among admitted or superseded workflows (legacy: lowest evaluation energy); ties by creation tick then id; no sealed input",
+            "cohort_best": {
+              "ancestor_cohorts": [
+                1
+              ],
+              "artifact": "5f694acc47d9c3db71f36719dc7d2b8b78ada9d887a72d7274f929574a442e3e",
+              "closure": [
+                "b129277cfbb2b0ec2636cc037b31f1af3f22c4e14e5e2cc1a8728b432bbd66af"
+              ],
+              "cohort": 2,
+              "created_tick": 171,
+              "creator": "a16",
+              "dev_score": 8.3125,
+              "generation": 9,
+              "origin": "composition",
+              "selection_score": 6.921053,
+              "status_at_freeze": "admitted"
+            },
+            "accessible_best": {
+              "ancestor_cohorts": [
+                1
+              ],
+              "artifact": "5f694acc47d9c3db71f36719dc7d2b8b78ada9d887a72d7274f929574a442e3e",
+              "closure": [
+                "b129277cfbb2b0ec2636cc037b31f1af3f22c4e14e5e2cc1a8728b432bbd66af"
+              ],
+              "cohort": 2,
+              "created_tick": 171,
+              "creator": "a16",
+              "dev_score": 8.3125,
+              "generation": 9,
+              "origin": "composition",
+              "selection_score": 6.921053,
+              "status_at_freeze": "admitted"
+            },
+            "held_best": {
+              "ancestor_cohorts": [
+                1
+              ],
+              "artifact": "9a93ec8e15a871656f9020c995a86a4b8b92d5f113fa7792ce28daeb6ee9cd15",
+              "closure": [],
+              "cohort": 1,
+              "created_tick": 94,
+              "creator": "a08",
+              "dev_score": 8.3125,
+              "generation": 8,
+              "origin": "search-revision",
+              "selection_score": 6.921053,
+              "status_at_freeze": "superseded"
+            }
+          }
+        ],
+        "per_cohort": [
+          {
+            "cohort": 0,
+            "proposals": 32,
+            "admitted": 3,
+            "improvement_admissions": 3,
+            "refactor_admissions": 0,
+            "components_proposed": 1,
+            "components_admitted": 1,
+            "cross_generation_attempts": 0,
+            "cross_generation_admitted": 0,
+            "search_energy": 51,
+            "evaluation_energy": 185,
+            "teaching_energy": 92,
+            "produced_alloy": 180,
+            "production_energy_per_alloy": {
+              "value": 7.85,
+              "status": "available",
+              "numerator": 1413,
+              "denominator": 180,
+              "unit": "energy per produced alloy"
+            }
+          },
+          {
+            "cohort": 1,
+            "proposals": 39,
+            "admitted": 5,
+            "improvement_admissions": 5,
+            "refactor_admissions": 0,
+            "components_proposed": 1,
+            "components_admitted": 1,
+            "cross_generation_attempts": 0,
+            "cross_generation_admitted": 0,
+            "search_energy": 34,
+            "evaluation_energy": 131,
+            "teaching_energy": 112,
+            "produced_alloy": 193,
+            "production_energy_per_alloy": {
+              "value": 6.595855,
+              "status": "available",
+              "numerator": 1273,
+              "denominator": 193,
+              "unit": "energy per produced alloy"
+            }
+          },
+          {
+            "cohort": 2,
+            "proposals": 42,
+            "admitted": 6,
+            "improvement_admissions": 4,
+            "refactor_admissions": 2,
+            "components_proposed": 2,
+            "components_admitted": 2,
+            "cross_generation_attempts": 4,
+            "cross_generation_admitted": 1,
+            "search_energy": 28,
+            "evaluation_energy": 108,
+            "teaching_energy": 24,
+            "produced_alloy": 163,
+            "production_energy_per_alloy": {
+              "value": 5.251534,
+              "status": "available",
+              "numerator": 856,
+              "denominator": 163,
+              "unit": "energy per produced alloy"
+            }
+          }
+        ],
+        "further_improvement": [
+          {
+            "cohort": 1,
+            "previous_cohort_held_best": 10.545455,
+            "own_cohort_best": 6.921053,
+            "held_best": 6.921053,
+            "held_best_created_by_cohort": 1,
+            "improved_beyond_previous_held": true,
+            "definition": "own cohort's best admitted workflow vs the best workflow the previous cohort's members held at their freeze"
+          },
+          {
+            "cohort": 2,
+            "previous_cohort_held_best": 6.921053,
+            "own_cohort_best": 6.921053,
+            "held_best": 6.921053,
+            "held_best_created_by_cohort": 1,
+            "improved_beyond_previous_held": false,
+            "definition": "own cohort's best admitted workflow vs the best workflow the previous cohort's members held at their freeze"
+          }
+        ],
+        "search": {
+          "proposals": 113,
+          "unique_programs": 109,
+          "duplicate_behaviour_dev_results": 43,
+          "distinct_dev_behaviours": 70,
+          "dev_evaluations": 114,
+          "component_tests": 4,
+          "submissions": 41,
+          "admissions": 14,
+          "refactor_admissions": 2,
+          "improvement_admissions": 12,
+          "private_parent_proposals": 80,
+          "parent_kinds": {
+            "none": 10,
+            "private": 80,
+            "admitted": 23
+          },
+          "operators": {
+            "call": {
+              "proposals": 3,
+              "admitted": 2
+            },
+            "compose": {
+              "proposals": 11,
+              "admitted": 0
+            },
+            "const": {
+              "proposals": 33,
+              "admitted": 5
+            },
+            "extract": {
+              "proposals": 4,
+              "admitted": 4
+            },
+            "split": {
+              "proposals": 46,
+              "admitted": 3
+            },
+            "threshold": {
+              "proposals": 16,
+              "admitted": 0
+            }
+          },
+          "stop_reasons": {
+            "energy": 21,
+            "budget-exhausted": 35
+          },
+          "diagnosed_decisions": 354,
+          "cpu": "not in records (wall time would make records non-reproducible); see the search CPU benchmark",
+          "search_actions_by_agent": {
+            "a00": 40,
+            "a04": 37,
+            "a08": 48,
+            "a12": 48,
+            "a16": 47,
+            "a20": 48
+          },
+          "definition": "search actions = proposals + development tests (incl. component tests) + submissions; under budget_unit credits each costs one credit"
+        },
+        "components": {
+          "extractions": 4,
+          "revisions": 0,
+          "compositions": 6,
+          "calling_workflow_admissions": 2,
+          "executions_with_dependencies": 57,
+          "executions_by_non_creator_cohort": 0,
+          "admitted_by_origin": {
+            "component-extraction": 4
+          },
+          "dependency_teaching": {
+            "sessions_with_dependencies": 0,
+            "dependencies_taught_in_package": 0,
+            "dependencies_already_known": 0,
+            "dependencies_acquired": 0,
+            "rejected_missing_prerequisites": 0
+          },
+          "definitions": {
+            "extraction": "component equal to an existing field (refactoring, not discovery)",
+            "revision": "component that changes behaviour; admitted only if strictly better in its host",
+            "composition": "workflow proposal that calls a component",
+            "calling_workflow_admissions": "admitted workflows with a non-empty dependency closure"
+          }
+        },
+        "inherited": {
+          "uses_of_earlier_cohort_artifacts": 59,
+          "agents_using_earlier_cohort_artifacts": 5,
+          "cross_generation_sessions": 8,
+          "cross_generation_acquisitions": 5
+        },
+        "cross_generation": {
+          "revision_attempts": 4,
+          "admitted_revisions": 1,
+          "definition": "a proposal whose parent was created by an earlier cohort; admitted means it beat that parent on the same validation cases"
+        },
+        "cohort_transitions": [
+          {
+            "tick": 30,
+            "cohort": 1,
+            "phase": "arrival",
+            "overlap": 30,
+            "retired": [],
+            "successors": [
+              "a08",
+              "a09",
+              "a10",
+              "a11",
+              "a12",
+              "a13",
+              "a14",
+              "a15"
+            ]
+          },
+          {
+            "tick": 60,
+            "cohort": 1,
+            "phase": "retirement",
+            "overlap": 30,
+            "retired": [
+              "a00",
+              "a01",
+              "a02",
+              "a03",
+              "a04",
+              "a05",
+              "a06",
+              "a07"
+            ],
+            "successors": []
+          },
+          {
+            "tick": 90,
+            "cohort": 2,
+            "phase": "arrival",
+            "overlap": 30,
+            "retired": [],
+            "successors": [
+              "a16",
+              "a17",
+              "a18",
+              "a19",
+              "a20",
+              "a21",
+              "a22",
+              "a23"
+            ]
+          },
+          {
+            "tick": 120,
+            "cohort": 2,
+            "phase": "retirement",
+            "overlap": 30,
+            "retired": [
+              "a08",
+              "a09",
+              "a10",
+              "a11",
+              "a12",
+              "a13",
+              "a14",
+              "a15"
+            ],
+            "successors": []
+          }
+        ],
+        "sessions": [
+          {
+            "teacher": "a07",
+            "learner": "a14",
+            "teacher_cohort": 0,
+            "learner_cohort": 1,
+            "outcome": "failed",
+            "reason": "practice outcome costlier than the baseline",
+            "closure": [],
+            "package": [],
+            "already_known": [],
+            "dependencies_acquired": [],
+            "offered_tick": 33,
+            "ended_tick": 42
+          },
+          {
+            "teacher": "a04",
+            "learner": "a15",
+            "teacher_cohort": 0,
+            "learner_cohort": 1,
+            "outcome": "failed",
+            "reason": "practice outcome costlier than the baseline",
+            "closure": [],
+            "package": [],
+            "already_known": [],
+            "dependencies_acquired": [],
+            "offered_tick": 43,
+            "ended_tick": 51
+          },
+          {
+            "teacher": "a06",
+            "learner": "a14",
+            "teacher_cohort": 0,
+            "learner_cohort": 1,
+            "outcome": "acquired",
+            "reason": null,
+            "closure": [],
+            "package": [],
+            "already_known": [],
+            "dependencies_acquired": [],
+            "offered_tick": 46,
+            "ended_tick": 55
+          },
+          {
+            "teacher": "a04",
+            "learner": "a13",
+            "teacher_cohort": 0,
+            "learner_cohort": 1,
+            "outcome": "failed",
+            "reason": "practice outcome costlier than the baseline",
+            "closure": [],
+            "package": [],
+            "already_known": [],
+            "dependencies_acquired": [],
+            "offered_tick": 52,
+            "ended_tick": 60
+          },
+          {
+            "teacher": "a08",
+            "learner": "a11",
+            "teacher_cohort": 1,
+            "learner_cohort": 1,
+            "outcome": "acquired",
+            "reason": null,
+            "closure": [],
+            "package": [],
+            "already_known": [],
+            "dependencies_acquired": [],
+            "offered_tick": 71,
+            "ended_tick": 82
+          },
+          {
+            "teacher": "a11",
+            "learner": "a18",
+            "teacher_cohort": 1,
+            "learner_cohort": 2,
+            "outcome": "acquired",
+            "reason": null,
+            "closure": [],
+            "package": [],
+            "already_known": [],
+            "dependencies_acquired": [],
+            "offered_tick": 93,
+            "ended_tick": 103
+          },
+          {
+            "teacher": "a08",
+            "learner": "a16",
+            "teacher_cohort": 1,
+            "learner_cohort": 2,
+            "outcome": "acquired",
+            "reason": null,
+            "closure": [],
+            "package": [],
+            "already_known": [],
+            "dependencies_acquired": [],
+            "offered_tick": 101,
+            "ended_tick": 116
+          },
+          {
+            "teacher": "a09",
+            "learner": "a19",
+            "teacher_cohort": 1,
+            "learner_cohort": 2,
+            "outcome": "acquired",
+            "reason": null,
+            "closure": [],
+            "package": [],
+            "already_known": [],
+            "dependencies_acquired": [],
+            "offered_tick": 107,
+            "ended_tick": 118
+          },
+          {
+            "teacher": "a11",
+            "learner": "a18",
+            "teacher_cohort": 1,
+            "learner_cohort": 2,
+            "outcome": "acquired",
+            "reason": null,
+            "closure": [],
+            "package": [],
+            "already_known": [],
+            "dependencies_acquired": [],
+            "offered_tick": 108,
+            "ended_tick": 118
+          },
+          {
+            "teacher": "a16",
+            "learner": "a17",
+            "teacher_cohort": 2,
+            "learner_cohort": 2,
+            "outcome": "acquired",
+            "reason": null,
+            "closure": [],
+            "package": [],
+            "already_known": [],
+            "dependencies_acquired": [],
+            "offered_tick": 129,
+            "ended_tick": 150
+          }
+        ],
+        "overall": {
+          "produced_alloy": 536,
+          "production_energy": 3542,
+          "charged_action_energy": 4873,
+          "proposals": 113,
+          "submissions": 41,
+          "admitted": 14,
+          "dev_tests": 114,
+          "energy_by_category": {
+            "exchange": 131,
+            "fatigue": 1919,
+            "production": 3414,
+            "search": 113,
+            "evaluation": 424,
+            "eating": 0,
+            "travel": 20,
+            "gathering": 439,
+            "learning": 72,
+            "teaching": 70,
+            "none": 0,
+            "instruction": 30,
+            "practice": 128,
+            "storage": 32
+          },
+          "production_energy_per_alloy": {
+            "value": 6.608209,
+            "status": "available",
+            "numerator": 3542,
+            "denominator": 536,
+            "unit": "energy per produced alloy"
+          }
+        },
+        "remaining": {
+          "accessible": {
+            "ore": 2188,
+            "food": 514
+          },
+          "inaccessible": {
+            "ore": 0,
+            "food": 0
+          },
+          "rule": "sites, active agents, and settlement storage with at least one active member are accessible"
+        },
+        "metrics": {
+          "search.credit_actions": 268,
+          "search.proposals": 113,
+          "search.identical_program_proposals": 0,
+          "search.distinct_programs": 109,
+          "search.own_candidate_tests": 109,
+          "search.held_retests": 1,
+          "search.component_tests": 4,
+          "search.repeated_decisions_own": 33,
+          "search.repeated_decisions_world": 39,
+          "search.matching_outcome_different_decisions_own": 4,
+          "search.untested_proposals": 0,
+          "search.submissions": 41,
+          "search.stale_reference_rejections": 0,
+          "search.repeated_rejected_attempts": 10,
+          "search.withdrawals": 0,
+          "search.withdrawals_of_stale_candidates": 0,
+          "search.reserve_stops": 0,
+          "search.novelty_rejected_candidates": 0,
+          "search.novelty_point_evaluations": 0,
+          "admission.improvement_admissions": 12,
+          "admission.refactor_admissions": 2,
+          "lineage.improvements_on_earlier_cohort_reference": 0,
+          "lineage.improvements_on_earlier_cohort_parent": 0,
+          "lineage.improvements_with_earlier_cohort_ancestry": 0,
+          "production.actions": 479,
+          "production.alloy": 536,
+          "production.rejected_use_missing_prerequisite": 0,
+          "production.busy_ticks": 57,
+          "population.base": 8,
+          "population.peak_active": 16,
+          "production.alloy_per_action": {
+            "value": 1.118998,
+            "status": "available",
+            "numerator": 536,
+            "denominator": 479,
+            "unit": "alloy per production action"
+          },
+          "time.agent_ticks_by_activity": {
+            "eating": 322,
+            "exchange": 131,
+            "gathering": 439,
+            "learning": 30,
+            "movement": 20,
+            "practice": 20,
+            "production": 459,
+            "rejected practice": 13,
+            "rejected production": 29,
+            "rejected storage": 6,
+            "search": 268,
+            "storage": 32,
+            "teaching": 80,
+            "waiting": 71
+          },
+          "rejections_by_class": {
+            "produce: insufficient ore for batch (needs 4)": 14,
+            "produce: insufficient ore for batch (needs 3)": 13,
+            "practice_step: insufficient ore for batch (needs 5)": 7,
+            "withdraw: insufficient settlement stock": 6,
+            "practice_step: insufficient ore for batch (needs 7)": 6,
+            "use_artifact: insufficient energy for batch (needs 13)": 2
+          }
+        },
+        "population": {
+          "base": 8,
+          "peak_active": 16
+        }
+      },
+      "export": {
+        "file": "312-mentorship-teaching-only.json.gz",
+        "uncompressed_bytes": 12244340,
+        "compressed_bytes": 1012243
+      }
+    }
+  ],
+  "parity": [
+    {
+      "seed": 310,
+      "library_and_none_identical_at_first_arrival": false,
+      "note": "teaching-only also teaches within cohort 0, so it is not expected to match"
+    },
+    {
+      "seed": 311,
+      "library_and_none_identical_at_first_arrival": false,
+      "note": "teaching-only also teaches within cohort 0, so it is not expected to match"
+    },
+    {
+      "seed": 312,
+      "library_and_none_identical_at_first_arrival": false,
+      "note": "teaching-only also teaches within cohort 0, so it is not expected to match"
+    }
+  ]
+}
