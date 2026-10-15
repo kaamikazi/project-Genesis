@@ -363,6 +363,7 @@ def test_reducer_v3_reconciles_and_reports_every_dictionary_metric(tmp_path):
     assert m["search.own_candidate_tests"] + m["search.held_retests"] + m["search.component_tests"] == red["search"]["dev_evaluations"]
     assert m["lineage.improvements_with_earlier_cohort_ancestry"] is not None
     assert sum(m["time.agent_ticks_by_activity"].values()) == red["overall"]["active_agent_ticks"]
+    assert all({"created_upto_best", "created_inventory", "selection_cases"} <= set(f) for f in red["freezes"])   # reducer keeps creation attribution
 
 
 def test_paired_comparison_reports_denominators_and_never_scores_missing_as_zero():

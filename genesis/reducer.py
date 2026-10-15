@@ -295,7 +295,7 @@ def reduce_export(export: JSON, windows: list[Window] | None = None) -> JSON:
         elif e["type"] == "session_ended":
             end_session(e["session"], e["stage"], e.get("reason"), tick, buckets(tick))
         elif e["type"] == "freeze":
-            freezes.append({k: e.get(k) for k in ("tick", "cohort", "reason", "rule", "cohort_best", "accessible_best", "held_best")})
+            freezes.append({k: e.get(k) for k in ("tick", "cohort", "reason", "rule", "cohort_best", "accessible_best", "held_best", "created_upto_best", "created_inventory", "selection_cases")})
         elif e["type"] == "cohort_transition":
             transitions.append({"tick": tick, "cohort": e["cohort"], "phase": e.get("phase", "replacement"), "overlap": e.get("overlap", 0),
                                 "retired": e["retired"], "successors": [x["successor"] for x in e["successors"]]})

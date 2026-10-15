@@ -9,7 +9,18 @@ import json
 from collections import Counter
 from pathlib import Path
 
+from genesis.workshop import world_params
 from tools.summarize_m5b import RULE, markdown_table, paired
+
+
+def distinct_worlds(rows: list, seeds: list) -> tuple[list, dict]:
+    """POST-HOC: invention outcomes depend on hidden parameters + controller seed (constant), not on terrain, so seeds that
+    share hidden parameters are duplicate worlds for invention measures. Keep the first seed of each parameter group."""
+    groups: dict = {}
+    for seed in seeds:
+        groups.setdefault(tuple(world_params(seed).values()), []).append(seed)
+    keep = [g[0] for g in groups.values()]
+    return [r for r in rows if r["seed"] in keep], {str(k): v for k, v in groups.items()}
 
 
 def load(path: Path):
@@ -39,7 +50,8 @@ def world_row(w: dict, sealed: dict, folder: Path) -> dict:
     if w["status"] != "completed":
         return {"seed": w["seed"], "condition": w["condition"], "status": w["status"], "failure": w.get("failure")}
     s = w["summary"]
-    fz = s["freezes"]
+    export = json.loads(gzip.decompress((folder / w["export"]["file"]).read_bytes()))
+    fz = export["state"]["lifecycle"]["freezes"]      # authoritative freeze records (the reducer copy predates created_upto_best)
     sw = sealed.get((w["seed"], w["condition"]))
     last = len(fz) - 1
     m = s["metrics"]
@@ -66,13 +78,13 @@ def world_row(w: dict, sealed: dict, folder: Path) -> dict:
            "dependency_lessons": len(dep), "dependency_lessons_acquired": sum(1 for x in dep if x["outcome"] == "acquired"),
            "dependencies_acquired": sum(len(x["dependencies_acquired"]) for x in lessons),
            "population": s.get("population"), **{k: v for k, v in m.items() if isinstance(v, (int, float)) and not isinstance(v, bool)}}
-    row.update(dependency_detail(w, folder))
+    row.update(dependency_detail(export))
+    row["hidden_parameters"] = tuple(world_params(w["seed"]).values())
     return row
 
 
-def dependency_detail(w: dict, folder: Path) -> dict:
+def dependency_detail(export: dict) -> dict:
     """Eligibility (a senior held a component-calling workflow during an overlap) and independent post-retirement execution."""
-    export = json.loads(gzip.decompress((folder / w["export"]["file"]).read_bytes()))
     st = export["state"]
     ct, ov = st["config"]["cohort_ticks"], st["config"]["cohort_overlap"]
     eligible = []
@@ -133,6 +145,9 @@ def main(root: Path) -> None:
         sealed = sealed_index(root / name / "sealed-results.json")
         rows = [world_row(w, sealed, root / name) for w in rep["worlds"]]
         comps = section_paired(rows, pairs, keys, seeds)
+        unique_rows, groups = distinct_worlds(rows, seeds)
+        unique_seeds = sorted({r["seed"] for r in unique_rows})
+        unique_comps = section_paired(unique_rows, pairs, keys, unique_seeds)
         conds = list(rep["conditions"])
         tot_keys = ["search.credit_actions", "search.proposals", "search.own_candidate_tests", "search.repeated_decisions_own", "search.untested_proposals",
                     "search.novelty_rejected_candidates", "search.reserve_stops", "search.stale_reference_rejections", "search.withdrawals",
@@ -145,8 +160,12 @@ def main(root: Path) -> None:
         totals = {c: {k: sum((r.get(k) or 0) for r in rows if r["condition"] == c and r["status"] == "completed") for k in tot_keys} |
                   {"worlds_completed": sum(1 for r in rows if r["condition"] == c and r["status"] == "completed"),
                    "worlds_failed": sum(1 for r in rows if r["condition"] == c and r["status"] != "completed")} for c in conds}
-        summary[name] = {"rows": rows, "comparisons": comps, "totals": totals, "parity": rep.get("parity")}
-        md += [f"## {title}", "", f"Seeds: {seeds}. Parity: {rep.get('parity')}", ""] + markdown_table(comps) + ["", "| condition | " + " | ".join(tot_keys) + " |",
+        summary[name] = {"rows": rows, "comparisons": comps, "totals": totals, "parity": rep.get("parity"),
+                         "post_hoc_distinct_worlds": {"hidden_parameter_groups": groups, "seeds_kept": unique_seeds, "comparisons": unique_comps}}
+        md += [f"## {title}", "", f"Seeds: {seeds}. Parity: {rep.get('parity')}", "", "### As frozen (all planned seeds)", ""] + markdown_table(comps)
+        md += ["", f"### Post-hoc: distinct worlds only (hidden-parameter groups {groups}; kept {unique_seeds})", "",
+               "Seeds that share hidden parameters produced identical invention outcomes (the controller seed is the same in every world), so they are not independent for these measures.", ""] + markdown_table(unique_comps)
+        md += ["", "| condition | " + " | ".join(tot_keys) + " |",
                "|---" * (len(tot_keys) + 1) + "|"]
         md += [f"| {c} | " + " | ".join(str(totals[c][k]) for k in tot_keys) + " |" for c in conds]
         md += ["", "| seed | condition | held best val / sealed | created best val / sealed | further (val, sealed of compared/transitions) | dependency lessons (acq/total) | eligible transitions |", "|---|---|---|---|---|---|---|"]
