@@ -13,7 +13,7 @@ import secrets
 from pathlib import Path
 
 from .models import JSON, digest
-from .workshop import BASELINE, DEV_CASES, VALIDATION_CASES, partition, score_cases, world_params
+from .workshop import BASELINE, DEV_CASES, VALIDATION_CASES, all_panel_cases, partition, score_cases, world_params
 
 SEALED_VERSION = "workshop-sealed-1"
 SEALED_SIZE = 48
@@ -22,6 +22,8 @@ SEALED_SIZE = 48
 def _cases_of(manifest: JSON) -> list:
     """Recompute a manifest's case list, excluding development, validation and every earlier sealed set it names."""
     exclude = set(DEV_CASES) | set(VALIDATION_CASES)
+    if manifest.get("excludes_panels"):
+        exclude |= all_panel_cases()          # v0.5.1: the precommitted cohort admission panels
     for earlier in manifest.get("excludes", []):
         earlier_cases = _cases_of(earlier)
         if digest([list(c) for c in earlier_cases]) != earlier["commitment"]:
@@ -30,13 +32,16 @@ def _cases_of(manifest: JSON) -> list:
     return partition("sealed", manifest["size"], exclude, seed=manifest["sealed_seed"])
 
 
-def create_manifest(path: Path, version: str = SEALED_VERSION, excludes: list[JSON] | None = None) -> JSON:
+def create_manifest(path: Path, version: str = SEALED_VERSION, excludes: list[JSON] | None = None, exclude_panels: bool = False) -> JSON:
     """Draw a fresh sealed seed (from the OS, not from any world stream) and commit to the case list.
     `excludes` lists earlier (already used, now public) sealed manifests whose cases must not be reused."""
     seed = secrets.randbelow(2**31)
-    excluded = [{k: m[k] for k in ("version", "sealed_seed", "size", "commitment", "excludes") if k in m} for m in (excludes or [])]
+    excluded = [{k: m[k] for k in ("version", "sealed_seed", "size", "commitment", "excludes", "excludes_panels") if k in m} for m in (excludes or [])]
     manifest = {"version": version, "task": "workshop-1", "sealed_seed": seed, "size": SEALED_SIZE,
-                "disjoint_from": ["dev-24", "validation-24"] + [m["version"] for m in excluded], "excludes": excluded}
+                "disjoint_from": ["dev-24", "validation-24"] + (["cohort-panels-0..9"] if exclude_panels else []) + [m["version"] for m in excluded],
+                "excludes": excluded}
+    if exclude_panels:
+        manifest["excludes_panels"] = True
     manifest["commitment"] = digest([list(c) for c in _cases_of(manifest)])
     if not excluded:
         manifest.pop("excludes")
@@ -53,6 +58,8 @@ class SealedEvaluator:
             raise ValueError("sealed cases do not match the committed hash")
         if set(self.cases) & (set(DEV_CASES) | set(VALIDATION_CASES)):
             raise ValueError("sealed cases overlap development or validation cases")
+        if self.manifest.get("excludes_panels") and set(self.cases) & all_panel_cases():
+            raise ValueError("sealed cases overlap the admission panels")
         for earlier in self.manifest.get("excludes", []):
             if set(self.cases) & set(_cases_of(earlier)):
                 raise ValueError(f"sealed cases overlap the earlier sealed set {earlier['version']}")
@@ -81,7 +88,7 @@ class SealedEvaluator:
         rows = []
         for f in freezes:
             row = {"tick": f["tick"], "cohort": f["cohort"], "reason": f["reason"]}
-            for key in ("cohort_best", "accessible_best", "held_best"):
+            for key in ("cohort_best", "accessible_best", "held_best", "created_upto_best"):
                 pick = f.get(key)
                 if pick is None:
                     row[key] = None

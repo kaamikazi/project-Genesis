@@ -3,6 +3,7 @@ from __future__ import annotations
 import os
 import json
 import threading
+from collections import deque
 import time
 from contextlib import asynccontextmanager
 from pathlib import Path
@@ -52,28 +53,58 @@ class SimulationService:
         self.speed = 2
         self.error: str | None = None
         self.stop = threading.Event()
+        self.recent: deque = deque(maxlen=20)        # commit times of the last ticks while running
+        self.last_step_ms: float | None = None
+        self.lag_seconds = 0.0
+        self.active_agents: int | None = None
+        self.base_population: int | None = None
+        self.peak_active = 0
 
     def clock(self):
+        """Fixed-rate pacing (v0.5.1): ticks are due every 1/speed seconds from the previous due time, not from the end
+        of the previous step, so a fast engine reaches the target. A slow engine falls behind; lag is reported and
+        catch-up is capped at one second so the clock never bursts. Pacing never changes what a tick computes."""
         due = time.monotonic()
-        while not self.stop.wait(.03):
+        while not self.stop.wait(.005):
             with self.lock:
+                now = time.monotonic()
                 if not self.running:
-                    due = time.monotonic()
+                    due = now
+                    self.recent.clear()
                     continue
-                if time.monotonic() < due:
+                if now < due:
                     continue
                 try:
+                    started = time.monotonic()
                     state = self.store.step(self.run_id)
+                    finished = time.monotonic()
+                    self.last_step_ms = round((finished - started) * 1000, 1)
+                    self.recent.append(finished)
+                    self.active_agents = sum(a["status"] == "active" for a in state["agents"].values())
+                    self.base_population = state["config"]["population"]
+                    self.peak_active = max(self.peak_active, self.active_agents)
                     if state["tick"] >= state["config"]["max_ticks"]:
                         self.running = False
                 except Exception as exc:
                     self.error = str(exc)
                     self.running = False
-                due = time.monotonic() + 1/self.speed
+                due += 1 / self.speed
+                self.lag_seconds = max(0.0, time.monotonic() - due)
+                if self.lag_seconds > 1.0:
+                    due = time.monotonic()         # cap catch-up: report the lag instead of bursting
+
+    def achieved(self) -> float | None:
+        if not self.running or len(self.recent) < 3:
+            return None
+        span = self.recent[-1] - self.recent[0]
+        return round((len(self.recent) - 1) / span, 2) if span > 0 else None
 
     def status(self):
         return {"run_id": self.run_id, "running": self.running, "speed": self.speed, "error": self.error,
-                "controller": "offline / no model calls", "clock_owner": "server", "engine": ENGINE_VERSION}
+                "controller": "offline / no model calls", "clock_owner": "server", "engine": ENGINE_VERSION,
+                "target_ticks_per_second": self.speed, "achieved_ticks_per_second": self.achieved(),
+                "last_step_ms": self.last_step_ms, "lag_seconds": round(self.lag_seconds, 3) if self.running else 0.0,
+                "base_population": self.base_population, "active_agents": self.active_agents, "peak_active_agents_this_session": self.peak_active}
 
 
 def create_app(db_path: str | Path | None = None, evidence_dir: str | Path | None = None) -> FastAPI:
@@ -81,6 +112,7 @@ def create_app(db_path: str | Path | None = None, evidence_dir: str | Path | Non
     evidence = Path(evidence_dir or os.getenv("GENESIS_EVIDENCE", Path(__file__).resolve().parent.parent / "evidence" / "v0.3.0"))
     milestone4 = Path(os.getenv("GENESIS_EVIDENCE_M4", evidence.parent / "v0.4.0"))
     milestone5 = Path(os.getenv("GENESIS_EVIDENCE_M5", evidence.parent / "v0.5.0"))
+    milestone5b = Path(os.getenv("GENESIS_EVIDENCE_M5B", evidence.parent / "v0.5.1"))
     service = SimulationService(store)
 
     @asynccontextmanager
@@ -138,7 +170,11 @@ def create_app(db_path: str | Path | None = None, evidence_dir: str | Path | Non
                     ("summary", "summary.json"), ("protocol", "protocol/protocol.json"), ("demonstration", "demonstration/component-chain.json"),
                     ("restart", "verification/restart.json"), ("search_cpu", "benchmark/search-cpu.json"),
                     ("diagnosis", "diagnosis/search-diagnosis.json"), ("inherited", "diagnosis/inherited-improvements.json"),
-                    ("patch_audit", "verification/generation-patch-audit.json"))}, "milestone5_dir": milestone5.name}
+                    ("patch_audit", "verification/generation-patch-audit.json"))}, "milestone5_dir": milestone5.name,
+                "m5b": {name: load_from(milestone5b, path) for name, path in (
+                    ("summary", "summary.json"), ("protocol", "protocol/protocol.json"), ("bugfix", "bugfix/bugfix-evidence.json"),
+                    ("calibration", "calibration/calibration-decision.json"), ("speed", "benchmark/server-speed.json"),
+                    ("production_v05", "production/production-v0.5.0-policy.json"), ("restart", "verification/restart.json"))}}
 
     @app.post("/api/runs")
     def create(config: Scenario):

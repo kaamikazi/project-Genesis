@@ -10,7 +10,8 @@ from genesis.world import new_world
 
 KINDS = ["wait", "move", "gather", "consume", "transfer", "offer_trade", "accept_trade", "send_message", "inspect_artifact",
          "propose_artifact", "test_artifact", "use_artifact", "produce", "deposit", "withdraw",
-         "submit_artifact", "offer_teaching", "accept_teaching", "teach_step", "learn_step", "practice_step", "abandon_session"]
+         "submit_artifact", "offer_teaching", "accept_teaching", "teach_step", "learn_step", "practice_step", "abandon_session",
+         "withdraw_artifact"]
 
 
 def random_action(rng: random.Random, state, aid: str) -> Action:
@@ -30,7 +31,8 @@ def random_action(rng: random.Random, state, aid: str) -> Action:
                                                  "else": {"op": "mode", "value": 1}}, "parent": None},
         "deposit": lambda: {"settlement": rng.choice(["hearth", "haven"]), "resource": "ore", "amount": rng.randint(1, 3)},
         "withdraw": lambda: {"settlement": rng.choice(["hearth", "haven"]), "resource": rng.choice(["ore", "food"]), "amount": rng.randint(1, 3)},
-        "submit_artifact": lambda: {"artifact": rng.choice(arts)},
+        "submit_artifact": lambda: {"artifact": rng.choice(arts), **({"reference": rng.choice(arts + [None])} if rng.random() < 0.3 else {})},
+        "withdraw_artifact": lambda: {"artifact": rng.choice(arts)},
         "offer_teaching": lambda: {"learner": rng.choice(agents), "artifact": rng.choice(arts)},
         **{k: (lambda: {"session": rng.choice(list(state.get("sessions", {})) or ["none"])}) for k in ("accept_teaching", "teach_step", "learn_step", "practice_step", "abandon_session")},
     }.get(kind, lambda: {})()
@@ -70,6 +72,12 @@ def trajectory(strategy: str, config: Scenario, ticks: int, fuzz_seed: int | Non
               ore_per_site=900, max_ticks=500), None),
     (Scenario(seed=103, task="workshop-1", lifecycle="cohorts", cohort_ticks=25, cohort_count=3, cohort_overlap=10, teaching=True,
               teaching_policy="package", search_policy="beam", budget_unit="credits", search_budget=48, ore_per_site=900, max_ticks=500), 4),
+    # v0.5.1: allocation bundle, declared mentorship, admission panels, withdrawals and dependency-aware library copies
+    (Scenario(seed=310, task="workshop-1", lifecycle="cohorts", cohort_ticks=30, cohort_count=3, cohort_overlap=15, teaching=True,
+              teaching_policy="package-scheduled", search_policy="beam-alloc", budget_unit="credits", search_budget=48,
+              ore_per_site=900, max_ticks=500), None),
+    (Scenario(seed=311, task="workshop-1", lifecycle="cohorts", cohort_ticks=25, cohort_count=3, cohort_overlap=10, validation_policy="cohort-panels",
+              panel_queries=3, search_policy="beam", budget_unit="credits", search_budget=48, ore_per_site=900, max_ticks=500), 5),
 ])
 def test_scoped_copy_matches_full_copy_reference(config, fuzz):
     ticks = 70 if fuzz is None else 50

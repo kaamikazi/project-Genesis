@@ -18,7 +18,7 @@ from genesis.engine import advance
 from genesis.models import Scenario
 from genesis.world import new_world
 
-POLICIES = ("first-improvement", "beam", "beam-nocomponents")
+POLICIES = ("first-improvement", "beam", "beam-nocomponents", "beam-alloc")
 
 
 class Timed(OfflineController):

@@ -182,7 +182,7 @@ def test_demonstration_chain_crosses_a_generation_with_the_dependency(demo):
 
 def test_strict_policy_rejects_missing_prerequisites_and_package_policy_teaches_them():
     from tests.test_teaching import classroom
-    for policy in ("strict-prerequisites", "package"):
+    for policy in ("strict-prerequisites", "package", "package-scheduled"):
         state, teacher, learner, artifact = classroom()
         state["config"] = Scenario.model_validate({**state["config"], "teaching_policy": policy}).model_dump()
         comp = {"op": "component", "field": "heat", "expr": deepcopy(state["artifacts"][artifact]["content"]["program"]["heat"])}

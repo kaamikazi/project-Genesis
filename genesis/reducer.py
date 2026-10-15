@@ -6,8 +6,10 @@ Ratios with a zero denominator are reported as unavailable, never as zero.
 """
 from __future__ import annotations
 
-from collections import defaultdict
+from collections import Counter, defaultdict
 from typing import Any, Iterable
+
+from .metrics_dictionary import METRICS, METRICS_VERSION
 
 JSON = dict[str, Any]
 RESOURCES = ("food", "ore", "alloy")
@@ -17,7 +19,7 @@ ENERGY_CATEGORY = {
     "transfer": "exchange", "offer_trade": "exchange", "accept_trade": "exchange", "send_message": "exchange",
     "deposit": "storage", "withdraw": "storage", "consume": "eating", "wait": "none",
     "submit_artifact": "evaluation", "offer_teaching": "teaching", "teach_step": "teaching", "abandon_session": "teaching",
-    "accept_teaching": "instruction", "learn_step": "instruction", "practice_step": "practice",
+    "accept_teaching": "instruction", "learn_step": "instruction", "practice_step": "practice", "withdraw_artifact": "search",
 }
 PRODUCING = ("produce", "use_artifact", "practice_step")
 SESSION_TIME = ("teach_step", "learn_step", "practice_step")
@@ -408,7 +410,7 @@ def reduce_export(export: JSON, windows: list[Window] | None = None) -> JSON:
                          "cross_generation_sessions": sum(1 for x in session_rows if x["teacher_cohort"] != x["learner_cohort"]),
                          "cross_generation_acquisitions": sum(1 for x in session_rows if x["teacher_cohort"] != x["learner_cohort"] and x["outcome"] == "acquired")}
     return {
-        "reducer": "genesis.reducer/2", "origin_tick": origin, "last_tick": last, "removal_tick": removal_tick,
+        "reducer": "genesis.reducer/3", "metrics_version": METRICS_VERSION, "metrics": dictionary_metrics(export), "origin_tick": origin, "last_tick": last, "removal_tick": removal_tick,
         "units": {"energy": "integer energy points", "alloy": "units produced by produce/use_artifact events",
                   "window": "committed ticks t with start < t <= end"},
         "starting_inventory": "excluded from produced_alloy; produced_alloy counts only production events after origin_tick",
@@ -437,3 +439,132 @@ def post_removal_window(export: JSON) -> Window | None:
             last = export["ticks"][-1]["record"]["tick"]
             return Window(e["tick"], last, "post_removal")
     return None
+
+
+PRODUCTION_KINDS = ("produce", "use_artifact", "practice_step")
+ACTIVITY = {"produce": "production", "use_artifact": "production", "practice_step": "practice", "propose_artifact": "search",
+            "test_artifact": "search", "submit_artifact": "search", "withdraw_artifact": "search", "inspect_artifact": "learning",
+            "offer_teaching": "teaching", "accept_teaching": "teaching", "teach_step": "teaching", "learn_step": "teaching",
+            "abandon_session": "teaching", "move": "movement", "gather": "gathering", "deposit": "storage", "withdraw": "storage",
+            "consume": "eating", "transfer": "exchange", "offer_trade": "exchange", "accept_trade": "exchange", "send_message": "exchange",
+            "wait": "waiting"}
+
+
+def dictionary_metrics(export: JSON) -> JSON:
+    """The `genesis-metrics-1` counters (definitions in genesis/metrics_dictionary.py), from events and decisions only."""
+    m: Counter = Counter()
+    creator_cohort: dict[str, int] = {k: a.get("cohort", 0) for k, a in export["initial"].get("artifacts", {}).items()}
+    cohort_of = {aid: a.get("cohort", 0) for aid, a in export["initial"]["agents"].items()}
+    creator: dict[str, str] = {k: a["creator"] for k, a in export["initial"].get("artifacts", {}).items()}
+    info: dict[str, JSON] = {}
+    programs_by_agent: dict[str, set] = defaultdict(set)
+    world_programs: set = set()
+    own_behaviours: dict[str, set] = defaultdict(set)
+    own_scores: dict[str, set] = defaultdict(set)
+    world_behaviours: set = set()
+    tested: set = set()
+    proposed: set = set()
+    last_rejected: dict[str, tuple] = {}
+    activity: Counter = Counter()
+    rejected_by_class: Counter = Counter()
+    params_available = False
+    for entry in export["ticks"]:
+        record = entry["record"]
+        for e in record["events"]:
+            if e["type"] == "cohort_transition":
+                for x in e.get("successors", []):
+                    cohort_of[x["successor"]] = e["cohort"]
+            if e["type"] not in ("action_accepted", "action_rejected"):
+                continue
+            agent, kind = e["agent"], e["kind"]
+            if e["type"] == "action_rejected":
+                reason = e.get("reason", "")
+                if "params" in e:
+                    params_available = True
+                    key = (kind, repr(sorted(e["params"].items())))
+                    m["search.repeated_rejected_attempts"] += last_rejected.get(agent) == key
+                    last_rejected[agent] = key
+                if kind == "submit_artifact" and ("no longer current" in reason or "stale reference" in reason or "reference conflict" in reason):
+                    m["search.stale_reference_rejections"] += 1
+                if kind == "use_artifact" and "missing prerequisite" in reason:
+                    m["production.rejected_use_missing_prerequisite"] += 1
+                rejected_by_class[f"{kind}: {reason.split(':')[0][:48]}"] += 1
+                continue
+            last_rejected.pop(agent, None)
+            r = e["result"]
+            if kind == "propose_artifact" and "program_hash" in r:
+                m["search.proposals"] += 1
+                m["search.credit_actions"] += 1
+                aid = r["artifact"]
+                proposed.add(aid)
+                creator[aid], creator_cohort[aid] = agent, r.get("cohort", cohort_of.get(agent, 0))
+                info[aid] = {"parent": r.get("parent"), "parent_cohort": r.get("parent_cohort"), "ancestor_cohorts": r.get("ancestor_cohorts"), "kind": r.get("kind", "workflow")}
+                m["search.identical_program_proposals"] += r["program_hash"] in programs_by_agent[agent]
+                programs_by_agent[agent].add(r["program_hash"])
+                world_programs.add(r["program_hash"])
+            elif kind == "test_artifact" and r.get("role") == "development":
+                m["search.credit_actions"] += 1
+                tested.add(r["artifact"])
+                if "host" in r:
+                    m["search.component_tests"] += 1
+                elif creator.get(r["artifact"]) == agent:
+                    m["search.own_candidate_tests"] += 1
+                    b, score = r.get("behavior_hash"), r.get("dev_score")
+                    m["search.repeated_decisions_own"] += b in own_behaviours[agent]
+                    m["search.repeated_decisions_world"] += b in world_behaviours
+                    m["search.matching_outcome_different_decisions_own"] += b not in own_behaviours[agent] and score in own_scores[agent]
+                    own_behaviours[agent].add(b)
+                    own_scores[agent].add(score)
+                    world_behaviours.add(b)
+                else:
+                    m["search.held_retests"] += 1
+            elif kind == "submit_artifact":
+                m["search.credit_actions"] += 1
+                m["search.submissions"] += 1
+                aid = r["artifact"]
+                if r.get("admitted"):
+                    refactor = r.get("admission_path") == "refactor"
+                    m["admission.refactor_admissions" if refactor else "admission.improvement_admissions"] += 1
+                    own_cohort = creator_cohort.get(aid, cohort_of.get(agent, 0))
+                    meta = info.get(aid, {})
+                    if not refactor and meta.get("kind", "workflow") == "workflow":
+                        ref = r.get("reference")
+                        m["lineage.improvements_on_earlier_cohort_reference"] += bool(ref) and creator_cohort.get(ref, own_cohort) < own_cohort
+                        parent_cohort = meta.get("parent_cohort")
+                        if parent_cohort is None and meta.get("parent"):
+                            parent_cohort = creator_cohort.get(meta["parent"])
+                        m["lineage.improvements_on_earlier_cohort_parent"] += parent_cohort is not None and parent_cohort < own_cohort
+                        if meta.get("ancestor_cohorts") is not None:
+                            m["lineage.improvements_with_earlier_cohort_ancestry"] += any(c < own_cohort for c in meta["ancestor_cohorts"])
+            elif kind == "withdraw_artifact":
+                m["search.withdrawals"] += 1
+            if kind in PRODUCTION_KINDS:
+                m["production.actions"] += 1
+                m["production.alloy"] += r.get("alloy", 0)
+                m["production.busy_ticks"] += r.get("busy_ticks", 0)
+        for d in record["decisions"]:
+            diag = d.get("diagnostic") or {}
+            m["search.novelty_rejected_candidates"] += diag.get("novelty_rejected", 0) or 0
+            m["search.novelty_point_evaluations"] += diag.get("novelty_point_evaluations", 0) or 0
+            m["search.reserve_stops"] += diag.get("stop") == "reserve"
+            m["search.withdrawals_of_stale_candidates"] += diag.get("step") == "withdraw-stale"
+        active_now = sum(1 for d in record["decisions"] if d.get("observation_hash"))
+        m["population.peak_active"] = max(m["population.peak_active"], active_now)
+        accepted = {e["id"]: e["type"] == "action_accepted" for e in record["events"] if e.get("id")}
+        for d in record["decisions"]:
+            if d.get("observation_hash"):
+                kind = d["action"]["kind"]
+                ok = accepted.get(d["action"]["id"], False)
+                activity[(ACTIVITY.get(kind, kind) if ok else f"rejected {ACTIVITY.get(kind, kind)}")] += 1
+    m["search.untested_proposals"] = len(proposed - tested)
+    m["search.distinct_programs"] = len(world_programs)
+    out = {name: m.get(name, 0) for name in METRICS if not name.startswith(("knowledge.", "compare.", "time.", "production.alloy_per_action"))}
+    if not params_available:
+        out["search.repeated_rejected_attempts"] = None     # unavailable: records predate rejected-event params
+    out["population.base"] = export["initial"]["config"]["population"]
+    out["production.alloy_per_action"] = ratio(m["production.alloy"], m["production.actions"], "alloy per production action")
+    out["time.agent_ticks_by_activity"] = dict(sorted(activity.items()))
+    out["rejections_by_class"] = dict(rejected_by_class.most_common(20))
+    if info and not any(v.get("ancestor_cohorts") is not None for v in info.values()):
+        out["lineage.improvements_with_earlier_cohort_ancestry"] = None   # unavailable: records predate ancestor_cohorts (v0.5.1)
+    return out

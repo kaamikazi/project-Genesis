@@ -6,7 +6,7 @@ from typing import Any
 from .invention import PhaseEvaluator, conversion, execute, validate
 from .models import Action, AgentController, JSON, RESOURCES, canonical, digest
 from . import workshop as ws
-from .world import (ACTIVE_STAGES, NAMES, REACH, USABLE, LocalObservations, check_invariants, distance, humidity_at,
+from .world import (ACTIVE_STAGES, admission_reference_of, panel_index, NAMES, REACH, USABLE, LocalObservations, check_invariants, distance, humidity_at,
                     library_access, new_agent, phase_at)
 
 
@@ -44,10 +44,17 @@ PARAMS = {
     "deposit": {"settlement", "resource", "amount"}, "withdraw": {"settlement", "resource", "amount"},
     "submit_artifact": {"artifact"}, "offer_teaching": {"learner", "artifact"}, "accept_teaching": {"session"},
     "teach_step": {"session"}, "learn_step": {"session"}, "practice_step": {"session"}, "abandon_session": {"session"},
+    "withdraw_artifact": {"artifact"},
 }
 # Optional declared parameters: composition sources and the search operator label (proposals); the host workflow for
 # the in-host component protocol (tests and submissions).
-OPTIONAL_PARAMS = {"propose_artifact": {"sources", "operator"}, "test_artifact": {"host"}, "submit_artifact": {"host"}}
+OPTIONAL_PARAMS = {"propose_artifact": {"sources", "operator"}, "test_artifact": {"host"}, "submit_artifact": {"host", "reference"}}
+# v0.5.1 submission contract: a submission is judged against its candidate's nearest admitted ancestor (the
+# "reference", derived from the immutable parent chain). If that reference is no longer current the submission is
+# rejected with the conflict named; an optional `reference` parameter makes the expectation explicit (compare and
+# swap). A rejected submission spends no credit or energy. Recovery is bounded and observable: `withdraw_artifact`
+# (free) retires the stale candidate; a rebase is an ordinary, fully charged proposal against a current head.
+PENDING_STATUSES = ("proposed", "dev-tested")
 INSTRUCTION_WORK, PRACTICE_RUNS, OFFER_TICKS, STALL_TICKS = 3, 2, 6, 8
 TEACH_COST, LEARN_COST, SUBMIT_COST = 2, 1, 2
 
@@ -245,7 +252,26 @@ class Rules:
             elif kind == "inspect_artifact":
                 require(library_access(a, artifact, state["config"]) and aid not in a["known"], "artifact must be current, in your library and not already learned")
                 require(distance(a, state["settlements"][a["home"]]) <= REACH, "settlement library out of reach")
-                spend_energy(a, 2)
+                # v0.5.1 repair: a workflow is copied with the missing components of its dependency closure (each a
+                # separately charged library copy); if any dependency is not in this agent's library, nothing is copied.
+                deps = []
+                if artifact.get("task") == "workshop-1" and artifact.get("closure"):
+                    for dep in artifact["closure"]:
+                        if dep in a["known"]:
+                            continue
+                        comp = state["artifacts"].get(dep)
+                        require(comp is not None and library_access(a, comp, state["config"]),
+                                f"missing prerequisite component {dep[:8]} is not available in your library")
+                        deps.append(dep)
+                spend_energy(a, 2 * (1 + len(deps)))
+                for dep in deps:
+                    a["seen"].append(dep)
+                    a["known"].append(dep)
+                    state["artifacts"][dep]["transmissions"].append(
+                        {"from": state["artifacts"][dep]["creator"], "to": a["id"], "tick": state["tick"] + 1, "via": "settlement library (dependency)",
+                         "event": action.id, "root": aid, "operational_definition": "copied with its dependent workflow; competence requires measured use"})
+                if deps:
+                    result.update(dependencies_acquired=deps)
                 a["seen"].append(aid)
                 a["known"].append(aid)
                 path = {"from": artifact["creator"], "to": a["id"], "tick": state["tick"] + 1,
@@ -287,6 +313,14 @@ class Rules:
             artifact = state["artifacts"].get(p["artifact"])
             require(artifact is not None and artifact.get("task") == "workshop-1", "submission applies to workshop artifacts only")
             return self._workshop_artifact(state, a, artifact, action, result)
+        elif kind == "withdraw_artifact":
+            artifact = state["artifacts"].get(p["artifact"])
+            require(artifact is not None and artifact.get("task") == "workshop-1", "withdrawal applies to workshop artifacts only")
+            require(artifact["creator"] == a["id"], "only the creator can withdraw a candidate")
+            require(artifact["status"] in PENDING_STATUSES, "only a pending (proposed or development-tested) candidate can be withdrawn")
+            previous = artifact["status"]
+            artifact.update(status="withdrawn", withdrawn_tick=state["tick"] + 1)
+            result.update(artifact=artifact["id"], previous_status=previous, status="withdrawn", credits_charged=0, energy_charged=0)
         elif kind in ("offer_teaching", "accept_teaching", "teach_step", "learn_step", "practice_step", "abandon_session"):
             require(state["config"].get("teaching"), "teaching is not enabled in this scenario")
             self._teaching(state, a, action, result)
@@ -321,12 +355,19 @@ class Rules:
         content = {"program": program, "creator": a["id"], "parent": p["parent"], "sources": sorted(sources), "language": "workshop-1"}
         aid = digest(content)
         require(aid not in state["artifacts"], "duplicate immutable artifact")
+        ancestors, node = [], parent           # v0.5.1: creation-time attribution of the whole parent chain
+        while node is not None:
+            ancestors.append(node.get("cohort", 0))
+            node = state["artifacts"].get(node["parent"]) if node.get("parent") else None
+        ancestor_cohorts = sorted(set(ancestors))
+        source_cohorts = sorted({state["artifacts"][x].get("cohort", 0) for x in sources if x in state["artifacts"]})
         origin = ("component-extraction" if kind == "component" and parent is None else "component-revision" if kind == "component"
                   else "composition" if sources or ws.calls(program) else "search-revision" if parent else "search-original")
         state["artifacts"][aid] = {
             "id": aid, "content": deepcopy(content), "task": "workshop-1", "kind": kind, "creator": a["id"], "cohort": a.get("cohort", 0),
             "parent": p["parent"], "sources": sorted(sources), "generation": parent["generation"] + 1 if parent else 0,
             "origin": origin, "operator": operator, "dependencies": ws.calls(program), "closure": deps, "inlined": limits,
+            "ancestor_cohorts": ancestor_cohorts, "source_cohorts": source_cohorts,
             "superseded_by": None, "created_tick": state["tick"] + 1, "creation_event": action.id, "home": a["home"],
             "status": "proposed", "capabilities": ["converter"],
             "inputs": "local phase and humidity, own ore and energy", "assumptions": "workshop-1 rules; hidden world parameters unknown to the creator",
@@ -339,7 +380,8 @@ class Rules:
         result.update(artifact=aid, origin=origin, parent=p["parent"], sources=sorted(sources), operator=operator, dependencies=ws.calls(program),
                       program_hash=digest(program),
                       closure=deps, private_parent=bool(parent is not None and parent["status"] != "admitted"),
-                      generation=state["artifacts"][aid]["generation"], cohort=a.get("cohort", 0), kind=kind, epistemic_type="attempted_invention")
+                      generation=state["artifacts"][aid]["generation"], cohort=a.get("cohort", 0), kind=kind, epistemic_type="attempted_invention",
+                      ancestor_cohorts=ancestor_cohorts, source_cohorts=source_cohorts, parent_cohort=parent.get("cohort", 0) if parent else None)
         return result
 
     @staticmethod
@@ -350,19 +392,34 @@ class Rules:
             a["search_spent"] = a.get("search_spent", 0) + 1
 
     @staticmethod
-    def _is_refactor(program: JSON, reference: JSON, held: dict[str, JSON]) -> bool:
+    def _is_refactor(program: JSON, reference: JSON, held: dict[str, JSON], cases: list | None = None) -> bool:
+        cases = ws.VALIDATION_CASES if cases is None else cases
         changed = [f for f in ws.FIELDS if canonical(program[f]) != canonical(reference[f])]
         if not changed or not all(program[f]["op"] == "call" and program[f]["artifact"] in held for f in changed):
             return False
-        return ws.behavior_hash(program, ws.VALIDATION_CASES, held) == ws.behavior_hash(reference, ws.VALIDATION_CASES, held)
+        return ws.behavior_hash(program, cases, held) == ws.behavior_hash(reference, cases, held)
+
+    @staticmethod
+    def _admission_cases(state: JSON, a: JSON) -> tuple[list, str]:
+        """Cases for admission. Under cohort-panels each agent may query the active panel `panel_queries` times."""
+        if state["config"].get("validation_policy", "fixed") != "cohort-panels":
+            return ws.VALIDATION_CASES, "validation-24"
+        k = panel_index(state)
+        used = a.get("panel_queries", {}).get(str(k), 0)
+        require(used < state["config"]["panel_queries"], f"admission panel {k} query allowance exhausted ({used} used)")
+        return ws.panel_cases(k), f"panel-{k}"
+
+    @staticmethod
+    def _count_panel_query(state: JSON, a: JSON) -> None:
+        if state["config"].get("validation_policy", "fixed") == "cohort-panels":
+            k = str(panel_index(state))
+            a["panel_queries"] = {**a.get("panel_queries", {}), k: a.get("panel_queries", {}).get(k, 0) + 1}
 
     @staticmethod
     def admission_reference(state: JSON, artifact: JSON) -> JSON | None:
-        """Nearest ancestor that was admitted, skipping private stepping stones. None means the baseline rule applies."""
-        node = state["artifacts"].get(artifact["parent"]) if artifact["parent"] else None
-        while node is not None and node["status"] in ("dev-tested", "not-admitted", "proposed"):
-            node = state["artifacts"].get(node["parent"]) if node["parent"] else None
-        return node
+        """Nearest ancestor that was admitted, skipping private stepping stones. None means the baseline rule applies.
+        Shared with the observation builder so the controller sees exactly the reference the engine will use."""
+        return admission_reference_of(state, artifact)
 
     def _workshop_artifact(self, state: JSON, a: JSON, artifact: JSON, action: Action, result: JSON) -> JSON:
         kind, aid = action.kind, artifact["id"]
@@ -391,18 +448,26 @@ class Rules:
             require(own and artifact["status"] == "dev-tested", "only your own development-tested workflow can be submitted")
             require("host" not in action.params, "a host applies only to component submissions")
             parent = self.admission_reference(state, artifact)
-            require(parent is None or parent["status"] == "admitted", "the nearest admitted ancestor is no longer current")
+            require(parent is None or parent["status"] == "admitted",
+                    f"stale reference: nearest admitted ancestor {parent and parent['id'][:12]} is {parent and parent['status']}"
+                    f" (superseded by {parent and (parent.get('superseded_by') or '')[:12]}); withdraw or rebase the candidate")
+            if "reference" in action.params:
+                expected = action.params["reference"]
+                require(expected == (parent["id"] if parent else None),
+                        f"reference conflict: expected {str(expected)[:12]}, current {(parent['id'] if parent else None) and parent['id'][:12]}")
+            cases, partition_name = self._admission_cases(state, a)
             self._charge_search(state, a)
             spend_energy(a, SUBMIT_COST)
+            self._count_panel_query(state, a)
             held = held_components(state, a)
-            val = evaluator.validation(program, params, held, parent["content"]["program"] if parent else None, held)
-            if not val["admitted"] and parent is not None and self._is_refactor(program, parent["content"]["program"], held):
+            val = evaluator.validation(program, params, held, parent["content"]["program"] if parent else None, held, cases, partition_name)
+            if not val["admitted"] and parent is not None and self._is_refactor(program, parent["content"]["program"], held, cases):
                 # Declared separate path: a behaviour-preserving refactor (fields replaced by calls to admitted components,
                 # identical decisions on every validation case) may replace its parent. It claims no improvement.
                 val = {**val, "admitted": True, "criterion": "behaviour-preserving refactor: identical decisions on all validation cases; no improvement claimed",
                        "admission_path": "refactor"}
             artifact.update(status="admitted" if val["admitted"] else "not-admitted", validation=val)
-            state["metrics"]["evaluation_cases"] += 24 * (2 if parent else 1)
+            state["metrics"]["evaluation_cases"] += len(cases) * (2 if parent else 1)
             if val["admitted"]:
                 a["known"].append(aid)
                 if parent:
@@ -468,15 +533,18 @@ class Rules:
         host = state["artifacts"][comp["development"]["host"]]
         require(host["id"] in a["known"], "the component's host workflow is no longer held")
         parent = state["artifacts"].get(comp["parent"]) if comp["parent"] else None
-        require(parent is None or parent["status"] == "admitted", "the parent component is no longer current")
+        require(parent is None or parent["status"] == "admitted",
+                f"stale reference: parent component {parent and parent['id'][:12]} is {parent and parent['status']}; withdraw or rebase the candidate")
+        cases, partition_name = self._admission_cases(state, a)
         self._charge_search(state, a)
         spend_energy(a, SUBMIT_COST)
+        self._count_panel_query(state, a)
         host_program = host["content"]["program"]
         substituted = ws.substitute(host_program, cid, program)
         reference = ws.substitute(host_program, parent["id"], parent["content"]["program"]) if parent else host_program
         ref_held = {**held, parent["id"]: parent["content"]["program"]} if parent else held
-        own_score = ws.score_cases(substituted, params, ws.VALIDATION_CASES, with_comp)["score"]
-        ref_score = ws.score_cases(reference, params, ws.VALIDATION_CASES, ref_held)["score"]
+        own_score = ws.score_cases(substituted, params, cases, with_comp)["score"]
+        ref_score = ws.score_cases(reference, params, cases, ref_held)["score"]
         if own_score is None or ref_score is None:
             admitted, criterion = False, "no alloy on validation cases"
         elif parent is not None:
@@ -484,7 +552,7 @@ class Rules:
         else:
             admitted, criterion = own_score <= ref_score, "host with this component no worse than the host (extraction may be behaviour-preserving)"
         comp.update(status="admitted" if admitted else "not-admitted",
-                    validation={"role": "validation", "partition": "validation-24", "score": own_score, "parent_score": ref_score, "baseline_score": None,
+                    validation={"role": "validation", "partition": partition_name, "score": own_score, "parent_score": ref_score, "baseline_score": None,
                                 "admitted": admitted, "criterion": criterion, "host": host["id"], "feedback_policy": "the proposer learns only admitted/not admitted (one bit per submission)"})
         state["metrics"]["evaluation_cases"] += 48
         if admitted:
@@ -576,7 +644,7 @@ class Rules:
             require(other["status"] == "active" and session["artifact"] in other["known"], "teacher no longer able to teach this")
             require(distance(a, other) <= 1, "participants must be co-located (<=1 tile) to begin")
             session["accepted_tick"] = tick + 1
-            if session.get("policy") == "package":
+            if session.get("policy") in ("package", "package-scheduled"):
                 # Dependency-aware lesson: missing dependencies are taught inside the session, 3 work units each, separately accounted.
                 session["package"] = [c for c in session.get("closure", []) if c not in a["known"]]
                 session["already_known"] = [c for c in session.get("closure", []) if c in a["known"]]
@@ -755,7 +823,8 @@ def scoped_copy(state: JSON, action: Action) -> JSON:
     agent_ids = {action.agent, ref("target"), ref("learner"), offer["maker"] if offer else None,
                  session["teacher"] if session else None, session["learner"] if session else None}
     artifact = state["artifacts"].get(ref("artifact") or "")
-    artifact_ids = {ref("artifact"), ref("host"), session["artifact"] if session else None, *(session.get("closure", []) if session else [])}
+    artifact_ids = {ref("artifact"), ref("host"), session["artifact"] if session else None, *(session.get("closure", []) if session else []),
+                    *((state["artifacts"].get(ref("artifact") or "") or {}).get("closure") or [])}
     node = artifact
     while node is not None:                       # submissions may supersede an ancestor, not only the direct parent
         artifact_ids.add(node["parent"])
@@ -783,24 +852,46 @@ def selection_score(artifact: JSON) -> float | None:
 def freeze(state: JSON, cohort: int, reason: str) -> JSON:
     """Immutable selection record by artifact hash, made before any sealed evaluation exists."""
     config = state["config"]
+    panels = config.get("validation_policy", "fixed") == "cohort-panels" and config.get("task") == "workshop-1"
+    if panels:
+        # Historical admission scores on different panels are not comparable: re-score every candidate on the active
+        # panel (observer-side; no agent receives these numbers).
+        params, cases = ws.world_params(config["seed"]), ws.panel_cases(panel_index(state))
+        comps = {k: v["content"]["program"] for k, v in state["artifacts"].items() if v.get("kind") == "component"}
+        cache: dict[str, float | None] = {}
+
+        def score_of(x: JSON) -> float | None:
+            if selection_score(x) is None:
+                return None
+            if x["id"] not in cache:
+                cache[x["id"]] = ws.score_cases(x["content"]["program"], params, cases, comps)["score"]
+            return cache[x["id"]]
+    else:
+        score_of = selection_score
 
     def best(pool):
-        scored = [(selection_score(x), x["created_tick"], x["id"], x) for x in pool if selection_score(x) is not None]
+        scored = [(score_of(x), x["created_tick"], x["id"], x) for x in pool if score_of(x) is not None]
         if not scored:
             return None
         score, _, _, x = min(scored, key=lambda t: t[:3])
-        return {"artifact": x["id"], "selection_score": score, "creator": x["creator"], "cohort": x.get("cohort", 0), "closure": x.get("closure", []),
+        return {"artifact": x["id"], "selection_score": score, "creator": x["creator"], "cohort": x.get("cohort", 0), "closure": x.get("closure", []), "ancestor_cohorts": x.get("ancestor_cohorts", []), "created_tick": x["created_tick"],
                 "generation": x["generation"], "origin": x.get("origin"), "status_at_freeze": x["status"],
                 "dev_score": (x.get("development") or {}).get("score")}
     artifacts = [x for x in state["artifacts"].values() if x.get("kind") != "component"]
     created = [x for x in artifacts if x.get("cohort", 0) == cohort]
     accessible = [x for x in artifacts if x.get("cohort", 0) == cohort or (config.get("cross_cohort_access", True) and x.get("cohort", 0) < cohort)]
+    # v0.5.1 prospective attribution: what had been CREATED by cohorts <= this one when the boundary was reached,
+    # by creation event and creator cohort. Holdings (who adopted whose work) cannot redefine it.
+    created_upto = [x for x in artifacts if x.get("cohort", 0) <= cohort and x["created_tick"] <= state["tick"]]
+    inventory = sorted(x["id"] for x in created_upto if selection_score(x) is not None)
+    selection_cases = f"panel-{panel_index(state)}" if panels else "validation-24"
     held_ids = {k for a in state["agents"].values() if a.get("cohort", 0) == cohort for k in a["known"]}
     held = [x for x in artifacts if x["id"] in held_ids]
     record = {"tick": state["tick"], "cohort": cohort, "reason": reason,
               "rule": "lowest validation score among admitted or superseded workflows (legacy: lowest evaluation energy); ties by creation tick then id; no sealed input",
               "cohort_best": best(created), "accessible_best": best(accessible),
-              "held_best": best(held)}   # v0.5: what the cohort's members actually hold, however acquired (library, teaching, own work)
+              "held_best": best(held),   # v0.5: what the cohort's members actually hold, however acquired (library, teaching, own work)
+              "created_upto_best": best(created_upto), "created_inventory": inventory, "selection_cases": selection_cases}
     state["lifecycle"]["freezes"].append(record)
     return record
 
@@ -966,6 +1057,8 @@ def advance(state: JSON, controller: AgentController, overrides: dict[str, Actio
         event = {"id": action.id, "tick": state["tick"] + 1, "agent": action.agent,
                  "type": "action_accepted" if outcome["accepted"] else "action_rejected",
                  "kind": action.kind, **outcome}
+        if not outcome["accepted"]:
+            event["params"] = deepcopy(action.params)      # v0.5.1: rejected attempts are auditable (what was retried, against what)
         events.append(event)
         next_state["metrics"]["accepted" if outcome["accepted"] else "rejected"] += 1
         a = next_state["agents"][action.agent]

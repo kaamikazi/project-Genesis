@@ -140,7 +140,21 @@ def session_view(session: JSON, agent_id: str) -> JSON:
 
 ACTIVE_STAGES = ("offered", "instruction", "practice")
 # v0.5 declared settings shown to controllers only when they differ from the v0.4 defaults (so v0.4 observations are unchanged).
-V05_RULE_DEFAULTS = {"budget_unit": "proposals", "search_policy": "first-improvement", "teaching_policy": "strict-prerequisites"}
+V05_RULE_DEFAULTS = {"budget_unit": "proposals", "search_policy": "first-improvement", "teaching_policy": "strict-prerequisites",
+                     "validation_policy": "fixed"}
+
+
+def panel_index(state: JSON) -> int:
+    """The active admission panel under validation_policy cohort-panels: the current cohort's panel."""
+    return state["lifecycle"].get("cohort", 0)
+
+
+def admission_reference_of(state: JSON, artifact: JSON) -> JSON | None:
+    """Nearest ancestor that is not a private stepping stone (mirrors the engine's admission reference)."""
+    node = state["artifacts"].get(artifact["parent"]) if artifact.get("parent") else None
+    while node is not None and node["status"] in ("dev-tested", "not-admitted", "proposed", "withdrawn"):
+        node = state["artifacts"].get(node["parent"]) if node.get("parent") else None
+    return node
 
 
 class LocalObservations:
@@ -158,6 +172,7 @@ class LocalObservations:
                 accessible[aid] = {k: deepcopy(artifact.get(k)) for k in ("id", "creator", "status", "created_tick", "parent", "generation")}
                 if config.get("task") == "workshop-1":
                     accessible[aid]["kind"] = artifact.get("kind", "phase-program")
+                    accessible[aid]["closure"] = list(artifact.get("closure") or [])   # v0.5.1: dependency ids (metadata, not programs)
                 if own or aid in a["known"]:
                     accessible[aid]["program"] = deepcopy(artifact["content"]["program"])
                 if own and artifact.get("development"):
@@ -168,6 +183,11 @@ class LocalObservations:
                         accessible[aid]["behavior_equal_to_host"] = artifact["development"]["behavior_equal_to_host"]
                 if own and artifact.get("operator"):
                     accessible[aid]["operator"] = artifact["operator"]
+                if own and artifact.get("task") == "workshop-1" and artifact["status"] in ("proposed", "dev-tested"):
+                    # v0.5.1 submission contract: the candidate's current reference and whether it is still admitted.
+                    ref = admission_reference_of(state, artifact)
+                    accessible[aid]["reference"] = ref["id"] if ref else None
+                    accessible[aid]["reference_status"] = ref["status"] if ref else "baseline"
         home = state["settlements"][a["home"]]
         r = OBSERVATION_RADIUS
         terrain = state["terrain"]
@@ -190,4 +210,16 @@ class LocalObservations:
         if config.get("task") == "workshop-1" or config.get("teaching"):
             observation["humidity"] = humidity_at(state, a)
             observation["sessions"] = mine
+        if config.get("lifecycle") == "cohorts":
+            # v0.5.1: the declared public schedule (own cohort and scheduled retirement) and neighbours' cohort labels.
+            cohort = a.get("cohort", 0)
+            end = (cohort + 1) * config["cohort_ticks"]
+            observation["schedule"] = {"cohort": cohort, "retires_at": end if end < config["cohort_ticks"] * config["cohort_count"] else config["max_ticks"],
+                                       "cohort_ticks": config["cohort_ticks"], "overlap": config.get("cohort_overlap", 0)}
+            for n in observation["neighbors"]:
+                n["cohort"] = state["agents"][n["id"]].get("cohort", 0)
+        if config.get("validation_policy", "fixed") == "cohort-panels" and config.get("task") == "workshop-1":
+            used = a.get("panel_queries", {}).get(str(panel_index(state)), 0)
+            observation["admission"] = {"policy": "cohort-panels", "panel": panel_index(state), "queries_used": used,
+                                        "queries_allowed": config["panel_queries"]}
         return observation

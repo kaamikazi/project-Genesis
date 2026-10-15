@@ -34,7 +34,7 @@ export function SearchPanel({ world: w, diagnostics }: { world: World; diagnosti
     {attempts.length > 0 && <div className="table-scroll"><table><thead><tr><th>Tick</th><th>Agent</th><th>Step</th><th>Operator</th><th>Parent</th><th>Remaining</th><th>Detail</th></tr></thead>
       <tbody>{attempts.map((d, i) => <tr key={i}><td className="mono">t{d.tick}</td><td>{nameOf(w, d.agent)}</td><td>{words(String(d.step))}</td><td className="mono">{d.operator ?? '—'}</td>
         <td className="mono">{d.parent ?? d.artifact ?? '—'}</td><td>{d.budget_remaining ?? '—'}</td>
-        <td className="small-text">{d.restart ? 'restart by recombination · ' : ''}{d.dev !== undefined ? `dev ${f2(d.dev)} vs best ${f2(d.champion_dev)}` : ''}{d.component ? `component ${d.component}` : ''}</td></tr>)}</tbody></table></div>}
+        <td className="small-text">{d.guard ? `guard: ${d.guard} · ` : ''}{d.reference_status ? `reference ${d.reference_status} · ` : ''}{d.novelty_rejected ? `novelty skipped ${d.novelty_rejected} (${d.novelty_point_evaluations} point evaluations) · ` : ''}{d.stop === 'reserve' ? `reserve: ${d.budget_remaining} credits, ${d.ticks_left} ticks left · ` : ''}{d.restart ? 'restart by recombination · ' : ''}{d.dev !== undefined ? `dev ${f2(d.dev)} vs best ${f2(d.champion_dev)}` : ''}{d.component ? `component ${d.component}` : ''}</td></tr>)}</tbody></table></div>}
     <p className="small-text padded-x">Diagnostics are written by the controller with each decision and stored in tick records, not in world state. Development scores are the agent's own permitted feedback; validation returns one admitted/not-admitted bit.</p>
   </section>;
 }
@@ -155,5 +155,37 @@ export function Milestone5Reports({ m5 }: { m5: Any | null }) {
       {m5.search_cpu && <div className="table-scroll"><table><thead><tr><th>Policy</th><th>Mean ms per decision</th><th>Mean ms per proposal decision</th><th>p95 ms per proposal decision</th><th>Seconds per 180-tick run</th></tr></thead>
         <tbody>{Object.entries(m5.search_cpu.policies as Record<string, Any>).map(([k, v]) => <tr key={k}><td>{k}</td><td>{v.mean_ms_per_decision}</td><td>{v.mean_ms_per_proposal_decision ?? '—'}</td><td>{v.p95_ms_per_proposal_decision ?? '—'}</td><td>{v.mean_run_seconds_180_ticks}</td></tr>)}</tbody></table></div>}
       {m5.restart && <ul className="small-text">{(m5.restart.checks as Any[]).map((c, i) => <li key={i} className={c.passed ? 'positive' : 'negative'}>{c.passed ? '✓' : '×'} {c.check}</li>)}</ul>}</section>}
+  </>;
+}
+
+function PairTable({ rows }: { rows: Any[] }) {
+  return <div className="table-scroll"><table><thead><tr><th>A vs B</th><th>Metric (lower is better)</th><th>Expected</th><th>Eligible</th><th>A lower</th><th>B lower</th><th>Ties</th><th>Mean A / B (eligible)</th><th>Missing</th><th>Verdict</th></tr></thead>
+    <tbody>{rows.map((c, i) => <tr key={i}><td>{c.a} vs {c.b}</td><td>{words(c.metric)}</td><td>{c.expected_worlds}</td><td>{c.eligible_pairs}</td><td>{c.a_lower}</td><td>{c.b_lower}</td><td>{c.ties}</td>
+      <td>{f2(c.mean_a_over_eligible)} / {f2(c.mean_b_over_eligible)}</td><td className="small-text">{(c.missing as Any[]).map(m => `${m.seed}: ${m.reason}`).join('; ') || '—'}</td>
+      <td className={c.verdict.startsWith('no ') || c.verdict.startsWith('insufficient') ? '' : 'positive'}>{c.verdict}</td></tr>)}</tbody></table></div>;
+}
+
+export function Milestone5bReports({ m5b }: { m5b: Any | null }) {
+  if (!m5b?.summary && !m5b?.bugfix) return <div className="panel empty"><h2>v0.5.1 (M5b) evidence not generated</h2><code>python tools/generate_evidence_m5b.py</code></div>;
+  const s = m5b.summary ?? {};
+  const totals = (name: string, keys: string[]) => s[name] && <div className="table-scroll"><table><thead><tr><th>Condition</th>{keys.map(k => <th key={k}>{words(k)}</th>)}</tr></thead>
+    <tbody>{Object.entries(s[name].totals as Record<string, Any>).map(([c, t]) => <tr key={c}><td>{c}</td>{keys.map(k => <td key={k}>{t[k] ?? '—'}</td>)}</tr>)}</tbody></table></div>;
+  return <>
+    {m5b.bugfix && <section className="panel table-panel"><div className="panel-header"><div><span className="eyebrow">DEFECT REPAIRS · MINIMAL REPRODUCTIONS · v0.5.0 vs v0.5.1</span><h2>What the repairs change</h2></div></div>
+      <div className="table-scroll"><table><thead><tr><th>Scenario</th><th>Rejected actions in 10 ticks, v0.5.0</th><th>After repair</th></tr></thead>
+        <tbody>{Object.entries(m5b.bugfix.summary as Record<string, Any>).map(([k, v]) => <tr key={k}><td>{words(k)}</td><td>{v.rejected_before}</td><td>{v.rejected_after}</td></tr>)}</tbody></table></div>
+      <p className="small-text padded-x">The original v0.5.0 results stay as published, run with these defects. Repaired reruns are labelled separately and are retrospective.</p></section>}
+    {s.allocation && <section className="panel table-panel"><div className="panel-header"><div><span className="eyebrow">ALLOCATION EXPERIMENT · PROSPECTIVE · SEALED-3 AFTER CLOSE</span>
+      <h2>Does the allocation bundle help the repaired beam under the same budget?</h2></div><span className="pill gold">BUNDLE EFFECT, NOT PER-GUARD</span></div>
+      <PairTable rows={s.allocation.comparisons}/>
+      {totals('allocation', ['worlds_completed', 'search.credit_actions', 'search.repeated_decisions_own', 'search.novelty_rejected_candidates', 'search.untested_proposals', 'search.reserve_stops', 'admission.improvement_admissions', 'further_improved_validation', 'further_improved_sealed', 'further_compared', 'production.alloy'])}</section>}
+    {s.mentorship && <section className="panel table-panel"><div className="panel-header"><div><span className="eyebrow">MENTORSHIP EXPERIMENT · PROSPECTIVE · SAME SCHEDULE IN EVERY CONDITION</span>
+      <h2>Did dependency lessons get a fair chance to finish?</h2></div></div>
+      <PairTable rows={s.mentorship.comparisons}/>
+      {totals('mentorship', ['worlds_completed', 'eligible_transitions', 'cross_generation_lessons', 'cross_generation_acquired', 'cross_generation_failed', 'cross_generation_interrupted', 'dependency_lessons', 'dependency_lessons_acquired', 'dependencies_acquired', 'independent_post_retirement_executions_of_taught_dependency_workflows', 'further_improved_sealed'])}
+      <p className="small-text padded-x">Eligible transition: a senior cohort created an admitted component-calling workflow before its boundary. Zero eligible transitions is not a teaching failure.</p></section>}
+    {m5b.speed && <section className="panel table-panel"><div className="panel-header"><div><span className="eyebrow">SERVER CLOCK · TARGET 10 TICKS/S · DURABILITY UNCHANGED</span><h2>Achieved speed at base and peak population</h2></div></div>
+      <div className="table-scroll"><table><thead><tr><th>Base population</th><th>Overlap</th><th>Active agents</th><th>Achieved ticks/s</th><th>Step ms</th><th>Max lag s</th></tr></thead>
+        <tbody>{(m5b.speed.cases as Any[]).map((c, i) => <tr key={i}><td>{c.base_population}</td><td>{c.overlap}</td><td>{(c.active_agents_seen as number[]).join(', ')}</td><td>{c.achieved_ticks_per_second_median ?? '—'}</td><td>{c.last_step_ms_median ?? '—'}</td><td>{c.max_lag_seconds ?? '—'}</td></tr>)}</tbody></table></div></section>}
   </>;
 }

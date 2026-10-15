@@ -48,7 +48,9 @@ export interface World {
 export interface Settlement { id: string; name: string; x: number; y: number; inventory: Inventory; capacity?: number | null; access?: string; flows?: Record<'deposit' | 'withdraw' | 'retirement', Inventory> }
 export interface Succession { predecessor: string; successor: string; name: string; home: string; role: string; policy: 'library' | 'none' | 'direct'; package: string[] }
 export interface RemovalRecord { tick: number; policy: Removal; verified_creators: string[]; removed: string[]; note: string; inventory_moved: { agent: string; to: string; inventory: Inventory }[]; successors?: Succession[]; succession?: string }
-export interface Status { run_id: string; running: boolean; speed: number; error: string | null; engine?: string }
+export interface Status { run_id: string; running: boolean; speed: number; error: string | null; engine?: string;
+  target_ticks_per_second?: number; achieved_ticks_per_second?: number | null; last_step_ms?: number | null; lag_seconds?: number;
+  base_population?: number | null; active_agents?: number | null; peak_active_agents_this_session?: number }
 export interface Run { id: string; tick: number; compatible: boolean; manifest: { config: Scenario; controller_mode: string; origin_tick: number; engine_version: string; parent: { run_id: string; tick: number; label?: string; intervention?: Record<string, unknown> } | null } }
 export interface Payload { state: World; hash: string; metrics: Metrics; status: Status; events: WorldEvent[]; checkpoints: { tick: number; state_hash: string; label: string }[]; telemetry: { avg_ms: number | null; database_bytes: number; bytes: number | null } }
 export interface Ratio { value: number | null; status: string; numerator: number; denominator: number; unit: string }

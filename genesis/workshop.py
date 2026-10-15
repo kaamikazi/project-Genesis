@@ -11,7 +11,7 @@ from typing import Any
 from .models import JSON, canonical, digest, keyed
 
 TASK = "workshop-1"
-EVALUATOR_VERSION = "workshop-evaluator-2"   # adds behaviour hashes and the in-host component protocol
+EVALUATOR_VERSION = "workshop-evaluator-3"   # adds behaviour hashes and the in-host component protocol
 FIELDS = {"batch": (1, 4), "heat": (0, 3), "mode": (0, 1), "flux": (0, 1)}
 MEASURES = {"phase": (0, 11), "humidity": (0, 7), "ore": (0, 100), "energy": (0, 40)}
 SPLIT_THRESHOLDS = {"phase": (4, 6, 8), "humidity": (2, 4, 6), "ore": (4, 6, 8), "energy": (12, 20, 28)}
@@ -219,6 +219,23 @@ def partition(name: str, size: int, exclude: set | None = None, seed: int = PART
 
 DEV_CASES = partition("dev", 24)
 VALIDATION_CASES = partition("validation", 24, set(DEV_CASES))
+PANEL_COUNT = 10
+
+
+def panel_cases(k: int) -> list[tuple[int, int, int, int]]:
+    """Precommitted admission panel for cohort k (validation_policy cohort-panels): 24 cases disjoint from development,
+    validation and every other panel. Committed in code before any run; agents never observe case lists."""
+    taken = set(DEV_CASES) | set(VALIDATION_CASES)
+    for j in range(PANEL_COUNT):
+        cases = partition(f"panel-{j}", 24, taken)
+        if j == k:
+            return cases
+        taken |= set(cases)
+    raise ValueError(f"no panel {k} (only {PANEL_COUNT} panels are committed)")
+
+
+def all_panel_cases() -> set:
+    return {c for k in range(PANEL_COUNT) for c in panel_cases(k)}
 
 
 def score_cases(program: JSON, params: JSON, cases: list, held: dict[str, JSON]) -> JSON:
@@ -246,17 +263,20 @@ class WorkshopEvaluator:
                 "baseline_score": base["score"], "cases": own["cases"], "objective": OBJECTIVE,
                 "behavior_hash": behavior_hash(program, DEV_CASES, held)}
 
-    def validation(self, program: JSON, params: JSON, held: dict[str, JSON], parent: JSON | None, parent_held: dict[str, JSON]) -> JSON:
-        own = score_cases(program, params, VALIDATION_CASES, held)
-        base = score_cases(BASELINE, params, VALIDATION_CASES, {})
-        reference = score_cases(parent, params, VALIDATION_CASES, parent_held)["score"] if parent else None
+    def validation(self, program: JSON, params: JSON, held: dict[str, JSON], parent: JSON | None, parent_held: dict[str, JSON],
+                   cases: list | None = None, partition_name: str = "validation-24") -> JSON:
+        """Admission. Child, baseline and reference are all scored on the SAME current cases (never on stored scores)."""
+        cases = VALIDATION_CASES if cases is None else cases
+        own = score_cases(program, params, cases, held)
+        base = score_cases(BASELINE, params, cases, {})
+        reference = score_cases(parent, params, cases, parent_held)["score"] if parent else None
         if own["score"] is None:
             admitted, criterion = False, "no alloy on validation cases"
         elif parent is not None:
             admitted, criterion = reference is not None and own["score"] < reference, "validation score strictly below parent's on the same 24 cases"
         else:
             admitted, criterion = base["score"] is not None and own["score"] < 0.95 * base["score"], "validation score at least 5% below baseline"
-        return {"role": "validation", "version": self.version, "partition": "validation-24", "score": own["score"],
+        return {"role": "validation", "version": self.version, "partition": partition_name, "score": own["score"],
                 "baseline_score": base["score"], "parent_score": reference, "admitted": admitted, "criterion": criterion,
                 "feedback_policy": "the proposer learns only admitted/not admitted (one bit per submission)"}
 
@@ -355,3 +375,61 @@ def component_operators(host: JSON, held_components: dict[str, JSON]) -> list[tu
                     continue
                 out.append(("mutate-component", candidate, {"kind": "component", "parent": cid}))
     return out
+
+
+
+def _thresholds(node: JSON, held: dict[str, JSON], out: dict[str, set], stack: tuple = ()) -> None:
+    if node["op"] == "if_lt":
+        out.setdefault(node["measure"], set()).add(node["threshold"])
+        _thresholds(node["then"], held, out, stack)
+        _thresholds(node["else"], held, out, stack)
+    elif node["op"] == "call" and node["artifact"] in held and node["artifact"] not in stack:
+        _thresholds(held[node["artifact"]]["expr"], held, out, stack + (node["artifact"],))
+
+
+def _field_value(node: JSON, measures: dict[str, int], held: dict[str, JSON], stack: tuple = ()) -> int:
+    if node["op"] == "const":
+        return node["value"]
+    if node["op"] == "if_lt":
+        return _field_value(node["then"] if measures[node["measure"]] < node["threshold"] else node["else"], measures, held, stack)
+    if node["artifact"] in stack or node["artifact"] not in held:
+        raise InvalidWorkflow("unresolvable call in equivalence check")
+    return _field_value(held[node["artifact"]]["expr"], measures, held, stack + (node["artifact"],))
+
+
+def field_equivalent(a: JSON, b: JSON, held: dict[str, JSON]) -> tuple[bool, int]:
+    """Exact equivalence of two field expressions over EVERY integer input. Expressions compare measures only through
+    `measure < threshold`, so each expression is constant on the cells cut by the union of both expressions'
+    thresholds; one point per cell (min threshold - 1, then each threshold) decides equality. Returns (equal,
+    point_evaluations) so callers can account the work. Uses no task cases, outcomes or hidden parameters."""
+    if canonical(a) == canonical(b):
+        return True, 0
+    cuts: dict[str, set] = {}
+    _thresholds(a, held, cuts)
+    _thresholds(b, held, cuts)
+    names = sorted(cuts)
+    axes = [[min(cuts[m]) - 1] + sorted(cuts[m]) for m in names]
+    points = [{}]
+    for name, values in zip(names, axes):
+        points = [{**pt, name: v} for pt in points for v in values]
+    work = 0
+    for pt in points:
+        work += 2
+        if _field_value(a, pt, held) != _field_value(b, pt, held):
+            return False, work
+    return True, work
+
+
+def decision_equivalent(a: JSON, b: JSON, held: dict[str, JSON]) -> bool:
+    """True when two workflows make the same decision for every possible input (exact, not sampled)."""
+    return decision_equivalence(a, b, held)[0]
+
+
+def decision_equivalence(a: JSON, b: JSON, held: dict[str, JSON]) -> tuple[bool, int]:
+    work = 0
+    for field in FIELDS:
+        same, w = field_equivalent(a[field], b[field], held)
+        work += w
+        if not same:
+            return False, work
+    return True, work

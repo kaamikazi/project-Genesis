@@ -56,10 +56,14 @@ class Scenario(BaseModel):
     cohort_count: int = Field(default=3, ge=1, le=20)
     cross_cohort_access: bool = True
     # v0.5: search policy, shared search credits, dependency-aware lessons, mentorship overlap. Defaults reproduce v0.4.
-    search_policy: Literal["first-improvement", "beam", "beam-nocomponents"] = "first-improvement"
+    search_policy: Literal["first-improvement", "beam", "beam-nocomponents", "beam-alloc"] = "first-improvement"
     budget_unit: Literal["proposals", "credits"] = "proposals"
-    teaching_policy: Literal["strict-prerequisites", "package"] = "strict-prerequisites"
+    teaching_policy: Literal["strict-prerequisites", "package", "package-scheduled"] = "strict-prerequisites"
     cohort_overlap: int = Field(default=0, ge=0, le=1000)
+    # v0.5.1: admission cases. "fixed" = the shared validation-24 partition (v0.4/v0.5 behaviour); "cohort-panels" =
+    # a precommitted 24-case panel per cohort, each agent limited to `panel_queries` submissions per panel.
+    validation_policy: Literal["fixed", "cohort-panels"] = "fixed"
+    panel_queries: int = Field(default=12, ge=1, le=1000)
 
 
 class Action(BaseModel):
@@ -69,7 +73,8 @@ class Action(BaseModel):
     tick: int = Field(ge=0)
     version: Literal[1] = 1
     kind: Literal["wait", "move", "gather", "consume", "transfer", "offer_trade", "accept_trade", "send_message", "inspect_artifact", "propose_artifact", "test_artifact", "use_artifact", "produce", "deposit", "withdraw",
-                  "submit_artifact", "offer_teaching", "accept_teaching", "teach_step", "learn_step", "practice_step", "abandon_session"]
+                  "submit_artifact", "offer_teaching", "accept_teaching", "teach_step", "learn_step", "practice_step", "abandon_session",
+                  "withdraw_artifact"]
     params: JSON = Field(default_factory=dict)
 
 
