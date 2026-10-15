@@ -86,6 +86,17 @@ The agent's own `dev_notes` hold the results of its own development tests.
 
 A fixed schedule defines only cohort transitions. Acquisition and improvement are decided by the engine and evaluators, never by the schedule.
 
+## v0.5 offline policies (developer-supplied)
+
+| Role | Change |
+|---|---|
+| **Researcher, `first-improvement`** | Unchanged from v0.4. It now records a diagnostic for each decision and labels each proposal's operator. Under credits it stops when fewer than 2 credits remain. |
+| **Researcher, `beam`** | See [INVENTION_PROTOCOL](INVENTION_PROTOCOL.md#the-beam-policy). It first tries to refactor its champion to call a held component, tests components inside its champion, and inspects library components it does not hold. |
+| **Learner** (`teaching_policy: package`) | Rotates lesson requests over its neighbours by tick, rather than always asking the first. |
+| **Teacher** | Unchanged. It offers its newest held workflow. Under `package` the engine computes the closure and teaches missing dependencies inside the session. |
+
+Observations gain, for the agent's *own* artifacts only: the development host, the host's development score, behaviour equality with the host, and the operator. Validation scores, sealed cases, hidden parameters and seeds remain absent (tested).
+
 ## Memory
 
 Memory is a bounded window of the agent's own action results (16 stored, 8 retrieved). Test results carry only aggregate feedback; full evaluations stay on the artifact record. The authoritative history is the event log.

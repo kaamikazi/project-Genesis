@@ -140,4 +140,33 @@ The declared neighbourhood is:
 - threshold ±1
 - splitting a leaf on `phase`, `humidity`, `ore` or `energy` at fixed thresholds
 
-Components (`component{field, expr}`) and `call` are enforced prerequisites: execution, teaching acceptance and proposals all require holding the called component. The offline researcher composes by recombining fields and does not create components. Calls are exercised in tests.
+Components (`component{field, expr}`) and `call` are enforced prerequisites: execution, teaching acceptance and proposals all require holding the called component. Under v0.4 rules the offline researcher composed by recombining fields and did not create components. v0.5 activates them (below).
+
+## v0.5: credits, beam search and live components (`workshop-evaluator-2` · `workshop-sealed-2`)
+
+### Search credits and diagnostics
+
+With `budget_unit: credits`, every proposal, development test (including a component test) and submission spends 1 credit from a single per-lifetime pool of 48. A rejected action spends nothing. Every decision of the offline researcher records a diagnostic: the step, operator, parent, remaining budget and, when it does not search, the stop reason (`budget-exhausted`, `energy` or `no-candidate`). The reducer turns these into stop-reason counts and per-operator admission rates.
+
+### Private stepping stones
+
+A proposal may name one of the agent's own development-tested workflows as its parent. Admission compares against the **nearest admitted ancestor** (skipping private stepping stones), or the baseline rule when there is none. Others never see private candidates.
+
+### The beam policy
+
+The frontier holds the agent's best 4 own development-tested workflows and held admitted workflows; the baseline appears only when nothing else exists. The policy rotates over frontier members, expands neighbours not yet tried, orders operators by the agent's own success rates once it has 6 trials, and restarts by recombination after 4 consecutive non-improving tests. It submits when the development score beats the best held admitted workflow by 3%, and it submits behaviour-preserving refactors (below). It uses only permitted information: its own development results, its private history, held artifacts and held components. `beam-nocomponents` is the same policy without component operators.
+
+### Components
+
+| Operation | Rule |
+|---|---|
+| **Extract** (`extract:<field>`) | A component equal to a non-constant field of a held admitted workflow. This is refactoring, not discovery. |
+| **Test** | Inside a host: a held admitted workflow with the component's field replaced by a call. The development result records the host's score with and without the component, and whether behaviour is identical on every development case. |
+| **Admit (no parent)** | Admitted if the host with the component scores no worse than the host on validation. |
+| **Revise** (`mutate-component`) | A neighbouring expression with the old component as parent. Admitted only if the host with it is strictly better than the host with the parent. It supersedes the parent, but workflows that call the parent keep calling the parent's hash. |
+| **Call** (`call:<field>`) | A workflow whose field is replaced by a call to a held admitted component. If its decisions are identical to its admitted parent on every validation case, it may pass the declared **refactor admission path** (`admission_path: refactor`, no improvement claimed). Otherwise strict improvement applies. |
+| **Closures** | Proposals, execution, teaching and freezes resolve the transitive closure by hash. The inlined closure must respect the global limits (48 nodes, depth 6, 64 shared steps), and interfaces must match. Missing dependencies and cycles are rejected. |
+
+### Final evaluation
+
+`workshop-sealed-2` is a new protected manifest (OS-drawn seed) whose 48 cases exclude development, validation and every `workshop-sealed-1` case. The exclusion is verified against sealed-1's commitment. Its commitment was written into the frozen protocol before any evaluation run. Sealed scoring verifies every frozen artifact and its closure by hash.

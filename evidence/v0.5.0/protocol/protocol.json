@@ -1,0 +1,115 @@
+{
+  "milestone": "v0.5.0",
+  "frozen_at": "2026-10-14T19:39:53.874399+00:00",
+  "source": {
+    "git_commit": "3f7b0eb27533065a01b4bca3956e323a7d886eff",
+    "runtime_code_dirty": true,
+    "dirty_files": [
+      "M frontend/src/main.tsx",
+      " M genesis/api.py",
+      " M genesis/storage.py",
+      "?? frontend/src/Milestone5.tsx"
+    ],
+    "source_sha256": "4d636a29b1f0835f0a88b5fde1beee03b336278a0744e4c62cb4a20c9281b70f",
+    "files": 31
+  },
+  "versions": {
+    "engine": "0.5.0",
+    "rules": "phase-world-5",
+    "evaluator": "phase-evaluator-3+workshop-evaluator-2",
+    "sealed": "workshop-sealed-2"
+  },
+  "calibration_seeds": [
+    300,
+    301,
+    302
+  ],
+  "evaluation_seeds": [
+    201,
+    202,
+    203,
+    204,
+    205
+  ],
+  "settings": {
+    "population": 8,
+    "cohort_ticks": 60,
+    "cohort_count": 3,
+    "cohort_overlap": 30,
+    "policy_overlap": 0,
+    "ore_per_site": 900,
+    "search_budget": 48
+  },
+  "partitions": {
+    "development": 24,
+    "validation": 24,
+    "sealed": 48,
+    "sealed_disjoint_from": [
+      "dev-24",
+      "validation-24",
+      "workshop-sealed-1"
+    ]
+  },
+  "sealed_commitment": "537dbdddbadca7aa284da969377af14b8c720a3582fca2968b36f5d5b7d50c44",
+  "selection_rule": "freeze: lowest validation score among admitted or superseded workflows (components excluded); ties by creation tick then id; cohort_best (created by the cohort), accessible_best (created by the cohort or visible earlier cohorts), held_best (held by the cohort's members)",
+  "experiments": {
+    "P": {
+      "conditions": {
+        "first-improvement/preserved": {
+          "search_policy": "first-improvement",
+          "cross_cohort_access": true
+        },
+        "first-improvement/reset": {
+          "search_policy": "first-improvement",
+          "cross_cohort_access": false
+        },
+        "beam/preserved": {
+          "search_policy": "beam",
+          "cross_cohort_access": true
+        },
+        "beam/reset": {
+          "search_policy": "beam",
+          "cross_cohort_access": false
+        },
+        "beam-nocomponents/preserved": {
+          "search_policy": "beam-nocomponents",
+          "cross_cohort_access": true
+        }
+      },
+      "primary": "final-freeze held_best: validation score and sealed-2 score, beam vs first-improvement, paired by seed within each access condition",
+      "secondary": [
+        "stop reasons",
+        "proposals/admissions",
+        "components admitted",
+        "calling-workflow admissions",
+        "beam vs beam-nocomponents (language capability, preserved access)"
+      ],
+      "claim_rule": "a direction is reported as consistent only if it holds in at least 4 of 5 paired seeds; otherwise 'no consistent difference'. No significance test is claimed with 5 seeds."
+    },
+    "T": {
+      "conditions": {
+        "library": {
+          "cross_cohort_access": true,
+          "teaching": false
+        },
+        "teaching-only": {
+          "cross_cohort_access": false,
+          "teaching": true
+        },
+        "none": {
+          "cross_cohort_access": false,
+          "teaching": false
+        }
+      },
+      "primary": [
+        "cross-generation acquisitions by teaching",
+        "dependencies taught and acquired",
+        "final-freeze held_best sealed-2 score by condition"
+      ],
+      "further_improvement": "cohort k's own best admitted workflow strictly better (validation) than the best workflow cohort k-1's members held at their freeze",
+      "claim_rule": "same 4-of-5 rule; teaching-only vs none is the teaching contrast, library vs none the library contrast"
+    },
+    "direct_transfer_diagnostic": "not run in this milestone (optional in the specification)"
+  },
+  "no_tuning_after_freeze": "settings, policies and seeds above are fixed; sealed scores are computed only after every run is closed"
+}

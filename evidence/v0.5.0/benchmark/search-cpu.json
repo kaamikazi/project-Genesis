@@ -1,0 +1,35 @@
+{
+  "platform": "Windows-10-10.0.26300-SP0",
+  "python": "3.10.11",
+  "seeds": [
+    300,
+    301
+  ],
+  "policies": {
+    "first-improvement": {
+      "decisions": 2880,
+      "proposals": 246,
+      "mean_ms_per_decision": 1.5131,
+      "mean_ms_per_proposal_decision": 17.5264,
+      "p95_ms_per_proposal_decision": 28.0878,
+      "mean_run_seconds_180_ticks": 8.74
+    },
+    "beam": {
+      "decisions": 2880,
+      "proposals": 250,
+      "mean_ms_per_decision": 1.4502,
+      "mean_ms_per_proposal_decision": 16.4858,
+      "p95_ms_per_proposal_decision": 36.6919,
+      "mean_run_seconds_180_ticks": 8.72
+    },
+    "beam-nocomponents": {
+      "decisions": 2880,
+      "proposals": 249,
+      "mean_ms_per_decision": 1.5001,
+      "mean_ms_per_proposal_decision": 17.1419,
+      "p95_ms_per_proposal_decision": 35.3496,
+      "mean_run_seconds_180_ticks": 8.79
+    }
+  },
+  "note": "controller wall time around propose(); proposal decisions are those whose chosen action was propose_artifact"
+}

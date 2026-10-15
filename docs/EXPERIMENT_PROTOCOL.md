@@ -155,3 +155,37 @@ Settings frozen from calibration: cohorts of 60 ticks × 3, 900 ore per site, 16
   - The sealed score of frozen artifacts, by cohort, is the independent check.
 - **Performance levels** (validation cost per alloy, fixed in advance): 11.0, 9.0, 7.5, 6.5. The report gives the first tick each level is reached.
 - **Replication unit:** one world. Five seeds is exploratory, not a sample size.
+
+# Milestone 5 protocols (v0.5.0)
+
+Frozen in `evidence/v0.5.0/protocol/protocol.json` before any evaluation run, together with the sealed-2 commitment and the source fingerprint.
+
+## Calibration and evaluation split
+
+- **Calibration** used seeds 300–302 only. Every iteration, including those that did not help, is in `evidence/v0.5.0/calibration/CALIBRATION_LOG.md`.
+- **Evaluation** used seeds 201–205: new worlds with their own hidden parameters, never run before.
+- **Settings:** 8 agents, 3 cohorts × 60 ticks, ore 900 per site, 48 search credits per researcher lifetime. Overlap is 0 in P and 30 in T.
+- **Final scores:** sealed-2 scores are computed only after every run is closed, for artifacts frozen by validation.
+
+## Experiment P: `search-policy-1`
+
+- **Conditions:** `first-improvement/preserved`, `first-improvement/reset`, `beam/preserved`, `beam/reset`, and separately `beam-nocomponents/preserved` (the language-capability comparison). Teaching is off.
+- **Parity:** physical parity is checked on the initial state, since policies differ from the first decision. Access parity (preserved vs reset, same policy) is checked at the first boundary.
+- **Primary measure:** the final freeze's `held_best`, by validation and by sealed-2, paired by seed within each access condition.
+- **Claim rule:** a direction is called consistent only if it holds in at least 4 of 5 paired seeds. No significance test is claimed.
+
+## Experiment T: `overlap-teaching-1`
+
+- **Setup:** beam search, `teaching_policy: package`, and successor cohorts arriving 30 ticks before every boundary in all conditions. Retirement is never delayed.
+- **Conditions:** `library` (cross-cohort library visible, no teaching), `teaching-only` (cross-cohort library hidden, teaching on), and `none`.
+- **Parity:** `library` and `none` must be physically identical at the first arrival (checked). `teaching-only` teaches within cohort 0 from tick 0, so it is not expected to match.
+- **Measures:** cross-generation lessons and their outcomes; dependencies taught and acquired; uses of earlier cohorts' artifacts; and further improvement, meaning a cohort's own best admitted workflow strictly beats the best workflow the previous cohort's members held at their freeze.
+- **Optional direct-transfer diagnostic:** not run.
+
+## Running it
+
+```
+python tools/generate_evidence_m5.py
+```
+
+The pipeline runs calibration, then the protocol freeze (it refuses to overwrite an existing protocol), P, T, sealed-2 scoring, the demonstration fixture, the restart check, the search CPU benchmark, the 8- and 20-agent profiles, and the summaries (`evidence/v0.5.0/SUMMARY.md`).

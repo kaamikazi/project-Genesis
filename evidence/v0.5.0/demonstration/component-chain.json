@@ -1,0 +1,621 @@
+{
+  "label": "deterministic scripted demonstration (not an experiment)",
+  "seed": 101,
+  "config": {
+    "seed": 101,
+    "width": 24,
+    "height": 16,
+    "population": 8,
+    "sharing": true,
+    "controller": "search",
+    "max_ticks": 120,
+    "snapshot_every": 20,
+    "search_budget": 48,
+    "removal": "none",
+    "removal_tick": 80,
+    "succession": "none",
+    "successor_role": "producer",
+    "successor_access": "library",
+    "invention": "open",
+    "controller_seed": 7,
+    "ore_per_site": 900,
+    "task": "workshop-1",
+    "teaching": true,
+    "lifecycle": "cohorts",
+    "cohort_ticks": 60,
+    "cohort_count": 2,
+    "cross_cohort_access": false,
+    "search_policy": "first-improvement",
+    "budget_unit": "credits",
+    "teaching_policy": "package",
+    "cohort_overlap": 30
+  },
+  "found": {
+    "tick": 4,
+    "ancestor": "a00",
+    "workflow": "5ecd866c866a5190f86da3f74ab6c4bdb97b55ab6af17d3bc17c46771d607292",
+    "field": "heat"
+  },
+  "component": {
+    "id": "34f1795f664c2382708ca207d498331ae8df07c7a15b449b132a836339ffdf6c",
+    "program": {
+      "op": "component",
+      "field": "heat",
+      "expr": {
+        "op": "if_lt",
+        "measure": "phase",
+        "threshold": 6,
+        "then": {
+          "op": "const",
+          "value": 0
+        },
+        "else": {
+          "op": "const",
+          "value": 1
+        }
+      }
+    },
+    "status": "superseded",
+    "transmissions": [
+      {
+        "from": "a00",
+        "to": "a08",
+        "tick": 47,
+        "via": "teaching session (dependency)",
+        "session": "demo-36-a00-offer_teaching",
+        "event": "demo-46-a08-practice_step",
+        "root": "9d0ce009ebc1d197440de194e3623c9c6849d31f6c4c6f17de4fd77b0e53d6dd",
+        "operational_definition": "acquired with its dependent workflow after the practice assessment"
+      }
+    ]
+  },
+  "refactored_workflow": {
+    "id": "9d0ce009ebc1d197440de194e3623c9c6849d31f6c4c6f17de4fd77b0e53d6dd",
+    "admitted": true,
+    "validation_path": "refactor",
+    "closure": [
+      "34f1795f664c2382708ca207d498331ae8df07c7a15b449b132a836339ffdf6c"
+    ],
+    "transmissions": [
+      {
+        "from": "a00",
+        "to": "a03",
+        "tick": 11,
+        "via": "settlement library",
+        "event": "10:a03",
+        "operational_definition": "copied validated AST; competence requires measured use"
+      },
+      {
+        "from": "a00",
+        "to": "a01",
+        "tick": 11,
+        "via": "settlement library",
+        "event": "10:a01",
+        "operational_definition": "copied validated AST; competence requires measured use"
+      },
+      {
+        "from": "a00",
+        "to": "a02",
+        "tick": 12,
+        "via": "settlement library",
+        "event": "11:a02",
+        "operational_definition": "copied validated AST; competence requires measured use"
+      },
+      {
+        "from": "a00",
+        "to": "a08",
+        "tick": 47,
+        "via": "teaching session",
+        "session": "demo-36-a00-offer_teaching",
+        "event": "demo-46-a08-practice_step",
+        "operational_definition": "acquired after passing the practice assessment"
+      }
+    ]
+  },
+  "successor": "a08",
+  "arrival_tick": 30,
+  "lesson": {
+    "stage": "acquired",
+    "closure": [
+      "34f1795f664c2382708ca207d498331ae8df07c7a15b449b132a836339ffdf6c"
+    ],
+    "package": [
+      "34f1795f664c2382708ca207d498331ae8df07c7a15b449b132a836339ffdf6c"
+    ],
+    "already_known": [],
+    "required_work": 6,
+    "costs": {
+      "teacher_energy": 13,
+      "learner_energy": 21,
+      "teacher_ticks": 7,
+      "learner_ticks": 8
+    },
+    "assessment": {
+      "tick": 47,
+      "passed": true,
+      "criterion": "2 feasible practice runs, each no costlier per alloy than the baseline under the same conditions"
+    },
+    "reason": null
+  },
+  "ancestor_status_after_boundary": "retired",
+  "successor_execution": {
+    "decision": {
+      "batch": 1,
+      "heat": 1,
+      "mode": 0,
+      "flux": 0
+    },
+    "alloy": 1,
+    "energy": 10,
+    "cost_per_alloy": 18.0,
+    "baseline_cost_per_alloy": 18.0,
+    "saving": false
+  },
+  "revisions": [
+    {
+      "component": "4d36e98b5fcaa09db2014aee398d3a413b1cba129bac7eccf6e965fa3d66dc87",
+      "program": {
+        "op": "component",
+        "field": "heat",
+        "expr": {
+          "op": "if_lt",
+          "measure": "phase",
+          "threshold": 5,
+          "then": {
+            "op": "const",
+            "value": 0
+          },
+          "else": {
+            "op": "const",
+            "value": 1
+          }
+        }
+      },
+      "dev_score": 15.333333,
+      "host_dev_score": 14.952381,
+      "submitted": false,
+      "reason": "development score not better than the host with the current component"
+    },
+    {
+      "component": "e7bd1ba2f92ae16c99ab1c4450492634b607555f9afdbee4120e97eb142bc095",
+      "program": {
+        "op": "component",
+        "field": "heat",
+        "expr": {
+          "op": "if_lt",
+          "measure": "phase",
+          "threshold": 7,
+          "then": {
+            "op": "const",
+            "value": 0
+          },
+          "else": {
+            "op": "const",
+            "value": 1
+          }
+        }
+      },
+      "dev_score": 14.181818,
+      "host_dev_score": 14.952381,
+      "submitted": true,
+      "admitted": true
+    }
+  ],
+  "rewired_workflow": {
+    "workflow": "8f511dfa06238d77ce7d68f55f456e1cd5fbda7d3ccfc332610c4d498a620bd7",
+    "dev_score": 14.181818,
+    "admitted": true,
+    "admission_path": "improvement",
+    "closure": [
+      "e7bd1ba2f92ae16c99ab1c4450492634b607555f9afdbee4120e97eb142bc095"
+    ]
+  },
+  "steps": [
+    {
+      "tick": 5,
+      "agent": "a00",
+      "action": "propose_artifact",
+      "accepted": true,
+      "note": "extract component",
+      "artifact": "34f1795f664c2382708ca207d498331ae8df07c7a15b449b132a836339ffdf6c",
+      "origin": "component-extraction",
+      "operator": "extract:heat",
+      "closure": []
+    },
+    {
+      "tick": 6,
+      "agent": "a00",
+      "action": "test_artifact",
+      "accepted": true,
+      "note": "component dev test inside host",
+      "artifact": "34f1795f664c2382708ca207d498331ae8df07c7a15b449b132a836339ffdf6c",
+      "dev_score": 14.952381,
+      "host_dev_score": 14.952381,
+      "behavior_equal_to_host": true,
+      "status": "dev-tested"
+    },
+    {
+      "tick": 7,
+      "agent": "a00",
+      "action": "submit_artifact",
+      "accepted": true,
+      "note": "component submission (no parent: host-with-component no worse than host)",
+      "artifact": "34f1795f664c2382708ca207d498331ae8df07c7a15b449b132a836339ffdf6c",
+      "admitted": true,
+      "status": "admitted"
+    },
+    {
+      "tick": 8,
+      "agent": "a00",
+      "action": "propose_artifact",
+      "accepted": true,
+      "note": "refactor workflow to call the component",
+      "artifact": "9d0ce009ebc1d197440de194e3623c9c6849d31f6c4c6f17de4fd77b0e53d6dd",
+      "origin": "composition",
+      "operator": "call:heat",
+      "closure": [
+        "34f1795f664c2382708ca207d498331ae8df07c7a15b449b132a836339ffdf6c"
+      ]
+    },
+    {
+      "tick": 9,
+      "agent": "a00",
+      "action": "test_artifact",
+      "accepted": true,
+      "note": "dev test of refactor",
+      "artifact": "9d0ce009ebc1d197440de194e3623c9c6849d31f6c4c6f17de4fd77b0e53d6dd",
+      "dev_score": 14.952381,
+      "status": "dev-tested"
+    },
+    {
+      "tick": 10,
+      "agent": "a00",
+      "action": "submit_artifact",
+      "accepted": true,
+      "note": "refactor submission",
+      "supersedes": "5ecd866c866a5190f86da3f74ab6c4bdb97b55ab6af17d3bc17c46771d607292",
+      "artifact": "9d0ce009ebc1d197440de194e3623c9c6849d31f6c4c6f17de4fd77b0e53d6dd",
+      "admitted": true,
+      "status": "admitted",
+      "reference": "5ecd866c866a5190f86da3f74ab6c4bdb97b55ab6af17d3bc17c46771d607292",
+      "admission_path": "refactor"
+    },
+    {
+      "tick": 31,
+      "agent": "a08",
+      "action": "gather",
+      "accepted": true,
+      "note": "gather food"
+    },
+    {
+      "tick": 32,
+      "agent": "a08",
+      "action": "gather",
+      "accepted": true,
+      "note": "gather food"
+    },
+    {
+      "tick": 33,
+      "agent": "a08",
+      "action": "gather",
+      "accepted": true,
+      "note": "gather ore"
+    },
+    {
+      "tick": 34,
+      "agent": "a08",
+      "action": "gather",
+      "accepted": true,
+      "note": "gather ore"
+    },
+    {
+      "tick": 35,
+      "agent": "a08",
+      "action": "gather",
+      "accepted": true,
+      "note": "gather ore"
+    },
+    {
+      "tick": 36,
+      "agent": "a08",
+      "action": "gather",
+      "accepted": true,
+      "note": "gather ore"
+    },
+    {
+      "tick": 37,
+      "agent": "a00",
+      "action": "offer_teaching",
+      "accepted": true,
+      "note": "offer dependency-aware lesson",
+      "artifact": "9d0ce009ebc1d197440de194e3623c9c6849d31f6c4c6f17de4fd77b0e53d6dd",
+      "stage": "offered",
+      "closure": [
+        "34f1795f664c2382708ca207d498331ae8df07c7a15b449b132a836339ffdf6c"
+      ]
+    },
+    {
+      "tick": 38,
+      "agent": "a08",
+      "action": "accept_teaching",
+      "accepted": true,
+      "note": "accept: missing dependencies join the lesson package",
+      "stage": "instruction",
+      "package": [
+        "34f1795f664c2382708ca207d498331ae8df07c7a15b449b132a836339ffdf6c"
+      ],
+      "already_known": []
+    },
+    {
+      "tick": 39,
+      "agent": "a00",
+      "action": "teach_step",
+      "accepted": true,
+      "note": "instruction",
+      "stage": "instruction"
+    },
+    {
+      "tick": 39,
+      "agent": "a08",
+      "action": "learn_step",
+      "accepted": true,
+      "note": "instruction",
+      "stage": "instruction"
+    },
+    {
+      "tick": 40,
+      "agent": "a00",
+      "action": "teach_step",
+      "accepted": true,
+      "note": "instruction",
+      "stage": "instruction"
+    },
+    {
+      "tick": 40,
+      "agent": "a08",
+      "action": "learn_step",
+      "accepted": true,
+      "note": "instruction",
+      "stage": "instruction"
+    },
+    {
+      "tick": 41,
+      "agent": "a00",
+      "action": "teach_step",
+      "accepted": true,
+      "note": "instruction",
+      "stage": "instruction"
+    },
+    {
+      "tick": 41,
+      "agent": "a08",
+      "action": "learn_step",
+      "accepted": true,
+      "note": "instruction",
+      "stage": "instruction"
+    },
+    {
+      "tick": 42,
+      "agent": "a00",
+      "action": "teach_step",
+      "accepted": true,
+      "note": "instruction",
+      "stage": "instruction"
+    },
+    {
+      "tick": 42,
+      "agent": "a08",
+      "action": "learn_step",
+      "accepted": true,
+      "note": "instruction",
+      "stage": "instruction"
+    },
+    {
+      "tick": 43,
+      "agent": "a00",
+      "action": "teach_step",
+      "accepted": true,
+      "note": "instruction",
+      "stage": "instruction"
+    },
+    {
+      "tick": 43,
+      "agent": "a08",
+      "action": "learn_step",
+      "accepted": true,
+      "note": "instruction",
+      "stage": "instruction"
+    },
+    {
+      "tick": 44,
+      "agent": "a00",
+      "action": "teach_step",
+      "accepted": true,
+      "note": "instruction",
+      "stage": "instruction"
+    },
+    {
+      "tick": 44,
+      "agent": "a08",
+      "action": "learn_step",
+      "accepted": true,
+      "note": "instruction",
+      "stage": "practice"
+    },
+    {
+      "tick": 45,
+      "agent": "a08",
+      "action": "practice_step",
+      "accepted": true,
+      "note": "practice run",
+      "decision": {
+        "batch": 1,
+        "heat": 0,
+        "mode": 0,
+        "flux": 0
+      },
+      "cost_per_alloy": 5.0,
+      "baseline_cost_per_alloy": 11.0
+    },
+    {
+      "tick": 46,
+      "agent": "a08",
+      "action": "consume",
+      "accepted": true,
+      "note": "eat"
+    },
+    {
+      "tick": 47,
+      "agent": "a08",
+      "action": "practice_step",
+      "accepted": true,
+      "note": "practice run",
+      "decision": {
+        "batch": 1,
+        "heat": 1,
+        "mode": 0,
+        "flux": 0
+      },
+      "cost_per_alloy": 18.0,
+      "baseline_cost_per_alloy": 18.0,
+      "stage": "acquired",
+      "dependencies_acquired": [
+        "34f1795f664c2382708ca207d498331ae8df07c7a15b449b132a836339ffdf6c"
+      ]
+    },
+    {
+      "tick": 61,
+      "agent": "a08",
+      "action": "use_artifact",
+      "accepted": true,
+      "note": "successor executes inherited workflow",
+      "decision": {
+        "batch": 1,
+        "heat": 1,
+        "mode": 0,
+        "flux": 0
+      },
+      "cost_per_alloy": 18.0,
+      "baseline_cost_per_alloy": 18.0,
+      "artifact": "9d0ce009ebc1d197440de194e3623c9c6849d31f6c4c6f17de4fd77b0e53d6dd"
+    },
+    {
+      "tick": 62,
+      "agent": "a08",
+      "action": "propose_artifact",
+      "accepted": true,
+      "note": "successor revises the component",
+      "artifact": "4d36e98b5fcaa09db2014aee398d3a413b1cba129bac7eccf6e965fa3d66dc87",
+      "origin": "component-revision",
+      "operator": "mutate-component",
+      "closure": []
+    },
+    {
+      "tick": 63,
+      "agent": "a08",
+      "action": "test_artifact",
+      "accepted": true,
+      "note": "revision dev test inside inherited host",
+      "artifact": "4d36e98b5fcaa09db2014aee398d3a413b1cba129bac7eccf6e965fa3d66dc87",
+      "dev_score": 15.333333,
+      "host_dev_score": 14.952381,
+      "behavior_equal_to_host": false,
+      "status": "dev-tested"
+    },
+    {
+      "tick": 64,
+      "agent": "a08",
+      "action": "consume",
+      "accepted": true,
+      "note": "eat"
+    },
+    {
+      "tick": 65,
+      "agent": "a08",
+      "action": "propose_artifact",
+      "accepted": true,
+      "note": "successor revises the component",
+      "artifact": "e7bd1ba2f92ae16c99ab1c4450492634b607555f9afdbee4120e97eb142bc095",
+      "origin": "component-revision",
+      "operator": "mutate-component",
+      "closure": []
+    },
+    {
+      "tick": 66,
+      "agent": "a08",
+      "action": "test_artifact",
+      "accepted": true,
+      "note": "revision dev test inside inherited host",
+      "artifact": "e7bd1ba2f92ae16c99ab1c4450492634b607555f9afdbee4120e97eb142bc095",
+      "dev_score": 14.181818,
+      "host_dev_score": 14.952381,
+      "behavior_equal_to_host": false,
+      "status": "dev-tested"
+    },
+    {
+      "tick": 67,
+      "agent": "a08",
+      "action": "submit_artifact",
+      "accepted": true,
+      "note": "revision submission",
+      "supersedes": "34f1795f664c2382708ca207d498331ae8df07c7a15b449b132a836339ffdf6c",
+      "artifact": "e7bd1ba2f92ae16c99ab1c4450492634b607555f9afdbee4120e97eb142bc095",
+      "admitted": true,
+      "status": "admitted"
+    },
+    {
+      "tick": 68,
+      "agent": "a08",
+      "action": "propose_artifact",
+      "accepted": true,
+      "note": "successor rewires workflow to the revised component",
+      "artifact": "8f511dfa06238d77ce7d68f55f456e1cd5fbda7d3ccfc332610c4d498a620bd7",
+      "origin": "composition",
+      "operator": "call:heat",
+      "closure": [
+        "e7bd1ba2f92ae16c99ab1c4450492634b607555f9afdbee4120e97eb142bc095"
+      ]
+    },
+    {
+      "tick": 69,
+      "agent": "a08",
+      "action": "test_artifact",
+      "accepted": true,
+      "note": "dev test of rewired workflow",
+      "artifact": "8f511dfa06238d77ce7d68f55f456e1cd5fbda7d3ccfc332610c4d498a620bd7",
+      "dev_score": 14.181818,
+      "status": "dev-tested"
+    },
+    {
+      "tick": 70,
+      "agent": "a08",
+      "action": "submit_artifact",
+      "accepted": true,
+      "note": "rewired workflow submission",
+      "supersedes": "9d0ce009ebc1d197440de194e3623c9c6849d31f6c4c6f17de4fd77b0e53d6dd",
+      "artifact": "8f511dfa06238d77ce7d68f55f456e1cd5fbda7d3ccfc332610c4d498a620bd7",
+      "admitted": true,
+      "status": "admitted",
+      "reference": "9d0ce009ebc1d197440de194e3623c9c6849d31f6c4c6f17de4fd77b0e53d6dd"
+    }
+  ],
+  "final_tick": 70,
+  "summary": {
+    "refactor_admitted": true,
+    "lesson": "acquired",
+    "package": 1,
+    "ancestor": "retired",
+    "successor_executed": true,
+    "revisions": [
+      [
+        false,
+        null
+      ],
+      [
+        true,
+        true
+      ]
+    ],
+    "rewired": true
+  }
+}

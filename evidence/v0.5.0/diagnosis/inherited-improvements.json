@@ -1,0 +1,3409 @@
+{
+  "post_hoc": true,
+  "sealed_version": "workshop-sealed-2",
+  "experiments": {
+    "policy": {
+      "by_condition": {
+        "first-improvement/preserved": {
+          "submissions_against_inherited_reference": 44,
+          "admitted_improvements": 16,
+          "refactor_admissions": 0,
+          "admitted_and_better_on_sealed": 11,
+          "admitted_but_worse_or_equal_on_sealed": 5,
+          "further_improvement_corrected": {
+            "transitions": 10,
+            "own_best_beat_earlier_cohorts_on_validation": 9,
+            "and_on_sealed": 6,
+            "on_sealed_only": 6
+          }
+        },
+        "first-improvement/reset": {
+          "submissions_against_inherited_reference": 0,
+          "admitted_improvements": 0,
+          "refactor_admissions": 0,
+          "admitted_and_better_on_sealed": 0,
+          "admitted_but_worse_or_equal_on_sealed": 0,
+          "further_improvement_corrected": {
+            "transitions": 10,
+            "own_best_beat_earlier_cohorts_on_validation": 3,
+            "and_on_sealed": 3,
+            "on_sealed_only": 5
+          }
+        },
+        "beam/preserved": {
+          "submissions_against_inherited_reference": 27,
+          "admitted_improvements": 9,
+          "refactor_admissions": 0,
+          "admitted_and_better_on_sealed": 8,
+          "admitted_but_worse_or_equal_on_sealed": 1,
+          "further_improvement_corrected": {
+            "transitions": 10,
+            "own_best_beat_earlier_cohorts_on_validation": 5,
+            "and_on_sealed": 5,
+            "on_sealed_only": 5
+          }
+        },
+        "beam/reset": {
+          "submissions_against_inherited_reference": 0,
+          "admitted_improvements": 0,
+          "refactor_admissions": 0,
+          "admitted_and_better_on_sealed": 0,
+          "admitted_but_worse_or_equal_on_sealed": 0,
+          "further_improvement_corrected": {
+            "transitions": 10,
+            "own_best_beat_earlier_cohorts_on_validation": 6,
+            "and_on_sealed": 5,
+            "on_sealed_only": 5
+          }
+        },
+        "beam-nocomponents/preserved": {
+          "submissions_against_inherited_reference": 22,
+          "admitted_improvements": 9,
+          "refactor_admissions": 0,
+          "admitted_and_better_on_sealed": 6,
+          "admitted_but_worse_or_equal_on_sealed": 3,
+          "further_improvement_corrected": {
+            "transitions": 10,
+            "own_best_beat_earlier_cohorts_on_validation": 6,
+            "and_on_sealed": 5,
+            "on_sealed_only": 5
+          }
+        }
+      },
+      "submissions": [
+        {
+          "seed": 201,
+          "condition": "first-improvement/preserved",
+          "tick": 66,
+          "child": "767763864a99",
+          "reference": "efe27047a75c",
+          "child_cohort": 1,
+          "reference_cohort": 0,
+          "admitted": true,
+          "admission_path": "improvement",
+          "child_validation": 7.485714,
+          "reference_validation": 7.823529,
+          "child_sealed": 10.403846,
+          "reference_sealed": 10.764706
+        },
+        {
+          "seed": 201,
+          "condition": "first-improvement/preserved",
+          "tick": 77,
+          "child": "b143c2f64024",
+          "reference": "d4b2e9b267ca",
+          "child_cohort": 1,
+          "reference_cohort": 0,
+          "admitted": true,
+          "admission_path": "improvement",
+          "child_validation": 7.571429,
+          "reference_validation": 8.2,
+          "child_sealed": 10.411765,
+          "reference_sealed": 9.740741
+        },
+        {
+          "seed": 201,
+          "condition": "first-improvement/preserved",
+          "tick": 131,
+          "child": "41827d5f649f",
+          "reference": "b143c2f64024",
+          "child_cohort": 2,
+          "reference_cohort": 1,
+          "admitted": false,
+          "admission_path": null,
+          "child_validation": 7.571429,
+          "reference_validation": 7.571429,
+          "child_sealed": 9.660714,
+          "reference_sealed": 10.411765
+        },
+        {
+          "seed": 201,
+          "condition": "first-improvement/preserved",
+          "tick": 144,
+          "child": "7b9789015082",
+          "reference": "9c4b37ead7dd",
+          "child_cohort": 2,
+          "reference_cohort": 1,
+          "admitted": false,
+          "admission_path": null,
+          "child_validation": 8.806452,
+          "reference_validation": 7.394737,
+          "child_sealed": 11.117647,
+          "reference_sealed": 10.425926
+        },
+        {
+          "seed": 201,
+          "condition": "first-improvement/preserved",
+          "tick": 156,
+          "child": "3016d16e638b",
+          "reference": "b143c2f64024",
+          "child_cohort": 2,
+          "reference_cohort": 1,
+          "admitted": true,
+          "admission_path": "improvement",
+          "child_validation": 7.305556,
+          "reference_validation": 7.571429,
+          "child_sealed": 9.980769,
+          "reference_sealed": 10.411765
+        },
+        {
+          "seed": 201,
+          "condition": "first-improvement/preserved",
+          "tick": 168,
+          "child": "d151f7ed8fd7",
+          "reference": "9c4b37ead7dd",
+          "child_cohort": 2,
+          "reference_cohort": 1,
+          "admitted": false,
+          "admission_path": null,
+          "child_validation": 7.526316,
+          "reference_validation": 7.394737,
+          "child_sealed": 10.481481,
+          "reference_sealed": 10.425926
+        },
+        {
+          "seed": 201,
+          "condition": "beam/preserved",
+          "tick": 72,
+          "child": "7a677328673b",
+          "reference": "73be690c0616",
+          "child_cohort": 1,
+          "reference_cohort": 0,
+          "admitted": true,
+          "admission_path": "improvement",
+          "child_validation": 7.540541,
+          "reference_validation": 10.0,
+          "child_sealed": 8.333333,
+          "reference_sealed": 11.142857
+        },
+        {
+          "seed": 201,
+          "condition": "beam/preserved",
+          "tick": 139,
+          "child": "5f495e511fed",
+          "reference": "7a677328673b",
+          "child_cohort": 2,
+          "reference_cohort": 1,
+          "admitted": false,
+          "admission_path": null,
+          "child_validation": 7.641026,
+          "reference_validation": 7.540541,
+          "child_sealed": 8.873016,
+          "reference_sealed": 8.333333
+        },
+        {
+          "seed": 201,
+          "condition": "beam/preserved",
+          "tick": 146,
+          "child": "14fc71cedea6",
+          "reference": "7a677328673b",
+          "child_cohort": 2,
+          "reference_cohort": 1,
+          "admitted": false,
+          "admission_path": null,
+          "child_validation": 7.641026,
+          "reference_validation": 7.540541,
+          "child_sealed": 8.873016,
+          "reference_sealed": 8.333333
+        },
+        {
+          "seed": 201,
+          "condition": "beam/preserved",
+          "tick": 154,
+          "child": "49f9ff3ecaa8",
+          "reference": "7a677328673b",
+          "child_cohort": 2,
+          "reference_cohort": 1,
+          "admitted": false,
+          "admission_path": null,
+          "child_validation": 7.641026,
+          "reference_validation": 7.540541,
+          "child_sealed": 8.873016,
+          "reference_sealed": 8.333333
+        },
+        {
+          "seed": 201,
+          "condition": "beam/preserved",
+          "tick": 163,
+          "child": "2cb1c5f89014",
+          "reference": "7a677328673b",
+          "child_cohort": 2,
+          "reference_cohort": 1,
+          "admitted": false,
+          "admission_path": null,
+          "child_validation": 7.641026,
+          "reference_validation": 7.540541,
+          "child_sealed": 8.873016,
+          "reference_sealed": 8.333333
+        },
+        {
+          "seed": 201,
+          "condition": "beam-nocomponents/preserved",
+          "tick": 73,
+          "child": "ddb783863af9",
+          "reference": "d34c96179956",
+          "child_cohort": 1,
+          "reference_cohort": 0,
+          "admitted": true,
+          "admission_path": "improvement",
+          "child_validation": 7.78125,
+          "reference_validation": 10.0,
+          "child_sealed": 9.303571,
+          "reference_sealed": 11.142857
+        },
+        {
+          "seed": 202,
+          "condition": "first-improvement/preserved",
+          "tick": 66,
+          "child": "e0fa862d975b",
+          "reference": "584c155d2c6c",
+          "child_cohort": 1,
+          "reference_cohort": 0,
+          "admitted": false,
+          "admission_path": null,
+          "child_validation": 11.961538,
+          "reference_validation": 10.096774,
+          "child_sealed": 12.568182,
+          "reference_sealed": 12.409091
+        },
+        {
+          "seed": 202,
+          "condition": "first-improvement/preserved",
+          "tick": 69,
+          "child": "1f60e692b611",
+          "reference": "4665954e45e1",
+          "child_cohort": 1,
+          "reference_cohort": 0,
+          "admitted": false,
+          "admission_path": null,
+          "child_validation": 11.04,
+          "reference_validation": 10.703704,
+          "child_sealed": 10.795918,
+          "reference_sealed": 10.113208
+        },
+        {
+          "seed": 202,
+          "condition": "first-improvement/preserved",
+          "tick": 70,
+          "child": "371918d16356",
+          "reference": "584c155d2c6c",
+          "child_cohort": 1,
+          "reference_cohort": 0,
+          "admitted": false,
+          "admission_path": null,
+          "child_validation": 12.461538,
+          "reference_validation": 10.096774,
+          "child_sealed": 13.947368,
+          "reference_sealed": 12.409091
+        },
+        {
+          "seed": 202,
+          "condition": "first-improvement/preserved",
+          "tick": 72,
+          "child": "5e3733c2d5b6",
+          "reference": "4665954e45e1",
+          "child_cohort": 1,
+          "reference_cohort": 0,
+          "admitted": false,
+          "admission_path": null,
+          "child_validation": 13.0,
+          "reference_validation": 10.703704,
+          "child_sealed": 10.0,
+          "reference_sealed": 10.113208
+        },
+        {
+          "seed": 202,
+          "condition": "first-improvement/preserved",
+          "tick": 77,
+          "child": "b259c10e1338",
+          "reference": "584c155d2c6c",
+          "child_cohort": 1,
+          "reference_cohort": 0,
+          "admitted": false,
+          "admission_path": null,
+          "child_validation": 10.535714,
+          "reference_validation": 10.096774,
+          "child_sealed": 12.619048,
+          "reference_sealed": 12.409091
+        },
+        {
+          "seed": 202,
+          "condition": "first-improvement/preserved",
+          "tick": 80,
+          "child": "fbe6c8f485a3",
+          "reference": "584c155d2c6c",
+          "child_cohort": 1,
+          "reference_cohort": 0,
+          "admitted": false,
+          "admission_path": null,
+          "child_validation": 10.62069,
+          "reference_validation": 10.096774,
+          "child_sealed": 15.857143,
+          "reference_sealed": 12.409091
+        },
+        {
+          "seed": 202,
+          "condition": "first-improvement/preserved",
+          "tick": 91,
+          "child": "faefbc0ab5ab",
+          "reference": "584c155d2c6c",
+          "child_cohort": 1,
+          "reference_cohort": 0,
+          "admitted": true,
+          "admission_path": "improvement",
+          "child_validation": 9.903226,
+          "reference_validation": 10.096774,
+          "child_sealed": 11.914894,
+          "reference_sealed": 12.409091
+        },
+        {
+          "seed": 202,
+          "condition": "first-improvement/preserved",
+          "tick": 94,
+          "child": "5182a339f80a",
+          "reference": "4665954e45e1",
+          "child_cohort": 1,
+          "reference_cohort": 0,
+          "admitted": false,
+          "admission_path": null,
+          "child_validation": 13.26087,
+          "reference_validation": 10.703704,
+          "child_sealed": 11.196078,
+          "reference_sealed": 10.113208
+        },
+        {
+          "seed": 202,
+          "condition": "first-improvement/preserved",
+          "tick": 114,
+          "child": "10ff6e2fa968",
+          "reference": "4665954e45e1",
+          "child_cohort": 1,
+          "reference_cohort": 0,
+          "admitted": false,
+          "admission_path": null,
+          "child_validation": 11.444444,
+          "reference_validation": 10.703704,
+          "child_sealed": 10.811321,
+          "reference_sealed": 10.113208
+        },
+        {
+          "seed": 202,
+          "condition": "first-improvement/preserved",
+          "tick": 117,
+          "child": "839e9e19aee9",
+          "reference": "4665954e45e1",
+          "child_cohort": 1,
+          "reference_cohort": 0,
+          "admitted": false,
+          "admission_path": null,
+          "child_validation": 11.038462,
+          "reference_validation": 10.703704,
+          "child_sealed": 9.483333,
+          "reference_sealed": 10.113208
+        },
+        {
+          "seed": 202,
+          "condition": "first-improvement/preserved",
+          "tick": 129,
+          "child": "345ad3f6ce70",
+          "reference": "7842945fd67a",
+          "child_cohort": 2,
+          "reference_cohort": 1,
+          "admitted": true,
+          "admission_path": "improvement",
+          "child_validation": 8.657143,
+          "reference_validation": 9.764706,
+          "child_sealed": 10.346939,
+          "reference_sealed": 11.625
+        },
+        {
+          "seed": 202,
+          "condition": "first-improvement/preserved",
+          "tick": 129,
+          "child": "038969cc863b",
+          "reference": "4665954e45e1",
+          "child_cohort": 2,
+          "reference_cohort": 0,
+          "admitted": false,
+          "admission_path": null,
+          "child_validation": 11.444444,
+          "reference_validation": 10.703704,
+          "child_sealed": 10.811321,
+          "reference_sealed": 10.113208
+        },
+        {
+          "seed": 202,
+          "condition": "first-improvement/preserved",
+          "tick": 156,
+          "child": "b0fbc5adadc1",
+          "reference": "4665954e45e1",
+          "child_cohort": 2,
+          "reference_cohort": 0,
+          "admitted": false,
+          "admission_path": null,
+          "child_validation": 10.925926,
+          "reference_validation": 10.703704,
+          "child_sealed": 10.113208,
+          "reference_sealed": 10.113208
+        },
+        {
+          "seed": 202,
+          "condition": "first-improvement/preserved",
+          "tick": 169,
+          "child": "52cc25209712",
+          "reference": "4665954e45e1",
+          "child_cohort": 2,
+          "reference_cohort": 0,
+          "admitted": true,
+          "admission_path": "improvement",
+          "child_validation": 9.580645,
+          "reference_validation": 10.703704,
+          "child_sealed": 9.818182,
+          "reference_sealed": 10.113208
+        },
+        {
+          "seed": 202,
+          "condition": "beam/preserved",
+          "tick": 71,
+          "child": "778013beea23",
+          "reference": "ead6aefbbce4",
+          "child_cohort": 1,
+          "reference_cohort": 0,
+          "admitted": true,
+          "admission_path": "improvement",
+          "child_validation": 10.633333,
+          "reference_validation": 12.346154,
+          "child_sealed": 11.916667,
+          "reference_sealed": 13.928571
+        },
+        {
+          "seed": 202,
+          "condition": "beam/preserved",
+          "tick": 110,
+          "child": "0c91e84ec681",
+          "reference": "1e8f26563f2c",
+          "child_cohort": 1,
+          "reference_cohort": 0,
+          "admitted": true,
+          "admission_path": "improvement",
+          "child_validation": 11.571429,
+          "reference_validation": 12.727273,
+          "child_sealed": 12.208333,
+          "reference_sealed": 13.692308
+        },
+        {
+          "seed": 202,
+          "condition": "beam/preserved",
+          "tick": 126,
+          "child": "163af169688a",
+          "reference": "778013beea23",
+          "child_cohort": 2,
+          "reference_cohort": 1,
+          "admitted": true,
+          "admission_path": "improvement",
+          "child_validation": 10.433333,
+          "reference_validation": 10.633333,
+          "child_sealed": 11.875,
+          "reference_sealed": 11.916667
+        },
+        {
+          "seed": 202,
+          "condition": "beam/preserved",
+          "tick": 139,
+          "child": "7a824b306d29",
+          "reference": "0c91e84ec681",
+          "child_cohort": 2,
+          "reference_cohort": 1,
+          "admitted": true,
+          "admission_path": "improvement",
+          "child_validation": 11.233333,
+          "reference_validation": 11.571429,
+          "child_sealed": 13.454545,
+          "reference_sealed": 12.208333
+        },
+        {
+          "seed": 202,
+          "condition": "beam-nocomponents/preserved",
+          "tick": 71,
+          "child": "778013beea23",
+          "reference": "ead6aefbbce4",
+          "child_cohort": 1,
+          "reference_cohort": 0,
+          "admitted": true,
+          "admission_path": "improvement",
+          "child_validation": 10.633333,
+          "reference_validation": 12.346154,
+          "child_sealed": 11.916667,
+          "reference_sealed": 13.928571
+        },
+        {
+          "seed": 202,
+          "condition": "beam-nocomponents/preserved",
+          "tick": 126,
+          "child": "163af169688a",
+          "reference": "778013beea23",
+          "child_cohort": 2,
+          "reference_cohort": 1,
+          "admitted": true,
+          "admission_path": "improvement",
+          "child_validation": 10.433333,
+          "reference_validation": 10.633333,
+          "child_sealed": 11.875,
+          "reference_sealed": 11.916667
+        },
+        {
+          "seed": 202,
+          "condition": "beam-nocomponents/preserved",
+          "tick": 155,
+          "child": "1688b9b7272a",
+          "reference": "2c1f99f0269f",
+          "child_cohort": 2,
+          "reference_cohort": 0,
+          "admitted": false,
+          "admission_path": null,
+          "child_validation": 11.75,
+          "reference_validation": 11.571429,
+          "child_sealed": 12.057692,
+          "reference_sealed": 12.208333
+        },
+        {
+          "seed": 202,
+          "condition": "beam-nocomponents/preserved",
+          "tick": 159,
+          "child": "209e97c2e0b5",
+          "reference": "2c1f99f0269f",
+          "child_cohort": 2,
+          "reference_cohort": 0,
+          "admitted": false,
+          "admission_path": null,
+          "child_validation": 11.714286,
+          "reference_validation": 11.571429,
+          "child_sealed": 12.288462,
+          "reference_sealed": 12.208333
+        },
+        {
+          "seed": 202,
+          "condition": "beam-nocomponents/preserved",
+          "tick": 162,
+          "child": "226d77541a44",
+          "reference": "2c1f99f0269f",
+          "child_cohort": 2,
+          "reference_cohort": 0,
+          "admitted": false,
+          "admission_path": null,
+          "child_validation": 12.142857,
+          "reference_validation": 11.571429,
+          "child_sealed": 12.288462,
+          "reference_sealed": 12.208333
+        },
+        {
+          "seed": 202,
+          "condition": "beam-nocomponents/preserved",
+          "tick": 168,
+          "child": "7d2167ca4077",
+          "reference": "2c1f99f0269f",
+          "child_cohort": 2,
+          "reference_cohort": 0,
+          "admitted": true,
+          "admission_path": "improvement",
+          "child_validation": 10.6,
+          "reference_validation": 11.571429,
+          "child_sealed": 12.8125,
+          "reference_sealed": 12.208333
+        },
+        {
+          "seed": 203,
+          "condition": "first-improvement/preserved",
+          "tick": 66,
+          "child": "7d2adb0f3e6a",
+          "reference": "db81e6a67ff2",
+          "child_cohort": 1,
+          "reference_cohort": 0,
+          "admitted": true,
+          "admission_path": "improvement",
+          "child_validation": 7.029412,
+          "reference_validation": 7.060606,
+          "child_sealed": 8.811321,
+          "reference_sealed": 8.6
+        },
+        {
+          "seed": 203,
+          "condition": "first-improvement/preserved",
+          "tick": 95,
+          "child": "d499942cdd7a",
+          "reference": "3e2910239b14",
+          "child_cohort": 1,
+          "reference_cohort": 0,
+          "admitted": false,
+          "admission_path": null,
+          "child_validation": 8.702703,
+          "reference_validation": 8.676471,
+          "child_sealed": 10.293103,
+          "reference_sealed": 10.865385
+        },
+        {
+          "seed": 203,
+          "condition": "first-improvement/preserved",
+          "tick": 111,
+          "child": "9439bca4a97a",
+          "reference": "3e2910239b14",
+          "child_cohort": 1,
+          "reference_cohort": 0,
+          "admitted": false,
+          "admission_path": null,
+          "child_validation": 8.676471,
+          "reference_validation": 8.676471,
+          "child_sealed": 10.75,
+          "reference_sealed": 10.865385
+        },
+        {
+          "seed": 203,
+          "condition": "first-improvement/preserved",
+          "tick": 129,
+          "child": "ceea7950f9fa",
+          "reference": "8a9fa2ca4162",
+          "child_cohort": 2,
+          "reference_cohort": 1,
+          "admitted": false,
+          "admission_path": null,
+          "child_validation": 7.0,
+          "reference_validation": 6.777778,
+          "child_sealed": 8.962264,
+          "reference_sealed": 8.792453
+        },
+        {
+          "seed": 203,
+          "condition": "first-improvement/preserved",
+          "tick": 131,
+          "child": "c42ea9c08c4b",
+          "reference": "3e2910239b14",
+          "child_cohort": 2,
+          "reference_cohort": 0,
+          "admitted": false,
+          "admission_path": null,
+          "child_validation": 8.777778,
+          "reference_validation": 8.676471,
+          "child_sealed": 10.5,
+          "reference_sealed": 10.865385
+        },
+        {
+          "seed": 203,
+          "condition": "first-improvement/preserved",
+          "tick": 132,
+          "child": "e781769eec7b",
+          "reference": "8a9fa2ca4162",
+          "child_cohort": 2,
+          "reference_cohort": 1,
+          "admitted": false,
+          "admission_path": null,
+          "child_validation": 7.083333,
+          "reference_validation": 6.777778,
+          "child_sealed": 9.333333,
+          "reference_sealed": 8.792453
+        },
+        {
+          "seed": 203,
+          "condition": "first-improvement/preserved",
+          "tick": 134,
+          "child": "3b333e1da005",
+          "reference": "3e2910239b14",
+          "child_cohort": 2,
+          "reference_cohort": 0,
+          "admitted": true,
+          "admission_path": "improvement",
+          "child_validation": 8.638889,
+          "reference_validation": 8.676471,
+          "child_sealed": 11.0,
+          "reference_sealed": 10.865385
+        },
+        {
+          "seed": 203,
+          "condition": "first-improvement/preserved",
+          "tick": 137,
+          "child": "17766ec335a6",
+          "reference": "8a9fa2ca4162",
+          "child_cohort": 2,
+          "reference_cohort": 1,
+          "admitted": true,
+          "admission_path": "improvement",
+          "child_validation": 6.410256,
+          "reference_validation": 6.777778,
+          "child_sealed": 8.428571,
+          "reference_sealed": 8.792453
+        },
+        {
+          "seed": 203,
+          "condition": "beam/preserved",
+          "tick": 86,
+          "child": "5fbfe51075c8",
+          "reference": "1e8f26563f2c",
+          "child_cohort": 1,
+          "reference_cohort": 0,
+          "admitted": true,
+          "admission_path": "improvement",
+          "child_validation": 8.970588,
+          "reference_validation": 11.090909,
+          "child_sealed": 9.306452,
+          "reference_sealed": 11.571429
+        },
+        {
+          "seed": 203,
+          "condition": "beam/preserved",
+          "tick": 155,
+          "child": "88c6ec503fb3",
+          "reference": "5fbfe51075c8",
+          "child_cohort": 2,
+          "reference_cohort": 1,
+          "admitted": false,
+          "admission_path": null,
+          "child_validation": 9.078947,
+          "reference_validation": 8.970588,
+          "child_sealed": 10.784314,
+          "reference_sealed": 9.306452
+        },
+        {
+          "seed": 203,
+          "condition": "beam/preserved",
+          "tick": 163,
+          "child": "c268ae5e11ff",
+          "reference": "5fbfe51075c8",
+          "child_cohort": 2,
+          "reference_cohort": 1,
+          "admitted": false,
+          "admission_path": null,
+          "child_validation": 9.454545,
+          "reference_validation": 8.970588,
+          "child_sealed": 13.475,
+          "reference_sealed": 9.306452
+        },
+        {
+          "seed": 203,
+          "condition": "beam/preserved",
+          "tick": 171,
+          "child": "e9ab87c42aca",
+          "reference": "5fbfe51075c8",
+          "child_cohort": 2,
+          "reference_cohort": 1,
+          "admitted": false,
+          "admission_path": null,
+          "child_validation": 9.636364,
+          "reference_validation": 8.970588,
+          "child_sealed": 13.475,
+          "reference_sealed": 9.306452
+        },
+        {
+          "seed": 203,
+          "condition": "beam/preserved",
+          "tick": 175,
+          "child": "afb5b1d62a30",
+          "reference": "5fbfe51075c8",
+          "child_cohort": 2,
+          "reference_cohort": 1,
+          "admitted": false,
+          "admission_path": null,
+          "child_validation": 9.636364,
+          "reference_validation": 8.970588,
+          "child_sealed": 13.475,
+          "reference_sealed": 9.306452
+        },
+        {
+          "seed": 203,
+          "condition": "beam/preserved",
+          "tick": 178,
+          "child": "ac49fe233eb7",
+          "reference": "5fbfe51075c8",
+          "child_cohort": 2,
+          "reference_cohort": 1,
+          "admitted": false,
+          "admission_path": null,
+          "child_validation": 9.166667,
+          "reference_validation": 8.970588,
+          "child_sealed": 13.7,
+          "reference_sealed": 9.306452
+        },
+        {
+          "seed": 203,
+          "condition": "beam-nocomponents/preserved",
+          "tick": 129,
+          "child": "eeb8e05096fa",
+          "reference": "2c1f99f0269f",
+          "child_cohort": 2,
+          "reference_cohort": 0,
+          "admitted": false,
+          "admission_path": null,
+          "child_validation": 9.470588,
+          "reference_validation": 8.970588,
+          "child_sealed": 9.903226,
+          "reference_sealed": 9.306452
+        },
+        {
+          "seed": 203,
+          "condition": "beam-nocomponents/preserved",
+          "tick": 134,
+          "child": "2783c8a12578",
+          "reference": "2c1f99f0269f",
+          "child_cohort": 2,
+          "reference_cohort": 0,
+          "admitted": true,
+          "admission_path": "improvement",
+          "child_validation": 8.470588,
+          "reference_validation": 8.970588,
+          "child_sealed": 10.714286,
+          "reference_sealed": 9.306452
+        },
+        {
+          "seed": 204,
+          "condition": "first-improvement/preserved",
+          "tick": 79,
+          "child": "a608a6eea095",
+          "reference": "d4b2e9b267ca",
+          "child_cohort": 1,
+          "reference_cohort": 0,
+          "admitted": true,
+          "admission_path": "improvement",
+          "child_validation": 8.967742,
+          "reference_validation": 9.466667,
+          "child_sealed": 10.055556,
+          "reference_sealed": 10.320755
+        },
+        {
+          "seed": 204,
+          "condition": "first-improvement/preserved",
+          "tick": 95,
+          "child": "acc3d2cfc21a",
+          "reference": "cdd51ad6ee57",
+          "child_cohort": 1,
+          "reference_cohort": 0,
+          "admitted": false,
+          "admission_path": null,
+          "child_validation": 8.62069,
+          "reference_validation": 7.515152,
+          "child_sealed": 9.071429,
+          "reference_sealed": 8.177419
+        },
+        {
+          "seed": 204,
+          "condition": "first-improvement/preserved",
+          "tick": 108,
+          "child": "9591c4c60e7a",
+          "reference": "cdd51ad6ee57",
+          "child_cohort": 1,
+          "reference_cohort": 0,
+          "admitted": true,
+          "admission_path": "improvement",
+          "child_validation": 7.363636,
+          "reference_validation": 7.515152,
+          "child_sealed": 8.112903,
+          "reference_sealed": 8.177419
+        },
+        {
+          "seed": 204,
+          "condition": "first-improvement/preserved",
+          "tick": 131,
+          "child": "690cb837fa06",
+          "reference": "2aef116161c2",
+          "child_cohort": 2,
+          "reference_cohort": 1,
+          "admitted": false,
+          "admission_path": null,
+          "child_validation": 8.970588,
+          "reference_validation": 8.705882,
+          "child_sealed": 10.462963,
+          "reference_sealed": 10.407407
+        },
+        {
+          "seed": 204,
+          "condition": "first-improvement/preserved",
+          "tick": 140,
+          "child": "d8d3d38bc04a",
+          "reference": "2aef116161c2",
+          "child_cohort": 2,
+          "reference_cohort": 1,
+          "admitted": false,
+          "admission_path": null,
+          "child_validation": 8.935484,
+          "reference_validation": 8.705882,
+          "child_sealed": 10.259259,
+          "reference_sealed": 10.407407
+        },
+        {
+          "seed": 204,
+          "condition": "first-improvement/preserved",
+          "tick": 144,
+          "child": "3bb94bae3a15",
+          "reference": "9591c4c60e7a",
+          "child_cohort": 2,
+          "reference_cohort": 1,
+          "admitted": false,
+          "admission_path": null,
+          "child_validation": 8.483871,
+          "reference_validation": 7.363636,
+          "child_sealed": 8.52381,
+          "reference_sealed": 8.112903
+        },
+        {
+          "seed": 204,
+          "condition": "first-improvement/preserved",
+          "tick": 169,
+          "child": "dc7cd4f5a50e",
+          "reference": "2aef116161c2",
+          "child_cohort": 2,
+          "reference_cohort": 1,
+          "admitted": true,
+          "admission_path": "improvement",
+          "child_validation": 8.529412,
+          "reference_validation": 8.705882,
+          "child_sealed": 10.148148,
+          "reference_sealed": 10.407407
+        },
+        {
+          "seed": 204,
+          "condition": "first-improvement/preserved",
+          "tick": 171,
+          "child": "fcbbf10d1da6",
+          "reference": "9591c4c60e7a",
+          "child_cohort": 2,
+          "reference_cohort": 1,
+          "admitted": false,
+          "admission_path": null,
+          "child_validation": 8.28125,
+          "reference_validation": 7.363636,
+          "child_sealed": 10.823529,
+          "reference_sealed": 8.112903
+        },
+        {
+          "seed": 204,
+          "condition": "beam/preserved",
+          "tick": 86,
+          "child": "d6358a967257",
+          "reference": "59f8f137dcc6",
+          "child_cohort": 1,
+          "reference_cohort": 0,
+          "admitted": true,
+          "admission_path": "improvement",
+          "child_validation": 9.1875,
+          "reference_validation": 11.916667,
+          "child_sealed": 10.555556,
+          "reference_sealed": 10.94
+        },
+        {
+          "seed": 204,
+          "condition": "beam/preserved",
+          "tick": 95,
+          "child": "7bfc0cece9c8",
+          "reference": "bf59e972f5bd",
+          "child_cohort": 1,
+          "reference_cohort": 0,
+          "admitted": true,
+          "admission_path": "improvement",
+          "child_validation": 9.344828,
+          "reference_validation": 10.136364,
+          "child_sealed": 10.357143,
+          "reference_sealed": 11.071429
+        },
+        {
+          "seed": 204,
+          "condition": "beam-nocomponents/preserved",
+          "tick": 66,
+          "child": "719925fb5483",
+          "reference": "d8431a2662d9",
+          "child_cohort": 1,
+          "reference_cohort": 0,
+          "admitted": true,
+          "admission_path": "improvement",
+          "child_validation": 9.344828,
+          "reference_validation": 10.136364,
+          "child_sealed": 10.357143,
+          "reference_sealed": 11.071429
+        },
+        {
+          "seed": 204,
+          "condition": "beam-nocomponents/preserved",
+          "tick": 86,
+          "child": "d6358a967257",
+          "reference": "59f8f137dcc6",
+          "child_cohort": 1,
+          "reference_cohort": 0,
+          "admitted": true,
+          "admission_path": "improvement",
+          "child_validation": 9.1875,
+          "reference_validation": 11.916667,
+          "child_sealed": 10.555556,
+          "reference_sealed": 10.94
+        },
+        {
+          "seed": 204,
+          "condition": "beam-nocomponents/preserved",
+          "tick": 168,
+          "child": "c1609dd5def4",
+          "reference": "719925fb5483",
+          "child_cohort": 2,
+          "reference_cohort": 1,
+          "admitted": true,
+          "admission_path": "improvement",
+          "child_validation": 9.028571,
+          "reference_validation": 9.344828,
+          "child_sealed": 16.114286,
+          "reference_sealed": 10.357143
+        },
+        {
+          "seed": 205,
+          "condition": "first-improvement/preserved",
+          "tick": 66,
+          "child": "7d2adb0f3e6a",
+          "reference": "db81e6a67ff2",
+          "child_cohort": 1,
+          "reference_cohort": 0,
+          "admitted": true,
+          "admission_path": "improvement",
+          "child_validation": 8.733333,
+          "reference_validation": 8.827586,
+          "child_sealed": 10.565217,
+          "reference_sealed": 10.081633
+        },
+        {
+          "seed": 205,
+          "condition": "first-improvement/preserved",
+          "tick": 79,
+          "child": "a608a6eea095",
+          "reference": "d4b2e9b267ca",
+          "child_cohort": 1,
+          "reference_cohort": 0,
+          "admitted": true,
+          "admission_path": "improvement",
+          "child_validation": 9.419355,
+          "reference_validation": 9.933333,
+          "child_sealed": 11.822222,
+          "reference_sealed": 12.181818
+        },
+        {
+          "seed": 205,
+          "condition": "first-improvement/preserved",
+          "tick": 129,
+          "child": "ceea7950f9fa",
+          "reference": "8a9fa2ca4162",
+          "child_cohort": 2,
+          "reference_cohort": 1,
+          "admitted": false,
+          "admission_path": null,
+          "child_validation": 8.59375,
+          "reference_validation": 8.34375,
+          "child_sealed": 10.73913,
+          "reference_sealed": 10.543478
+        },
+        {
+          "seed": 205,
+          "condition": "first-improvement/preserved",
+          "tick": 131,
+          "child": "690cb837fa06",
+          "reference": "2aef116161c2",
+          "child_cohort": 2,
+          "reference_cohort": 1,
+          "admitted": false,
+          "admission_path": null,
+          "child_validation": 9.411765,
+          "reference_validation": 9.147059,
+          "child_sealed": 10.685185,
+          "reference_sealed": 10.851852
+        },
+        {
+          "seed": 205,
+          "condition": "first-improvement/preserved",
+          "tick": 132,
+          "child": "e781769eec7b",
+          "reference": "8a9fa2ca4162",
+          "child_cohort": 2,
+          "reference_cohort": 1,
+          "admitted": false,
+          "admission_path": null,
+          "child_validation": 8.6875,
+          "reference_validation": 8.34375,
+          "child_sealed": 11.25,
+          "reference_sealed": 10.543478
+        },
+        {
+          "seed": 205,
+          "condition": "first-improvement/preserved",
+          "tick": 137,
+          "child": "17766ec335a6",
+          "reference": "8a9fa2ca4162",
+          "child_cohort": 2,
+          "reference_cohort": 1,
+          "admitted": true,
+          "admission_path": "improvement",
+          "child_validation": 7.8,
+          "reference_validation": 8.34375,
+          "child_sealed": 10.020408,
+          "reference_sealed": 10.543478
+        },
+        {
+          "seed": 205,
+          "condition": "first-improvement/preserved",
+          "tick": 142,
+          "child": "74b8642aede6",
+          "reference": "2aef116161c2",
+          "child_cohort": 2,
+          "reference_cohort": 1,
+          "admitted": false,
+          "admission_path": null,
+          "child_validation": 9.852941,
+          "reference_validation": 9.147059,
+          "child_sealed": 10.381818,
+          "reference_sealed": 10.851852
+        },
+        {
+          "seed": 205,
+          "condition": "first-improvement/preserved",
+          "tick": 155,
+          "child": "5aac51edd326",
+          "reference": "2aef116161c2",
+          "child_cohort": 2,
+          "reference_cohort": 1,
+          "admitted": true,
+          "admission_path": "improvement",
+          "child_validation": 8.875,
+          "reference_validation": 9.147059,
+          "child_sealed": 11.211538,
+          "reference_sealed": 10.851852
+        },
+        {
+          "seed": 205,
+          "condition": "beam/preserved",
+          "tick": 88,
+          "child": "a5740790f2a2",
+          "reference": "4ae46df97d43",
+          "child_cohort": 1,
+          "reference_cohort": 0,
+          "admitted": true,
+          "admission_path": "improvement",
+          "child_validation": 12.64,
+          "reference_validation": 12.666667,
+          "child_sealed": 11.45098,
+          "reference_sealed": 11.787234
+        },
+        {
+          "seed": 205,
+          "condition": "beam/preserved",
+          "tick": 129,
+          "child": "eeb8e05096fa",
+          "reference": "2c1f99f0269f",
+          "child_cohort": 2,
+          "reference_cohort": 0,
+          "admitted": false,
+          "admission_path": null,
+          "child_validation": 10.166667,
+          "reference_validation": 9.7,
+          "child_sealed": 10.75,
+          "reference_sealed": 10.203704
+        },
+        {
+          "seed": 205,
+          "condition": "beam/preserved",
+          "tick": 141,
+          "child": "a57bf74bb8fe",
+          "reference": "2c1f99f0269f",
+          "child_cohort": 2,
+          "reference_cohort": 0,
+          "admitted": false,
+          "admission_path": null,
+          "child_validation": 10.033333,
+          "reference_validation": 9.7,
+          "child_sealed": 11.0,
+          "reference_sealed": 10.203704
+        },
+        {
+          "seed": 205,
+          "condition": "beam/preserved",
+          "tick": 148,
+          "child": "6055656a9243",
+          "reference": "2c1f99f0269f",
+          "child_cohort": 2,
+          "reference_cohort": 0,
+          "admitted": false,
+          "admission_path": null,
+          "child_validation": 10.433333,
+          "reference_validation": 9.7,
+          "child_sealed": 11.686275,
+          "reference_sealed": 10.203704
+        },
+        {
+          "seed": 205,
+          "condition": "beam/preserved",
+          "tick": 152,
+          "child": "955d5b7059e2",
+          "reference": "2c1f99f0269f",
+          "child_cohort": 2,
+          "reference_cohort": 0,
+          "admitted": false,
+          "admission_path": null,
+          "child_validation": 10.125,
+          "reference_validation": 9.7,
+          "child_sealed": 13.780488,
+          "reference_sealed": 10.203704
+        },
+        {
+          "seed": 205,
+          "condition": "beam/preserved",
+          "tick": 161,
+          "child": "4693ff70b353",
+          "reference": "2c1f99f0269f",
+          "child_cohort": 2,
+          "reference_cohort": 0,
+          "admitted": false,
+          "admission_path": null,
+          "child_validation": 10.433333,
+          "reference_validation": 9.7,
+          "child_sealed": 11.686275,
+          "reference_sealed": 10.203704
+        },
+        {
+          "seed": 205,
+          "condition": "beam/preserved",
+          "tick": 164,
+          "child": "470ab2d59a22",
+          "reference": "2c1f99f0269f",
+          "child_cohort": 2,
+          "reference_cohort": 0,
+          "admitted": false,
+          "admission_path": null,
+          "child_validation": 10.033333,
+          "reference_validation": 9.7,
+          "child_sealed": 11.0,
+          "reference_sealed": 10.203704
+        },
+        {
+          "seed": 205,
+          "condition": "beam/preserved",
+          "tick": 170,
+          "child": "b08fbf2a8c01",
+          "reference": "2c1f99f0269f",
+          "child_cohort": 2,
+          "reference_cohort": 0,
+          "admitted": false,
+          "admission_path": null,
+          "child_validation": 10.033333,
+          "reference_validation": 9.7,
+          "child_sealed": 11.0,
+          "reference_sealed": 10.203704
+        },
+        {
+          "seed": 205,
+          "condition": "beam/preserved",
+          "tick": 174,
+          "child": "0dfc3b8e6f35",
+          "reference": "2c1f99f0269f",
+          "child_cohort": 2,
+          "reference_cohort": 0,
+          "admitted": false,
+          "admission_path": null,
+          "child_validation": 10.033333,
+          "reference_validation": 9.7,
+          "child_sealed": 11.0,
+          "reference_sealed": 10.203704
+        },
+        {
+          "seed": 205,
+          "condition": "beam/preserved",
+          "tick": 179,
+          "child": "8be6424151cd",
+          "reference": "2c1f99f0269f",
+          "child_cohort": 2,
+          "reference_cohort": 0,
+          "admitted": false,
+          "admission_path": null,
+          "child_validation": 10.033333,
+          "reference_validation": 9.7,
+          "child_sealed": 11.0,
+          "reference_sealed": 10.203704
+        },
+        {
+          "seed": 205,
+          "condition": "beam-nocomponents/preserved",
+          "tick": 88,
+          "child": "a5740790f2a2",
+          "reference": "4ae46df97d43",
+          "child_cohort": 1,
+          "reference_cohort": 0,
+          "admitted": true,
+          "admission_path": "improvement",
+          "child_validation": 12.64,
+          "reference_validation": 12.666667,
+          "child_sealed": 11.45098,
+          "reference_sealed": 11.787234
+        },
+        {
+          "seed": 205,
+          "condition": "beam-nocomponents/preserved",
+          "tick": 129,
+          "child": "eeb8e05096fa",
+          "reference": "2c1f99f0269f",
+          "child_cohort": 2,
+          "reference_cohort": 0,
+          "admitted": false,
+          "admission_path": null,
+          "child_validation": 10.166667,
+          "reference_validation": 9.7,
+          "child_sealed": 10.75,
+          "reference_sealed": 10.203704
+        },
+        {
+          "seed": 205,
+          "condition": "beam-nocomponents/preserved",
+          "tick": 141,
+          "child": "a57bf74bb8fe",
+          "reference": "2c1f99f0269f",
+          "child_cohort": 2,
+          "reference_cohort": 0,
+          "admitted": false,
+          "admission_path": null,
+          "child_validation": 10.033333,
+          "reference_validation": 9.7,
+          "child_sealed": 11.0,
+          "reference_sealed": 10.203704
+        },
+        {
+          "seed": 205,
+          "condition": "beam-nocomponents/preserved",
+          "tick": 148,
+          "child": "6055656a9243",
+          "reference": "2c1f99f0269f",
+          "child_cohort": 2,
+          "reference_cohort": 0,
+          "admitted": false,
+          "admission_path": null,
+          "child_validation": 10.433333,
+          "reference_validation": 9.7,
+          "child_sealed": 11.686275,
+          "reference_sealed": 10.203704
+        },
+        {
+          "seed": 205,
+          "condition": "beam-nocomponents/preserved",
+          "tick": 152,
+          "child": "955d5b7059e2",
+          "reference": "2c1f99f0269f",
+          "child_cohort": 2,
+          "reference_cohort": 0,
+          "admitted": false,
+          "admission_path": null,
+          "child_validation": 10.125,
+          "reference_validation": 9.7,
+          "child_sealed": 13.780488,
+          "reference_sealed": 10.203704
+        },
+        {
+          "seed": 205,
+          "condition": "beam-nocomponents/preserved",
+          "tick": 161,
+          "child": "4693ff70b353",
+          "reference": "2c1f99f0269f",
+          "child_cohort": 2,
+          "reference_cohort": 0,
+          "admitted": false,
+          "admission_path": null,
+          "child_validation": 10.433333,
+          "reference_validation": 9.7,
+          "child_sealed": 11.686275,
+          "reference_sealed": 10.203704
+        },
+        {
+          "seed": 205,
+          "condition": "beam-nocomponents/preserved",
+          "tick": 164,
+          "child": "470ab2d59a22",
+          "reference": "2c1f99f0269f",
+          "child_cohort": 2,
+          "reference_cohort": 0,
+          "admitted": false,
+          "admission_path": null,
+          "child_validation": 10.033333,
+          "reference_validation": 9.7,
+          "child_sealed": 11.0,
+          "reference_sealed": 10.203704
+        },
+        {
+          "seed": 205,
+          "condition": "beam-nocomponents/preserved",
+          "tick": 170,
+          "child": "b08fbf2a8c01",
+          "reference": "2c1f99f0269f",
+          "child_cohort": 2,
+          "reference_cohort": 0,
+          "admitted": false,
+          "admission_path": null,
+          "child_validation": 10.033333,
+          "reference_validation": 9.7,
+          "child_sealed": 11.0,
+          "reference_sealed": 10.203704
+        },
+        {
+          "seed": 205,
+          "condition": "beam-nocomponents/preserved",
+          "tick": 174,
+          "child": "0dfc3b8e6f35",
+          "reference": "2c1f99f0269f",
+          "child_cohort": 2,
+          "reference_cohort": 0,
+          "admitted": false,
+          "admission_path": null,
+          "child_validation": 10.033333,
+          "reference_validation": 9.7,
+          "child_sealed": 11.0,
+          "reference_sealed": 10.203704
+        },
+        {
+          "seed": 205,
+          "condition": "beam-nocomponents/preserved",
+          "tick": 179,
+          "child": "8be6424151cd",
+          "reference": "2c1f99f0269f",
+          "child_cohort": 2,
+          "reference_cohort": 0,
+          "admitted": false,
+          "admission_path": null,
+          "child_validation": 10.033333,
+          "reference_validation": 9.7,
+          "child_sealed": 11.0,
+          "reference_sealed": 10.203704
+        }
+      ],
+      "further_improvement_corrected": [
+        {
+          "seed": 201,
+          "condition": "first-improvement/preserved",
+          "cohort": 1,
+          "reference": {
+            "artifact": "efe27047a75c",
+            "cohort": 0,
+            "validation": 7.823529,
+            "sealed": 10.764706
+          },
+          "own": {
+            "artifact": "9c4b37ead7dd",
+            "validation": 7.394737,
+            "sealed": 10.425926
+          },
+          "improved_on_validation": true,
+          "improved_on_sealed": true
+        },
+        {
+          "seed": 201,
+          "condition": "first-improvement/preserved",
+          "cohort": 2,
+          "reference": {
+            "artifact": "9c4b37ead7dd",
+            "cohort": 1,
+            "validation": 7.394737,
+            "sealed": 10.425926
+          },
+          "own": {
+            "artifact": "3016d16e638b",
+            "validation": 7.305556,
+            "sealed": 9.980769
+          },
+          "improved_on_validation": true,
+          "improved_on_sealed": true
+        },
+        {
+          "seed": 201,
+          "condition": "first-improvement/reset",
+          "cohort": 1,
+          "reference": {
+            "artifact": "efe27047a75c",
+            "cohort": 0,
+            "validation": 7.823529,
+            "sealed": 10.764706
+          },
+          "own": {
+            "artifact": "cb6981831fe3",
+            "validation": 7.470588,
+            "sealed": 9.538462
+          },
+          "improved_on_validation": true,
+          "improved_on_sealed": true
+        },
+        {
+          "seed": 201,
+          "condition": "first-improvement/reset",
+          "cohort": 2,
+          "reference": {
+            "artifact": "cb6981831fe3",
+            "cohort": 1,
+            "validation": 7.470588,
+            "sealed": 9.538462
+          },
+          "own": {
+            "artifact": "362b1901260a",
+            "validation": 7.676471,
+            "sealed": 9.0
+          },
+          "improved_on_validation": false,
+          "improved_on_sealed": true
+        },
+        {
+          "seed": 201,
+          "condition": "beam/preserved",
+          "cohort": 1,
+          "reference": {
+            "artifact": "d34c96179956",
+            "cohort": 0,
+            "validation": 10.0,
+            "sealed": 11.142857
+          },
+          "own": {
+            "artifact": "7a677328673b",
+            "validation": 7.540541,
+            "sealed": 8.333333
+          },
+          "improved_on_validation": true,
+          "improved_on_sealed": true
+        },
+        {
+          "seed": 201,
+          "condition": "beam/preserved",
+          "cohort": 2,
+          "reference": {
+            "artifact": "7a677328673b",
+            "cohort": 1,
+            "validation": 7.540541,
+            "sealed": 8.333333
+          },
+          "own": null,
+          "improved_on_validation": false,
+          "improved_on_sealed": false
+        },
+        {
+          "seed": 201,
+          "condition": "beam/reset",
+          "cohort": 1,
+          "reference": {
+            "artifact": "d34c96179956",
+            "cohort": 0,
+            "validation": 10.0,
+            "sealed": 11.142857
+          },
+          "own": {
+            "artifact": "26c83d76a5e3",
+            "validation": 8.789474,
+            "sealed": 14.25
+          },
+          "improved_on_validation": true,
+          "improved_on_sealed": false
+        },
+        {
+          "seed": 201,
+          "condition": "beam/reset",
+          "cohort": 2,
+          "reference": {
+            "artifact": "26c83d76a5e3",
+            "cohort": 1,
+            "validation": 8.789474,
+            "sealed": 14.25
+          },
+          "own": {
+            "artifact": "7f416764db28",
+            "validation": 7.885714,
+            "sealed": 8.338462
+          },
+          "improved_on_validation": true,
+          "improved_on_sealed": true
+        },
+        {
+          "seed": 201,
+          "condition": "beam-nocomponents/preserved",
+          "cohort": 1,
+          "reference": {
+            "artifact": "d34c96179956",
+            "cohort": 0,
+            "validation": 10.0,
+            "sealed": 11.142857
+          },
+          "own": {
+            "artifact": "480704eac568",
+            "validation": 7.545455,
+            "sealed": 9.25
+          },
+          "improved_on_validation": true,
+          "improved_on_sealed": true
+        },
+        {
+          "seed": 201,
+          "condition": "beam-nocomponents/preserved",
+          "cohort": 2,
+          "reference": {
+            "artifact": "480704eac568",
+            "cohort": 1,
+            "validation": 7.545455,
+            "sealed": 9.25
+          },
+          "own": null,
+          "improved_on_validation": false,
+          "improved_on_sealed": false
+        },
+        {
+          "seed": 202,
+          "condition": "first-improvement/preserved",
+          "cohort": 1,
+          "reference": {
+            "artifact": "584c155d2c6c",
+            "cohort": 0,
+            "validation": 10.096774,
+            "sealed": 12.409091
+          },
+          "own": {
+            "artifact": "7842945fd67a",
+            "validation": 9.764706,
+            "sealed": 11.625
+          },
+          "improved_on_validation": true,
+          "improved_on_sealed": true
+        },
+        {
+          "seed": 202,
+          "condition": "first-improvement/preserved",
+          "cohort": 2,
+          "reference": {
+            "artifact": "7842945fd67a",
+            "cohort": 1,
+            "validation": 9.764706,
+            "sealed": 11.625
+          },
+          "own": {
+            "artifact": "e6452a917d79",
+            "validation": 8.6,
+            "sealed": 10.479167
+          },
+          "improved_on_validation": true,
+          "improved_on_sealed": true
+        },
+        {
+          "seed": 202,
+          "condition": "first-improvement/reset",
+          "cohort": 1,
+          "reference": {
+            "artifact": "584c155d2c6c",
+            "cohort": 0,
+            "validation": 10.096774,
+            "sealed": 12.409091
+          },
+          "own": {
+            "artifact": "dd72d1b60951",
+            "validation": 11.818182,
+            "sealed": 13.317073
+          },
+          "improved_on_validation": false,
+          "improved_on_sealed": false
+        },
+        {
+          "seed": 202,
+          "condition": "first-improvement/reset",
+          "cohort": 2,
+          "reference": {
+            "artifact": "584c155d2c6c",
+            "cohort": 0,
+            "validation": 10.096774,
+            "sealed": 12.409091
+          },
+          "own": {
+            "artifact": "14f9eeab2652",
+            "validation": 9.34375,
+            "sealed": 9.388889
+          },
+          "improved_on_validation": true,
+          "improved_on_sealed": true
+        },
+        {
+          "seed": 202,
+          "condition": "beam/preserved",
+          "cohort": 1,
+          "reference": {
+            "artifact": "ead6aefbbce4",
+            "cohort": 0,
+            "validation": 12.346154,
+            "sealed": 13.928571
+          },
+          "own": {
+            "artifact": "778013beea23",
+            "validation": 10.633333,
+            "sealed": 11.916667
+          },
+          "improved_on_validation": true,
+          "improved_on_sealed": true
+        },
+        {
+          "seed": 202,
+          "condition": "beam/preserved",
+          "cohort": 2,
+          "reference": {
+            "artifact": "778013beea23",
+            "cohort": 1,
+            "validation": 10.633333,
+            "sealed": 11.916667
+          },
+          "own": {
+            "artifact": "5d21428682a8",
+            "validation": 8.289474,
+            "sealed": 10.5
+          },
+          "improved_on_validation": true,
+          "improved_on_sealed": true
+        },
+        {
+          "seed": 202,
+          "condition": "beam/reset",
+          "cohort": 1,
+          "reference": {
+            "artifact": "ead6aefbbce4",
+            "cohort": 0,
+            "validation": 12.346154,
+            "sealed": 13.928571
+          },
+          "own": {
+            "artifact": "81eb3e8a782a",
+            "validation": 10.181818,
+            "sealed": 10.686275
+          },
+          "improved_on_validation": true,
+          "improved_on_sealed": true
+        },
+        {
+          "seed": 202,
+          "condition": "beam/reset",
+          "cohort": 2,
+          "reference": {
+            "artifact": "81eb3e8a782a",
+            "cohort": 1,
+            "validation": 10.181818,
+            "sealed": 10.686275
+          },
+          "own": {
+            "artifact": "2b849846a077",
+            "validation": 10.444444,
+            "sealed": 13.266667
+          },
+          "improved_on_validation": false,
+          "improved_on_sealed": false
+        },
+        {
+          "seed": 202,
+          "condition": "beam-nocomponents/preserved",
+          "cohort": 1,
+          "reference": {
+            "artifact": "2c1f99f0269f",
+            "cohort": 0,
+            "validation": 11.571429,
+            "sealed": 12.208333
+          },
+          "own": {
+            "artifact": "778013beea23",
+            "validation": 10.633333,
+            "sealed": 11.916667
+          },
+          "improved_on_validation": true,
+          "improved_on_sealed": true
+        },
+        {
+          "seed": 202,
+          "condition": "beam-nocomponents/preserved",
+          "cohort": 2,
+          "reference": {
+            "artifact": "778013beea23",
+            "cohort": 1,
+            "validation": 10.633333,
+            "sealed": 11.916667
+          },
+          "own": {
+            "artifact": "5d21428682a8",
+            "validation": 8.289474,
+            "sealed": 10.5
+          },
+          "improved_on_validation": true,
+          "improved_on_sealed": true
+        },
+        {
+          "seed": 203,
+          "condition": "first-improvement/preserved",
+          "cohort": 1,
+          "reference": {
+            "artifact": "db81e6a67ff2",
+            "cohort": 0,
+            "validation": 7.060606,
+            "sealed": 8.6
+          },
+          "own": {
+            "artifact": "8a9fa2ca4162",
+            "validation": 6.777778,
+            "sealed": 8.792453
+          },
+          "improved_on_validation": true,
+          "improved_on_sealed": false
+        },
+        {
+          "seed": 203,
+          "condition": "first-improvement/preserved",
+          "cohort": 2,
+          "reference": {
+            "artifact": "8a9fa2ca4162",
+            "cohort": 1,
+            "validation": 6.777778,
+            "sealed": 8.792453
+          },
+          "own": {
+            "artifact": "abc2e3f91997",
+            "validation": 6.292683,
+            "sealed": 9.017857
+          },
+          "improved_on_validation": true,
+          "improved_on_sealed": false
+        },
+        {
+          "seed": 203,
+          "condition": "first-improvement/reset",
+          "cohort": 1,
+          "reference": {
+            "artifact": "db81e6a67ff2",
+            "cohort": 0,
+            "validation": 7.060606,
+            "sealed": 8.6
+          },
+          "own": {
+            "artifact": "cb6981831fe3",
+            "validation": 7.558824,
+            "sealed": 10.057692
+          },
+          "improved_on_validation": false,
+          "improved_on_sealed": false
+        },
+        {
+          "seed": 203,
+          "condition": "first-improvement/reset",
+          "cohort": 2,
+          "reference": {
+            "artifact": "db81e6a67ff2",
+            "cohort": 0,
+            "validation": 7.060606,
+            "sealed": 8.6
+          },
+          "own": {
+            "artifact": "1ea048c526d8",
+            "validation": 7.424242,
+            "sealed": 8.240741
+          },
+          "improved_on_validation": false,
+          "improved_on_sealed": true
+        },
+        {
+          "seed": 203,
+          "condition": "beam/preserved",
+          "cohort": 1,
+          "reference": {
+            "artifact": "7f859039880a",
+            "cohort": 0,
+            "validation": 11.090909,
+            "sealed": 11.571429
+          },
+          "own": {
+            "artifact": "9a93ec8e15a8",
+            "validation": 7.236842,
+            "sealed": 8.145161
+          },
+          "improved_on_validation": true,
+          "improved_on_sealed": true
+        },
+        {
+          "seed": 203,
+          "condition": "beam/preserved",
+          "cohort": 2,
+          "reference": {
+            "artifact": "9a93ec8e15a8",
+            "cohort": 1,
+            "validation": 7.236842,
+            "sealed": 8.145161
+          },
+          "own": null,
+          "improved_on_validation": false,
+          "improved_on_sealed": false
+        },
+        {
+          "seed": 203,
+          "condition": "beam/reset",
+          "cohort": 1,
+          "reference": {
+            "artifact": "7f859039880a",
+            "cohort": 0,
+            "validation": 11.090909,
+            "sealed": 11.571429
+          },
+          "own": {
+            "artifact": "9a93ec8e15a8",
+            "validation": 7.236842,
+            "sealed": 8.145161
+          },
+          "improved_on_validation": true,
+          "improved_on_sealed": true
+        },
+        {
+          "seed": 203,
+          "condition": "beam/reset",
+          "cohort": 2,
+          "reference": {
+            "artifact": "9a93ec8e15a8",
+            "cohort": 1,
+            "validation": 7.236842,
+            "sealed": 8.145161
+          },
+          "own": {
+            "artifact": "54bfdde6259e",
+            "validation": 10.75,
+            "sealed": 14.257143
+          },
+          "improved_on_validation": false,
+          "improved_on_sealed": false
+        },
+        {
+          "seed": 203,
+          "condition": "beam-nocomponents/preserved",
+          "cohort": 1,
+          "reference": {
+            "artifact": "2c1f99f0269f",
+            "cohort": 0,
+            "validation": 8.970588,
+            "sealed": 9.306452
+          },
+          "own": {
+            "artifact": "9a93ec8e15a8",
+            "validation": 7.236842,
+            "sealed": 8.145161
+          },
+          "improved_on_validation": true,
+          "improved_on_sealed": true
+        },
+        {
+          "seed": 203,
+          "condition": "beam-nocomponents/preserved",
+          "cohort": 2,
+          "reference": {
+            "artifact": "9a93ec8e15a8",
+            "cohort": 1,
+            "validation": 7.236842,
+            "sealed": 8.145161
+          },
+          "own": {
+            "artifact": "2783c8a12578",
+            "validation": 8.470588,
+            "sealed": 10.714286
+          },
+          "improved_on_validation": false,
+          "improved_on_sealed": false
+        },
+        {
+          "seed": 204,
+          "condition": "first-improvement/preserved",
+          "cohort": 1,
+          "reference": {
+            "artifact": "cdd51ad6ee57",
+            "cohort": 0,
+            "validation": 7.515152,
+            "sealed": 8.177419
+          },
+          "own": {
+            "artifact": "9591c4c60e7a",
+            "validation": 7.363636,
+            "sealed": 8.112903
+          },
+          "improved_on_validation": true,
+          "improved_on_sealed": true
+        },
+        {
+          "seed": 204,
+          "condition": "first-improvement/preserved",
+          "cohort": 2,
+          "reference": {
+            "artifact": "9591c4c60e7a",
+            "cohort": 1,
+            "validation": 7.363636,
+            "sealed": 8.112903
+          },
+          "own": {
+            "artifact": "864c9d9b334f",
+            "validation": 8.342857,
+            "sealed": 10.145455
+          },
+          "improved_on_validation": false,
+          "improved_on_sealed": false
+        },
+        {
+          "seed": 204,
+          "condition": "first-improvement/reset",
+          "cohort": 1,
+          "reference": {
+            "artifact": "cdd51ad6ee57",
+            "cohort": 0,
+            "validation": 7.515152,
+            "sealed": 8.177419
+          },
+          "own": {
+            "artifact": "d5abd147c426",
+            "validation": 8.4,
+            "sealed": 9.45
+          },
+          "improved_on_validation": false,
+          "improved_on_sealed": false
+        },
+        {
+          "seed": 204,
+          "condition": "first-improvement/reset",
+          "cohort": 2,
+          "reference": {
+            "artifact": "cdd51ad6ee57",
+            "cohort": 0,
+            "validation": 7.515152,
+            "sealed": 8.177419
+          },
+          "own": {
+            "artifact": "c9b79c649261",
+            "validation": 9.038462,
+            "sealed": 9.396226
+          },
+          "improved_on_validation": false,
+          "improved_on_sealed": false
+        },
+        {
+          "seed": 204,
+          "condition": "beam/preserved",
+          "cohort": 1,
+          "reference": {
+            "artifact": "d8431a2662d9",
+            "cohort": 0,
+            "validation": 10.136364,
+            "sealed": 11.071429
+          },
+          "own": {
+            "artifact": "d6358a967257",
+            "validation": 9.1875,
+            "sealed": 10.555556
+          },
+          "improved_on_validation": true,
+          "improved_on_sealed": true
+        },
+        {
+          "seed": 204,
+          "condition": "beam/preserved",
+          "cohort": 2,
+          "reference": {
+            "artifact": "d6358a967257",
+            "cohort": 1,
+            "validation": 9.1875,
+            "sealed": 10.555556
+          },
+          "own": null,
+          "improved_on_validation": false,
+          "improved_on_sealed": false
+        },
+        {
+          "seed": 204,
+          "condition": "beam/reset",
+          "cohort": 1,
+          "reference": {
+            "artifact": "d8431a2662d9",
+            "cohort": 0,
+            "validation": 10.136364,
+            "sealed": 11.071429
+          },
+          "own": {
+            "artifact": "f9d8d781fdea",
+            "validation": 10.181818,
+            "sealed": 13.5
+          },
+          "improved_on_validation": false,
+          "improved_on_sealed": false
+        },
+        {
+          "seed": 204,
+          "condition": "beam/reset",
+          "cohort": 2,
+          "reference": {
+            "artifact": "d8431a2662d9",
+            "cohort": 0,
+            "validation": 10.136364,
+            "sealed": 11.071429
+          },
+          "own": {
+            "artifact": "7f416764db28",
+            "validation": 8.575758,
+            "sealed": 8.904762
+          },
+          "improved_on_validation": true,
+          "improved_on_sealed": true
+        },
+        {
+          "seed": 204,
+          "condition": "beam-nocomponents/preserved",
+          "cohort": 1,
+          "reference": {
+            "artifact": "d8431a2662d9",
+            "cohort": 0,
+            "validation": 10.136364,
+            "sealed": 11.071429
+          },
+          "own": {
+            "artifact": "d6358a967257",
+            "validation": 9.1875,
+            "sealed": 10.555556
+          },
+          "improved_on_validation": true,
+          "improved_on_sealed": true
+        },
+        {
+          "seed": 204,
+          "condition": "beam-nocomponents/preserved",
+          "cohort": 2,
+          "reference": {
+            "artifact": "d6358a967257",
+            "cohort": 1,
+            "validation": 9.1875,
+            "sealed": 10.555556
+          },
+          "own": {
+            "artifact": "c1609dd5def4",
+            "validation": 9.028571,
+            "sealed": 16.114286
+          },
+          "improved_on_validation": true,
+          "improved_on_sealed": false
+        },
+        {
+          "seed": 205,
+          "condition": "first-improvement/preserved",
+          "cohort": 1,
+          "reference": {
+            "artifact": "db81e6a67ff2",
+            "cohort": 0,
+            "validation": 8.827586,
+            "sealed": 10.081633
+          },
+          "own": {
+            "artifact": "8a9fa2ca4162",
+            "validation": 8.34375,
+            "sealed": 10.543478
+          },
+          "improved_on_validation": true,
+          "improved_on_sealed": false
+        },
+        {
+          "seed": 205,
+          "condition": "first-improvement/preserved",
+          "cohort": 2,
+          "reference": {
+            "artifact": "8a9fa2ca4162",
+            "cohort": 1,
+            "validation": 8.34375,
+            "sealed": 10.543478
+          },
+          "own": {
+            "artifact": "abc2e3f91997",
+            "validation": 7.594595,
+            "sealed": 10.294118
+          },
+          "improved_on_validation": true,
+          "improved_on_sealed": true
+        },
+        {
+          "seed": 205,
+          "condition": "first-improvement/reset",
+          "cohort": 1,
+          "reference": {
+            "artifact": "db81e6a67ff2",
+            "cohort": 0,
+            "validation": 8.827586,
+            "sealed": 10.081633
+          },
+          "own": {
+            "artifact": "d5abd147c426",
+            "validation": 8.971429,
+            "sealed": 10.224138
+          },
+          "improved_on_validation": false,
+          "improved_on_sealed": false
+        },
+        {
+          "seed": 205,
+          "condition": "first-improvement/reset",
+          "cohort": 2,
+          "reference": {
+            "artifact": "db81e6a67ff2",
+            "cohort": 0,
+            "validation": 8.827586,
+            "sealed": 10.081633
+          },
+          "own": {
+            "artifact": "57c418f96734",
+            "validation": 8.1,
+            "sealed": 7.566667
+          },
+          "improved_on_validation": true,
+          "improved_on_sealed": true
+        },
+        {
+          "seed": 205,
+          "condition": "beam/preserved",
+          "cohort": 1,
+          "reference": {
+            "artifact": "2c1f99f0269f",
+            "cohort": 0,
+            "validation": 9.7,
+            "sealed": 10.203704
+          },
+          "own": {
+            "artifact": "a5740790f2a2",
+            "validation": 12.64,
+            "sealed": 11.45098
+          },
+          "improved_on_validation": false,
+          "improved_on_sealed": false
+        },
+        {
+          "seed": 205,
+          "condition": "beam/preserved",
+          "cohort": 2,
+          "reference": {
+            "artifact": "2c1f99f0269f",
+            "cohort": 0,
+            "validation": 9.7,
+            "sealed": 10.203704
+          },
+          "own": null,
+          "improved_on_validation": false,
+          "improved_on_sealed": false
+        },
+        {
+          "seed": 205,
+          "condition": "beam/reset",
+          "cohort": 1,
+          "reference": {
+            "artifact": "2c1f99f0269f",
+            "cohort": 0,
+            "validation": 9.7,
+            "sealed": 10.203704
+          },
+          "own": {
+            "artifact": "9a93ec8e15a8",
+            "validation": 7.970588,
+            "sealed": 9.092593
+          },
+          "improved_on_validation": true,
+          "improved_on_sealed": true
+        },
+        {
+          "seed": 205,
+          "condition": "beam/reset",
+          "cohort": 2,
+          "reference": {
+            "artifact": "9a93ec8e15a8",
+            "cohort": 1,
+            "validation": 7.970588,
+            "sealed": 9.092593
+          },
+          "own": {
+            "artifact": "f94d4d3781d4",
+            "validation": 10.772727,
+            "sealed": 11.785714
+          },
+          "improved_on_validation": false,
+          "improved_on_sealed": false
+        },
+        {
+          "seed": 205,
+          "condition": "beam-nocomponents/preserved",
+          "cohort": 1,
+          "reference": {
+            "artifact": "2c1f99f0269f",
+            "cohort": 0,
+            "validation": 9.7,
+            "sealed": 10.203704
+          },
+          "own": {
+            "artifact": "a5740790f2a2",
+            "validation": 12.64,
+            "sealed": 11.45098
+          },
+          "improved_on_validation": false,
+          "improved_on_sealed": false
+        },
+        {
+          "seed": 205,
+          "condition": "beam-nocomponents/preserved",
+          "cohort": 2,
+          "reference": {
+            "artifact": "2c1f99f0269f",
+            "cohort": 0,
+            "validation": 9.7,
+            "sealed": 10.203704
+          },
+          "own": null,
+          "improved_on_validation": false,
+          "improved_on_sealed": false
+        }
+      ]
+    },
+    "teaching": {
+      "by_condition": {
+        "library": {
+          "submissions_against_inherited_reference": 29,
+          "admitted_improvements": 9,
+          "refactor_admissions": 1,
+          "admitted_and_better_on_sealed": 9,
+          "admitted_but_worse_or_equal_on_sealed": 0,
+          "further_improvement_corrected": {
+            "transitions": 10,
+            "own_best_beat_earlier_cohorts_on_validation": 7,
+            "and_on_sealed": 6,
+            "on_sealed_only": 6
+          }
+        },
+        "teaching-only": {
+          "submissions_against_inherited_reference": 3,
+          "admitted_improvements": 1,
+          "refactor_admissions": 1,
+          "admitted_and_better_on_sealed": 1,
+          "admitted_but_worse_or_equal_on_sealed": 0,
+          "further_improvement_corrected": {
+            "transitions": 10,
+            "own_best_beat_earlier_cohorts_on_validation": 6,
+            "and_on_sealed": 5,
+            "on_sealed_only": 5
+          }
+        },
+        "none": {
+          "submissions_against_inherited_reference": 0,
+          "admitted_improvements": 0,
+          "refactor_admissions": 0,
+          "admitted_and_better_on_sealed": 0,
+          "admitted_but_worse_or_equal_on_sealed": 0,
+          "further_improvement_corrected": {
+            "transitions": 10,
+            "own_best_beat_earlier_cohorts_on_validation": 6,
+            "and_on_sealed": 5,
+            "on_sealed_only": 5
+          }
+        }
+      },
+      "submissions": [
+        {
+          "seed": 201,
+          "condition": "library",
+          "tick": 104,
+          "child": "7a6f4d92d6b1",
+          "reference": "73be690c0616",
+          "child_cohort": 2,
+          "reference_cohort": 0,
+          "admitted": true,
+          "admission_path": "improvement",
+          "child_validation": 7.540541,
+          "reference_validation": 10.0,
+          "child_sealed": 8.333333,
+          "reference_sealed": 11.142857
+        },
+        {
+          "seed": 201,
+          "condition": "library",
+          "tick": 151,
+          "child": "10ab607ca8bb",
+          "reference": "26c83d76a5e3",
+          "child_cohort": 2,
+          "reference_cohort": 1,
+          "admitted": false,
+          "admission_path": null,
+          "child_validation": 11.16,
+          "reference_validation": 8.789474,
+          "child_sealed": 12.413043,
+          "reference_sealed": 14.25
+        },
+        {
+          "seed": 202,
+          "condition": "library",
+          "tick": 41,
+          "child": "778013beea23",
+          "reference": "ead6aefbbce4",
+          "child_cohort": 1,
+          "reference_cohort": 0,
+          "admitted": true,
+          "admission_path": "improvement",
+          "child_validation": 10.633333,
+          "reference_validation": 12.346154,
+          "child_sealed": 11.916667,
+          "reference_sealed": 13.928571
+        },
+        {
+          "seed": 202,
+          "condition": "library",
+          "tick": 41,
+          "child": "dae412587382",
+          "reference": "7f859039880a",
+          "child_cohort": 1,
+          "reference_cohort": 0,
+          "admitted": true,
+          "admission_path": "improvement",
+          "child_validation": 11.090909,
+          "reference_validation": 12.727273,
+          "child_sealed": 12.769231,
+          "reference_sealed": 13.692308
+        },
+        {
+          "seed": 202,
+          "condition": "library",
+          "tick": 96,
+          "child": "163af169688a",
+          "reference": "778013beea23",
+          "child_cohort": 2,
+          "reference_cohort": 1,
+          "admitted": true,
+          "admission_path": "improvement",
+          "child_validation": 10.433333,
+          "reference_validation": 10.633333,
+          "child_sealed": 11.875,
+          "reference_sealed": 11.916667
+        },
+        {
+          "seed": 202,
+          "condition": "library",
+          "tick": 97,
+          "child": "0ae251e3d70b",
+          "reference": "2fde74e6f18e",
+          "child_cohort": 2,
+          "reference_cohort": 1,
+          "admitted": false,
+          "admission_path": null,
+          "child_validation": 9.4,
+          "reference_validation": 9.4,
+          "child_sealed": 10.115385,
+          "reference_sealed": 10.115385
+        },
+        {
+          "seed": 202,
+          "condition": "library",
+          "tick": 101,
+          "child": "b57c5c9a591e",
+          "reference": "2fde74e6f18e",
+          "child_cohort": 2,
+          "reference_cohort": 1,
+          "admitted": false,
+          "admission_path": null,
+          "child_validation": 9.4,
+          "reference_validation": 9.4,
+          "child_sealed": 10.115385,
+          "reference_sealed": 10.115385
+        },
+        {
+          "seed": 202,
+          "condition": "library",
+          "tick": 104,
+          "child": "18b8227b3f31",
+          "reference": "2fde74e6f18e",
+          "child_cohort": 2,
+          "reference_cohort": 1,
+          "admitted": false,
+          "admission_path": null,
+          "child_validation": 9.666667,
+          "reference_validation": 9.4,
+          "child_sealed": 9.685185,
+          "reference_sealed": 10.115385
+        },
+        {
+          "seed": 202,
+          "condition": "library",
+          "tick": 111,
+          "child": "06f04c9801f5",
+          "reference": "2fde74e6f18e",
+          "child_cohort": 2,
+          "reference_cohort": 1,
+          "admitted": false,
+          "admission_path": null,
+          "child_validation": 9.666667,
+          "reference_validation": 9.4,
+          "child_sealed": 9.685185,
+          "reference_sealed": 10.115385
+        },
+        {
+          "seed": 202,
+          "condition": "library",
+          "tick": 117,
+          "child": "560bcf163b34",
+          "reference": "2fde74e6f18e",
+          "child_cohort": 2,
+          "reference_cohort": 1,
+          "admitted": true,
+          "admission_path": "improvement",
+          "child_validation": 8.277778,
+          "reference_validation": 9.4,
+          "child_sealed": 9.392857,
+          "reference_sealed": 10.115385
+        },
+        {
+          "seed": 203,
+          "condition": "library",
+          "tick": 41,
+          "child": "dae412587382",
+          "reference": "7f859039880a",
+          "child_cohort": 1,
+          "reference_cohort": 0,
+          "admitted": true,
+          "admission_path": "improvement",
+          "child_validation": 9.454545,
+          "reference_validation": 11.090909,
+          "child_sealed": 10.714286,
+          "reference_sealed": 11.571429
+        },
+        {
+          "seed": 203,
+          "condition": "library",
+          "tick": 125,
+          "child": "6a41a0e814e7",
+          "reference": "b4c4dcc3311e",
+          "child_cohort": 2,
+          "reference_cohort": 1,
+          "admitted": false,
+          "admission_path": null,
+          "child_validation": 8.884615,
+          "reference_validation": 8.5,
+          "child_sealed": 9.574468,
+          "reference_sealed": 10.130435
+        },
+        {
+          "seed": 203,
+          "condition": "library",
+          "tick": 131,
+          "child": "31d0596fdc33",
+          "reference": "b4c4dcc3311e",
+          "child_cohort": 2,
+          "reference_cohort": 1,
+          "admitted": false,
+          "admission_path": null,
+          "child_validation": 8.884615,
+          "reference_validation": 8.5,
+          "child_sealed": 9.574468,
+          "reference_sealed": 10.130435
+        },
+        {
+          "seed": 203,
+          "condition": "library",
+          "tick": 134,
+          "child": "7579ff70043d",
+          "reference": "b4c4dcc3311e",
+          "child_cohort": 2,
+          "reference_cohort": 1,
+          "admitted": false,
+          "admission_path": null,
+          "child_validation": 8.884615,
+          "reference_validation": 8.5,
+          "child_sealed": 9.574468,
+          "reference_sealed": 10.130435
+        },
+        {
+          "seed": 203,
+          "condition": "library",
+          "tick": 139,
+          "child": "4f40a0f8c510",
+          "reference": "b4c4dcc3311e",
+          "child_cohort": 2,
+          "reference_cohort": 1,
+          "admitted": false,
+          "admission_path": null,
+          "child_validation": 8.884615,
+          "reference_validation": 8.5,
+          "child_sealed": 9.574468,
+          "reference_sealed": 10.130435
+        },
+        {
+          "seed": 203,
+          "condition": "library",
+          "tick": 146,
+          "child": "68fa37e9d247",
+          "reference": "b4c4dcc3311e",
+          "child_cohort": 2,
+          "reference_cohort": 1,
+          "admitted": false,
+          "admission_path": null,
+          "child_validation": 8.884615,
+          "reference_validation": 8.5,
+          "child_sealed": 9.574468,
+          "reference_sealed": 10.130435
+        },
+        {
+          "seed": 203,
+          "condition": "teaching-only",
+          "tick": 163,
+          "child": "2055b8ba9d3d",
+          "reference": "9a93ec8e15a8",
+          "child_cohort": 2,
+          "reference_cohort": 1,
+          "admitted": false,
+          "admission_path": null,
+          "child_validation": 8.029412,
+          "reference_validation": 7.236842,
+          "child_sealed": 7.875,
+          "reference_sealed": 8.145161
+        },
+        {
+          "seed": 204,
+          "condition": "library",
+          "tick": 36,
+          "child": "719925fb5483",
+          "reference": "d8431a2662d9",
+          "child_cohort": 1,
+          "reference_cohort": 0,
+          "admitted": true,
+          "admission_path": "improvement",
+          "child_validation": 9.344828,
+          "reference_validation": 10.136364,
+          "child_sealed": 10.357143,
+          "reference_sealed": 11.071429
+        },
+        {
+          "seed": 204,
+          "condition": "library",
+          "tick": 100,
+          "child": "d5fab73bcecd",
+          "reference": "a0f28474a6d9",
+          "child_cohort": 2,
+          "reference_cohort": 1,
+          "admitted": true,
+          "admission_path": "improvement",
+          "child_validation": 9.172414,
+          "reference_validation": 9.344828,
+          "child_sealed": 10.285714,
+          "reference_sealed": 10.357143
+        },
+        {
+          "seed": 204,
+          "condition": "library",
+          "tick": 139,
+          "child": "844d84f3a6d4",
+          "reference": "59f8f137dcc6",
+          "child_cohort": 2,
+          "reference_cohort": 0,
+          "admitted": true,
+          "admission_path": "refactor",
+          "child_validation": 11.916667,
+          "reference_validation": 11.916667,
+          "child_sealed": 10.94,
+          "reference_sealed": 10.94
+        },
+        {
+          "seed": 204,
+          "condition": "teaching-only",
+          "tick": 159,
+          "child": "b3f7331ec1fa",
+          "reference": "f9d8d781fdea",
+          "child_cohort": 2,
+          "reference_cohort": 1,
+          "admitted": true,
+          "admission_path": "improvement",
+          "child_validation": 9.64,
+          "reference_validation": 10.181818,
+          "child_sealed": 11.511111,
+          "reference_sealed": 13.5
+        },
+        {
+          "seed": 205,
+          "condition": "library",
+          "tick": 58,
+          "child": "a5740790f2a2",
+          "reference": "4ae46df97d43",
+          "child_cohort": 1,
+          "reference_cohort": 0,
+          "admitted": true,
+          "admission_path": "improvement",
+          "child_validation": 12.64,
+          "reference_validation": 12.666667,
+          "child_sealed": 11.45098,
+          "reference_sealed": 11.787234
+        },
+        {
+          "seed": 205,
+          "condition": "library",
+          "tick": 99,
+          "child": "eeb8e05096fa",
+          "reference": "2c1f99f0269f",
+          "child_cohort": 2,
+          "reference_cohort": 0,
+          "admitted": false,
+          "admission_path": null,
+          "child_validation": 10.166667,
+          "reference_validation": 9.7,
+          "child_sealed": 10.75,
+          "reference_sealed": 10.203704
+        },
+        {
+          "seed": 205,
+          "condition": "library",
+          "tick": 111,
+          "child": "a57bf74bb8fe",
+          "reference": "2c1f99f0269f",
+          "child_cohort": 2,
+          "reference_cohort": 0,
+          "admitted": false,
+          "admission_path": null,
+          "child_validation": 10.033333,
+          "reference_validation": 9.7,
+          "child_sealed": 11.0,
+          "reference_sealed": 10.203704
+        },
+        {
+          "seed": 205,
+          "condition": "library",
+          "tick": 118,
+          "child": "6055656a9243",
+          "reference": "2c1f99f0269f",
+          "child_cohort": 2,
+          "reference_cohort": 0,
+          "admitted": false,
+          "admission_path": null,
+          "child_validation": 10.433333,
+          "reference_validation": 9.7,
+          "child_sealed": 11.686275,
+          "reference_sealed": 10.203704
+        },
+        {
+          "seed": 205,
+          "condition": "library",
+          "tick": 122,
+          "child": "955d5b7059e2",
+          "reference": "2c1f99f0269f",
+          "child_cohort": 2,
+          "reference_cohort": 0,
+          "admitted": false,
+          "admission_path": null,
+          "child_validation": 10.125,
+          "reference_validation": 9.7,
+          "child_sealed": 13.780488,
+          "reference_sealed": 10.203704
+        },
+        {
+          "seed": 205,
+          "condition": "library",
+          "tick": 131,
+          "child": "4693ff70b353",
+          "reference": "2c1f99f0269f",
+          "child_cohort": 2,
+          "reference_cohort": 0,
+          "admitted": false,
+          "admission_path": null,
+          "child_validation": 10.433333,
+          "reference_validation": 9.7,
+          "child_sealed": 11.686275,
+          "reference_sealed": 10.203704
+        },
+        {
+          "seed": 205,
+          "condition": "library",
+          "tick": 134,
+          "child": "470ab2d59a22",
+          "reference": "2c1f99f0269f",
+          "child_cohort": 2,
+          "reference_cohort": 0,
+          "admitted": false,
+          "admission_path": null,
+          "child_validation": 10.033333,
+          "reference_validation": 9.7,
+          "child_sealed": 11.0,
+          "reference_sealed": 10.203704
+        },
+        {
+          "seed": 205,
+          "condition": "library",
+          "tick": 141,
+          "child": "b08fbf2a8c01",
+          "reference": "2c1f99f0269f",
+          "child_cohort": 2,
+          "reference_cohort": 0,
+          "admitted": false,
+          "admission_path": null,
+          "child_validation": 10.033333,
+          "reference_validation": 9.7,
+          "child_sealed": 11.0,
+          "reference_sealed": 10.203704
+        },
+        {
+          "seed": 205,
+          "condition": "library",
+          "tick": 145,
+          "child": "0dfc3b8e6f35",
+          "reference": "2c1f99f0269f",
+          "child_cohort": 2,
+          "reference_cohort": 0,
+          "admitted": false,
+          "admission_path": null,
+          "child_validation": 10.033333,
+          "reference_validation": 9.7,
+          "child_sealed": 11.0,
+          "reference_sealed": 10.203704
+        },
+        {
+          "seed": 205,
+          "condition": "library",
+          "tick": 150,
+          "child": "8be6424151cd",
+          "reference": "2c1f99f0269f",
+          "child_cohort": 2,
+          "reference_cohort": 0,
+          "admitted": false,
+          "admission_path": null,
+          "child_validation": 10.033333,
+          "reference_validation": 9.7,
+          "child_sealed": 11.0,
+          "reference_sealed": 10.203704
+        },
+        {
+          "seed": 205,
+          "condition": "teaching-only",
+          "tick": 155,
+          "child": "5f694acc47d9",
+          "reference": "9a93ec8e15a8",
+          "child_cohort": 2,
+          "reference_cohort": 1,
+          "admitted": true,
+          "admission_path": "refactor",
+          "child_validation": 7.970588,
+          "reference_validation": 7.970588,
+          "child_sealed": 9.092593,
+          "reference_sealed": 9.092593
+        }
+      ],
+      "further_improvement_corrected": [
+        {
+          "seed": 201,
+          "condition": "library",
+          "cohort": 1,
+          "reference": {
+            "artifact": "d34c96179956",
+            "cohort": 0,
+            "validation": 10.0,
+            "sealed": 11.142857
+          },
+          "own": {
+            "artifact": "26c83d76a5e3",
+            "validation": 8.789474,
+            "sealed": 14.25
+          },
+          "improved_on_validation": true,
+          "improved_on_sealed": false
+        },
+        {
+          "seed": 201,
+          "condition": "library",
+          "cohort": 2,
+          "reference": {
+            "artifact": "26c83d76a5e3",
+            "cohort": 1,
+            "validation": 8.789474,
+            "sealed": 14.25
+          },
+          "own": {
+            "artifact": "ea2058635e66",
+            "validation": 7.205128,
+            "sealed": 8.206349
+          },
+          "improved_on_validation": true,
+          "improved_on_sealed": true
+        },
+        {
+          "seed": 201,
+          "condition": "teaching-only",
+          "cohort": 1,
+          "reference": {
+            "artifact": "d34c96179956",
+            "cohort": 0,
+            "validation": 10.0,
+            "sealed": 11.142857
+          },
+          "own": {
+            "artifact": "26c83d76a5e3",
+            "validation": 8.789474,
+            "sealed": 14.25
+          },
+          "improved_on_validation": true,
+          "improved_on_sealed": false
+        },
+        {
+          "seed": 201,
+          "condition": "teaching-only",
+          "cohort": 2,
+          "reference": {
+            "artifact": "26c83d76a5e3",
+            "cohort": 1,
+            "validation": 8.789474,
+            "sealed": 14.25
+          },
+          "own": {
+            "artifact": "7f416764db28",
+            "validation": 7.885714,
+            "sealed": 8.338462
+          },
+          "improved_on_validation": true,
+          "improved_on_sealed": true
+        },
+        {
+          "seed": 201,
+          "condition": "none",
+          "cohort": 1,
+          "reference": {
+            "artifact": "d34c96179956",
+            "cohort": 0,
+            "validation": 10.0,
+            "sealed": 11.142857
+          },
+          "own": {
+            "artifact": "26c83d76a5e3",
+            "validation": 8.789474,
+            "sealed": 14.25
+          },
+          "improved_on_validation": true,
+          "improved_on_sealed": false
+        },
+        {
+          "seed": 201,
+          "condition": "none",
+          "cohort": 2,
+          "reference": {
+            "artifact": "26c83d76a5e3",
+            "cohort": 1,
+            "validation": 8.789474,
+            "sealed": 14.25
+          },
+          "own": {
+            "artifact": "7f416764db28",
+            "validation": 7.885714,
+            "sealed": 8.338462
+          },
+          "improved_on_validation": true,
+          "improved_on_sealed": true
+        },
+        {
+          "seed": 202,
+          "condition": "library",
+          "cohort": 1,
+          "reference": {
+            "artifact": "ead6aefbbce4",
+            "cohort": 0,
+            "validation": 12.346154,
+            "sealed": 13.928571
+          },
+          "own": {
+            "artifact": "2fde74e6f18e",
+            "validation": 9.4,
+            "sealed": 10.115385
+          },
+          "improved_on_validation": true,
+          "improved_on_sealed": true
+        },
+        {
+          "seed": 202,
+          "condition": "library",
+          "cohort": 2,
+          "reference": {
+            "artifact": "2fde74e6f18e",
+            "cohort": 1,
+            "validation": 9.4,
+            "sealed": 10.115385
+          },
+          "own": {
+            "artifact": "560bcf163b34",
+            "validation": 8.277778,
+            "sealed": 9.392857
+          },
+          "improved_on_validation": true,
+          "improved_on_sealed": true
+        },
+        {
+          "seed": 202,
+          "condition": "teaching-only",
+          "cohort": 1,
+          "reference": {
+            "artifact": "ead6aefbbce4",
+            "cohort": 0,
+            "validation": 12.346154,
+            "sealed": 13.928571
+          },
+          "own": {
+            "artifact": "81eb3e8a782a",
+            "validation": 10.181818,
+            "sealed": 10.686275
+          },
+          "improved_on_validation": true,
+          "improved_on_sealed": true
+        },
+        {
+          "seed": 202,
+          "condition": "teaching-only",
+          "cohort": 2,
+          "reference": {
+            "artifact": "81eb3e8a782a",
+            "cohort": 1,
+            "validation": 10.181818,
+            "sealed": 10.686275
+          },
+          "own": {
+            "artifact": "2b849846a077",
+            "validation": 10.444444,
+            "sealed": 13.266667
+          },
+          "improved_on_validation": false,
+          "improved_on_sealed": false
+        },
+        {
+          "seed": 202,
+          "condition": "none",
+          "cohort": 1,
+          "reference": {
+            "artifact": "ead6aefbbce4",
+            "cohort": 0,
+            "validation": 12.346154,
+            "sealed": 13.928571
+          },
+          "own": {
+            "artifact": "81eb3e8a782a",
+            "validation": 10.181818,
+            "sealed": 10.686275
+          },
+          "improved_on_validation": true,
+          "improved_on_sealed": true
+        },
+        {
+          "seed": 202,
+          "condition": "none",
+          "cohort": 2,
+          "reference": {
+            "artifact": "81eb3e8a782a",
+            "cohort": 1,
+            "validation": 10.181818,
+            "sealed": 10.686275
+          },
+          "own": {
+            "artifact": "2b849846a077",
+            "validation": 10.444444,
+            "sealed": 13.266667
+          },
+          "improved_on_validation": false,
+          "improved_on_sealed": false
+        },
+        {
+          "seed": 203,
+          "condition": "library",
+          "cohort": 1,
+          "reference": {
+            "artifact": "7f859039880a",
+            "cohort": 0,
+            "validation": 11.090909,
+            "sealed": 11.571429
+          },
+          "own": {
+            "artifact": "9a93ec8e15a8",
+            "validation": 7.236842,
+            "sealed": 8.145161
+          },
+          "improved_on_validation": true,
+          "improved_on_sealed": true
+        },
+        {
+          "seed": 203,
+          "condition": "library",
+          "cohort": 2,
+          "reference": {
+            "artifact": "9a93ec8e15a8",
+            "cohort": 1,
+            "validation": 7.236842,
+            "sealed": 8.145161
+          },
+          "own": null,
+          "improved_on_validation": false,
+          "improved_on_sealed": false
+        },
+        {
+          "seed": 203,
+          "condition": "teaching-only",
+          "cohort": 1,
+          "reference": {
+            "artifact": "7f859039880a",
+            "cohort": 0,
+            "validation": 11.090909,
+            "sealed": 11.571429
+          },
+          "own": {
+            "artifact": "9a93ec8e15a8",
+            "validation": 7.236842,
+            "sealed": 8.145161
+          },
+          "improved_on_validation": true,
+          "improved_on_sealed": true
+        },
+        {
+          "seed": 203,
+          "condition": "teaching-only",
+          "cohort": 2,
+          "reference": {
+            "artifact": "9a93ec8e15a8",
+            "cohort": 1,
+            "validation": 7.236842,
+            "sealed": 8.145161
+          },
+          "own": {
+            "artifact": "8777720ed024",
+            "validation": 11.090909,
+            "sealed": 11.571429
+          },
+          "improved_on_validation": false,
+          "improved_on_sealed": false
+        },
+        {
+          "seed": 203,
+          "condition": "none",
+          "cohort": 1,
+          "reference": {
+            "artifact": "7f859039880a",
+            "cohort": 0,
+            "validation": 11.090909,
+            "sealed": 11.571429
+          },
+          "own": {
+            "artifact": "9a93ec8e15a8",
+            "validation": 7.236842,
+            "sealed": 8.145161
+          },
+          "improved_on_validation": true,
+          "improved_on_sealed": true
+        },
+        {
+          "seed": 203,
+          "condition": "none",
+          "cohort": 2,
+          "reference": {
+            "artifact": "9a93ec8e15a8",
+            "cohort": 1,
+            "validation": 7.236842,
+            "sealed": 8.145161
+          },
+          "own": {
+            "artifact": "54bfdde6259e",
+            "validation": 10.75,
+            "sealed": 14.257143
+          },
+          "improved_on_validation": false,
+          "improved_on_sealed": false
+        },
+        {
+          "seed": 204,
+          "condition": "library",
+          "cohort": 1,
+          "reference": {
+            "artifact": "d8431a2662d9",
+            "cohort": 0,
+            "validation": 10.136364,
+            "sealed": 11.071429
+          },
+          "own": {
+            "artifact": "719925fb5483",
+            "validation": 9.344828,
+            "sealed": 10.357143
+          },
+          "improved_on_validation": true,
+          "improved_on_sealed": true
+        },
+        {
+          "seed": 204,
+          "condition": "library",
+          "cohort": 2,
+          "reference": {
+            "artifact": "719925fb5483",
+            "cohort": 1,
+            "validation": 9.344828,
+            "sealed": 10.357143
+          },
+          "own": {
+            "artifact": "d5fab73bcecd",
+            "validation": 9.172414,
+            "sealed": 10.285714
+          },
+          "improved_on_validation": true,
+          "improved_on_sealed": true
+        },
+        {
+          "seed": 204,
+          "condition": "teaching-only",
+          "cohort": 1,
+          "reference": {
+            "artifact": "d8431a2662d9",
+            "cohort": 0,
+            "validation": 10.136364,
+            "sealed": 11.071429
+          },
+          "own": {
+            "artifact": "f9d8d781fdea",
+            "validation": 10.181818,
+            "sealed": 13.5
+          },
+          "improved_on_validation": false,
+          "improved_on_sealed": false
+        },
+        {
+          "seed": 204,
+          "condition": "teaching-only",
+          "cohort": 2,
+          "reference": {
+            "artifact": "d8431a2662d9",
+            "cohort": 0,
+            "validation": 10.136364,
+            "sealed": 11.071429
+          },
+          "own": {
+            "artifact": "7f416764db28",
+            "validation": 8.575758,
+            "sealed": 8.904762
+          },
+          "improved_on_validation": true,
+          "improved_on_sealed": true
+        },
+        {
+          "seed": 204,
+          "condition": "none",
+          "cohort": 1,
+          "reference": {
+            "artifact": "d8431a2662d9",
+            "cohort": 0,
+            "validation": 10.136364,
+            "sealed": 11.071429
+          },
+          "own": {
+            "artifact": "f9d8d781fdea",
+            "validation": 10.181818,
+            "sealed": 13.5
+          },
+          "improved_on_validation": false,
+          "improved_on_sealed": false
+        },
+        {
+          "seed": 204,
+          "condition": "none",
+          "cohort": 2,
+          "reference": {
+            "artifact": "d8431a2662d9",
+            "cohort": 0,
+            "validation": 10.136364,
+            "sealed": 11.071429
+          },
+          "own": {
+            "artifact": "7f416764db28",
+            "validation": 8.575758,
+            "sealed": 8.904762
+          },
+          "improved_on_validation": true,
+          "improved_on_sealed": true
+        },
+        {
+          "seed": 205,
+          "condition": "library",
+          "cohort": 1,
+          "reference": {
+            "artifact": "2c1f99f0269f",
+            "cohort": 0,
+            "validation": 9.7,
+            "sealed": 10.203704
+          },
+          "own": {
+            "artifact": "a5740790f2a2",
+            "validation": 12.64,
+            "sealed": 11.45098
+          },
+          "improved_on_validation": false,
+          "improved_on_sealed": false
+        },
+        {
+          "seed": 205,
+          "condition": "library",
+          "cohort": 2,
+          "reference": {
+            "artifact": "2c1f99f0269f",
+            "cohort": 0,
+            "validation": 9.7,
+            "sealed": 10.203704
+          },
+          "own": null,
+          "improved_on_validation": false,
+          "improved_on_sealed": false
+        },
+        {
+          "seed": 205,
+          "condition": "teaching-only",
+          "cohort": 1,
+          "reference": {
+            "artifact": "2c1f99f0269f",
+            "cohort": 0,
+            "validation": 9.7,
+            "sealed": 10.203704
+          },
+          "own": {
+            "artifact": "9a93ec8e15a8",
+            "validation": 7.970588,
+            "sealed": 9.092593
+          },
+          "improved_on_validation": true,
+          "improved_on_sealed": true
+        },
+        {
+          "seed": 205,
+          "condition": "teaching-only",
+          "cohort": 2,
+          "reference": {
+            "artifact": "9a93ec8e15a8",
+            "cohort": 1,
+            "validation": 7.970588,
+            "sealed": 9.092593
+          },
+          "own": {
+            "artifact": "5f694acc47d9",
+            "validation": 7.970588,
+            "sealed": 9.092593
+          },
+          "improved_on_validation": false,
+          "improved_on_sealed": false
+        },
+        {
+          "seed": 205,
+          "condition": "none",
+          "cohort": 1,
+          "reference": {
+            "artifact": "2c1f99f0269f",
+            "cohort": 0,
+            "validation": 9.7,
+            "sealed": 10.203704
+          },
+          "own": {
+            "artifact": "9a93ec8e15a8",
+            "validation": 7.970588,
+            "sealed": 9.092593
+          },
+          "improved_on_validation": true,
+          "improved_on_sealed": true
+        },
+        {
+          "seed": 205,
+          "condition": "none",
+          "cohort": 2,
+          "reference": {
+            "artifact": "9a93ec8e15a8",
+            "cohort": 1,
+            "validation": 7.970588,
+            "sealed": 9.092593
+          },
+          "own": {
+            "artifact": "f94d4d3781d4",
+            "validation": 10.772727,
+            "sealed": 11.785714
+          },
+          "improved_on_validation": false,
+          "improved_on_sealed": false
+        }
+      ]
+    }
+  }
+}

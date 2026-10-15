@@ -23,14 +23,16 @@ GENESIS is a single-process modular monolith: Python 3.10+, Pydantic, SQLite, Fa
 | `genesis/workshop.py` | `workshop-1`: language, bounded interpreter, hidden parameters, outcome function, development and validation partitions, evaluator, search neighbourhood. |
 | `genesis/sealed.py` | Sealed final evaluator: protected manifest, commitment check, scoring of frozen artifacts in closed runs. Imported only by evidence tools. |
 | `genesis/experiments4.py` | Experiment A (teaching and acquisition) and B (cumulative invention), plus `score_sealed` for closed runs. |
+| `genesis/experiments5.py` | Experiment P (search policy × access, shared credits) and T (library / teaching-only / none with overlapping generations), with parity hashes and reducer-based summaries. |
+| `genesis/demo5.py` | Labelled deterministic demonstration fixture: one component's path across a generational handoff (scripted overrides validated by the ordinary rules). |
 | `genesis/reducer.py` | **Independent metrics.** It reconstructs every holding, energy category, window and successor milestone from an export's initial state and events, then reconciles the result against the final state. It imports nothing from the engine. |
 | `genesis/profiling.py` | Profiling harness: timing, cProfile breakdown, export, snapshot, UI payload and memory, each measured as a separate pass. |
 | `genesis/storage.py` | Event store: transactional ticks, hash-chained records, snapshots, replay, fork, import/export, idempotency, and the version boundary. |
 | `genesis/experiments.py` | The descriptive paired runner, the controlled inheritance experiment (checkpoint forks plus a physical-parity check), and the benchmark. |
 | `genesis/api.py` | FastAPI control and inspection; a single server-owned clock thread. |
 | `genesis/cli.py` | Headless commands. |
-| `frontend/src/` | `main.tsx` (pages, inspector, evidence dialogs), `Atlas.tsx` (canvas map), `Experiments.tsx` (reducer-based reports), `Lifecycle.tsx` (storage, lineage links, retention chain). |
-| `tools/` | `generate_evidence.py` (regenerates all evidence and logs each step), `enumerate_space.py`, `verify_restart.py`, and `audit_v0_2.py` (the historical audit, run with the v0.2.0 code). |
+| `frontend/src/` | `main.tsx` (pages, inspector, evidence dialogs), `Atlas.tsx` (canvas map), `Experiments.tsx` (reducer-based reports), `Lifecycle.tsx` (storage, lineage links, retention chain), `Teaching.tsx`, `Experiments4.tsx`, `Milestone5.tsx` (search attempts and budgets, component graph, generations and dependency teaching, frozen closures, v0.5 reports). |
+| `tools/` | `generate_evidence.py`, `generate_evidence_m4.py`, `generate_evidence_m5.py` (each regenerates one release's evidence and logs every step), `calibrate_m5.py`, `verify_restart_m5.py`, `benchmark_search_m5.py`, `summarize_m5.py`, `diagnose_v04_search.py`, `enumerate_space.py`, `verify_restart*.py`, and `audit_v0_2.py` (the historical audit, run with the v0.2.0 code). |
 
 ## Determinism and randomness
 
@@ -85,6 +87,15 @@ The rules did not change.
 - Workshop artifacts carry `task`, `kind`, `cohort`, `origin`, `sources`, `development` and `validation`. The `validation` field is observer-only.
 
 The scoped copy-on-write also copies session participants and the session's artifact. Equivalence with the full-copy reference is tested for workshop, teaching and cohort worlds, including fuzzed submissions of every action kind.
+
+## v0.5 additions
+
+- **Scenario options:** `search_policy` (`first-improvement` | `beam` | `beam-nocomponents`), `budget_unit` (`proposals` | `credits`), `teaching_policy` (`strict-prerequisites` | `package`), `cohort_overlap`. The defaults reproduce v0.4 (tested against a stored v0.4 experiment world).
+- **Agents** gain `search_spent` (credits). **Artifacts** gain `operator`, `dependencies`, `closure`, `inlined`, and a development `behavior_hash`. Validation may carry `admission_path: refactor`.
+- **Sessions** gain `closure`, `policy`, `package` and `already_known`. Lifecycle transitions gain `phase` (`arrival`, `retirement` or `replacement`) and `overlap`. Freezes gain `held_best` and record each pick's `closure`.
+- **Decision diagnostics** (operator, parent, step, stop reason, remaining budget) are stored with decisions in tick records, never in world state, and never include wall-clock time, so records stay reproducible. `Store.diagnostics` serves the recent ones to the observatory.
+- **Scoped copy-on-write** also copies the host workflow of a component test, a session artifact's closure, and the full ancestor chain used to find the admission reference. Equivalence with the full copy is tested in two v0.5 scenarios, one with fuzzed actions.
+- **Reducer `genesis.reducer/2`** adds search accounting (proposals, unique programs, duplicate behaviour, operators, stop reasons, search actions per agent reconciled against `search_spent`), component accounting (extractions, revisions, compositions, refactor and improvement admissions, executions with dependencies), dependency teaching, inherited use, and transition phases.
 
 ## Version boundary
 

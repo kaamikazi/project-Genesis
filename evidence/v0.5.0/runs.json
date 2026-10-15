@@ -1,0 +1,105 @@
+{
+  "steps": [
+    {
+      "step": "calibration (development seeds only)",
+      "command": "python tools/calibrate_m5.py evidence\\v0.5.0\\calibration {\"population\": 8, \"cohort_ticks\": 60, \"cohort_count\": 3, \"cohort_overlap\": 30, \"policy_overlap\": 0, \"ore_per_site\": 900, \"search_budget\": 48}",
+      "exit_code": 0,
+      "seconds": 620.0,
+      "stderr_tail": "",
+      "finished_at": "2026-10-14T19:39:53.549230+00:00"
+    },
+    {
+      "step": "freeze protocol and sealed-2 commitment",
+      "command": "(in-process) freeze_protocol()",
+      "exit_code": 0,
+      "seconds": 0.4,
+      "stderr_tail": "",
+      "finished_at": "2026-10-14T19:39:53.948168+00:00"
+    },
+    {
+      "step": "experiment P: search policy x access",
+      "command": "python -c from genesis.experiments5 import PolicyExperiment as P; import json; P().run([201, 202, 203, 204, 205], r'evidence\\v0.5.0\\policy', json.loads('{\"population\": 8, \"cohort_ticks\": 60, \"cohort_count\": 3, \"cohort_overlap\": 30, \"policy_overlap\": 0, \"ore_per_site\": 900, \"search_budget\": 48}'))",
+      "exit_code": 0,
+      "seconds": 583.8,
+      "stderr_tail": "",
+      "finished_at": "2026-10-14T19:49:37.724726+00:00"
+    },
+    {
+      "step": "experiment T: teaching across overlapping generations",
+      "command": "python -c from genesis.experiments5 import OverlapTeachingExperiment as T; import json; T().run([201, 202, 203, 204, 205], r'evidence\\v0.5.0\\teaching', json.loads('{\"population\": 8, \"cohort_ticks\": 60, \"cohort_count\": 3, \"cohort_overlap\": 30, \"policy_overlap\": 0, \"ore_per_site\": 900, \"search_budget\": 48}'))",
+      "exit_code": 0,
+      "seconds": 386.3,
+      "stderr_tail": "",
+      "finished_at": "2026-10-14T19:56:03.989312+00:00"
+    },
+    {
+      "step": "sealed-2 scoring of closed runs",
+      "command": "(in-process) sealed_scoring()",
+      "exit_code": 0,
+      "seconds": 10.8,
+      "stderr_tail": "",
+      "finished_at": "2026-10-14T19:56:14.753127+00:00"
+    },
+    {
+      "step": "deterministic demonstration fixture",
+      "command": "(in-process) demonstration()",
+      "exit_code": 0,
+      "seconds": 2.0,
+      "stderr_tail": "",
+      "finished_at": "2026-10-14T19:56:16.728694+00:00"
+    },
+    {
+      "step": "restart during mentorship and search",
+      "command": "python tools/verify_restart_m5.py evidence\\v0.5.0\\verification\\restart.json",
+      "exit_code": 0,
+      "seconds": 9.6,
+      "stderr_tail": "",
+      "finished_at": "2026-10-14T19:56:26.377268+00:00"
+    },
+    {
+      "step": "search CPU by policy",
+      "command": "python tools/benchmark_search_m5.py evidence\\v0.5.0\\benchmark\\search-cpu.json 300 301",
+      "exit_code": 0,
+      "seconds": 52.9,
+      "stderr_tail": "",
+      "finished_at": "2026-10-14T19:57:19.280304+00:00"
+    },
+    {
+      "step": "profile 8/20 agents, v0.5 features active",
+      "command": "python -m genesis.profiling evidence\\v0.5.0\\benchmark\\profile-v05-features.json 100 3 scoped {\"task\": \"workshop-1\", \"ore_per_site\": 900, \"lifecycle\": \"cohorts\", \"cohort_ticks\": 50, \"cohort_count\": 2, \"cohort_overlap\": 20, \"teaching\": true, \"teaching_policy\": \"package\", \"search_policy\": \"beam\", \"budget_unit\": \"credits\", \"search_budget\": 48, \"cross_cohort_access\": false}",
+      "exit_code": 0,
+      "seconds": 131.8,
+      "stderr_tail": "",
+      "finished_at": "2026-10-14T19:59:31.072198+00:00"
+    },
+    {
+      "step": "summaries",
+      "command": "python tools/summarize_m5.py evidence\\v0.5.0",
+      "exit_code": 0,
+      "seconds": 0.2,
+      "stderr_tail": "",
+      "finished_at": "2026-10-14T19:59:31.242510+00:00"
+    }
+  ],
+  "source_at_start": {
+    "git_commit": "3f7b0eb27533065a01b4bca3956e323a7d886eff",
+    "runtime_code_dirty": false,
+    "dirty_files": [],
+    "source_sha256": "10bb2ac7fe6b58e303af47d52ee44a4939fa09c24403fa3e9f02a445bbdb344d",
+    "files": 31
+  },
+  "source_at_end": {
+    "git_commit": "3f7b0eb27533065a01b4bca3956e323a7d886eff",
+    "runtime_code_dirty": true,
+    "dirty_files": [
+      "M frontend/src/main.tsx",
+      " M genesis/api.py",
+      " M genesis/storage.py",
+      "?? frontend/src/Milestone5.tsx",
+      "?? tools/audit_generation_patch_m5.py",
+      "?? tools/diagnose_v05_search.py"
+    ],
+    "source_sha256": "eb02e1157cede4cd0129ab3235f98e647a01ce4f7fe61dddf115f27f1239a6d9",
+    "files": 33
+  }
+}

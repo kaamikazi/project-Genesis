@@ -1,0 +1,408 @@
+{
+  "clean_checkout_commit": "3f7b0eb27533065a01b4bca3956e323a7d886eff",
+  "worlds_compared": 40,
+  "all_identical": true,
+  "rows": [
+    {
+      "experiment": "policy",
+      "seed": 201,
+      "condition": "first-improvement/preserved",
+      "initial_hash_equal": true,
+      "record_hashes_equal": true,
+      "final_state_equal": true,
+      "ticks": 180,
+      "seconds": 21.6
+    },
+    {
+      "experiment": "policy",
+      "seed": 201,
+      "condition": "first-improvement/reset",
+      "initial_hash_equal": true,
+      "record_hashes_equal": true,
+      "final_state_equal": true,
+      "ticks": 180,
+      "seconds": 19.1
+    },
+    {
+      "experiment": "policy",
+      "seed": 201,
+      "condition": "beam/preserved",
+      "initial_hash_equal": true,
+      "record_hashes_equal": true,
+      "final_state_equal": true,
+      "ticks": 180,
+      "seconds": 18.4
+    },
+    {
+      "experiment": "policy",
+      "seed": 201,
+      "condition": "beam/reset",
+      "initial_hash_equal": true,
+      "record_hashes_equal": true,
+      "final_state_equal": true,
+      "ticks": 180,
+      "seconds": 17.9
+    },
+    {
+      "experiment": "policy",
+      "seed": 201,
+      "condition": "beam-nocomponents/preserved",
+      "initial_hash_equal": true,
+      "record_hashes_equal": true,
+      "final_state_equal": true,
+      "ticks": 180,
+      "seconds": 20.7
+    },
+    {
+      "experiment": "policy",
+      "seed": 202,
+      "condition": "first-improvement/preserved",
+      "initial_hash_equal": true,
+      "record_hashes_equal": true,
+      "final_state_equal": true,
+      "ticks": 180,
+      "seconds": 20.7
+    },
+    {
+      "experiment": "policy",
+      "seed": 202,
+      "condition": "first-improvement/reset",
+      "initial_hash_equal": true,
+      "record_hashes_equal": true,
+      "final_state_equal": true,
+      "ticks": 180,
+      "seconds": 19.5
+    },
+    {
+      "experiment": "policy",
+      "seed": 202,
+      "condition": "beam/preserved",
+      "initial_hash_equal": true,
+      "record_hashes_equal": true,
+      "final_state_equal": true,
+      "ticks": 180,
+      "seconds": 19.7
+    },
+    {
+      "experiment": "policy",
+      "seed": 202,
+      "condition": "beam/reset",
+      "initial_hash_equal": true,
+      "record_hashes_equal": true,
+      "final_state_equal": true,
+      "ticks": 180,
+      "seconds": 20.9
+    },
+    {
+      "experiment": "policy",
+      "seed": 202,
+      "condition": "beam-nocomponents/preserved",
+      "initial_hash_equal": true,
+      "record_hashes_equal": true,
+      "final_state_equal": true,
+      "ticks": 180,
+      "seconds": 22.2
+    },
+    {
+      "experiment": "policy",
+      "seed": 203,
+      "condition": "first-improvement/preserved",
+      "initial_hash_equal": true,
+      "record_hashes_equal": true,
+      "final_state_equal": true,
+      "ticks": 180,
+      "seconds": 24.5
+    },
+    {
+      "experiment": "policy",
+      "seed": 203,
+      "condition": "first-improvement/reset",
+      "initial_hash_equal": true,
+      "record_hashes_equal": true,
+      "final_state_equal": true,
+      "ticks": 180,
+      "seconds": 23.7
+    },
+    {
+      "experiment": "policy",
+      "seed": 203,
+      "condition": "beam/preserved",
+      "initial_hash_equal": true,
+      "record_hashes_equal": true,
+      "final_state_equal": true,
+      "ticks": 180,
+      "seconds": 20.9
+    },
+    {
+      "experiment": "policy",
+      "seed": 203,
+      "condition": "beam/reset",
+      "initial_hash_equal": true,
+      "record_hashes_equal": true,
+      "final_state_equal": true,
+      "ticks": 180,
+      "seconds": 19.9
+    },
+    {
+      "experiment": "policy",
+      "seed": 203,
+      "condition": "beam-nocomponents/preserved",
+      "initial_hash_equal": true,
+      "record_hashes_equal": true,
+      "final_state_equal": true,
+      "ticks": 180,
+      "seconds": 21.4
+    },
+    {
+      "experiment": "policy",
+      "seed": 204,
+      "condition": "first-improvement/preserved",
+      "initial_hash_equal": true,
+      "record_hashes_equal": true,
+      "final_state_equal": true,
+      "ticks": 180,
+      "seconds": 24.7
+    },
+    {
+      "experiment": "policy",
+      "seed": 204,
+      "condition": "first-improvement/reset",
+      "initial_hash_equal": true,
+      "record_hashes_equal": true,
+      "final_state_equal": true,
+      "ticks": 180,
+      "seconds": 21.8
+    },
+    {
+      "experiment": "policy",
+      "seed": 204,
+      "condition": "beam/preserved",
+      "initial_hash_equal": true,
+      "record_hashes_equal": true,
+      "final_state_equal": true,
+      "ticks": 180,
+      "seconds": 22.1
+    },
+    {
+      "experiment": "policy",
+      "seed": 204,
+      "condition": "beam/reset",
+      "initial_hash_equal": true,
+      "record_hashes_equal": true,
+      "final_state_equal": true,
+      "ticks": 180,
+      "seconds": 21.1
+    },
+    {
+      "experiment": "policy",
+      "seed": 204,
+      "condition": "beam-nocomponents/preserved",
+      "initial_hash_equal": true,
+      "record_hashes_equal": true,
+      "final_state_equal": true,
+      "ticks": 180,
+      "seconds": 21.8
+    },
+    {
+      "experiment": "policy",
+      "seed": 205,
+      "condition": "first-improvement/preserved",
+      "initial_hash_equal": true,
+      "record_hashes_equal": true,
+      "final_state_equal": true,
+      "ticks": 180,
+      "seconds": 24.0
+    },
+    {
+      "experiment": "policy",
+      "seed": 205,
+      "condition": "first-improvement/reset",
+      "initial_hash_equal": true,
+      "record_hashes_equal": true,
+      "final_state_equal": true,
+      "ticks": 180,
+      "seconds": 23.1
+    },
+    {
+      "experiment": "policy",
+      "seed": 205,
+      "condition": "beam/preserved",
+      "initial_hash_equal": true,
+      "record_hashes_equal": true,
+      "final_state_equal": true,
+      "ticks": 180,
+      "seconds": 23.5
+    },
+    {
+      "experiment": "policy",
+      "seed": 205,
+      "condition": "beam/reset",
+      "initial_hash_equal": true,
+      "record_hashes_equal": true,
+      "final_state_equal": true,
+      "ticks": 180,
+      "seconds": 25.3
+    },
+    {
+      "experiment": "policy",
+      "seed": 205,
+      "condition": "beam-nocomponents/preserved",
+      "initial_hash_equal": true,
+      "record_hashes_equal": true,
+      "final_state_equal": true,
+      "ticks": 180,
+      "seconds": 24.5
+    },
+    {
+      "experiment": "teaching",
+      "seed": 201,
+      "condition": "library",
+      "initial_hash_equal": true,
+      "record_hashes_equal": true,
+      "final_state_equal": true,
+      "ticks": 180,
+      "seconds": 23.3
+    },
+    {
+      "experiment": "teaching",
+      "seed": 201,
+      "condition": "teaching-only",
+      "initial_hash_equal": true,
+      "record_hashes_equal": true,
+      "final_state_equal": true,
+      "ticks": 180,
+      "seconds": 24.2
+    },
+    {
+      "experiment": "teaching",
+      "seed": 201,
+      "condition": "none",
+      "initial_hash_equal": true,
+      "record_hashes_equal": true,
+      "final_state_equal": true,
+      "ticks": 180,
+      "seconds": 23.9
+    },
+    {
+      "experiment": "teaching",
+      "seed": 202,
+      "condition": "library",
+      "initial_hash_equal": true,
+      "record_hashes_equal": true,
+      "final_state_equal": true,
+      "ticks": 180,
+      "seconds": 25.3
+    },
+    {
+      "experiment": "teaching",
+      "seed": 202,
+      "condition": "teaching-only",
+      "initial_hash_equal": true,
+      "record_hashes_equal": true,
+      "final_state_equal": true,
+      "ticks": 180,
+      "seconds": 23.4
+    },
+    {
+      "experiment": "teaching",
+      "seed": 202,
+      "condition": "none",
+      "initial_hash_equal": true,
+      "record_hashes_equal": true,
+      "final_state_equal": true,
+      "ticks": 180,
+      "seconds": 24.6
+    },
+    {
+      "experiment": "teaching",
+      "seed": 203,
+      "condition": "library",
+      "initial_hash_equal": true,
+      "record_hashes_equal": true,
+      "final_state_equal": true,
+      "ticks": 180,
+      "seconds": 24.3
+    },
+    {
+      "experiment": "teaching",
+      "seed": 203,
+      "condition": "teaching-only",
+      "initial_hash_equal": true,
+      "record_hashes_equal": true,
+      "final_state_equal": true,
+      "ticks": 180,
+      "seconds": 22.5
+    },
+    {
+      "experiment": "teaching",
+      "seed": 203,
+      "condition": "none",
+      "initial_hash_equal": true,
+      "record_hashes_equal": true,
+      "final_state_equal": true,
+      "ticks": 180,
+      "seconds": 23.5
+    },
+    {
+      "experiment": "teaching",
+      "seed": 204,
+      "condition": "library",
+      "initial_hash_equal": true,
+      "record_hashes_equal": true,
+      "final_state_equal": true,
+      "ticks": 180,
+      "seconds": 22.6
+    },
+    {
+      "experiment": "teaching",
+      "seed": 204,
+      "condition": "teaching-only",
+      "initial_hash_equal": true,
+      "record_hashes_equal": true,
+      "final_state_equal": true,
+      "ticks": 180,
+      "seconds": 23.2
+    },
+    {
+      "experiment": "teaching",
+      "seed": 204,
+      "condition": "none",
+      "initial_hash_equal": true,
+      "record_hashes_equal": true,
+      "final_state_equal": true,
+      "ticks": 180,
+      "seconds": 23.8
+    },
+    {
+      "experiment": "teaching",
+      "seed": 205,
+      "condition": "library",
+      "initial_hash_equal": true,
+      "record_hashes_equal": true,
+      "final_state_equal": true,
+      "ticks": 180,
+      "seconds": 27.1
+    },
+    {
+      "experiment": "teaching",
+      "seed": 205,
+      "condition": "teaching-only",
+      "initial_hash_equal": true,
+      "record_hashes_equal": true,
+      "final_state_equal": true,
+      "ticks": 180,
+      "seconds": 22.6
+    },
+    {
+      "experiment": "teaching",
+      "seed": 205,
+      "condition": "none",
+      "initial_hash_equal": true,
+      "record_hashes_equal": true,
+      "final_state_equal": true,
+      "ticks": 180,
+      "seconds": 25.7
+    }
+  ],
+  "conclusion": "the edit did not change any experiment world"
+}

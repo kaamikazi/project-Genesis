@@ -1,0 +1,705 @@
+{
+  "policy": {
+    "first-improvement/preserved": {
+      "lifetimes": 30,
+      "credits_spent": 1423,
+      "credits_available": 1440,
+      "allocation": {
+        "propose": 630,
+        "own-candidate test": 630,
+        "re-test of held": 20,
+        "component test": 0,
+        "submit": 143
+      },
+      "allocation_share": {
+        "propose": 0.4427,
+        "own-candidate test": 0.4427,
+        "submit": 0.1005,
+        "re-test of held": 0.0141
+      },
+      "novel_evaluations": 499,
+      "repeated_evaluation_results": 131,
+      "novel_per_100_credits": 35.07,
+      "duplicate_programs": 0,
+      "energy_pauses": {
+        "temporary": 24,
+        "temporary_ticks": 24,
+        "sustained": 0,
+        "sustained_ticks": 0,
+        "lifetimes_ending_in_sustained_pause": 0
+      },
+      "unspent_credits": {
+        "total": 17,
+        "lifetimes_with_at_least_6_unspent": 0,
+        "max": 1
+      },
+      "admissions": 76,
+      "submissions": 143,
+      "refactor_admissions": 0,
+      "scores": {
+        "per_world": [
+          {
+            "seed": 201,
+            "dev": 8.363636,
+            "validation": 7.3056,
+            "sealed": 9.980769,
+            "baseline_sealed": 13.794872,
+            "creator_cohort": 2
+          },
+          {
+            "seed": 202,
+            "dev": 9.2,
+            "validation": 8.6,
+            "sealed": 10.479167,
+            "baseline_sealed": 14.179487,
+            "creator_cohort": 2
+          },
+          {
+            "seed": 203,
+            "dev": 7.125,
+            "validation": 6.2927,
+            "sealed": 9.017857,
+            "baseline_sealed": 14.918919,
+            "creator_cohort": 2
+          },
+          {
+            "seed": 204,
+            "dev": 7.971429,
+            "validation": 7.3636,
+            "sealed": 8.112903,
+            "baseline_sealed": 13.315789,
+            "creator_cohort": 1
+          },
+          {
+            "seed": 205,
+            "dev": 7.775,
+            "validation": 7.5946,
+            "sealed": 10.294118,
+            "baseline_sealed": 14.263158,
+            "creator_cohort": 2
+          }
+        ],
+        "mean_dev": 8.087,
+        "mean_validation": 7.4313,
+        "mean_sealed": 9.577,
+        "mean_validation_minus_dev": -0.6557,
+        "mean_sealed_minus_validation": 2.1457,
+        "note": "final freeze held_best; dev = the creator's own development score; lower is better"
+      }
+    },
+    "first-improvement/reset": {
+      "lifetimes": 30,
+      "credits_spent": 1420,
+      "credits_available": 1440,
+      "allocation": {
+        "propose": 612,
+        "own-candidate test": 611,
+        "re-test of held": 0,
+        "component test": 0,
+        "submit": 197
+      },
+      "allocation_share": {
+        "propose": 0.431,
+        "own-candidate test": 0.4303,
+        "submit": 0.1387
+      },
+      "novel_evaluations": 530,
+      "repeated_evaluation_results": 81,
+      "novel_per_100_credits": 37.32,
+      "duplicate_programs": 0,
+      "energy_pauses": {
+        "temporary": 36,
+        "temporary_ticks": 36,
+        "sustained": 0,
+        "sustained_ticks": 0,
+        "lifetimes_ending_in_sustained_pause": 0
+      },
+      "unspent_credits": {
+        "total": 20,
+        "lifetimes_with_at_least_6_unspent": 0,
+        "max": 2
+      },
+      "admissions": 120,
+      "submissions": 197,
+      "refactor_admissions": 0,
+      "scores": {
+        "per_world": [
+          {
+            "seed": 201,
+            "dev": 8.264706,
+            "validation": 7.6765,
+            "sealed": 9.0,
+            "baseline_sealed": 13.794872,
+            "creator_cohort": 2
+          },
+          {
+            "seed": 202,
+            "dev": 10.448276,
+            "validation": 9.3438,
+            "sealed": 9.388889,
+            "baseline_sealed": 14.179487,
+            "creator_cohort": 2
+          },
+          {
+            "seed": 203,
+            "dev": 8.454545,
+            "validation": 7.4242,
+            "sealed": 8.240741,
+            "baseline_sealed": 14.918919,
+            "creator_cohort": 2
+          },
+          {
+            "seed": 204,
+            "dev": 10.2,
+            "validation": 9.0385,
+            "sealed": 9.396226,
+            "baseline_sealed": 13.315789,
+            "creator_cohort": 2
+          },
+          {
+            "seed": 205,
+            "dev": 7.96875,
+            "validation": 8.1,
+            "sealed": 7.566667,
+            "baseline_sealed": 14.263158,
+            "creator_cohort": 2
+          }
+        ],
+        "mean_dev": 9.0673,
+        "mean_validation": 8.3166,
+        "mean_sealed": 8.7185,
+        "mean_validation_minus_dev": -0.7507,
+        "mean_sealed_minus_validation": 0.4019,
+        "note": "final freeze held_best; dev = the creator's own development score; lower is better"
+      }
+    },
+    "beam/preserved": {
+      "lifetimes": 30,
+      "credits_spent": 1375,
+      "credits_available": 1440,
+      "allocation": {
+        "propose": 620,
+        "own-candidate test": 575,
+        "re-test of held": 18,
+        "component test": 38,
+        "submit": 124
+      },
+      "allocation_share": {
+        "propose": 0.4509,
+        "own-candidate test": 0.4182,
+        "submit": 0.0902,
+        "component test": 0.0276,
+        "re-test of held": 0.0131
+      },
+      "novel_evaluations": 349,
+      "repeated_evaluation_results": 226,
+      "novel_per_100_credits": 25.38,
+      "duplicate_programs": 0,
+      "energy_pauses": {
+        "temporary": 84,
+        "temporary_ticks": 84,
+        "sustained": 10,
+        "sustained_ticks": 10,
+        "lifetimes_ending_in_sustained_pause": 10
+      },
+      "unspent_credits": {
+        "total": 65,
+        "lifetimes_with_at_least_6_unspent": 1,
+        "max": 6
+      },
+      "admissions": 43,
+      "submissions": 124,
+      "refactor_admissions": 4,
+      "scores": {
+        "per_world": [
+          {
+            "seed": 201,
+            "dev": 8.484848,
+            "validation": 7.5405,
+            "sealed": 8.333333,
+            "baseline_sealed": 13.794872,
+            "creator_cohort": 1
+          },
+          {
+            "seed": 202,
+            "dev": 8.911765,
+            "validation": 8.2895,
+            "sealed": 10.5,
+            "baseline_sealed": 14.179487,
+            "creator_cohort": 2
+          },
+          {
+            "seed": 203,
+            "dev": 8.8125,
+            "validation": 7.2368,
+            "sealed": 8.145161,
+            "baseline_sealed": 14.918919,
+            "creator_cohort": 1
+          },
+          {
+            "seed": 204,
+            "dev": 8.289474,
+            "validation": 9.1875,
+            "sealed": 10.555556,
+            "baseline_sealed": 13.315789,
+            "creator_cohort": 1
+          },
+          {
+            "seed": 205,
+            "dev": 9.566667,
+            "validation": 9.7,
+            "sealed": 10.203704,
+            "baseline_sealed": 14.263158,
+            "creator_cohort": 0
+          }
+        ],
+        "mean_dev": 8.8131,
+        "mean_validation": 8.3909,
+        "mean_sealed": 9.5476,
+        "mean_validation_minus_dev": -0.4222,
+        "mean_sealed_minus_validation": 1.1567,
+        "note": "final freeze held_best; dev = the creator's own development score; lower is better"
+      }
+    },
+    "beam/reset": {
+      "lifetimes": 30,
+      "credits_spent": 1394,
+      "credits_available": 1440,
+      "allocation": {
+        "propose": 600,
+        "own-candidate test": 562,
+        "re-test of held": 0,
+        "component test": 33,
+        "submit": 199
+      },
+      "allocation_share": {
+        "propose": 0.4304,
+        "own-candidate test": 0.4032,
+        "submit": 0.1428,
+        "component test": 0.0237
+      },
+      "novel_evaluations": 372,
+      "repeated_evaluation_results": 190,
+      "novel_per_100_credits": 26.69,
+      "duplicate_programs": 0,
+      "energy_pauses": {
+        "temporary": 88,
+        "temporary_ticks": 88,
+        "sustained": 9,
+        "sustained_ticks": 9,
+        "lifetimes_ending_in_sustained_pause": 9
+      },
+      "unspent_credits": {
+        "total": 46,
+        "lifetimes_with_at_least_6_unspent": 0,
+        "max": 5
+      },
+      "admissions": 82,
+      "submissions": 199,
+      "refactor_admissions": 9,
+      "scores": {
+        "per_world": [
+          {
+            "seed": 201,
+            "dev": 8.323529,
+            "validation": 7.8857,
+            "sealed": 8.338462,
+            "baseline_sealed": 13.794872,
+            "creator_cohort": 2
+          },
+          {
+            "seed": 202,
+            "dev": 13.16,
+            "validation": 10.4444,
+            "sealed": 13.266667,
+            "baseline_sealed": 14.179487,
+            "creator_cohort": 2
+          },
+          {
+            "seed": 203,
+            "dev": 9.96875,
+            "validation": 10.75,
+            "sealed": 14.257143,
+            "baseline_sealed": 14.918919,
+            "creator_cohort": 2
+          },
+          {
+            "seed": 204,
+            "dev": 8.588235,
+            "validation": 8.5758,
+            "sealed": 8.904762,
+            "baseline_sealed": 13.315789,
+            "creator_cohort": 2
+          },
+          {
+            "seed": 205,
+            "dev": 11.565217,
+            "validation": 10.7727,
+            "sealed": 11.785714,
+            "baseline_sealed": 14.263158,
+            "creator_cohort": 2
+          }
+        ],
+        "mean_dev": 10.3211,
+        "mean_validation": 9.6857,
+        "mean_sealed": 11.3105,
+        "mean_validation_minus_dev": -0.6354,
+        "mean_sealed_minus_validation": 1.6248,
+        "note": "final freeze held_best; dev = the creator's own development score; lower is better"
+      }
+    },
+    "beam-nocomponents/preserved": {
+      "lifetimes": 30,
+      "credits_spent": 1394,
+      "credits_available": 1440,
+      "allocation": {
+        "propose": 637,
+        "own-candidate test": 633,
+        "re-test of held": 18,
+        "component test": 0,
+        "submit": 106
+      },
+      "allocation_share": {
+        "propose": 0.457,
+        "own-candidate test": 0.4541,
+        "submit": 0.076,
+        "re-test of held": 0.0129
+      },
+      "novel_evaluations": 376,
+      "repeated_evaluation_results": 257,
+      "novel_per_100_credits": 26.97,
+      "duplicate_programs": 0,
+      "energy_pauses": {
+        "temporary": 73,
+        "temporary_ticks": 73,
+        "sustained": 11,
+        "sustained_ticks": 11,
+        "lifetimes_ending_in_sustained_pause": 11
+      },
+      "unspent_credits": {
+        "total": 46,
+        "lifetimes_with_at_least_6_unspent": 1,
+        "max": 6
+      },
+      "admissions": 37,
+      "submissions": 106,
+      "refactor_admissions": 0,
+      "scores": {
+        "per_world": [
+          {
+            "seed": 201,
+            "dev": 8.212121,
+            "validation": 7.5455,
+            "sealed": 9.25,
+            "baseline_sealed": 13.794872,
+            "creator_cohort": 1
+          },
+          {
+            "seed": 202,
+            "dev": 8.911765,
+            "validation": 8.2895,
+            "sealed": 10.5,
+            "baseline_sealed": 14.179487,
+            "creator_cohort": 2
+          },
+          {
+            "seed": 203,
+            "dev": 8.8125,
+            "validation": 7.2368,
+            "sealed": 8.145161,
+            "baseline_sealed": 14.918919,
+            "creator_cohort": 1
+          },
+          {
+            "seed": 204,
+            "dev": 8.0,
+            "validation": 9.0286,
+            "sealed": 16.114286,
+            "baseline_sealed": 13.315789,
+            "creator_cohort": 2
+          },
+          {
+            "seed": 205,
+            "dev": 9.566667,
+            "validation": 9.7,
+            "sealed": 10.203704,
+            "baseline_sealed": 14.263158,
+            "creator_cohort": 0
+          }
+        ],
+        "mean_dev": 8.7006,
+        "mean_validation": 8.3601,
+        "mean_sealed": 10.8426,
+        "mean_validation_minus_dev": -0.3405,
+        "mean_sealed_minus_validation": 2.4826,
+        "note": "final freeze held_best; dev = the creator's own development score; lower is better"
+      }
+    }
+  },
+  "teaching": {
+    "library": {
+      "lifetimes": 30,
+      "credits_spent": 1282,
+      "credits_available": 1440,
+      "allocation": {
+        "propose": 573,
+        "own-candidate test": 542,
+        "re-test of held": 19,
+        "component test": 28,
+        "submit": 120
+      },
+      "allocation_share": {
+        "propose": 0.447,
+        "own-candidate test": 0.4228,
+        "submit": 0.0936,
+        "component test": 0.0218,
+        "re-test of held": 0.0148
+      },
+      "novel_evaluations": 320,
+      "repeated_evaluation_results": 222,
+      "novel_per_100_credits": 24.96,
+      "duplicate_programs": 0,
+      "energy_pauses": {
+        "temporary": 75,
+        "temporary_ticks": 75,
+        "sustained": 33,
+        "sustained_ticks": 33,
+        "lifetimes_ending_in_sustained_pause": 20
+      },
+      "unspent_credits": {
+        "total": 158,
+        "lifetimes_with_at_least_6_unspent": 6,
+        "max": 40
+      },
+      "admissions": 46,
+      "submissions": 120,
+      "refactor_admissions": 4,
+      "scores": {
+        "per_world": [
+          {
+            "seed": 201,
+            "dev": 7.769231,
+            "validation": 7.2051,
+            "sealed": 8.206349,
+            "baseline_sealed": 13.794872,
+            "creator_cohort": 2
+          },
+          {
+            "seed": 202,
+            "dev": 9.548387,
+            "validation": 8.2778,
+            "sealed": 9.392857,
+            "baseline_sealed": 14.179487,
+            "creator_cohort": 2
+          },
+          {
+            "seed": 203,
+            "dev": 8.8125,
+            "validation": 7.2368,
+            "sealed": 8.145161,
+            "baseline_sealed": 14.918919,
+            "creator_cohort": 1
+          },
+          {
+            "seed": 204,
+            "dev": 8.228571,
+            "validation": 9.1724,
+            "sealed": 10.285714,
+            "baseline_sealed": 13.315789,
+            "creator_cohort": 2
+          },
+          {
+            "seed": 205,
+            "dev": 9.566667,
+            "validation": 9.7,
+            "sealed": 10.203704,
+            "baseline_sealed": 14.263158,
+            "creator_cohort": 0
+          }
+        ],
+        "mean_dev": 8.7851,
+        "mean_validation": 8.3184,
+        "mean_sealed": 9.2468,
+        "mean_validation_minus_dev": -0.4667,
+        "mean_sealed_minus_validation": 0.9283,
+        "note": "final freeze held_best; dev = the creator's own development score; lower is better"
+      }
+    },
+    "teaching-only": {
+      "lifetimes": 30,
+      "credits_spent": 1356,
+      "credits_available": 1440,
+      "allocation": {
+        "propose": 584,
+        "own-candidate test": 546,
+        "re-test of held": 5,
+        "component test": 35,
+        "submit": 186
+      },
+      "allocation_share": {
+        "propose": 0.4307,
+        "own-candidate test": 0.4027,
+        "submit": 0.1372,
+        "component test": 0.0258,
+        "re-test of held": 0.0037
+      },
+      "novel_evaluations": 370,
+      "repeated_evaluation_results": 176,
+      "novel_per_100_credits": 27.29,
+      "duplicate_programs": 0,
+      "energy_pauses": {
+        "temporary": 97,
+        "temporary_ticks": 97,
+        "sustained": 10,
+        "sustained_ticks": 10,
+        "lifetimes_ending_in_sustained_pause": 10
+      },
+      "unspent_credits": {
+        "total": 84,
+        "lifetimes_with_at_least_6_unspent": 7,
+        "max": 10
+      },
+      "admissions": 81,
+      "submissions": 186,
+      "refactor_admissions": 11,
+      "scores": {
+        "per_world": [
+          {
+            "seed": 201,
+            "dev": 8.323529,
+            "validation": 7.8857,
+            "sealed": 8.338462,
+            "baseline_sealed": 13.794872,
+            "creator_cohort": 2
+          },
+          {
+            "seed": 202,
+            "dev": 13.16,
+            "validation": 10.4444,
+            "sealed": 13.266667,
+            "baseline_sealed": 14.179487,
+            "creator_cohort": 2
+          },
+          {
+            "seed": 203,
+            "dev": 8.8125,
+            "validation": 7.2368,
+            "sealed": 8.145161,
+            "baseline_sealed": 14.918919,
+            "creator_cohort": 1
+          },
+          {
+            "seed": 204,
+            "dev": 8.588235,
+            "validation": 8.5758,
+            "sealed": 8.904762,
+            "baseline_sealed": 13.315789,
+            "creator_cohort": 2
+          },
+          {
+            "seed": 205,
+            "dev": 8.5,
+            "validation": 7.9706,
+            "sealed": 9.092593,
+            "baseline_sealed": 14.263158,
+            "creator_cohort": 1
+          }
+        ],
+        "mean_dev": 9.4769,
+        "mean_validation": 8.4227,
+        "mean_sealed": 9.5495,
+        "mean_validation_minus_dev": -1.0542,
+        "mean_sealed_minus_validation": 1.1269,
+        "note": "final freeze held_best; dev = the creator's own development score; lower is better"
+      }
+    },
+    "none": {
+      "lifetimes": 30,
+      "credits_spent": 1425,
+      "credits_available": 1440,
+      "allocation": {
+        "propose": 612,
+        "own-candidate test": 574,
+        "re-test of held": 0,
+        "component test": 37,
+        "submit": 202
+      },
+      "allocation_share": {
+        "propose": 0.4295,
+        "own-candidate test": 0.4028,
+        "submit": 0.1418,
+        "component test": 0.026
+      },
+      "novel_evaluations": 382,
+      "repeated_evaluation_results": 192,
+      "novel_per_100_credits": 26.81,
+      "duplicate_programs": 0,
+      "energy_pauses": {
+        "temporary": 95,
+        "temporary_ticks": 95,
+        "sustained": 19,
+        "sustained_ticks": 19,
+        "lifetimes_ending_in_sustained_pause": 14
+      },
+      "unspent_credits": {
+        "total": 15,
+        "lifetimes_with_at_least_6_unspent": 0,
+        "max": 2
+      },
+      "admissions": 82,
+      "submissions": 202,
+      "refactor_admissions": 9,
+      "scores": {
+        "per_world": [
+          {
+            "seed": 201,
+            "dev": 8.323529,
+            "validation": 7.8857,
+            "sealed": 8.338462,
+            "baseline_sealed": 13.794872,
+            "creator_cohort": 2
+          },
+          {
+            "seed": 202,
+            "dev": 13.16,
+            "validation": 10.4444,
+            "sealed": 13.266667,
+            "baseline_sealed": 14.179487,
+            "creator_cohort": 2
+          },
+          {
+            "seed": 203,
+            "dev": 9.96875,
+            "validation": 10.75,
+            "sealed": 14.257143,
+            "baseline_sealed": 14.918919,
+            "creator_cohort": 2
+          },
+          {
+            "seed": 204,
+            "dev": 8.588235,
+            "validation": 8.5758,
+            "sealed": 8.904762,
+            "baseline_sealed": 13.315789,
+            "creator_cohort": 2
+          },
+          {
+            "seed": 205,
+            "dev": 11.565217,
+            "validation": 10.7727,
+            "sealed": 11.785714,
+            "baseline_sealed": 14.263158,
+            "creator_cohort": 2
+          }
+        ],
+        "mean_dev": 10.3211,
+        "mean_validation": 9.6857,
+        "mean_sealed": 11.3105,
+        "mean_validation_minus_dev": -0.6354,
+        "mean_sealed_minus_validation": 1.6248,
+        "note": "final freeze held_best; dev = the creator's own development score; lower is better"
+      }
+    }
+  },
+  "definitions": "Search diagnosis for v0.5.0 experiment P (and T): how credits were allocated, how many evaluations were useful,\nwhy searching paused or stopped, and how development, adaptive validation and fresh sealed performance relate.\n\nUsage: python tools/diagnose_v05_search.py EVIDENCE_DIR OUT.json\nReads only stored exports, reducer files and sealed results; runs nothing.\n\nDefinitions (per researcher lifetime unless stated):\n- credit actions: propose_artifact, test_artifact (development, incl. component tests), submit_artifact (accepted only)\n- own-candidate test: development test of the agent's own proposal; re-test: development test of a held artifact it did not create\n- novel evaluation: an own-candidate test whose behaviour hash (decisions on the 24 development cases) is new to that agent\n- repeated evaluation result: an own-candidate test whose behaviour hash the agent had already observed (different program, same decisions)\n- duplicate program: a proposal whose program hash the same agent had already proposed (content-identical program)\n- energy pause: a maximal run of consecutive decisions with stop reason 'energy'; 'temporary' if the agent later took a\n  credit action, 'sustained' if it never did again before its lifetime ended\n"
+}

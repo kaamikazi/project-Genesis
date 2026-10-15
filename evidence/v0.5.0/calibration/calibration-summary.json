@@ -1,0 +1,1463 @@
+{
+  "settings": {
+    "population": 8,
+    "cohort_ticks": 60,
+    "cohort_count": 3,
+    "cohort_overlap": 30,
+    "policy_overlap": 0,
+    "ore_per_site": 900,
+    "search_budget": 48
+  },
+  "seeds": [
+    300,
+    301,
+    302
+  ],
+  "P": [
+    {
+      "seed": 300,
+      "condition": "first-improvement/preserved",
+      "status": "completed",
+      "freezes": [
+        [
+          0,
+          9.968,
+          9.968,
+          9.968
+        ],
+        [
+          1,
+          9.765,
+          9.765,
+          9.765
+        ],
+        [
+          2,
+          8.6,
+          8.6,
+          8.6
+        ]
+      ],
+      "stops": {
+        "budget-exhausted": 4,
+        "energy": 5
+      },
+      "proposals": 122,
+      "admissions": 14,
+      "refactor_admissions": 0,
+      "components": {},
+      "calling_workflow_admissions": 0,
+      "dependency_teaching": {
+        "sessions_with_dependencies": 0,
+        "dependencies_taught_in_package": 0,
+        "dependencies_already_known": 0,
+        "dependencies_acquired": 0,
+        "rejected_missing_prerequisites": 0
+      },
+      "inherited": {
+        "uses_of_earlier_cohort_artifacts": 94,
+        "agents_using_earlier_cohort_artifacts": 12,
+        "cross_generation_sessions": 0,
+        "cross_generation_acquisitions": 0
+      },
+      "further_improvement": [
+        [
+          1,
+          true
+        ],
+        [
+          2,
+          true
+        ]
+      ]
+    },
+    {
+      "seed": 300,
+      "condition": "first-improvement/reset",
+      "status": "completed",
+      "freezes": [
+        [
+          0,
+          9.968,
+          9.968,
+          9.968
+        ],
+        [
+          1,
+          11.636,
+          11.636,
+          11.636
+        ],
+        [
+          2,
+          9.219,
+          9.219,
+          9.219
+        ]
+      ],
+      "stops": {
+        "budget-exhausted": 8,
+        "energy": 4
+      },
+      "proposals": 118,
+      "admissions": 19,
+      "refactor_admissions": 0,
+      "components": {},
+      "calling_workflow_admissions": 0,
+      "dependency_teaching": {
+        "sessions_with_dependencies": 0,
+        "dependencies_taught_in_package": 0,
+        "dependencies_already_known": 0,
+        "dependencies_acquired": 0,
+        "rejected_missing_prerequisites": 0
+      },
+      "inherited": {
+        "uses_of_earlier_cohort_artifacts": 0,
+        "agents_using_earlier_cohort_artifacts": 0,
+        "cross_generation_sessions": 0,
+        "cross_generation_acquisitions": 0
+      },
+      "further_improvement": [
+        [
+          1,
+          false
+        ],
+        [
+          2,
+          true
+        ]
+      ]
+    },
+    {
+      "seed": 300,
+      "condition": "beam/preserved",
+      "status": "completed",
+      "freezes": [
+        [
+          0,
+          12.192,
+          12.192,
+          12.192
+        ],
+        [
+          1,
+          10.5,
+          10.5,
+          10.5
+        ],
+        [
+          2,
+          8.184,
+          8.184,
+          8.184
+        ]
+      ],
+      "stops": {
+        "energy": 20,
+        "budget-exhausted": 3
+      },
+      "proposals": 121,
+      "admissions": 9,
+      "refactor_admissions": 1,
+      "components": {
+        "component-extraction": 1
+      },
+      "calling_workflow_admissions": 2,
+      "dependency_teaching": {
+        "sessions_with_dependencies": 0,
+        "dependencies_taught_in_package": 0,
+        "dependencies_already_known": 0,
+        "dependencies_acquired": 0,
+        "rejected_missing_prerequisites": 0
+      },
+      "inherited": {
+        "uses_of_earlier_cohort_artifacts": 9,
+        "agents_using_earlier_cohort_artifacts": 6,
+        "cross_generation_sessions": 0,
+        "cross_generation_acquisitions": 0
+      },
+      "further_improvement": [
+        [
+          1,
+          true
+        ],
+        [
+          2,
+          true
+        ]
+      ]
+    },
+    {
+      "seed": 300,
+      "condition": "beam/reset",
+      "status": "completed",
+      "freezes": [
+        [
+          0,
+          12.192,
+          12.192,
+          12.192
+        ],
+        [
+          1,
+          11.308,
+          11.308,
+          11.308
+        ],
+        [
+          2,
+          10.296,
+          10.296,
+          10.296
+        ]
+      ],
+      "stops": {
+        "energy": 15,
+        "budget-exhausted": 3
+      },
+      "proposals": 123,
+      "admissions": 9,
+      "refactor_admissions": 1,
+      "components": {
+        "component-extraction": 1
+      },
+      "calling_workflow_admissions": 1,
+      "dependency_teaching": {
+        "sessions_with_dependencies": 0,
+        "dependencies_taught_in_package": 0,
+        "dependencies_already_known": 0,
+        "dependencies_acquired": 0,
+        "rejected_missing_prerequisites": 0
+      },
+      "inherited": {
+        "uses_of_earlier_cohort_artifacts": 0,
+        "agents_using_earlier_cohort_artifacts": 0,
+        "cross_generation_sessions": 0,
+        "cross_generation_acquisitions": 0
+      },
+      "further_improvement": [
+        [
+          1,
+          true
+        ],
+        [
+          2,
+          true
+        ]
+      ]
+    },
+    {
+      "seed": 300,
+      "condition": "beam-nocomponents/preserved",
+      "status": "completed",
+      "freezes": [
+        [
+          0,
+          11.429,
+          11.429,
+          11.429
+        ],
+        [
+          1,
+          10.5,
+          10.5,
+          10.5
+        ],
+        [
+          2,
+          8.184,
+          8.184,
+          8.184
+        ]
+      ],
+      "stops": {
+        "energy": 16,
+        "budget-exhausted": 3
+      },
+      "proposals": 124,
+      "admissions": 7,
+      "refactor_admissions": 0,
+      "components": {},
+      "calling_workflow_admissions": 0,
+      "dependency_teaching": {
+        "sessions_with_dependencies": 0,
+        "dependencies_taught_in_package": 0,
+        "dependencies_already_known": 0,
+        "dependencies_acquired": 0,
+        "rejected_missing_prerequisites": 0
+      },
+      "inherited": {
+        "uses_of_earlier_cohort_artifacts": 81,
+        "agents_using_earlier_cohort_artifacts": 11,
+        "cross_generation_sessions": 0,
+        "cross_generation_acquisitions": 0
+      },
+      "further_improvement": [
+        [
+          1,
+          true
+        ],
+        [
+          2,
+          true
+        ]
+      ]
+    },
+    {
+      "seed": 301,
+      "condition": "first-improvement/preserved",
+      "status": "completed",
+      "freezes": [
+        [
+          0,
+          10.37,
+          10.37,
+          10.37
+        ],
+        [
+          1,
+          9.765,
+          9.765,
+          9.765
+        ],
+        [
+          2,
+          8.278,
+          8.278,
+          8.278
+        ]
+      ],
+      "stops": {
+        "energy": 3,
+        "budget-exhausted": 4
+      },
+      "proposals": 124,
+      "admissions": 14,
+      "refactor_admissions": 0,
+      "components": {},
+      "calling_workflow_admissions": 0,
+      "dependency_teaching": {
+        "sessions_with_dependencies": 0,
+        "dependencies_taught_in_package": 0,
+        "dependencies_already_known": 0,
+        "dependencies_acquired": 0,
+        "rejected_missing_prerequisites": 0
+      },
+      "inherited": {
+        "uses_of_earlier_cohort_artifacts": 96,
+        "agents_using_earlier_cohort_artifacts": 12,
+        "cross_generation_sessions": 0,
+        "cross_generation_acquisitions": 0
+      },
+      "further_improvement": [
+        [
+          1,
+          true
+        ],
+        [
+          2,
+          true
+        ]
+      ]
+    },
+    {
+      "seed": 301,
+      "condition": "first-improvement/reset",
+      "status": "completed",
+      "freezes": [
+        [
+          0,
+          10.37,
+          10.37,
+          10.37
+        ],
+        [
+          1,
+          8.743,
+          8.743,
+          8.743
+        ],
+        [
+          2,
+          9.429,
+          9.429,
+          9.429
+        ]
+      ],
+      "stops": {
+        "energy": 7,
+        "budget-exhausted": 7
+      },
+      "proposals": 116,
+      "admissions": 24,
+      "refactor_admissions": 0,
+      "components": {},
+      "calling_workflow_admissions": 0,
+      "dependency_teaching": {
+        "sessions_with_dependencies": 0,
+        "dependencies_taught_in_package": 0,
+        "dependencies_already_known": 0,
+        "dependencies_acquired": 0,
+        "rejected_missing_prerequisites": 0
+      },
+      "inherited": {
+        "uses_of_earlier_cohort_artifacts": 0,
+        "agents_using_earlier_cohort_artifacts": 0,
+        "cross_generation_sessions": 0,
+        "cross_generation_acquisitions": 0
+      },
+      "further_improvement": [
+        [
+          1,
+          true
+        ],
+        [
+          2,
+          false
+        ]
+      ]
+    },
+    {
+      "seed": 301,
+      "condition": "beam/preserved",
+      "status": "completed",
+      "freezes": [
+        [
+          0,
+          11.567,
+          11.567,
+          11.567
+        ],
+        [
+          1,
+          10.5,
+          10.5,
+          10.5
+        ],
+        [
+          2,
+          10.833,
+          10.5,
+          10.5
+        ]
+      ],
+      "stops": {
+        "energy": 14,
+        "budget-exhausted": 2
+      },
+      "proposals": 129,
+      "admissions": 11,
+      "refactor_admissions": 1,
+      "components": {
+        "component-extraction": 1,
+        "component-revision": 1
+      },
+      "calling_workflow_admissions": 3,
+      "dependency_teaching": {
+        "sessions_with_dependencies": 0,
+        "dependencies_taught_in_package": 0,
+        "dependencies_already_known": 0,
+        "dependencies_acquired": 0,
+        "rejected_missing_prerequisites": 0
+      },
+      "inherited": {
+        "uses_of_earlier_cohort_artifacts": 64,
+        "agents_using_earlier_cohort_artifacts": 6,
+        "cross_generation_sessions": 0,
+        "cross_generation_acquisitions": 0
+      },
+      "further_improvement": [
+        [
+          1,
+          true
+        ],
+        [
+          2,
+          false
+        ]
+      ]
+    },
+    {
+      "seed": 301,
+      "condition": "beam/reset",
+      "status": "completed",
+      "freezes": [
+        [
+          0,
+          11.567,
+          11.567,
+          11.567
+        ],
+        [
+          1,
+          14.043,
+          14.043,
+          14.043
+        ],
+        [
+          2,
+          10.556,
+          10.556,
+          10.556
+        ]
+      ],
+      "stops": {
+        "energy": 17,
+        "budget-exhausted": 2
+      },
+      "proposals": 116,
+      "admissions": 16,
+      "refactor_admissions": 2,
+      "components": {
+        "component-extraction": 2,
+        "component-revision": 1
+      },
+      "calling_workflow_admissions": 3,
+      "dependency_teaching": {
+        "sessions_with_dependencies": 0,
+        "dependencies_taught_in_package": 0,
+        "dependencies_already_known": 0,
+        "dependencies_acquired": 0,
+        "rejected_missing_prerequisites": 0
+      },
+      "inherited": {
+        "uses_of_earlier_cohort_artifacts": 0,
+        "agents_using_earlier_cohort_artifacts": 0,
+        "cross_generation_sessions": 0,
+        "cross_generation_acquisitions": 0
+      },
+      "further_improvement": [
+        [
+          1,
+          false
+        ],
+        [
+          2,
+          true
+        ]
+      ]
+    },
+    {
+      "seed": 301,
+      "condition": "beam-nocomponents/preserved",
+      "status": "completed",
+      "freezes": [
+        [
+          0,
+          11.143,
+          11.143,
+          11.143
+        ],
+        [
+          1,
+          10.5,
+          10.5,
+          10.5
+        ],
+        [
+          2,
+          null,
+          10.5,
+          10.5
+        ]
+      ],
+      "stops": {
+        "energy": 16,
+        "budget-exhausted": 1
+      },
+      "proposals": 125,
+      "admissions": 7,
+      "refactor_admissions": 0,
+      "components": {},
+      "calling_workflow_admissions": 0,
+      "dependency_teaching": {
+        "sessions_with_dependencies": 0,
+        "dependencies_taught_in_package": 0,
+        "dependencies_already_known": 0,
+        "dependencies_acquired": 0,
+        "rejected_missing_prerequisites": 0
+      },
+      "inherited": {
+        "uses_of_earlier_cohort_artifacts": 141,
+        "agents_using_earlier_cohort_artifacts": 13,
+        "cross_generation_sessions": 0,
+        "cross_generation_acquisitions": 0
+      },
+      "further_improvement": [
+        [
+          1,
+          true
+        ],
+        [
+          2,
+          false
+        ]
+      ]
+    },
+    {
+      "seed": 302,
+      "condition": "first-improvement/preserved",
+      "status": "completed",
+      "freezes": [
+        [
+          0,
+          6.784,
+          6.784,
+          6.784
+        ],
+        [
+          1,
+          6.622,
+          6.622,
+          6.622
+        ],
+        [
+          2,
+          6.568,
+          6.568,
+          6.568
+        ]
+      ],
+      "stops": {
+        "energy": 3,
+        "budget-exhausted": 8
+      },
+      "proposals": 129,
+      "admissions": 17,
+      "refactor_admissions": 0,
+      "components": {},
+      "calling_workflow_admissions": 0,
+      "dependency_teaching": {
+        "sessions_with_dependencies": 0,
+        "dependencies_taught_in_package": 0,
+        "dependencies_already_known": 0,
+        "dependencies_acquired": 0,
+        "rejected_missing_prerequisites": 0
+      },
+      "inherited": {
+        "uses_of_earlier_cohort_artifacts": 39,
+        "agents_using_earlier_cohort_artifacts": 10,
+        "cross_generation_sessions": 0,
+        "cross_generation_acquisitions": 0
+      },
+      "further_improvement": [
+        [
+          1,
+          true
+        ],
+        [
+          2,
+          true
+        ]
+      ]
+    },
+    {
+      "seed": 302,
+      "condition": "first-improvement/reset",
+      "status": "completed",
+      "freezes": [
+        [
+          0,
+          6.784,
+          6.784,
+          6.784
+        ],
+        [
+          1,
+          9.171,
+          9.171,
+          9.171
+        ],
+        [
+          2,
+          8.576,
+          8.576,
+          8.576
+        ]
+      ],
+      "stops": {
+        "energy": 7,
+        "budget-exhausted": 9
+      },
+      "proposals": 125,
+      "admissions": 30,
+      "refactor_admissions": 0,
+      "components": {},
+      "calling_workflow_admissions": 0,
+      "dependency_teaching": {
+        "sessions_with_dependencies": 0,
+        "dependencies_taught_in_package": 0,
+        "dependencies_already_known": 0,
+        "dependencies_acquired": 0,
+        "rejected_missing_prerequisites": 0
+      },
+      "inherited": {
+        "uses_of_earlier_cohort_artifacts": 0,
+        "agents_using_earlier_cohort_artifacts": 0,
+        "cross_generation_sessions": 0,
+        "cross_generation_acquisitions": 0
+      },
+      "further_improvement": [
+        [
+          1,
+          false
+        ],
+        [
+          2,
+          true
+        ]
+      ]
+    },
+    {
+      "seed": 302,
+      "condition": "beam/preserved",
+      "status": "completed",
+      "freezes": [
+        [
+          0,
+          9.367,
+          9.367,
+          9.367
+        ],
+        [
+          1,
+          9.367,
+          9.367,
+          9.367
+        ],
+        [
+          2,
+          8.594,
+          8.594,
+          8.594
+        ]
+      ],
+      "stops": {
+        "energy": 17
+      },
+      "proposals": 130,
+      "admissions": 10,
+      "refactor_admissions": 1,
+      "components": {
+        "component-extraction": 1
+      },
+      "calling_workflow_admissions": 2,
+      "dependency_teaching": {
+        "sessions_with_dependencies": 0,
+        "dependencies_taught_in_package": 0,
+        "dependencies_already_known": 0,
+        "dependencies_acquired": 0,
+        "rejected_missing_prerequisites": 0
+      },
+      "inherited": {
+        "uses_of_earlier_cohort_artifacts": 77,
+        "agents_using_earlier_cohort_artifacts": 9,
+        "cross_generation_sessions": 0,
+        "cross_generation_acquisitions": 0
+      },
+      "further_improvement": [
+        [
+          1,
+          false
+        ],
+        [
+          2,
+          true
+        ]
+      ]
+    },
+    {
+      "seed": 302,
+      "condition": "beam/reset",
+      "status": "completed",
+      "freezes": [
+        [
+          0,
+          9.367,
+          9.367,
+          9.367
+        ],
+        [
+          1,
+          7.559,
+          7.559,
+          7.559
+        ],
+        [
+          2,
+          10.136,
+          10.136,
+          10.136
+        ]
+      ],
+      "stops": {
+        "energy": 15,
+        "budget-exhausted": 2
+      },
+      "proposals": 124,
+      "admissions": 19,
+      "refactor_admissions": 1,
+      "components": {
+        "component-extraction": 2,
+        "component-revision": 1
+      },
+      "calling_workflow_admissions": 2,
+      "dependency_teaching": {
+        "sessions_with_dependencies": 0,
+        "dependencies_taught_in_package": 0,
+        "dependencies_already_known": 0,
+        "dependencies_acquired": 0,
+        "rejected_missing_prerequisites": 0
+      },
+      "inherited": {
+        "uses_of_earlier_cohort_artifacts": 0,
+        "agents_using_earlier_cohort_artifacts": 0,
+        "cross_generation_sessions": 0,
+        "cross_generation_acquisitions": 0
+      },
+      "further_improvement": [
+        [
+          1,
+          true
+        ],
+        [
+          2,
+          false
+        ]
+      ]
+    },
+    {
+      "seed": 302,
+      "condition": "beam-nocomponents/preserved",
+      "status": "completed",
+      "freezes": [
+        [
+          0,
+          9.367,
+          9.367,
+          9.367
+        ],
+        [
+          1,
+          12.08,
+          9.367,
+          9.367
+        ],
+        [
+          2,
+          null,
+          9.367,
+          9.367
+        ]
+      ],
+      "stops": {
+        "energy": 16
+      },
+      "proposals": 131,
+      "admissions": 7,
+      "refactor_admissions": 0,
+      "components": {},
+      "calling_workflow_admissions": 0,
+      "dependency_teaching": {
+        "sessions_with_dependencies": 0,
+        "dependencies_taught_in_package": 0,
+        "dependencies_already_known": 0,
+        "dependencies_acquired": 0,
+        "rejected_missing_prerequisites": 0
+      },
+      "inherited": {
+        "uses_of_earlier_cohort_artifacts": 127,
+        "agents_using_earlier_cohort_artifacts": 12,
+        "cross_generation_sessions": 0,
+        "cross_generation_acquisitions": 0
+      },
+      "further_improvement": [
+        [
+          1,
+          false
+        ],
+        [
+          2,
+          false
+        ]
+      ]
+    }
+  ],
+  "P_parity": [
+    {
+      "seed": 300,
+      "identical_initial_state": true,
+      "first-improvement_preserved_vs_reset_identical_at_first_arrival": true,
+      "beam_preserved_vs_reset_identical_at_first_arrival": true,
+      "note": "initial physical state with search_policy and cross_cohort_access masked; access pairs compared at the first arrival"
+    },
+    {
+      "seed": 301,
+      "identical_initial_state": true,
+      "first-improvement_preserved_vs_reset_identical_at_first_arrival": true,
+      "beam_preserved_vs_reset_identical_at_first_arrival": true,
+      "note": "initial physical state with search_policy and cross_cohort_access masked; access pairs compared at the first arrival"
+    },
+    {
+      "seed": 302,
+      "identical_initial_state": true,
+      "first-improvement_preserved_vs_reset_identical_at_first_arrival": true,
+      "beam_preserved_vs_reset_identical_at_first_arrival": true,
+      "note": "initial physical state with search_policy and cross_cohort_access masked; access pairs compared at the first arrival"
+    }
+  ],
+  "T": [
+    {
+      "seed": 300,
+      "condition": "library",
+      "status": "completed",
+      "freezes": [
+        [
+          0,
+          12.192,
+          12.192,
+          10.5
+        ],
+        [
+          1,
+          10.5,
+          10.5,
+          10.3
+        ],
+        [
+          2,
+          8.184,
+          8.184,
+          8.184
+        ]
+      ],
+      "stops": {
+        "energy": 22,
+        "budget-exhausted": 58
+      },
+      "proposals": 115,
+      "admissions": 10,
+      "refactor_admissions": 1,
+      "components": {
+        "component-extraction": 1
+      },
+      "calling_workflow_admissions": 2,
+      "dependency_teaching": {
+        "sessions_with_dependencies": 0,
+        "dependencies_taught_in_package": 0,
+        "dependencies_already_known": 0,
+        "dependencies_acquired": 0,
+        "rejected_missing_prerequisites": 0
+      },
+      "inherited": {
+        "uses_of_earlier_cohort_artifacts": 16,
+        "agents_using_earlier_cohort_artifacts": 8,
+        "cross_generation_sessions": 0,
+        "cross_generation_acquisitions": 0
+      },
+      "further_improvement": [
+        [
+          1,
+          false
+        ],
+        [
+          2,
+          true
+        ]
+      ]
+    },
+    {
+      "seed": 300,
+      "condition": "teaching-only",
+      "status": "completed",
+      "freezes": [
+        [
+          0,
+          12.192,
+          12.192,
+          12.192
+        ],
+        [
+          1,
+          11.308,
+          11.308,
+          11.308
+        ],
+        [
+          2,
+          10.296,
+          10.296,
+          10.296
+        ]
+      ],
+      "stops": {
+        "energy": 19,
+        "budget-exhausted": 24
+      },
+      "proposals": 111,
+      "admissions": 9,
+      "refactor_admissions": 1,
+      "components": {
+        "component-extraction": 1
+      },
+      "calling_workflow_admissions": 1,
+      "dependency_teaching": {
+        "sessions_with_dependencies": 1,
+        "dependencies_taught_in_package": 1,
+        "dependencies_already_known": 0,
+        "dependencies_acquired": 0,
+        "rejected_missing_prerequisites": 0
+      },
+      "inherited": {
+        "uses_of_earlier_cohort_artifacts": 70,
+        "agents_using_earlier_cohort_artifacts": 5,
+        "cross_generation_sessions": 11,
+        "cross_generation_acquisitions": 4
+      },
+      "further_improvement": [
+        [
+          1,
+          true
+        ],
+        [
+          2,
+          true
+        ]
+      ]
+    },
+    {
+      "seed": 300,
+      "condition": "none",
+      "status": "completed",
+      "freezes": [
+        [
+          0,
+          12.192,
+          12.192,
+          12.192
+        ],
+        [
+          1,
+          11.308,
+          11.308,
+          11.308
+        ],
+        [
+          2,
+          10.296,
+          10.296,
+          10.296
+        ]
+      ],
+      "stops": {
+        "energy": 18,
+        "budget-exhausted": 79
+      },
+      "proposals": 124,
+      "admissions": 9,
+      "refactor_admissions": 1,
+      "components": {
+        "component-extraction": 1
+      },
+      "calling_workflow_admissions": 1,
+      "dependency_teaching": {
+        "sessions_with_dependencies": 0,
+        "dependencies_taught_in_package": 0,
+        "dependencies_already_known": 0,
+        "dependencies_acquired": 0,
+        "rejected_missing_prerequisites": 0
+      },
+      "inherited": {
+        "uses_of_earlier_cohort_artifacts": 0,
+        "agents_using_earlier_cohort_artifacts": 0,
+        "cross_generation_sessions": 0,
+        "cross_generation_acquisitions": 0
+      },
+      "further_improvement": [
+        [
+          1,
+          true
+        ],
+        [
+          2,
+          true
+        ]
+      ]
+    },
+    {
+      "seed": 301,
+      "condition": "library",
+      "status": "completed",
+      "freezes": [
+        [
+          0,
+          12.192,
+          12.192,
+          10.441
+        ],
+        [
+          1,
+          10.441,
+          10.441,
+          10.441
+        ],
+        [
+          2,
+          11.96,
+          10.441,
+          10.441
+        ]
+      ],
+      "stops": {
+        "energy": 19,
+        "budget-exhausted": 50
+      },
+      "proposals": 102,
+      "admissions": 9,
+      "refactor_admissions": 1,
+      "components": {
+        "component-extraction": 1
+      },
+      "calling_workflow_admissions": 2,
+      "dependency_teaching": {
+        "sessions_with_dependencies": 0,
+        "dependencies_taught_in_package": 0,
+        "dependencies_already_known": 0,
+        "dependencies_acquired": 0,
+        "rejected_missing_prerequisites": 0
+      },
+      "inherited": {
+        "uses_of_earlier_cohort_artifacts": 86,
+        "agents_using_earlier_cohort_artifacts": 11,
+        "cross_generation_sessions": 0,
+        "cross_generation_acquisitions": 0
+      },
+      "further_improvement": [
+        [
+          1,
+          false
+        ],
+        [
+          2,
+          false
+        ]
+      ]
+    },
+    {
+      "seed": 301,
+      "condition": "teaching-only",
+      "status": "completed",
+      "freezes": [
+        [
+          0,
+          12.192,
+          12.192,
+          12.192
+        ],
+        [
+          1,
+          14.043,
+          14.043,
+          14.043
+        ],
+        [
+          2,
+          10.556,
+          10.556,
+          10.556
+        ]
+      ],
+      "stops": {
+        "energy": 23,
+        "budget-exhausted": 38
+      },
+      "proposals": 117,
+      "admissions": 15,
+      "refactor_admissions": 2,
+      "components": {
+        "component-extraction": 2,
+        "component-revision": 1
+      },
+      "calling_workflow_admissions": 3,
+      "dependency_teaching": {
+        "sessions_with_dependencies": 0,
+        "dependencies_taught_in_package": 0,
+        "dependencies_already_known": 0,
+        "dependencies_acquired": 0,
+        "rejected_missing_prerequisites": 0
+      },
+      "inherited": {
+        "uses_of_earlier_cohort_artifacts": 8,
+        "agents_using_earlier_cohort_artifacts": 1,
+        "cross_generation_sessions": 9,
+        "cross_generation_acquisitions": 1
+      },
+      "further_improvement": [
+        [
+          1,
+          false
+        ],
+        [
+          2,
+          true
+        ]
+      ]
+    },
+    {
+      "seed": 301,
+      "condition": "none",
+      "status": "completed",
+      "freezes": [
+        [
+          0,
+          11.567,
+          11.567,
+          11.567
+        ],
+        [
+          1,
+          14.043,
+          14.043,
+          14.043
+        ],
+        [
+          2,
+          10.556,
+          10.556,
+          10.556
+        ]
+      ],
+      "stops": {
+        "energy": 25,
+        "budget-exhausted": 65
+      },
+      "proposals": 117,
+      "admissions": 16,
+      "refactor_admissions": 2,
+      "components": {
+        "component-extraction": 2,
+        "component-revision": 1
+      },
+      "calling_workflow_admissions": 3,
+      "dependency_teaching": {
+        "sessions_with_dependencies": 0,
+        "dependencies_taught_in_package": 0,
+        "dependencies_already_known": 0,
+        "dependencies_acquired": 0,
+        "rejected_missing_prerequisites": 0
+      },
+      "inherited": {
+        "uses_of_earlier_cohort_artifacts": 0,
+        "agents_using_earlier_cohort_artifacts": 0,
+        "cross_generation_sessions": 0,
+        "cross_generation_acquisitions": 0
+      },
+      "further_improvement": [
+        [
+          1,
+          false
+        ],
+        [
+          2,
+          true
+        ]
+      ]
+    },
+    {
+      "seed": 302,
+      "condition": "library",
+      "status": "completed",
+      "freezes": [
+        [
+          0,
+          9.367,
+          9.367,
+          9.367
+        ],
+        [
+          1,
+          9.367,
+          9.367,
+          9.367
+        ],
+        [
+          2,
+          8.594,
+          8.594,
+          8.594
+        ]
+      ],
+      "stops": {
+        "energy": 21,
+        "budget-exhausted": 55
+      },
+      "proposals": 131,
+      "admissions": 10,
+      "refactor_admissions": 1,
+      "components": {
+        "component-extraction": 1
+      },
+      "calling_workflow_admissions": 2,
+      "dependency_teaching": {
+        "sessions_with_dependencies": 0,
+        "dependencies_taught_in_package": 0,
+        "dependencies_already_known": 0,
+        "dependencies_acquired": 0,
+        "rejected_missing_prerequisites": 0
+      },
+      "inherited": {
+        "uses_of_earlier_cohort_artifacts": 100,
+        "agents_using_earlier_cohort_artifacts": 10,
+        "cross_generation_sessions": 0,
+        "cross_generation_acquisitions": 0
+      },
+      "further_improvement": [
+        [
+          1,
+          false
+        ],
+        [
+          2,
+          true
+        ]
+      ]
+    },
+    {
+      "seed": 302,
+      "condition": "teaching-only",
+      "status": "completed",
+      "freezes": [
+        [
+          0,
+          9.367,
+          9.367,
+          9.367
+        ],
+        [
+          1,
+          7.559,
+          7.559,
+          7.559
+        ],
+        [
+          2,
+          7.559,
+          7.559,
+          7.559
+        ]
+      ],
+      "stops": {
+        "energy": 22,
+        "budget-exhausted": 20
+      },
+      "proposals": 110,
+      "admissions": 20,
+      "refactor_admissions": 2,
+      "components": {
+        "component-extraction": 3,
+        "component-revision": 1
+      },
+      "calling_workflow_admissions": 3,
+      "dependency_teaching": {
+        "sessions_with_dependencies": 0,
+        "dependencies_taught_in_package": 0,
+        "dependencies_already_known": 0,
+        "dependencies_acquired": 0,
+        "rejected_missing_prerequisites": 0
+      },
+      "inherited": {
+        "uses_of_earlier_cohort_artifacts": 80,
+        "agents_using_earlier_cohort_artifacts": 5,
+        "cross_generation_sessions": 11,
+        "cross_generation_acquisitions": 5
+      },
+      "further_improvement": [
+        [
+          1,
+          true
+        ],
+        [
+          2,
+          false
+        ]
+      ]
+    },
+    {
+      "seed": 302,
+      "condition": "none",
+      "status": "completed",
+      "freezes": [
+        [
+          0,
+          9.367,
+          9.367,
+          9.367
+        ],
+        [
+          1,
+          7.559,
+          7.559,
+          7.559
+        ],
+        [
+          2,
+          10.136,
+          10.136,
+          10.136
+        ]
+      ],
+      "stops": {
+        "energy": 18,
+        "budget-exhausted": 69
+      },
+      "proposals": 124,
+      "admissions": 19,
+      "refactor_admissions": 1,
+      "components": {
+        "component-extraction": 2,
+        "component-revision": 1
+      },
+      "calling_workflow_admissions": 2,
+      "dependency_teaching": {
+        "sessions_with_dependencies": 0,
+        "dependencies_taught_in_package": 0,
+        "dependencies_already_known": 0,
+        "dependencies_acquired": 0,
+        "rejected_missing_prerequisites": 0
+      },
+      "inherited": {
+        "uses_of_earlier_cohort_artifacts": 0,
+        "agents_using_earlier_cohort_artifacts": 0,
+        "cross_generation_sessions": 0,
+        "cross_generation_acquisitions": 0
+      },
+      "further_improvement": [
+        [
+          1,
+          true
+        ],
+        [
+          2,
+          false
+        ]
+      ]
+    }
+  ],
+  "T_parity": [
+    {
+      "seed": 300,
+      "library_and_none_identical_at_first_arrival": true,
+      "note": "teaching-only enables within-cohort teaching from tick 0, so it is not expected to match"
+    },
+    {
+      "seed": 301,
+      "library_and_none_identical_at_first_arrival": true,
+      "note": "teaching-only enables within-cohort teaching from tick 0, so it is not expected to match"
+    },
+    {
+      "seed": 302,
+      "library_and_none_identical_at_first_arrival": true,
+      "note": "teaching-only enables within-cohort teaching from tick 0, so it is not expected to match"
+    }
+  ]
+}

@@ -1,0 +1,242 @@
+{
+  "versions": {
+    "engine": "0.5.0",
+    "rules": "phase-world-5",
+    "evaluator": "phase-evaluator-3+workshop-evaluator-2"
+  },
+  "environment": {
+    "platform": "Windows-10-10.0.26300-SP0",
+    "processor": "AMD64 Family 25 Model 68 Stepping 1, AuthenticAMD",
+    "python": "3.10.11"
+  },
+  "settings": {
+    "ticks_per_run": 100,
+    "repetitions": 3,
+    "seed": 42,
+    "snapshot_every": 20,
+    "sqlite": "WAL, synchronous=FULL",
+    "copy_strategy": "scoped",
+    "scenario_overrides": {
+      "task": "workshop-1",
+      "ore_per_site": 900,
+      "lifecycle": "cohorts",
+      "cohort_ticks": 50,
+      "cohort_count": 2,
+      "cohort_overlap": 20,
+      "teaching": true,
+      "teaching_policy": "package",
+      "search_policy": "beam",
+      "budget_unit": "credits",
+      "search_budget": 48,
+      "cross_cohort_access": false
+    }
+  },
+  "populations": {
+    "8": {
+      "timing_runs": [
+        {
+          "wall_seconds": 8.217,
+          "median_tick_ms": 92.159,
+          "p95_tick_ms": 123.615,
+          "mean_tick_ms": 81.84
+        },
+        {
+          "wall_seconds": 7.969,
+          "median_tick_ms": 87.431,
+          "p95_tick_ms": 123.101,
+          "mean_tick_ms": 79.379
+        },
+        {
+          "wall_seconds": 7.967,
+          "median_tick_ms": 86.968,
+          "p95_tick_ms": 118.958,
+          "mean_tick_ms": 79.365
+        }
+      ],
+      "median_tick_ms_across_runs": 87.43,
+      "run_to_run_stdev_of_median_ms": 2.87,
+      "ticks_per_second": 12.55,
+      "profiled_breakdown": {
+        "state_copy (copy.deepcopy)": {
+          "seconds": 9.6755,
+          "share_of_profiled_step_time": 0.6136
+        },
+        "observation_build": {
+          "seconds": 2.2421,
+          "share_of_profiled_step_time": 0.1422
+        },
+        "controller_propose": {
+          "seconds": 1.1983,
+          "share_of_profiled_step_time": 0.076
+        },
+        "rules_apply": {
+          "seconds": 0.2844,
+          "share_of_profiled_step_time": 0.018
+        },
+        "invariant_checks": {
+          "seconds": 0.0519,
+          "share_of_profiled_step_time": 0.0033
+        },
+        "engine_advance_total": {
+          "seconds": 11.7004,
+          "share_of_profiled_step_time": 0.742
+        },
+        "decode_and_validate_state": {
+          "seconds": 0.7586,
+          "share_of_profiled_step_time": 0.0481
+        },
+        "delta_diff": {
+          "seconds": 0.1307,
+          "share_of_profiled_step_time": 0.0083
+        },
+        "canonical_json": {
+          "seconds": 3.3375,
+          "share_of_profiled_step_time": 0.2116
+        },
+        "sha256_digest": {
+          "seconds": 2.1774,
+          "share_of_profiled_step_time": 0.1381
+        },
+        "sqlite_commit_fsync": {
+          "seconds": 0.484,
+          "share_of_profiled_step_time": 0.0307
+        },
+        "sqlite_execute": {
+          "seconds": 0.1945,
+          "share_of_profiled_step_time": 0.0123
+        },
+        "json_loads": {
+          "seconds": 0.3158,
+          "share_of_profiled_step_time": 0.02
+        },
+        "artifact_store_checks": {
+          "seconds": 0.2313,
+          "share_of_profiled_step_time": 0.0147
+        }
+      },
+      "profiled_note": "cProfile cumulative seconds over one instrumented run; shares overlap (nested calls) and cProfile adds overhead",
+      "export": {
+        "build_seconds": 0.143,
+        "json_serialize_seconds": 0.058,
+        "gzip_seconds": 0.144,
+        "uncompressed_bytes": 5612832,
+        "compressed_bytes": 469083
+      },
+      "snapshot_serialize_ms": 25.5,
+      "snapshot_bytes": 508903,
+      "ui_payload": {
+        "median_ms": 138.22,
+        "bytes_uncompressed": 570765,
+        "note": "GET /api/runs/{id} through the ASGI test client (no network); the browser polls this about once per second"
+      },
+      "memory": {
+        "peak_traced_python_bytes": 3631549,
+        "ticks": 30,
+        "note": "separate tracemalloc pass, not timed"
+      }
+    },
+    "20": {
+      "timing_runs": [
+        {
+          "wall_seconds": 14.317,
+          "median_tick_ms": 166.231,
+          "p95_tick_ms": 217.384,
+          "mean_tick_ms": 142.856
+        },
+        {
+          "wall_seconds": 15.256,
+          "median_tick_ms": 172.59,
+          "p95_tick_ms": 235.408,
+          "mean_tick_ms": 152.241
+        },
+        {
+          "wall_seconds": 15.466,
+          "median_tick_ms": 175.814,
+          "p95_tick_ms": 251.512,
+          "mean_tick_ms": 154.351
+        }
+      ],
+      "median_tick_ms_across_runs": 172.59,
+      "run_to_run_stdev_of_median_ms": 4.88,
+      "ticks_per_second": 6.55,
+      "profiled_breakdown": {
+        "state_copy (copy.deepcopy)": {
+          "seconds": 22.2695,
+          "share_of_profiled_step_time": 0.6988
+        },
+        "observation_build": {
+          "seconds": 4.5742,
+          "share_of_profiled_step_time": 0.1435
+        },
+        "controller_propose": {
+          "seconds": 1.4715,
+          "share_of_profiled_step_time": 0.0462
+        },
+        "rules_apply": {
+          "seconds": 0.4378,
+          "share_of_profiled_step_time": 0.0137
+        },
+        "invariant_checks": {
+          "seconds": 0.2004,
+          "share_of_profiled_step_time": 0.0063
+        },
+        "engine_advance_total": {
+          "seconds": 25.5169,
+          "share_of_profiled_step_time": 0.8007
+        },
+        "decode_and_validate_state": {
+          "seconds": 1.4618,
+          "share_of_profiled_step_time": 0.0459
+        },
+        "delta_diff": {
+          "seconds": 0.26,
+          "share_of_profiled_step_time": 0.0082
+        },
+        "canonical_json": {
+          "seconds": 4.9516,
+          "share_of_profiled_step_time": 0.1554
+        },
+        "sha256_digest": {
+          "seconds": 3.5096,
+          "share_of_profiled_step_time": 0.1101
+        },
+        "sqlite_commit_fsync": {
+          "seconds": 0.7683,
+          "share_of_profiled_step_time": 0.0241
+        },
+        "sqlite_execute": {
+          "seconds": 0.2406,
+          "share_of_profiled_step_time": 0.0075
+        },
+        "json_loads": {
+          "seconds": 0.7579,
+          "share_of_profiled_step_time": 0.0238
+        },
+        "artifact_store_checks": {
+          "seconds": 0.2511,
+          "share_of_profiled_step_time": 0.0079
+        }
+      },
+      "profiled_note": "cProfile cumulative seconds over one instrumented run; shares overlap (nested calls) and cProfile adds overhead",
+      "export": {
+        "build_seconds": 0.392,
+        "json_serialize_seconds": 0.113,
+        "gzip_seconds": 0.295,
+        "uncompressed_bytes": 10047105,
+        "compressed_bytes": 817780
+      },
+      "snapshot_serialize_ms": 29.84,
+      "snapshot_bytes": 721789,
+      "ui_payload": {
+        "median_ms": 194.13,
+        "bytes_uncompressed": 764046,
+        "note": "GET /api/runs/{id} through the ASGI test client (no network); the browser polls this about once per second"
+      },
+      "memory": {
+        "peak_traced_python_bytes": 4745313,
+        "ticks": 30,
+        "note": "separate tracemalloc pass, not timed"
+      }
+    }
+  }
+}

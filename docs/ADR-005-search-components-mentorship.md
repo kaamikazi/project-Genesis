@@ -59,3 +59,7 @@ Accepted 2026-10-15. Extends [ADR-004](ADR-004-evaluation-teaching-workshop.md).
 ## Compatibility
 
 Defaults (`search_policy: first-improvement`, `budget_unit: proposals`, `teaching_policy: strict-prerequisites`, `cohort_overlap: 0`) reproduce v0.4 behaviour. A regression test re-runs a stored v0.4 Experiment B world and compares its reducer output. v0.3 and v0.4 runs in databases are read-only under the v0.5 engine.
+
+## Outcome (recorded after evaluation; no decision above was changed)
+
+Beam search was not stronger than the v0.4 reference under matched credits (validation: reference better in 4 of 5 worlds; sealed-2: no consistent difference). With equal credit totals, beam produced 30% fewer novel evaluations. Teaching carried workflows across overlapping generations (22 of 49 cross-generation lessons acquired) but did not lead to further improvement; no component dependency was acquired by teaching in the experiments. A beam defect (stale admission references after concurrent supersession) affected the library condition of experiment T and is left for the follow-up. Details: [IMPLEMENTATION_STATUS](IMPLEMENTATION_STATUS.md).

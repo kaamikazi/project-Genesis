@@ -2,9 +2,9 @@
 
 Engine `0.4.0` · rules `phase-world-4` · evaluators `phase-evaluator-3` (legacy), `workshop-evaluator-1`, `workshop-sealed-1` · storage schema 1.
 
-- **Evidence:** [`evidence/v0.4.0/`](../evidence/v0.4.0/README.md)
+- **Evidence:** [`evidence/v0.4.0/`](../../evidence/v0.4.0/README.md)
 - **v0.3.0:** preserved as tag `v0.3.0`, with its evidence in `evidence/v0.3.0/`
-- **Baseline before this milestone:** [audit/baseline-v0.3.0-verification.md](audit/baseline-v0.3.0-verification.md) (70 passed, build OK)
+- **Baseline before this milestone:** [audit/baseline-v0.3.0-verification.md](../audit/baseline-v0.3.0-verification.md) (70 passed, build OK)
 
 ## Verification at release
 

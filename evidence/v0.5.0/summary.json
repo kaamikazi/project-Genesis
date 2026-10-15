@@ -1,0 +1,3763 @@
+{
+  "P": {
+    "rows": [
+      {
+        "seed": 201,
+        "condition": "first-improvement/preserved",
+        "status": "completed",
+        "final_cohort_best_validation": 7.3056,
+        "final_held_best_validation": 7.3056,
+        "final_accessible_best_validation": 7.3056,
+        "final_held_best_sealed": 9.980769,
+        "final_cohort_best_sealed": 9.980769,
+        "final_accessible_best_sealed": 9.980769,
+        "baseline_sealed": 13.794872,
+        "final_held_best_created_by_cohort": 2,
+        "final_held_best_closure": 0,
+        "freeze_validation_by_cohort": [
+          [
+            0,
+            7.8235,
+            7.8235
+          ],
+          [
+            1,
+            7.3947,
+            7.3947
+          ],
+          [
+            2,
+            7.3056,
+            7.3056
+          ]
+        ],
+        "further_improvement": [
+          [
+            1,
+            true
+          ],
+          [
+            2,
+            true
+          ]
+        ],
+        "proposals": 126,
+        "unique_programs": 125,
+        "duplicate_behaviour_dev_results": 22,
+        "submissions": 28,
+        "improvement_admissions": 13,
+        "refactor_admissions": 0,
+        "stop_reasons": {
+          "budget-exhausted": 8,
+          "energy": 3
+        },
+        "private_parent_proposals": 0,
+        "component_extractions": 0,
+        "component_revisions": 0,
+        "components_admitted": {},
+        "compositions": 0,
+        "calling_workflow_admissions": 0,
+        "executions_with_dependencies": 0,
+        "executions_with_dependencies_by_later_cohort": 0,
+        "uses_of_earlier_cohort_artifacts": 72,
+        "sessions": 0,
+        "sessions_acquired": 0,
+        "cross_generation_sessions": 0,
+        "cross_generation_acquired": 0,
+        "cross_generation_failed": 0,
+        "cross_generation_interrupted": 0,
+        "dependencies_taught_in_package": 0,
+        "dependencies_acquired": 0,
+        "cross_generation_admitted_revisions": 3,
+        "produced_alloy": 447,
+        "production_energy_per_alloy": 5.474273
+      },
+      {
+        "seed": 201,
+        "condition": "first-improvement/reset",
+        "status": "completed",
+        "final_cohort_best_validation": 7.6765,
+        "final_held_best_validation": 7.6765,
+        "final_accessible_best_validation": 7.6765,
+        "final_held_best_sealed": 9.0,
+        "final_cohort_best_sealed": 9.0,
+        "final_accessible_best_sealed": 9.0,
+        "baseline_sealed": 13.794872,
+        "final_held_best_created_by_cohort": 2,
+        "final_held_best_closure": 0,
+        "freeze_validation_by_cohort": [
+          [
+            0,
+            7.8235,
+            7.8235
+          ],
+          [
+            1,
+            7.4706,
+            7.4706
+          ],
+          [
+            2,
+            7.6765,
+            7.6765
+          ]
+        ],
+        "further_improvement": [
+          [
+            1,
+            true
+          ],
+          [
+            2,
+            false
+          ]
+        ],
+        "proposals": 123,
+        "unique_programs": 122,
+        "duplicate_behaviour_dev_results": 16,
+        "submissions": 39,
+        "improvement_admissions": 24,
+        "refactor_admissions": 0,
+        "stop_reasons": {
+          "budget-exhausted": 8,
+          "energy": 6
+        },
+        "private_parent_proposals": 0,
+        "component_extractions": 0,
+        "component_revisions": 0,
+        "components_admitted": {},
+        "compositions": 0,
+        "calling_workflow_admissions": 0,
+        "executions_with_dependencies": 0,
+        "executions_with_dependencies_by_later_cohort": 0,
+        "uses_of_earlier_cohort_artifacts": 0,
+        "sessions": 0,
+        "sessions_acquired": 0,
+        "cross_generation_sessions": 0,
+        "cross_generation_acquired": 0,
+        "cross_generation_failed": 0,
+        "cross_generation_interrupted": 0,
+        "dependencies_taught_in_package": 0,
+        "dependencies_acquired": 0,
+        "cross_generation_admitted_revisions": 0,
+        "produced_alloy": 420,
+        "production_energy_per_alloy": 6.114286
+      },
+      {
+        "seed": 201,
+        "condition": "beam/preserved",
+        "status": "completed",
+        "final_cohort_best_validation": null,
+        "final_held_best_validation": 7.5405,
+        "final_accessible_best_validation": 7.5405,
+        "final_held_best_sealed": 8.333333,
+        "final_cohort_best_sealed": null,
+        "final_accessible_best_sealed": 8.333333,
+        "baseline_sealed": 13.794872,
+        "final_held_best_created_by_cohort": 1,
+        "final_held_best_closure": 1,
+        "freeze_validation_by_cohort": [
+          [
+            0,
+            10.0,
+            10.0
+          ],
+          [
+            1,
+            7.5405,
+            7.5405
+          ],
+          [
+            2,
+            null,
+            7.5405
+          ]
+        ],
+        "further_improvement": [
+          [
+            1,
+            true
+          ],
+          [
+            2,
+            false
+          ]
+        ],
+        "proposals": 119,
+        "unique_programs": 118,
+        "duplicate_behaviour_dev_results": 51,
+        "submissions": 31,
+        "improvement_admissions": 8,
+        "refactor_admissions": 1,
+        "stop_reasons": {
+          "energy": 21,
+          "budget-exhausted": 2
+        },
+        "private_parent_proposals": 91,
+        "component_extractions": 1,
+        "component_revisions": 4,
+        "components_admitted": {
+          "component-extraction": 1
+        },
+        "compositions": 45,
+        "calling_workflow_admissions": 2,
+        "executions_with_dependencies": 3,
+        "executions_with_dependencies_by_later_cohort": 0,
+        "uses_of_earlier_cohort_artifacts": 32,
+        "sessions": 0,
+        "sessions_acquired": 0,
+        "cross_generation_sessions": 0,
+        "cross_generation_acquired": 0,
+        "cross_generation_failed": 0,
+        "cross_generation_interrupted": 0,
+        "dependencies_taught_in_package": 0,
+        "dependencies_acquired": 0,
+        "cross_generation_admitted_revisions": 1,
+        "produced_alloy": 267,
+        "production_energy_per_alloy": 6.131086
+      },
+      {
+        "seed": 201,
+        "condition": "beam/reset",
+        "status": "completed",
+        "final_cohort_best_validation": 7.8857,
+        "final_held_best_validation": 7.8857,
+        "final_accessible_best_validation": 7.8857,
+        "final_held_best_sealed": 8.338462,
+        "final_cohort_best_sealed": 8.338462,
+        "final_accessible_best_sealed": 8.338462,
+        "baseline_sealed": 13.794872,
+        "final_held_best_created_by_cohort": 2,
+        "final_held_best_closure": 1,
+        "freeze_validation_by_cohort": [
+          [
+            0,
+            10.0,
+            10.0
+          ],
+          [
+            1,
+            8.7895,
+            8.7895
+          ],
+          [
+            2,
+            7.8857,
+            7.8857
+          ]
+        ],
+        "further_improvement": [
+          [
+            1,
+            true
+          ],
+          [
+            2,
+            true
+          ]
+        ],
+        "proposals": 117,
+        "unique_programs": 117,
+        "duplicate_behaviour_dev_results": 40,
+        "submissions": 41,
+        "improvement_admissions": 17,
+        "refactor_admissions": 3,
+        "stop_reasons": {
+          "energy": 23,
+          "budget-exhausted": 2
+        },
+        "private_parent_proposals": 75,
+        "component_extractions": 3,
+        "component_revisions": 9,
+        "components_admitted": {
+          "component-extraction": 3,
+          "component-revision": 1
+        },
+        "compositions": 6,
+        "calling_workflow_admissions": 4,
+        "executions_with_dependencies": 3,
+        "executions_with_dependencies_by_later_cohort": 0,
+        "uses_of_earlier_cohort_artifacts": 0,
+        "sessions": 0,
+        "sessions_acquired": 0,
+        "cross_generation_sessions": 0,
+        "cross_generation_acquired": 0,
+        "cross_generation_failed": 0,
+        "cross_generation_interrupted": 0,
+        "dependencies_taught_in_package": 0,
+        "dependencies_acquired": 0,
+        "cross_generation_admitted_revisions": 0,
+        "produced_alloy": 349,
+        "production_energy_per_alloy": 7.137536
+      },
+      {
+        "seed": 201,
+        "condition": "beam-nocomponents/preserved",
+        "status": "completed",
+        "final_cohort_best_validation": null,
+        "final_held_best_validation": 7.5455,
+        "final_accessible_best_validation": 7.5455,
+        "final_held_best_sealed": 9.25,
+        "final_cohort_best_sealed": null,
+        "final_accessible_best_sealed": 9.25,
+        "baseline_sealed": 13.794872,
+        "final_held_best_created_by_cohort": 1,
+        "final_held_best_closure": 0,
+        "freeze_validation_by_cohort": [
+          [
+            0,
+            10.0,
+            10.0
+          ],
+          [
+            1,
+            7.5455,
+            7.5455
+          ],
+          [
+            2,
+            null,
+            7.5455
+          ]
+        ],
+        "further_improvement": [
+          [
+            1,
+            true
+          ],
+          [
+            2,
+            false
+          ]
+        ],
+        "proposals": 127,
+        "unique_programs": 126,
+        "duplicate_behaviour_dev_results": 50,
+        "submissions": 21,
+        "improvement_admissions": 8,
+        "refactor_admissions": 0,
+        "stop_reasons": {
+          "energy": 18,
+          "budget-exhausted": 2
+        },
+        "private_parent_proposals": 99,
+        "component_extractions": 0,
+        "component_revisions": 0,
+        "components_admitted": {},
+        "compositions": 14,
+        "calling_workflow_admissions": 0,
+        "executions_with_dependencies": 0,
+        "executions_with_dependencies_by_later_cohort": 0,
+        "uses_of_earlier_cohort_artifacts": 95,
+        "sessions": 0,
+        "sessions_acquired": 0,
+        "cross_generation_sessions": 0,
+        "cross_generation_acquired": 0,
+        "cross_generation_failed": 0,
+        "cross_generation_interrupted": 0,
+        "dependencies_taught_in_package": 0,
+        "dependencies_acquired": 0,
+        "cross_generation_admitted_revisions": 0,
+        "produced_alloy": 438,
+        "production_energy_per_alloy": 5.586758
+      },
+      {
+        "seed": 202,
+        "condition": "first-improvement/preserved",
+        "status": "completed",
+        "final_cohort_best_validation": 8.6,
+        "final_held_best_validation": 8.6,
+        "final_accessible_best_validation": 8.6,
+        "final_held_best_sealed": 10.479167,
+        "final_cohort_best_sealed": 10.479167,
+        "final_accessible_best_sealed": 10.479167,
+        "baseline_sealed": 14.179487,
+        "final_held_best_created_by_cohort": 2,
+        "final_held_best_closure": 0,
+        "freeze_validation_by_cohort": [
+          [
+            0,
+            10.0968,
+            10.0968
+          ],
+          [
+            1,
+            9.7647,
+            9.7647
+          ],
+          [
+            2,
+            8.6,
+            8.6
+          ]
+        ],
+        "further_improvement": [
+          [
+            1,
+            true
+          ],
+          [
+            2,
+            true
+          ]
+        ],
+        "proposals": 123,
+        "unique_programs": 118,
+        "duplicate_behaviour_dev_results": 36,
+        "submissions": 36,
+        "improvement_admissions": 14,
+        "refactor_admissions": 0,
+        "stop_reasons": {
+          "energy": 5
+        },
+        "private_parent_proposals": 0,
+        "component_extractions": 0,
+        "component_revisions": 0,
+        "components_admitted": {},
+        "compositions": 0,
+        "calling_workflow_admissions": 0,
+        "executions_with_dependencies": 0,
+        "executions_with_dependencies_by_later_cohort": 0,
+        "uses_of_earlier_cohort_artifacts": 95,
+        "sessions": 0,
+        "sessions_acquired": 0,
+        "cross_generation_sessions": 0,
+        "cross_generation_acquired": 0,
+        "cross_generation_failed": 0,
+        "cross_generation_interrupted": 0,
+        "dependencies_taught_in_package": 0,
+        "dependencies_acquired": 0,
+        "cross_generation_admitted_revisions": 3,
+        "produced_alloy": 438,
+        "production_energy_per_alloy": 5.627854
+      },
+      {
+        "seed": 202,
+        "condition": "first-improvement/reset",
+        "status": "completed",
+        "final_cohort_best_validation": 9.3438,
+        "final_held_best_validation": 9.3438,
+        "final_accessible_best_validation": 9.3438,
+        "final_held_best_sealed": 9.388889,
+        "final_cohort_best_sealed": 9.388889,
+        "final_accessible_best_sealed": 9.388889,
+        "baseline_sealed": 14.179487,
+        "final_held_best_created_by_cohort": 2,
+        "final_held_best_closure": 0,
+        "freeze_validation_by_cohort": [
+          [
+            0,
+            10.0968,
+            10.0968
+          ],
+          [
+            1,
+            11.8182,
+            11.8182
+          ],
+          [
+            2,
+            9.3438,
+            9.3438
+          ]
+        ],
+        "further_improvement": [
+          [
+            1,
+            false
+          ],
+          [
+            2,
+            true
+          ]
+        ],
+        "proposals": 118,
+        "unique_programs": 117,
+        "duplicate_behaviour_dev_results": 10,
+        "submissions": 49,
+        "improvement_admissions": 19,
+        "refactor_admissions": 0,
+        "stop_reasons": {
+          "energy": 4,
+          "budget-exhausted": 8
+        },
+        "private_parent_proposals": 0,
+        "component_extractions": 0,
+        "component_revisions": 0,
+        "components_admitted": {},
+        "compositions": 0,
+        "calling_workflow_admissions": 0,
+        "executions_with_dependencies": 0,
+        "executions_with_dependencies_by_later_cohort": 0,
+        "uses_of_earlier_cohort_artifacts": 0,
+        "sessions": 0,
+        "sessions_acquired": 0,
+        "cross_generation_sessions": 0,
+        "cross_generation_acquired": 0,
+        "cross_generation_failed": 0,
+        "cross_generation_interrupted": 0,
+        "dependencies_taught_in_package": 0,
+        "dependencies_acquired": 0,
+        "cross_generation_admitted_revisions": 0,
+        "produced_alloy": 403,
+        "production_energy_per_alloy": 7.26799
+      },
+      {
+        "seed": 202,
+        "condition": "beam/preserved",
+        "status": "completed",
+        "final_cohort_best_validation": 8.2895,
+        "final_held_best_validation": 8.2895,
+        "final_accessible_best_validation": 8.2895,
+        "final_held_best_sealed": 10.5,
+        "final_cohort_best_sealed": 10.5,
+        "final_accessible_best_sealed": 10.5,
+        "baseline_sealed": 14.179487,
+        "final_held_best_created_by_cohort": 2,
+        "final_held_best_closure": 0,
+        "freeze_validation_by_cohort": [
+          [
+            0,
+            12.3462,
+            12.3462
+          ],
+          [
+            1,
+            10.6333,
+            10.6333
+          ],
+          [
+            2,
+            8.2895,
+            8.2895
+          ]
+        ],
+        "further_improvement": [
+          [
+            1,
+            true
+          ],
+          [
+            2,
+            true
+          ]
+        ],
+        "proposals": 119,
+        "unique_programs": 118,
+        "duplicate_behaviour_dev_results": 41,
+        "submissions": 29,
+        "improvement_admissions": 10,
+        "refactor_admissions": 1,
+        "stop_reasons": {
+          "energy": 24
+        },
+        "private_parent_proposals": 73,
+        "component_extractions": 1,
+        "component_revisions": 13,
+        "components_admitted": {
+          "component-extraction": 1,
+          "component-revision": 1
+        },
+        "compositions": 33,
+        "calling_workflow_admissions": 3,
+        "executions_with_dependencies": 1,
+        "executions_with_dependencies_by_later_cohort": 1,
+        "uses_of_earlier_cohort_artifacts": 10,
+        "sessions": 0,
+        "sessions_acquired": 0,
+        "cross_generation_sessions": 0,
+        "cross_generation_acquired": 0,
+        "cross_generation_failed": 0,
+        "cross_generation_interrupted": 0,
+        "dependencies_taught_in_package": 0,
+        "dependencies_acquired": 0,
+        "cross_generation_admitted_revisions": 4,
+        "produced_alloy": 292,
+        "production_energy_per_alloy": 5.626712
+      },
+      {
+        "seed": 202,
+        "condition": "beam/reset",
+        "status": "completed",
+        "final_cohort_best_validation": 10.4444,
+        "final_held_best_validation": 10.4444,
+        "final_accessible_best_validation": 10.4444,
+        "final_held_best_sealed": 13.266667,
+        "final_cohort_best_sealed": 13.266667,
+        "final_accessible_best_sealed": 13.266667,
+        "baseline_sealed": 14.179487,
+        "final_held_best_created_by_cohort": 2,
+        "final_held_best_closure": 0,
+        "freeze_validation_by_cohort": [
+          [
+            0,
+            12.3462,
+            12.3462
+          ],
+          [
+            1,
+            10.1818,
+            10.1818
+          ],
+          [
+            2,
+            10.4444,
+            10.4444
+          ]
+        ],
+        "further_improvement": [
+          [
+            1,
+            true
+          ],
+          [
+            2,
+            false
+          ]
+        ],
+        "proposals": 122,
+        "unique_programs": 122,
+        "duplicate_behaviour_dev_results": 41,
+        "submissions": 38,
+        "improvement_admissions": 9,
+        "refactor_admissions": 1,
+        "stop_reasons": {
+          "energy": 21
+        },
+        "private_parent_proposals": 95,
+        "component_extractions": 1,
+        "component_revisions": 0,
+        "components_admitted": {
+          "component-extraction": 1
+        },
+        "compositions": 2,
+        "calling_workflow_admissions": 1,
+        "executions_with_dependencies": 0,
+        "executions_with_dependencies_by_later_cohort": 0,
+        "uses_of_earlier_cohort_artifacts": 0,
+        "sessions": 0,
+        "sessions_acquired": 0,
+        "cross_generation_sessions": 0,
+        "cross_generation_acquired": 0,
+        "cross_generation_failed": 0,
+        "cross_generation_interrupted": 0,
+        "dependencies_taught_in_package": 0,
+        "dependencies_acquired": 0,
+        "cross_generation_admitted_revisions": 0,
+        "produced_alloy": 399,
+        "production_energy_per_alloy": 7.238095
+      },
+      {
+        "seed": 202,
+        "condition": "beam-nocomponents/preserved",
+        "status": "completed",
+        "final_cohort_best_validation": 8.2895,
+        "final_held_best_validation": 8.2895,
+        "final_accessible_best_validation": 8.2895,
+        "final_held_best_sealed": 10.5,
+        "final_cohort_best_sealed": 10.5,
+        "final_accessible_best_sealed": 10.5,
+        "baseline_sealed": 14.179487,
+        "final_held_best_created_by_cohort": 2,
+        "final_held_best_closure": 0,
+        "freeze_validation_by_cohort": [
+          [
+            0,
+            11.5714,
+            11.5714
+          ],
+          [
+            1,
+            10.6333,
+            10.6333
+          ],
+          [
+            2,
+            8.2895,
+            8.2895
+          ]
+        ],
+        "further_improvement": [
+          [
+            1,
+            true
+          ],
+          [
+            2,
+            true
+          ]
+        ],
+        "proposals": 121,
+        "unique_programs": 120,
+        "duplicate_behaviour_dev_results": 44,
+        "submissions": 29,
+        "improvement_admissions": 8,
+        "refactor_admissions": 0,
+        "stop_reasons": {
+          "energy": 20,
+          "budget-exhausted": 1
+        },
+        "private_parent_proposals": 90,
+        "component_extractions": 0,
+        "component_revisions": 0,
+        "components_admitted": {},
+        "compositions": 14,
+        "calling_workflow_admissions": 0,
+        "executions_with_dependencies": 0,
+        "executions_with_dependencies_by_later_cohort": 0,
+        "uses_of_earlier_cohort_artifacts": 74,
+        "sessions": 0,
+        "sessions_acquired": 0,
+        "cross_generation_sessions": 0,
+        "cross_generation_acquired": 0,
+        "cross_generation_failed": 0,
+        "cross_generation_interrupted": 0,
+        "dependencies_taught_in_package": 0,
+        "dependencies_acquired": 0,
+        "cross_generation_admitted_revisions": 2,
+        "produced_alloy": 454,
+        "production_energy_per_alloy": 5.290749
+      },
+      {
+        "seed": 203,
+        "condition": "first-improvement/preserved",
+        "status": "completed",
+        "final_cohort_best_validation": 6.2927,
+        "final_held_best_validation": 6.2927,
+        "final_accessible_best_validation": 6.2927,
+        "final_held_best_sealed": 9.017857,
+        "final_cohort_best_sealed": 9.017857,
+        "final_accessible_best_sealed": 9.017857,
+        "baseline_sealed": 14.918919,
+        "final_held_best_created_by_cohort": 2,
+        "final_held_best_closure": 0,
+        "freeze_validation_by_cohort": [
+          [
+            0,
+            7.0606,
+            7.0606
+          ],
+          [
+            1,
+            6.7778,
+            6.7778
+          ],
+          [
+            2,
+            6.2927,
+            6.2927
+          ]
+        ],
+        "further_improvement": [
+          [
+            1,
+            true
+          ],
+          [
+            2,
+            true
+          ]
+        ],
+        "proposals": 128,
+        "unique_programs": 127,
+        "duplicate_behaviour_dev_results": 28,
+        "submissions": 25,
+        "improvement_admissions": 16,
+        "refactor_admissions": 0,
+        "stop_reasons": {
+          "energy": 7,
+          "budget-exhausted": 4
+        },
+        "private_parent_proposals": 0,
+        "component_extractions": 0,
+        "component_revisions": 0,
+        "components_admitted": {},
+        "compositions": 1,
+        "calling_workflow_admissions": 0,
+        "executions_with_dependencies": 0,
+        "executions_with_dependencies_by_later_cohort": 0,
+        "uses_of_earlier_cohort_artifacts": 74,
+        "sessions": 0,
+        "sessions_acquired": 0,
+        "cross_generation_sessions": 0,
+        "cross_generation_acquired": 0,
+        "cross_generation_failed": 0,
+        "cross_generation_interrupted": 0,
+        "dependencies_taught_in_package": 0,
+        "dependencies_acquired": 0,
+        "cross_generation_admitted_revisions": 3,
+        "produced_alloy": 432,
+        "production_energy_per_alloy": 5.305556
+      },
+      {
+        "seed": 203,
+        "condition": "first-improvement/reset",
+        "status": "completed",
+        "final_cohort_best_validation": 7.4242,
+        "final_held_best_validation": 7.4242,
+        "final_accessible_best_validation": 7.4242,
+        "final_held_best_sealed": 8.240741,
+        "final_cohort_best_sealed": 8.240741,
+        "final_accessible_best_sealed": 8.240741,
+        "baseline_sealed": 14.918919,
+        "final_held_best_created_by_cohort": 2,
+        "final_held_best_closure": 0,
+        "freeze_validation_by_cohort": [
+          [
+            0,
+            7.0606,
+            7.0606
+          ],
+          [
+            1,
+            7.5588,
+            7.5588
+          ],
+          [
+            2,
+            7.4242,
+            7.4242
+          ]
+        ],
+        "further_improvement": [
+          [
+            1,
+            false
+          ],
+          [
+            2,
+            true
+          ]
+        ],
+        "proposals": 124,
+        "unique_programs": 123,
+        "duplicate_behaviour_dev_results": 19,
+        "submissions": 36,
+        "improvement_admissions": 26,
+        "refactor_admissions": 0,
+        "stop_reasons": {
+          "energy": 10,
+          "budget-exhausted": 7
+        },
+        "private_parent_proposals": 0,
+        "component_extractions": 0,
+        "component_revisions": 0,
+        "components_admitted": {},
+        "compositions": 1,
+        "calling_workflow_admissions": 0,
+        "executions_with_dependencies": 0,
+        "executions_with_dependencies_by_later_cohort": 0,
+        "uses_of_earlier_cohort_artifacts": 0,
+        "sessions": 0,
+        "sessions_acquired": 0,
+        "cross_generation_sessions": 0,
+        "cross_generation_acquired": 0,
+        "cross_generation_failed": 0,
+        "cross_generation_interrupted": 0,
+        "dependencies_taught_in_package": 0,
+        "dependencies_acquired": 0,
+        "cross_generation_admitted_revisions": 0,
+        "produced_alloy": 416,
+        "production_energy_per_alloy": 6.271635
+      },
+      {
+        "seed": 203,
+        "condition": "beam/preserved",
+        "status": "completed",
+        "final_cohort_best_validation": null,
+        "final_held_best_validation": 7.2368,
+        "final_accessible_best_validation": 7.2368,
+        "final_held_best_sealed": 8.145161,
+        "final_cohort_best_sealed": null,
+        "final_accessible_best_sealed": 8.145161,
+        "baseline_sealed": 14.918919,
+        "final_held_best_created_by_cohort": 1,
+        "final_held_best_closure": 0,
+        "freeze_validation_by_cohort": [
+          [
+            0,
+            11.0909,
+            11.0909
+          ],
+          [
+            1,
+            7.2368,
+            7.2368
+          ],
+          [
+            2,
+            null,
+            7.2368
+          ]
+        ],
+        "further_improvement": [
+          [
+            1,
+            true
+          ],
+          [
+            2,
+            false
+          ]
+        ],
+        "proposals": 123,
+        "unique_programs": 119,
+        "duplicate_behaviour_dev_results": 47,
+        "submissions": 31,
+        "improvement_admissions": 9,
+        "refactor_admissions": 1,
+        "stop_reasons": {
+          "energy": 15,
+          "budget-exhausted": 2
+        },
+        "private_parent_proposals": 90,
+        "component_extractions": 1,
+        "component_revisions": 5,
+        "components_admitted": {
+          "component-extraction": 1
+        },
+        "compositions": 41,
+        "calling_workflow_admissions": 2,
+        "executions_with_dependencies": 0,
+        "executions_with_dependencies_by_later_cohort": 0,
+        "uses_of_earlier_cohort_artifacts": 38,
+        "sessions": 0,
+        "sessions_acquired": 0,
+        "cross_generation_sessions": 0,
+        "cross_generation_acquired": 0,
+        "cross_generation_failed": 0,
+        "cross_generation_interrupted": 0,
+        "dependencies_taught_in_package": 0,
+        "dependencies_acquired": 0,
+        "cross_generation_admitted_revisions": 0,
+        "produced_alloy": 264,
+        "production_energy_per_alloy": 6.314394
+      },
+      {
+        "seed": 203,
+        "condition": "beam/reset",
+        "status": "completed",
+        "final_cohort_best_validation": 10.75,
+        "final_held_best_validation": 10.75,
+        "final_accessible_best_validation": 10.75,
+        "final_held_best_sealed": 14.257143,
+        "final_cohort_best_sealed": 14.257143,
+        "final_accessible_best_sealed": 14.257143,
+        "baseline_sealed": 14.918919,
+        "final_held_best_created_by_cohort": 2,
+        "final_held_best_closure": 0,
+        "freeze_validation_by_cohort": [
+          [
+            0,
+            11.0909,
+            11.0909
+          ],
+          [
+            1,
+            7.2368,
+            7.2368
+          ],
+          [
+            2,
+            10.75,
+            10.75
+          ]
+        ],
+        "further_improvement": [
+          [
+            1,
+            true
+          ],
+          [
+            2,
+            false
+          ]
+        ],
+        "proposals": 118,
+        "unique_programs": 118,
+        "duplicate_behaviour_dev_results": 43,
+        "submissions": 42,
+        "improvement_admissions": 15,
+        "refactor_admissions": 2,
+        "stop_reasons": {
+          "energy": 20,
+          "budget-exhausted": 2
+        },
+        "private_parent_proposals": 81,
+        "component_extractions": 2,
+        "component_revisions": 0,
+        "components_admitted": {
+          "component-extraction": 2
+        },
+        "compositions": 2,
+        "calling_workflow_admissions": 2,
+        "executions_with_dependencies": 0,
+        "executions_with_dependencies_by_later_cohort": 0,
+        "uses_of_earlier_cohort_artifacts": 0,
+        "sessions": 0,
+        "sessions_acquired": 0,
+        "cross_generation_sessions": 0,
+        "cross_generation_acquired": 0,
+        "cross_generation_failed": 0,
+        "cross_generation_interrupted": 0,
+        "dependencies_taught_in_package": 0,
+        "dependencies_acquired": 0,
+        "cross_generation_admitted_revisions": 0,
+        "produced_alloy": 373,
+        "production_energy_per_alloy": 7.372654
+      },
+      {
+        "seed": 203,
+        "condition": "beam-nocomponents/preserved",
+        "status": "completed",
+        "final_cohort_best_validation": 8.4706,
+        "final_held_best_validation": 7.2368,
+        "final_accessible_best_validation": 7.2368,
+        "final_held_best_sealed": 8.145161,
+        "final_cohort_best_sealed": 10.714286,
+        "final_accessible_best_sealed": 8.145161,
+        "baseline_sealed": 14.918919,
+        "final_held_best_created_by_cohort": 1,
+        "final_held_best_closure": 0,
+        "freeze_validation_by_cohort": [
+          [
+            0,
+            8.9706,
+            8.9706
+          ],
+          [
+            1,
+            7.2368,
+            7.2368
+          ],
+          [
+            2,
+            8.4706,
+            7.2368
+          ]
+        ],
+        "further_improvement": [
+          [
+            1,
+            true
+          ],
+          [
+            2,
+            false
+          ]
+        ],
+        "proposals": 127,
+        "unique_programs": 124,
+        "duplicate_behaviour_dev_results": 44,
+        "submissions": 23,
+        "improvement_admissions": 9,
+        "refactor_admissions": 0,
+        "stop_reasons": {
+          "energy": 13,
+          "budget-exhausted": 3
+        },
+        "private_parent_proposals": 95,
+        "component_extractions": 0,
+        "component_revisions": 0,
+        "components_admitted": {},
+        "compositions": 5,
+        "calling_workflow_admissions": 0,
+        "executions_with_dependencies": 0,
+        "executions_with_dependencies_by_later_cohort": 0,
+        "uses_of_earlier_cohort_artifacts": 84,
+        "sessions": 0,
+        "sessions_acquired": 0,
+        "cross_generation_sessions": 0,
+        "cross_generation_acquired": 0,
+        "cross_generation_failed": 0,
+        "cross_generation_interrupted": 0,
+        "dependencies_taught_in_package": 0,
+        "dependencies_acquired": 0,
+        "cross_generation_admitted_revisions": 0,
+        "produced_alloy": 436,
+        "production_energy_per_alloy": 5.775229
+      },
+      {
+        "seed": 204,
+        "condition": "first-improvement/preserved",
+        "status": "completed",
+        "final_cohort_best_validation": 8.3429,
+        "final_held_best_validation": 7.3636,
+        "final_accessible_best_validation": 7.3636,
+        "final_held_best_sealed": 8.112903,
+        "final_cohort_best_sealed": 10.145455,
+        "final_accessible_best_sealed": 8.112903,
+        "baseline_sealed": 13.315789,
+        "final_held_best_created_by_cohort": 1,
+        "final_held_best_closure": 0,
+        "freeze_validation_by_cohort": [
+          [
+            0,
+            7.5152,
+            7.5152
+          ],
+          [
+            1,
+            7.3636,
+            7.3636
+          ],
+          [
+            2,
+            8.3429,
+            7.3636
+          ]
+        ],
+        "further_improvement": [
+          [
+            1,
+            true
+          ],
+          [
+            2,
+            false
+          ]
+        ],
+        "proposals": 130,
+        "unique_programs": 130,
+        "duplicate_behaviour_dev_results": 29,
+        "submissions": 20,
+        "improvement_admissions": 14,
+        "refactor_admissions": 0,
+        "stop_reasons": {
+          "energy": 5,
+          "budget-exhausted": 8
+        },
+        "private_parent_proposals": 0,
+        "component_extractions": 0,
+        "component_revisions": 0,
+        "components_admitted": {},
+        "compositions": 0,
+        "calling_workflow_admissions": 0,
+        "executions_with_dependencies": 0,
+        "executions_with_dependencies_by_later_cohort": 0,
+        "uses_of_earlier_cohort_artifacts": 119,
+        "sessions": 0,
+        "sessions_acquired": 0,
+        "cross_generation_sessions": 0,
+        "cross_generation_acquired": 0,
+        "cross_generation_failed": 0,
+        "cross_generation_interrupted": 0,
+        "dependencies_taught_in_package": 0,
+        "dependencies_acquired": 0,
+        "cross_generation_admitted_revisions": 3,
+        "produced_alloy": 461,
+        "production_energy_per_alloy": 4.984816
+      },
+      {
+        "seed": 204,
+        "condition": "first-improvement/reset",
+        "status": "completed",
+        "final_cohort_best_validation": 9.0385,
+        "final_held_best_validation": 9.0385,
+        "final_accessible_best_validation": 9.0385,
+        "final_held_best_sealed": 9.396226,
+        "final_cohort_best_sealed": 9.396226,
+        "final_accessible_best_sealed": 9.396226,
+        "baseline_sealed": 13.315789,
+        "final_held_best_created_by_cohort": 2,
+        "final_held_best_closure": 0,
+        "freeze_validation_by_cohort": [
+          [
+            0,
+            7.5152,
+            7.5152
+          ],
+          [
+            1,
+            8.4,
+            8.4
+          ],
+          [
+            2,
+            9.0385,
+            9.0385
+          ]
+        ],
+        "further_improvement": [
+          [
+            1,
+            false
+          ],
+          [
+            2,
+            false
+          ]
+        ],
+        "proposals": 126,
+        "unique_programs": 125,
+        "duplicate_behaviour_dev_results": 23,
+        "submissions": 30,
+        "improvement_admissions": 24,
+        "refactor_admissions": 0,
+        "stop_reasons": {
+          "energy": 9,
+          "budget-exhausted": 11
+        },
+        "private_parent_proposals": 0,
+        "component_extractions": 0,
+        "component_revisions": 0,
+        "components_admitted": {},
+        "compositions": 0,
+        "calling_workflow_admissions": 0,
+        "executions_with_dependencies": 0,
+        "executions_with_dependencies_by_later_cohort": 0,
+        "uses_of_earlier_cohort_artifacts": 0,
+        "sessions": 0,
+        "sessions_acquired": 0,
+        "cross_generation_sessions": 0,
+        "cross_generation_acquired": 0,
+        "cross_generation_failed": 0,
+        "cross_generation_interrupted": 0,
+        "dependencies_taught_in_package": 0,
+        "dependencies_acquired": 0,
+        "cross_generation_admitted_revisions": 0,
+        "produced_alloy": 434,
+        "production_energy_per_alloy": 6.205069
+      },
+      {
+        "seed": 204,
+        "condition": "beam/preserved",
+        "status": "completed",
+        "final_cohort_best_validation": null,
+        "final_held_best_validation": 9.1875,
+        "final_accessible_best_validation": 9.1875,
+        "final_held_best_sealed": 10.555556,
+        "final_cohort_best_sealed": null,
+        "final_accessible_best_sealed": 10.555556,
+        "baseline_sealed": 13.315789,
+        "final_held_best_created_by_cohort": 1,
+        "final_held_best_closure": 0,
+        "freeze_validation_by_cohort": [
+          [
+            0,
+            10.1364,
+            10.1364
+          ],
+          [
+            1,
+            9.1875,
+            9.1875
+          ],
+          [
+            2,
+            null,
+            9.1875
+          ]
+        ],
+        "further_improvement": [
+          [
+            1,
+            true
+          ],
+          [
+            2,
+            false
+          ]
+        ],
+        "proposals": 129,
+        "unique_programs": 122,
+        "duplicate_behaviour_dev_results": 55,
+        "submissions": 14,
+        "improvement_admissions": 7,
+        "refactor_admissions": 1,
+        "stop_reasons": {
+          "energy": 18,
+          "budget-exhausted": 1
+        },
+        "private_parent_proposals": 86,
+        "component_extractions": 1,
+        "component_revisions": 13,
+        "components_admitted": {
+          "component-extraction": 1
+        },
+        "compositions": 39,
+        "calling_workflow_admissions": 2,
+        "executions_with_dependencies": 3,
+        "executions_with_dependencies_by_later_cohort": 2,
+        "uses_of_earlier_cohort_artifacts": 56,
+        "sessions": 0,
+        "sessions_acquired": 0,
+        "cross_generation_sessions": 0,
+        "cross_generation_acquired": 0,
+        "cross_generation_failed": 0,
+        "cross_generation_interrupted": 0,
+        "dependencies_taught_in_package": 0,
+        "dependencies_acquired": 0,
+        "cross_generation_admitted_revisions": 1,
+        "produced_alloy": 281,
+        "production_energy_per_alloy": 5.782918
+      },
+      {
+        "seed": 204,
+        "condition": "beam/reset",
+        "status": "completed",
+        "final_cohort_best_validation": 8.5758,
+        "final_held_best_validation": 8.5758,
+        "final_accessible_best_validation": 8.5758,
+        "final_held_best_sealed": 8.904762,
+        "final_cohort_best_sealed": 8.904762,
+        "final_accessible_best_sealed": 8.904762,
+        "baseline_sealed": 13.315789,
+        "final_held_best_created_by_cohort": 2,
+        "final_held_best_closure": 1,
+        "freeze_validation_by_cohort": [
+          [
+            0,
+            10.1364,
+            10.1364
+          ],
+          [
+            1,
+            10.1818,
+            10.1818
+          ],
+          [
+            2,
+            8.5758,
+            8.5758
+          ]
+        ],
+        "further_improvement": [
+          [
+            1,
+            false
+          ],
+          [
+            2,
+            true
+          ]
+        ],
+        "proposals": 122,
+        "unique_programs": 122,
+        "duplicate_behaviour_dev_results": 46,
+        "submissions": 37,
+        "improvement_admissions": 15,
+        "refactor_admissions": 2,
+        "stop_reasons": {
+          "energy": 18,
+          "budget-exhausted": 2
+        },
+        "private_parent_proposals": 82,
+        "component_extractions": 2,
+        "component_revisions": 10,
+        "components_admitted": {
+          "component-extraction": 2,
+          "component-revision": 1
+        },
+        "compositions": 8,
+        "calling_workflow_admissions": 3,
+        "executions_with_dependencies": 2,
+        "executions_with_dependencies_by_later_cohort": 0,
+        "uses_of_earlier_cohort_artifacts": 0,
+        "sessions": 0,
+        "sessions_acquired": 0,
+        "cross_generation_sessions": 0,
+        "cross_generation_acquired": 0,
+        "cross_generation_failed": 0,
+        "cross_generation_interrupted": 0,
+        "dependencies_taught_in_package": 0,
+        "dependencies_acquired": 0,
+        "cross_generation_admitted_revisions": 0,
+        "produced_alloy": 371,
+        "production_energy_per_alloy": 6.687332
+      },
+      {
+        "seed": 204,
+        "condition": "beam-nocomponents/preserved",
+        "status": "completed",
+        "final_cohort_best_validation": 9.0286,
+        "final_held_best_validation": 9.0286,
+        "final_accessible_best_validation": 9.0286,
+        "final_held_best_sealed": 16.114286,
+        "final_cohort_best_sealed": 16.114286,
+        "final_accessible_best_sealed": 16.114286,
+        "baseline_sealed": 13.315789,
+        "final_held_best_created_by_cohort": 2,
+        "final_held_best_closure": 0,
+        "freeze_validation_by_cohort": [
+          [
+            0,
+            10.1364,
+            10.1364
+          ],
+          [
+            1,
+            9.1875,
+            9.1875
+          ],
+          [
+            2,
+            9.0286,
+            9.0286
+          ]
+        ],
+        "further_improvement": [
+          [
+            1,
+            true
+          ],
+          [
+            2,
+            true
+          ]
+        ],
+        "proposals": 132,
+        "unique_programs": 126,
+        "duplicate_behaviour_dev_results": 63,
+        "submissions": 14,
+        "improvement_admissions": 7,
+        "refactor_admissions": 0,
+        "stop_reasons": {
+          "energy": 17,
+          "budget-exhausted": 1
+        },
+        "private_parent_proposals": 97,
+        "component_extractions": 0,
+        "component_revisions": 0,
+        "components_admitted": {},
+        "compositions": 9,
+        "calling_workflow_admissions": 0,
+        "executions_with_dependencies": 0,
+        "executions_with_dependencies_by_later_cohort": 0,
+        "uses_of_earlier_cohort_artifacts": 93,
+        "sessions": 0,
+        "sessions_acquired": 0,
+        "cross_generation_sessions": 0,
+        "cross_generation_acquired": 0,
+        "cross_generation_failed": 0,
+        "cross_generation_interrupted": 0,
+        "dependencies_taught_in_package": 0,
+        "dependencies_acquired": 0,
+        "cross_generation_admitted_revisions": 1,
+        "produced_alloy": 461,
+        "production_energy_per_alloy": 5.529284
+      },
+      {
+        "seed": 205,
+        "condition": "first-improvement/preserved",
+        "status": "completed",
+        "final_cohort_best_validation": 7.5946,
+        "final_held_best_validation": 7.5946,
+        "final_accessible_best_validation": 7.5946,
+        "final_held_best_sealed": 10.294118,
+        "final_cohort_best_sealed": 10.294118,
+        "final_accessible_best_sealed": 10.294118,
+        "baseline_sealed": 14.263158,
+        "final_held_best_created_by_cohort": 2,
+        "final_held_best_closure": 0,
+        "freeze_validation_by_cohort": [
+          [
+            0,
+            8.8276,
+            8.8276
+          ],
+          [
+            1,
+            8.3438,
+            8.3438
+          ],
+          [
+            2,
+            7.5946,
+            7.5946
+          ]
+        ],
+        "further_improvement": [
+          [
+            1,
+            true
+          ],
+          [
+            2,
+            true
+          ]
+        ],
+        "proposals": 123,
+        "unique_programs": 123,
+        "duplicate_behaviour_dev_results": 29,
+        "submissions": 34,
+        "improvement_admissions": 19,
+        "refactor_admissions": 0,
+        "stop_reasons": {
+          "energy": 4,
+          "budget-exhausted": 5
+        },
+        "private_parent_proposals": 0,
+        "component_extractions": 0,
+        "component_revisions": 0,
+        "components_admitted": {},
+        "compositions": 0,
+        "calling_workflow_admissions": 0,
+        "executions_with_dependencies": 0,
+        "executions_with_dependencies_by_later_cohort": 0,
+        "uses_of_earlier_cohort_artifacts": 43,
+        "sessions": 0,
+        "sessions_acquired": 0,
+        "cross_generation_sessions": 0,
+        "cross_generation_acquired": 0,
+        "cross_generation_failed": 0,
+        "cross_generation_interrupted": 0,
+        "dependencies_taught_in_package": 0,
+        "dependencies_acquired": 0,
+        "cross_generation_admitted_revisions": 4,
+        "produced_alloy": 439,
+        "production_energy_per_alloy": 5.384966
+      },
+      {
+        "seed": 205,
+        "condition": "first-improvement/reset",
+        "status": "completed",
+        "final_cohort_best_validation": 8.1,
+        "final_held_best_validation": 8.1,
+        "final_accessible_best_validation": 8.1,
+        "final_held_best_sealed": 7.566667,
+        "final_cohort_best_sealed": 7.566667,
+        "final_accessible_best_sealed": 7.566667,
+        "baseline_sealed": 14.263158,
+        "final_held_best_created_by_cohort": 2,
+        "final_held_best_closure": 0,
+        "freeze_validation_by_cohort": [
+          [
+            0,
+            8.8276,
+            8.8276
+          ],
+          [
+            1,
+            8.9714,
+            8.9714
+          ],
+          [
+            2,
+            8.1,
+            8.1
+          ]
+        ],
+        "further_improvement": [
+          [
+            1,
+            false
+          ],
+          [
+            2,
+            true
+          ]
+        ],
+        "proposals": 121,
+        "unique_programs": 120,
+        "duplicate_behaviour_dev_results": 21,
+        "submissions": 43,
+        "improvement_admissions": 27,
+        "refactor_admissions": 0,
+        "stop_reasons": {
+          "energy": 7,
+          "budget-exhausted": 9
+        },
+        "private_parent_proposals": 0,
+        "component_extractions": 0,
+        "component_revisions": 0,
+        "components_admitted": {},
+        "compositions": 0,
+        "calling_workflow_admissions": 0,
+        "executions_with_dependencies": 0,
+        "executions_with_dependencies_by_later_cohort": 0,
+        "uses_of_earlier_cohort_artifacts": 0,
+        "sessions": 0,
+        "sessions_acquired": 0,
+        "cross_generation_sessions": 0,
+        "cross_generation_acquired": 0,
+        "cross_generation_failed": 0,
+        "cross_generation_interrupted": 0,
+        "dependencies_taught_in_package": 0,
+        "dependencies_acquired": 0,
+        "cross_generation_admitted_revisions": 0,
+        "produced_alloy": 416,
+        "production_energy_per_alloy": 6.576923
+      },
+      {
+        "seed": 205,
+        "condition": "beam/preserved",
+        "status": "completed",
+        "final_cohort_best_validation": null,
+        "final_held_best_validation": 9.7,
+        "final_accessible_best_validation": 9.7,
+        "final_held_best_sealed": 10.203704,
+        "final_cohort_best_sealed": null,
+        "final_accessible_best_sealed": 10.203704,
+        "baseline_sealed": 14.263158,
+        "final_held_best_created_by_cohort": 0,
+        "final_held_best_closure": 0,
+        "freeze_validation_by_cohort": [
+          [
+            0,
+            9.7,
+            9.7
+          ],
+          [
+            1,
+            12.64,
+            9.7
+          ],
+          [
+            2,
+            null,
+            9.7
+          ]
+        ],
+        "further_improvement": [
+          [
+            1,
+            false
+          ],
+          [
+            2,
+            false
+          ]
+        ],
+        "proposals": 130,
+        "unique_programs": 126,
+        "duplicate_behaviour_dev_results": 65,
+        "submissions": 19,
+        "improvement_admissions": 5,
+        "refactor_admissions": 0,
+        "stop_reasons": {
+          "energy": 16
+        },
+        "private_parent_proposals": 106,
+        "component_extractions": 1,
+        "component_revisions": 0,
+        "components_admitted": {},
+        "compositions": 15,
+        "calling_workflow_admissions": 0,
+        "executions_with_dependencies": 0,
+        "executions_with_dependencies_by_later_cohort": 0,
+        "uses_of_earlier_cohort_artifacts": 124,
+        "sessions": 0,
+        "sessions_acquired": 0,
+        "cross_generation_sessions": 0,
+        "cross_generation_acquired": 0,
+        "cross_generation_failed": 0,
+        "cross_generation_interrupted": 0,
+        "dependencies_taught_in_package": 0,
+        "dependencies_acquired": 0,
+        "cross_generation_admitted_revisions": 0,
+        "produced_alloy": 456,
+        "production_energy_per_alloy": 5.287281
+      },
+      {
+        "seed": 205,
+        "condition": "beam/reset",
+        "status": "completed",
+        "final_cohort_best_validation": 10.7727,
+        "final_held_best_validation": 10.7727,
+        "final_accessible_best_validation": 10.7727,
+        "final_held_best_sealed": 11.785714,
+        "final_cohort_best_sealed": 11.785714,
+        "final_accessible_best_sealed": 11.785714,
+        "baseline_sealed": 14.263158,
+        "final_held_best_created_by_cohort": 2,
+        "final_held_best_closure": 1,
+        "freeze_validation_by_cohort": [
+          [
+            0,
+            9.7,
+            9.7
+          ],
+          [
+            1,
+            7.9706,
+            7.9706
+          ],
+          [
+            2,
+            10.7727,
+            10.7727
+          ]
+        ],
+        "further_improvement": [
+          [
+            1,
+            true
+          ],
+          [
+            2,
+            false
+          ]
+        ],
+        "proposals": 121,
+        "unique_programs": 121,
+        "duplicate_behaviour_dev_results": 41,
+        "submissions": 41,
+        "improvement_admissions": 17,
+        "refactor_admissions": 1,
+        "stop_reasons": {
+          "energy": 15,
+          "budget-exhausted": 2
+        },
+        "private_parent_proposals": 75,
+        "component_extractions": 3,
+        "component_revisions": 4,
+        "components_admitted": {
+          "component-extraction": 2,
+          "component-revision": 1
+        },
+        "compositions": 8,
+        "calling_workflow_admissions": 2,
+        "executions_with_dependencies": 0,
+        "executions_with_dependencies_by_later_cohort": 0,
+        "uses_of_earlier_cohort_artifacts": 0,
+        "sessions": 0,
+        "sessions_acquired": 0,
+        "cross_generation_sessions": 0,
+        "cross_generation_acquired": 0,
+        "cross_generation_failed": 0,
+        "cross_generation_interrupted": 0,
+        "dependencies_taught_in_package": 0,
+        "dependencies_acquired": 0,
+        "cross_generation_admitted_revisions": 0,
+        "produced_alloy": 391,
+        "production_energy_per_alloy": 7.028133
+      },
+      {
+        "seed": 205,
+        "condition": "beam-nocomponents/preserved",
+        "status": "completed",
+        "final_cohort_best_validation": null,
+        "final_held_best_validation": 9.7,
+        "final_accessible_best_validation": 9.7,
+        "final_held_best_sealed": 10.203704,
+        "final_cohort_best_sealed": null,
+        "final_accessible_best_sealed": 10.203704,
+        "baseline_sealed": 14.263158,
+        "final_held_best_created_by_cohort": 0,
+        "final_held_best_closure": 0,
+        "freeze_validation_by_cohort": [
+          [
+            0,
+            9.7,
+            9.7
+          ],
+          [
+            1,
+            12.64,
+            9.7
+          ],
+          [
+            2,
+            null,
+            9.7
+          ]
+        ],
+        "further_improvement": [
+          [
+            1,
+            false
+          ],
+          [
+            2,
+            false
+          ]
+        ],
+        "proposals": 130,
+        "unique_programs": 126,
+        "duplicate_behaviour_dev_results": 65,
+        "submissions": 19,
+        "improvement_admissions": 5,
+        "refactor_admissions": 0,
+        "stop_reasons": {
+          "energy": 16
+        },
+        "private_parent_proposals": 106,
+        "component_extractions": 0,
+        "component_revisions": 0,
+        "components_admitted": {},
+        "compositions": 15,
+        "calling_workflow_admissions": 0,
+        "executions_with_dependencies": 0,
+        "executions_with_dependencies_by_later_cohort": 0,
+        "uses_of_earlier_cohort_artifacts": 124,
+        "sessions": 0,
+        "sessions_acquired": 0,
+        "cross_generation_sessions": 0,
+        "cross_generation_acquired": 0,
+        "cross_generation_failed": 0,
+        "cross_generation_interrupted": 0,
+        "dependencies_taught_in_package": 0,
+        "dependencies_acquired": 0,
+        "cross_generation_admitted_revisions": 0,
+        "produced_alloy": 456,
+        "production_energy_per_alloy": 5.287281
+      }
+    ],
+    "comparisons": [
+      {
+        "a": "beam/preserved",
+        "b": "first-improvement/preserved",
+        "metric": "final_held_best_validation",
+        "pairs": [
+          {
+            "seed": 201,
+            "beam/preserved": 7.5405,
+            "first-improvement/preserved": 7.3056
+          },
+          {
+            "seed": 202,
+            "beam/preserved": 8.2895,
+            "first-improvement/preserved": 8.6
+          },
+          {
+            "seed": 203,
+            "beam/preserved": 7.2368,
+            "first-improvement/preserved": 6.2927
+          },
+          {
+            "seed": 204,
+            "beam/preserved": 9.1875,
+            "first-improvement/preserved": 7.3636
+          },
+          {
+            "seed": 205,
+            "beam/preserved": 9.7,
+            "first-improvement/preserved": 7.5946
+          }
+        ],
+        "a_lower": 1,
+        "b_lower": 4,
+        "ties": 0,
+        "mean_a": 8.3909,
+        "mean_b": 7.4313,
+        "verdict_under_frozen_rule": "first-improvement/preserved lower in 4/5"
+      },
+      {
+        "a": "beam/preserved",
+        "b": "first-improvement/preserved",
+        "metric": "final_held_best_sealed",
+        "pairs": [
+          {
+            "seed": 201,
+            "beam/preserved": 8.333333,
+            "first-improvement/preserved": 9.980769
+          },
+          {
+            "seed": 202,
+            "beam/preserved": 10.5,
+            "first-improvement/preserved": 10.479167
+          },
+          {
+            "seed": 203,
+            "beam/preserved": 8.145161,
+            "first-improvement/preserved": 9.017857
+          },
+          {
+            "seed": 204,
+            "beam/preserved": 10.555556,
+            "first-improvement/preserved": 8.112903
+          },
+          {
+            "seed": 205,
+            "beam/preserved": 10.203704,
+            "first-improvement/preserved": 10.294118
+          }
+        ],
+        "a_lower": 3,
+        "b_lower": 2,
+        "ties": 0,
+        "mean_a": 9.5476,
+        "mean_b": 9.577,
+        "verdict_under_frozen_rule": "no consistent difference"
+      },
+      {
+        "a": "beam/preserved",
+        "b": "first-improvement/preserved",
+        "metric": "final_cohort_best_sealed",
+        "pairs": [
+          {
+            "seed": 202,
+            "beam/preserved": 10.5,
+            "first-improvement/preserved": 10.479167
+          }
+        ],
+        "a_lower": 0,
+        "b_lower": 1,
+        "ties": 0,
+        "mean_a": 10.5,
+        "mean_b": 10.4792,
+        "verdict_under_frozen_rule": "no consistent difference"
+      },
+      {
+        "a": "beam/reset",
+        "b": "first-improvement/reset",
+        "metric": "final_held_best_validation",
+        "pairs": [
+          {
+            "seed": 201,
+            "beam/reset": 7.8857,
+            "first-improvement/reset": 7.6765
+          },
+          {
+            "seed": 202,
+            "beam/reset": 10.4444,
+            "first-improvement/reset": 9.3438
+          },
+          {
+            "seed": 203,
+            "beam/reset": 10.75,
+            "first-improvement/reset": 7.4242
+          },
+          {
+            "seed": 204,
+            "beam/reset": 8.5758,
+            "first-improvement/reset": 9.0385
+          },
+          {
+            "seed": 205,
+            "beam/reset": 10.7727,
+            "first-improvement/reset": 8.1
+          }
+        ],
+        "a_lower": 1,
+        "b_lower": 4,
+        "ties": 0,
+        "mean_a": 9.6857,
+        "mean_b": 8.3166,
+        "verdict_under_frozen_rule": "first-improvement/reset lower in 4/5"
+      },
+      {
+        "a": "beam/reset",
+        "b": "first-improvement/reset",
+        "metric": "final_held_best_sealed",
+        "pairs": [
+          {
+            "seed": 201,
+            "beam/reset": 8.338462,
+            "first-improvement/reset": 9.0
+          },
+          {
+            "seed": 202,
+            "beam/reset": 13.266667,
+            "first-improvement/reset": 9.388889
+          },
+          {
+            "seed": 203,
+            "beam/reset": 14.257143,
+            "first-improvement/reset": 8.240741
+          },
+          {
+            "seed": 204,
+            "beam/reset": 8.904762,
+            "first-improvement/reset": 9.396226
+          },
+          {
+            "seed": 205,
+            "beam/reset": 11.785714,
+            "first-improvement/reset": 7.566667
+          }
+        ],
+        "a_lower": 2,
+        "b_lower": 3,
+        "ties": 0,
+        "mean_a": 11.3105,
+        "mean_b": 8.7185,
+        "verdict_under_frozen_rule": "no consistent difference"
+      },
+      {
+        "a": "beam/reset",
+        "b": "first-improvement/reset",
+        "metric": "final_cohort_best_sealed",
+        "pairs": [
+          {
+            "seed": 201,
+            "beam/reset": 8.338462,
+            "first-improvement/reset": 9.0
+          },
+          {
+            "seed": 202,
+            "beam/reset": 13.266667,
+            "first-improvement/reset": 9.388889
+          },
+          {
+            "seed": 203,
+            "beam/reset": 14.257143,
+            "first-improvement/reset": 8.240741
+          },
+          {
+            "seed": 204,
+            "beam/reset": 8.904762,
+            "first-improvement/reset": 9.396226
+          },
+          {
+            "seed": 205,
+            "beam/reset": 11.785714,
+            "first-improvement/reset": 7.566667
+          }
+        ],
+        "a_lower": 2,
+        "b_lower": 3,
+        "ties": 0,
+        "mean_a": 11.3105,
+        "mean_b": 8.7185,
+        "verdict_under_frozen_rule": "no consistent difference"
+      },
+      {
+        "a": "beam/preserved",
+        "b": "beam-nocomponents/preserved",
+        "metric": "final_held_best_validation",
+        "pairs": [
+          {
+            "seed": 201,
+            "beam/preserved": 7.5405,
+            "beam-nocomponents/preserved": 7.5455
+          },
+          {
+            "seed": 202,
+            "beam/preserved": 8.2895,
+            "beam-nocomponents/preserved": 8.2895
+          },
+          {
+            "seed": 203,
+            "beam/preserved": 7.2368,
+            "beam-nocomponents/preserved": 7.2368
+          },
+          {
+            "seed": 204,
+            "beam/preserved": 9.1875,
+            "beam-nocomponents/preserved": 9.0286
+          },
+          {
+            "seed": 205,
+            "beam/preserved": 9.7,
+            "beam-nocomponents/preserved": 9.7
+          }
+        ],
+        "a_lower": 1,
+        "b_lower": 1,
+        "ties": 3,
+        "mean_a": 8.3909,
+        "mean_b": 8.3601,
+        "verdict_under_frozen_rule": "no consistent difference"
+      },
+      {
+        "a": "first-improvement/preserved",
+        "b": "first-improvement/reset",
+        "metric": "final_held_best_validation",
+        "pairs": [
+          {
+            "seed": 201,
+            "first-improvement/preserved": 7.3056,
+            "first-improvement/reset": 7.6765
+          },
+          {
+            "seed": 202,
+            "first-improvement/preserved": 8.6,
+            "first-improvement/reset": 9.3438
+          },
+          {
+            "seed": 203,
+            "first-improvement/preserved": 6.2927,
+            "first-improvement/reset": 7.4242
+          },
+          {
+            "seed": 204,
+            "first-improvement/preserved": 7.3636,
+            "first-improvement/reset": 9.0385
+          },
+          {
+            "seed": 205,
+            "first-improvement/preserved": 7.5946,
+            "first-improvement/reset": 8.1
+          }
+        ],
+        "a_lower": 5,
+        "b_lower": 0,
+        "ties": 0,
+        "mean_a": 7.4313,
+        "mean_b": 8.3166,
+        "verdict_under_frozen_rule": "first-improvement/preserved lower in 5/5"
+      },
+      {
+        "a": "beam/preserved",
+        "b": "beam/reset",
+        "metric": "final_held_best_validation",
+        "pairs": [
+          {
+            "seed": 201,
+            "beam/preserved": 7.5405,
+            "beam/reset": 7.8857
+          },
+          {
+            "seed": 202,
+            "beam/preserved": 8.2895,
+            "beam/reset": 10.4444
+          },
+          {
+            "seed": 203,
+            "beam/preserved": 7.2368,
+            "beam/reset": 10.75
+          },
+          {
+            "seed": 204,
+            "beam/preserved": 9.1875,
+            "beam/reset": 8.5758
+          },
+          {
+            "seed": 205,
+            "beam/preserved": 9.7,
+            "beam/reset": 10.7727
+          }
+        ],
+        "a_lower": 4,
+        "b_lower": 1,
+        "ties": 0,
+        "mean_a": 8.3909,
+        "mean_b": 9.6857,
+        "verdict_under_frozen_rule": "beam/preserved lower in 4/5"
+      },
+      {
+        "a": "beam/preserved",
+        "b": "beam-nocomponents/preserved",
+        "metric": "final_held_best_sealed",
+        "pairs": [
+          {
+            "seed": 201,
+            "beam/preserved": 8.333333,
+            "beam-nocomponents/preserved": 9.25
+          },
+          {
+            "seed": 202,
+            "beam/preserved": 10.5,
+            "beam-nocomponents/preserved": 10.5
+          },
+          {
+            "seed": 203,
+            "beam/preserved": 8.145161,
+            "beam-nocomponents/preserved": 8.145161
+          },
+          {
+            "seed": 204,
+            "beam/preserved": 10.555556,
+            "beam-nocomponents/preserved": 16.114286
+          },
+          {
+            "seed": 205,
+            "beam/preserved": 10.203704,
+            "beam-nocomponents/preserved": 10.203704
+          }
+        ],
+        "a_lower": 2,
+        "b_lower": 0,
+        "ties": 3,
+        "mean_a": 9.5476,
+        "mean_b": 10.8426,
+        "verdict_under_frozen_rule": "no consistent difference"
+      },
+      {
+        "a": "first-improvement/preserved",
+        "b": "first-improvement/reset",
+        "metric": "final_held_best_sealed",
+        "pairs": [
+          {
+            "seed": 201,
+            "first-improvement/preserved": 9.980769,
+            "first-improvement/reset": 9.0
+          },
+          {
+            "seed": 202,
+            "first-improvement/preserved": 10.479167,
+            "first-improvement/reset": 9.388889
+          },
+          {
+            "seed": 203,
+            "first-improvement/preserved": 9.017857,
+            "first-improvement/reset": 8.240741
+          },
+          {
+            "seed": 204,
+            "first-improvement/preserved": 8.112903,
+            "first-improvement/reset": 9.396226
+          },
+          {
+            "seed": 205,
+            "first-improvement/preserved": 10.294118,
+            "first-improvement/reset": 7.566667
+          }
+        ],
+        "a_lower": 1,
+        "b_lower": 4,
+        "ties": 0,
+        "mean_a": 9.577,
+        "mean_b": 8.7185,
+        "verdict_under_frozen_rule": "first-improvement/reset lower in 4/5"
+      },
+      {
+        "a": "beam/preserved",
+        "b": "beam/reset",
+        "metric": "final_held_best_sealed",
+        "pairs": [
+          {
+            "seed": 201,
+            "beam/preserved": 8.333333,
+            "beam/reset": 8.338462
+          },
+          {
+            "seed": 202,
+            "beam/preserved": 10.5,
+            "beam/reset": 13.266667
+          },
+          {
+            "seed": 203,
+            "beam/preserved": 8.145161,
+            "beam/reset": 14.257143
+          },
+          {
+            "seed": 204,
+            "beam/preserved": 10.555556,
+            "beam/reset": 8.904762
+          },
+          {
+            "seed": 205,
+            "beam/preserved": 10.203704,
+            "beam/reset": 11.785714
+          }
+        ],
+        "a_lower": 4,
+        "b_lower": 1,
+        "ties": 0,
+        "mean_a": 9.5476,
+        "mean_b": 11.3105,
+        "verdict_under_frozen_rule": "beam/preserved lower in 4/5"
+      }
+    ],
+    "totals": {
+      "first-improvement/preserved": {
+        "proposals": 630,
+        "submissions": 143,
+        "improvement_admissions": 76,
+        "refactor_admissions": 0,
+        "component_extractions": 0,
+        "component_revisions": 0,
+        "compositions": 1,
+        "calling_workflow_admissions": 0,
+        "executions_with_dependencies": 0,
+        "executions_with_dependencies_by_later_cohort": 0,
+        "uses_of_earlier_cohort_artifacts": 403,
+        "cross_generation_admitted_revisions": 16,
+        "duplicate_behaviour_dev_results": 144,
+        "worlds": 5
+      },
+      "first-improvement/reset": {
+        "proposals": 612,
+        "submissions": 197,
+        "improvement_admissions": 120,
+        "refactor_admissions": 0,
+        "component_extractions": 0,
+        "component_revisions": 0,
+        "compositions": 1,
+        "calling_workflow_admissions": 0,
+        "executions_with_dependencies": 0,
+        "executions_with_dependencies_by_later_cohort": 0,
+        "uses_of_earlier_cohort_artifacts": 0,
+        "cross_generation_admitted_revisions": 0,
+        "duplicate_behaviour_dev_results": 89,
+        "worlds": 5
+      },
+      "beam/preserved": {
+        "proposals": 620,
+        "submissions": 124,
+        "improvement_admissions": 39,
+        "refactor_admissions": 4,
+        "component_extractions": 5,
+        "component_revisions": 35,
+        "compositions": 173,
+        "calling_workflow_admissions": 9,
+        "executions_with_dependencies": 7,
+        "executions_with_dependencies_by_later_cohort": 3,
+        "uses_of_earlier_cohort_artifacts": 260,
+        "cross_generation_admitted_revisions": 6,
+        "duplicate_behaviour_dev_results": 259,
+        "worlds": 5
+      },
+      "beam/reset": {
+        "proposals": 600,
+        "submissions": 199,
+        "improvement_admissions": 73,
+        "refactor_admissions": 9,
+        "component_extractions": 11,
+        "component_revisions": 23,
+        "compositions": 26,
+        "calling_workflow_admissions": 12,
+        "executions_with_dependencies": 5,
+        "executions_with_dependencies_by_later_cohort": 0,
+        "uses_of_earlier_cohort_artifacts": 0,
+        "cross_generation_admitted_revisions": 0,
+        "duplicate_behaviour_dev_results": 211,
+        "worlds": 5
+      },
+      "beam-nocomponents/preserved": {
+        "proposals": 637,
+        "submissions": 106,
+        "improvement_admissions": 37,
+        "refactor_admissions": 0,
+        "component_extractions": 0,
+        "component_revisions": 0,
+        "compositions": 57,
+        "calling_workflow_admissions": 0,
+        "executions_with_dependencies": 0,
+        "executions_with_dependencies_by_later_cohort": 0,
+        "uses_of_earlier_cohort_artifacts": 470,
+        "cross_generation_admitted_revisions": 3,
+        "duplicate_behaviour_dev_results": 266,
+        "worlds": 5
+      }
+    },
+    "parity": [
+      {
+        "seed": 201,
+        "identical_initial_state": true,
+        "first-improvement_preserved_vs_reset_identical_at_first_arrival": true,
+        "beam_preserved_vs_reset_identical_at_first_arrival": true,
+        "note": "initial physical state with search_policy and cross_cohort_access masked; access pairs compared at the first arrival"
+      },
+      {
+        "seed": 202,
+        "identical_initial_state": true,
+        "first-improvement_preserved_vs_reset_identical_at_first_arrival": true,
+        "beam_preserved_vs_reset_identical_at_first_arrival": true,
+        "note": "initial physical state with search_policy and cross_cohort_access masked; access pairs compared at the first arrival"
+      },
+      {
+        "seed": 203,
+        "identical_initial_state": true,
+        "first-improvement_preserved_vs_reset_identical_at_first_arrival": true,
+        "beam_preserved_vs_reset_identical_at_first_arrival": true,
+        "note": "initial physical state with search_policy and cross_cohort_access masked; access pairs compared at the first arrival"
+      },
+      {
+        "seed": 204,
+        "identical_initial_state": true,
+        "first-improvement_preserved_vs_reset_identical_at_first_arrival": true,
+        "beam_preserved_vs_reset_identical_at_first_arrival": true,
+        "note": "initial physical state with search_policy and cross_cohort_access masked; access pairs compared at the first arrival"
+      },
+      {
+        "seed": 205,
+        "identical_initial_state": true,
+        "first-improvement_preserved_vs_reset_identical_at_first_arrival": true,
+        "beam_preserved_vs_reset_identical_at_first_arrival": true,
+        "note": "initial physical state with search_policy and cross_cohort_access masked; access pairs compared at the first arrival"
+      }
+    ]
+  },
+  "T": {
+    "rows": [
+      {
+        "seed": 201,
+        "condition": "library",
+        "status": "completed",
+        "final_cohort_best_validation": 7.2051,
+        "final_held_best_validation": 7.2051,
+        "final_accessible_best_validation": 7.2051,
+        "final_held_best_sealed": 8.206349,
+        "final_cohort_best_sealed": 8.206349,
+        "final_accessible_best_sealed": 8.206349,
+        "baseline_sealed": 13.794872,
+        "final_held_best_created_by_cohort": 2,
+        "final_held_best_closure": 1,
+        "freeze_validation_by_cohort": [
+          [
+            0,
+            10.0,
+            10.0
+          ],
+          [
+            1,
+            8.7895,
+            7.5405
+          ],
+          [
+            2,
+            7.2051,
+            7.2051
+          ]
+        ],
+        "further_improvement": [
+          [
+            1,
+            true
+          ],
+          [
+            2,
+            true
+          ]
+        ],
+        "proposals": 106,
+        "unique_programs": 105,
+        "duplicate_behaviour_dev_results": 42,
+        "submissions": 28,
+        "improvement_admissions": 10,
+        "refactor_admissions": 2,
+        "stop_reasons": {
+          "energy": 19,
+          "budget-exhausted": 44
+        },
+        "private_parent_proposals": 68,
+        "component_extractions": 2,
+        "component_revisions": 9,
+        "components_admitted": {
+          "component-extraction": 2
+        },
+        "compositions": 23,
+        "calling_workflow_admissions": 4,
+        "executions_with_dependencies": 9,
+        "executions_with_dependencies_by_later_cohort": 0,
+        "uses_of_earlier_cohort_artifacts": 59,
+        "sessions": 0,
+        "sessions_acquired": 0,
+        "cross_generation_sessions": 0,
+        "cross_generation_acquired": 0,
+        "cross_generation_failed": 0,
+        "cross_generation_interrupted": 0,
+        "dependencies_taught_in_package": 0,
+        "dependencies_acquired": 0,
+        "cross_generation_admitted_revisions": 0,
+        "produced_alloy": 387,
+        "production_energy_per_alloy": 6.018088
+      },
+      {
+        "seed": 201,
+        "condition": "teaching-only",
+        "status": "completed",
+        "final_cohort_best_validation": 7.8857,
+        "final_held_best_validation": 7.8857,
+        "final_accessible_best_validation": 7.8857,
+        "final_held_best_sealed": 8.338462,
+        "final_cohort_best_sealed": 8.338462,
+        "final_accessible_best_sealed": 8.338462,
+        "baseline_sealed": 13.794872,
+        "final_held_best_created_by_cohort": 2,
+        "final_held_best_closure": 1,
+        "freeze_validation_by_cohort": [
+          [
+            0,
+            10.0,
+            10.0
+          ],
+          [
+            1,
+            8.7895,
+            8.7895
+          ],
+          [
+            2,
+            7.8857,
+            7.8857
+          ]
+        ],
+        "further_improvement": [
+          [
+            1,
+            true
+          ],
+          [
+            2,
+            true
+          ]
+        ],
+        "proposals": 119,
+        "unique_programs": 119,
+        "duplicate_behaviour_dev_results": 41,
+        "submissions": 39,
+        "improvement_admissions": 17,
+        "refactor_admissions": 3,
+        "stop_reasons": {
+          "energy": 26,
+          "budget-exhausted": 27
+        },
+        "private_parent_proposals": 75,
+        "component_extractions": 3,
+        "component_revisions": 11,
+        "components_admitted": {
+          "component-extraction": 3,
+          "component-revision": 1
+        },
+        "compositions": 6,
+        "calling_workflow_admissions": 4,
+        "executions_with_dependencies": 11,
+        "executions_with_dependencies_by_later_cohort": 0,
+        "uses_of_earlier_cohort_artifacts": 39,
+        "sessions": 13,
+        "sessions_acquired": 6,
+        "cross_generation_sessions": 7,
+        "cross_generation_acquired": 3,
+        "cross_generation_failed": 1,
+        "cross_generation_interrupted": 3,
+        "dependencies_taught_in_package": 1,
+        "dependencies_acquired": 0,
+        "cross_generation_admitted_revisions": 0,
+        "produced_alloy": 424,
+        "production_energy_per_alloy": 6.384434
+      },
+      {
+        "seed": 201,
+        "condition": "none",
+        "status": "completed",
+        "final_cohort_best_validation": 7.8857,
+        "final_held_best_validation": 7.8857,
+        "final_accessible_best_validation": 7.8857,
+        "final_held_best_sealed": 8.338462,
+        "final_cohort_best_sealed": 8.338462,
+        "final_accessible_best_sealed": 8.338462,
+        "baseline_sealed": 13.794872,
+        "final_held_best_created_by_cohort": 2,
+        "final_held_best_closure": 1,
+        "freeze_validation_by_cohort": [
+          [
+            0,
+            10.0,
+            10.0
+          ],
+          [
+            1,
+            8.7895,
+            8.7895
+          ],
+          [
+            2,
+            7.8857,
+            7.8857
+          ]
+        ],
+        "further_improvement": [
+          [
+            1,
+            true
+          ],
+          [
+            2,
+            true
+          ]
+        ],
+        "proposals": 121,
+        "unique_programs": 121,
+        "duplicate_behaviour_dev_results": 42,
+        "submissions": 41,
+        "improvement_admissions": 17,
+        "refactor_admissions": 3,
+        "stop_reasons": {
+          "energy": 23,
+          "budget-exhausted": 68
+        },
+        "private_parent_proposals": 77,
+        "component_extractions": 3,
+        "component_revisions": 11,
+        "components_admitted": {
+          "component-extraction": 3,
+          "component-revision": 1
+        },
+        "compositions": 6,
+        "calling_workflow_admissions": 4,
+        "executions_with_dependencies": 21,
+        "executions_with_dependencies_by_later_cohort": 0,
+        "uses_of_earlier_cohort_artifacts": 0,
+        "sessions": 0,
+        "sessions_acquired": 0,
+        "cross_generation_sessions": 0,
+        "cross_generation_acquired": 0,
+        "cross_generation_failed": 0,
+        "cross_generation_interrupted": 0,
+        "dependencies_taught_in_package": 0,
+        "dependencies_acquired": 0,
+        "cross_generation_admitted_revisions": 0,
+        "produced_alloy": 482,
+        "production_energy_per_alloy": 6.672199
+      },
+      {
+        "seed": 202,
+        "condition": "library",
+        "status": "completed",
+        "final_cohort_best_validation": 8.2778,
+        "final_held_best_validation": 8.2778,
+        "final_accessible_best_validation": 8.2778,
+        "final_held_best_sealed": 9.392857,
+        "final_cohort_best_sealed": 9.392857,
+        "final_accessible_best_sealed": 9.392857,
+        "baseline_sealed": 14.179487,
+        "final_held_best_created_by_cohort": 2,
+        "final_held_best_closure": 0,
+        "freeze_validation_by_cohort": [
+          [
+            0,
+            12.3462,
+            9.4
+          ],
+          [
+            1,
+            9.4,
+            8.2778
+          ],
+          [
+            2,
+            8.2778,
+            8.2778
+          ]
+        ],
+        "further_improvement": [
+          [
+            1,
+            false
+          ],
+          [
+            2,
+            false
+          ]
+        ],
+        "proposals": 112,
+        "unique_programs": 112,
+        "duplicate_behaviour_dev_results": 44,
+        "submissions": 30,
+        "improvement_admissions": 10,
+        "refactor_admissions": 0,
+        "stop_reasons": {
+          "energy": 30,
+          "budget-exhausted": 48
+        },
+        "private_parent_proposals": 77,
+        "component_extractions": 1,
+        "component_revisions": 0,
+        "components_admitted": {},
+        "compositions": 7,
+        "calling_workflow_admissions": 0,
+        "executions_with_dependencies": 0,
+        "executions_with_dependencies_by_later_cohort": 0,
+        "uses_of_earlier_cohort_artifacts": 30,
+        "sessions": 0,
+        "sessions_acquired": 0,
+        "cross_generation_sessions": 0,
+        "cross_generation_acquired": 0,
+        "cross_generation_failed": 0,
+        "cross_generation_interrupted": 0,
+        "dependencies_taught_in_package": 0,
+        "dependencies_acquired": 0,
+        "cross_generation_admitted_revisions": 3,
+        "produced_alloy": 661,
+        "production_energy_per_alloy": 4.859304
+      },
+      {
+        "seed": 202,
+        "condition": "teaching-only",
+        "status": "completed",
+        "final_cohort_best_validation": 10.4444,
+        "final_held_best_validation": 10.4444,
+        "final_accessible_best_validation": 10.4444,
+        "final_held_best_sealed": 13.266667,
+        "final_cohort_best_sealed": 13.266667,
+        "final_accessible_best_sealed": 13.266667,
+        "baseline_sealed": 14.179487,
+        "final_held_best_created_by_cohort": 2,
+        "final_held_best_closure": 0,
+        "freeze_validation_by_cohort": [
+          [
+            0,
+            12.3462,
+            12.3462
+          ],
+          [
+            1,
+            10.1818,
+            10.1818
+          ],
+          [
+            2,
+            10.4444,
+            10.4444
+          ]
+        ],
+        "further_improvement": [
+          [
+            1,
+            true
+          ],
+          [
+            2,
+            false
+          ]
+        ],
+        "proposals": 119,
+        "unique_programs": 119,
+        "duplicate_behaviour_dev_results": 39,
+        "submissions": 38,
+        "improvement_admissions": 9,
+        "refactor_admissions": 1,
+        "stop_reasons": {
+          "energy": 18,
+          "budget-exhausted": 39
+        },
+        "private_parent_proposals": 92,
+        "component_extractions": 1,
+        "component_revisions": 0,
+        "components_admitted": {
+          "component-extraction": 1
+        },
+        "compositions": 2,
+        "calling_workflow_admissions": 1,
+        "executions_with_dependencies": 0,
+        "executions_with_dependencies_by_later_cohort": 0,
+        "uses_of_earlier_cohort_artifacts": 23,
+        "sessions": 15,
+        "sessions_acquired": 5,
+        "cross_generation_sessions": 12,
+        "cross_generation_acquired": 3,
+        "cross_generation_failed": 4,
+        "cross_generation_interrupted": 5,
+        "dependencies_taught_in_package": 1,
+        "dependencies_acquired": 0,
+        "cross_generation_admitted_revisions": 0,
+        "produced_alloy": 505,
+        "production_energy_per_alloy": 6.839604
+      },
+      {
+        "seed": 202,
+        "condition": "none",
+        "status": "completed",
+        "final_cohort_best_validation": 10.4444,
+        "final_held_best_validation": 10.4444,
+        "final_accessible_best_validation": 10.4444,
+        "final_held_best_sealed": 13.266667,
+        "final_cohort_best_sealed": 13.266667,
+        "final_accessible_best_sealed": 13.266667,
+        "baseline_sealed": 14.179487,
+        "final_held_best_created_by_cohort": 2,
+        "final_held_best_closure": 0,
+        "freeze_validation_by_cohort": [
+          [
+            0,
+            12.3462,
+            12.3462
+          ],
+          [
+            1,
+            10.1818,
+            10.1818
+          ],
+          [
+            2,
+            10.4444,
+            10.4444
+          ]
+        ],
+        "further_improvement": [
+          [
+            1,
+            true
+          ],
+          [
+            2,
+            false
+          ]
+        ],
+        "proposals": 124,
+        "unique_programs": 124,
+        "duplicate_behaviour_dev_results": 41,
+        "submissions": 39,
+        "improvement_admissions": 9,
+        "refactor_admissions": 1,
+        "stop_reasons": {
+          "energy": 24,
+          "budget-exhausted": 67
+        },
+        "private_parent_proposals": 97,
+        "component_extractions": 1,
+        "component_revisions": 0,
+        "components_admitted": {
+          "component-extraction": 1
+        },
+        "compositions": 2,
+        "calling_workflow_admissions": 1,
+        "executions_with_dependencies": 0,
+        "executions_with_dependencies_by_later_cohort": 0,
+        "uses_of_earlier_cohort_artifacts": 0,
+        "sessions": 0,
+        "sessions_acquired": 0,
+        "cross_generation_sessions": 0,
+        "cross_generation_acquired": 0,
+        "cross_generation_failed": 0,
+        "cross_generation_interrupted": 0,
+        "dependencies_taught_in_package": 0,
+        "dependencies_acquired": 0,
+        "cross_generation_admitted_revisions": 0,
+        "produced_alloy": 596,
+        "production_energy_per_alloy": 6.833893
+      },
+      {
+        "seed": 203,
+        "condition": "library",
+        "status": "completed",
+        "final_cohort_best_validation": null,
+        "final_held_best_validation": 7.2368,
+        "final_accessible_best_validation": 7.2368,
+        "final_held_best_sealed": 8.145161,
+        "final_cohort_best_sealed": null,
+        "final_accessible_best_sealed": 8.145161,
+        "baseline_sealed": 14.918919,
+        "final_held_best_created_by_cohort": 1,
+        "final_held_best_closure": 0,
+        "freeze_validation_by_cohort": [
+          [
+            0,
+            11.0909,
+            8.5
+          ],
+          [
+            1,
+            7.2368,
+            7.2368
+          ],
+          [
+            2,
+            null,
+            7.2368
+          ]
+        ],
+        "further_improvement": [
+          [
+            1,
+            true
+          ],
+          [
+            2,
+            false
+          ]
+        ],
+        "proposals": 120,
+        "unique_programs": 116,
+        "duplicate_behaviour_dev_results": 47,
+        "submissions": 27,
+        "improvement_admissions": 9,
+        "refactor_admissions": 0,
+        "stop_reasons": {
+          "energy": 20,
+          "budget-exhausted": 71
+        },
+        "private_parent_proposals": 87,
+        "component_extractions": 1,
+        "component_revisions": 0,
+        "components_admitted": {},
+        "compositions": 9,
+        "calling_workflow_admissions": 0,
+        "executions_with_dependencies": 0,
+        "executions_with_dependencies_by_later_cohort": 0,
+        "uses_of_earlier_cohort_artifacts": 155,
+        "sessions": 0,
+        "sessions_acquired": 0,
+        "cross_generation_sessions": 0,
+        "cross_generation_acquired": 0,
+        "cross_generation_failed": 0,
+        "cross_generation_interrupted": 0,
+        "dependencies_taught_in_package": 0,
+        "dependencies_acquired": 0,
+        "cross_generation_admitted_revisions": 1,
+        "produced_alloy": 640,
+        "production_energy_per_alloy": 5.248437
+      },
+      {
+        "seed": 203,
+        "condition": "teaching-only",
+        "status": "completed",
+        "final_cohort_best_validation": 11.0909,
+        "final_held_best_validation": 7.2368,
+        "final_accessible_best_validation": 11.0909,
+        "final_held_best_sealed": 8.145161,
+        "final_cohort_best_sealed": 11.571429,
+        "final_accessible_best_sealed": 11.571429,
+        "baseline_sealed": 14.918919,
+        "final_held_best_created_by_cohort": 1,
+        "final_held_best_closure": 0,
+        "freeze_validation_by_cohort": [
+          [
+            0,
+            11.0909,
+            11.0909
+          ],
+          [
+            1,
+            7.2368,
+            7.2368
+          ],
+          [
+            2,
+            11.0909,
+            7.2368
+          ]
+        ],
+        "further_improvement": [
+          [
+            1,
+            true
+          ],
+          [
+            2,
+            false
+          ]
+        ],
+        "proposals": 114,
+        "unique_programs": 110,
+        "duplicate_behaviour_dev_results": 38,
+        "submissions": 41,
+        "improvement_admissions": 11,
+        "refactor_admissions": 2,
+        "stop_reasons": {
+          "energy": 20,
+          "budget-exhausted": 35
+        },
+        "private_parent_proposals": 84,
+        "component_extractions": 2,
+        "component_revisions": 0,
+        "components_admitted": {
+          "component-extraction": 2
+        },
+        "compositions": 4,
+        "calling_workflow_admissions": 2,
+        "executions_with_dependencies": 11,
+        "executions_with_dependencies_by_later_cohort": 0,
+        "uses_of_earlier_cohort_artifacts": 43,
+        "sessions": 11,
+        "sessions_acquired": 7,
+        "cross_generation_sessions": 9,
+        "cross_generation_acquired": 5,
+        "cross_generation_failed": 3,
+        "cross_generation_interrupted": 1,
+        "dependencies_taught_in_package": 1,
+        "dependencies_acquired": 0,
+        "cross_generation_admitted_revisions": 0,
+        "produced_alloy": 460,
+        "production_energy_per_alloy": 6.623913
+      },
+      {
+        "seed": 203,
+        "condition": "none",
+        "status": "completed",
+        "final_cohort_best_validation": 10.75,
+        "final_held_best_validation": 10.75,
+        "final_accessible_best_validation": 10.75,
+        "final_held_best_sealed": 14.257143,
+        "final_cohort_best_sealed": 14.257143,
+        "final_accessible_best_sealed": 14.257143,
+        "baseline_sealed": 14.918919,
+        "final_held_best_created_by_cohort": 2,
+        "final_held_best_closure": 0,
+        "freeze_validation_by_cohort": [
+          [
+            0,
+            11.0909,
+            11.0909
+          ],
+          [
+            1,
+            7.2368,
+            7.2368
+          ],
+          [
+            2,
+            10.75,
+            10.75
+          ]
+        ],
+        "further_improvement": [
+          [
+            1,
+            true
+          ],
+          [
+            2,
+            false
+          ]
+        ],
+        "proposals": 121,
+        "unique_programs": 121,
+        "duplicate_behaviour_dev_results": 45,
+        "submissions": 43,
+        "improvement_admissions": 15,
+        "refactor_admissions": 2,
+        "stop_reasons": {
+          "energy": 23,
+          "budget-exhausted": 75
+        },
+        "private_parent_proposals": 84,
+        "component_extractions": 2,
+        "component_revisions": 0,
+        "components_admitted": {
+          "component-extraction": 2
+        },
+        "compositions": 2,
+        "calling_workflow_admissions": 2,
+        "executions_with_dependencies": 12,
+        "executions_with_dependencies_by_later_cohort": 0,
+        "uses_of_earlier_cohort_artifacts": 0,
+        "sessions": 0,
+        "sessions_acquired": 0,
+        "cross_generation_sessions": 0,
+        "cross_generation_acquired": 0,
+        "cross_generation_failed": 0,
+        "cross_generation_interrupted": 0,
+        "dependencies_taught_in_package": 0,
+        "dependencies_acquired": 0,
+        "cross_generation_admitted_revisions": 0,
+        "produced_alloy": 537,
+        "production_energy_per_alloy": 7.216015
+      },
+      {
+        "seed": 204,
+        "condition": "library",
+        "status": "completed",
+        "final_cohort_best_validation": 9.1724,
+        "final_held_best_validation": 9.1724,
+        "final_accessible_best_validation": 9.1724,
+        "final_held_best_sealed": 10.285714,
+        "final_cohort_best_sealed": 10.285714,
+        "final_accessible_best_sealed": 10.285714,
+        "baseline_sealed": 13.315789,
+        "final_held_best_created_by_cohort": 2,
+        "final_held_best_closure": 1,
+        "freeze_validation_by_cohort": [
+          [
+            0,
+            10.1364,
+            9.3448
+          ],
+          [
+            1,
+            9.3448,
+            9.1724
+          ],
+          [
+            2,
+            9.1724,
+            9.1724
+          ]
+        ],
+        "further_improvement": [
+          [
+            1,
+            false
+          ],
+          [
+            2,
+            false
+          ]
+        ],
+        "proposals": 105,
+        "unique_programs": 103,
+        "duplicate_behaviour_dev_results": 44,
+        "submissions": 16,
+        "improvement_admissions": 8,
+        "refactor_admissions": 2,
+        "stop_reasons": {
+          "energy": 19,
+          "budget-exhausted": 42
+        },
+        "private_parent_proposals": 65,
+        "component_extractions": 3,
+        "component_revisions": 14,
+        "components_admitted": {
+          "component-extraction": 2
+        },
+        "compositions": 16,
+        "calling_workflow_admissions": 3,
+        "executions_with_dependencies": 22,
+        "executions_with_dependencies_by_later_cohort": 0,
+        "uses_of_earlier_cohort_artifacts": 91,
+        "sessions": 0,
+        "sessions_acquired": 0,
+        "cross_generation_sessions": 0,
+        "cross_generation_acquired": 0,
+        "cross_generation_failed": 0,
+        "cross_generation_interrupted": 0,
+        "dependencies_taught_in_package": 0,
+        "dependencies_acquired": 0,
+        "cross_generation_admitted_revisions": 3,
+        "produced_alloy": 439,
+        "production_energy_per_alloy": 5.822323
+      },
+      {
+        "seed": 204,
+        "condition": "teaching-only",
+        "status": "completed",
+        "final_cohort_best_validation": 8.5758,
+        "final_held_best_validation": 8.5758,
+        "final_accessible_best_validation": 8.5758,
+        "final_held_best_sealed": 8.904762,
+        "final_cohort_best_sealed": 8.904762,
+        "final_accessible_best_sealed": 8.904762,
+        "baseline_sealed": 13.315789,
+        "final_held_best_created_by_cohort": 2,
+        "final_held_best_closure": 1,
+        "freeze_validation_by_cohort": [
+          [
+            0,
+            10.1364,
+            10.1364
+          ],
+          [
+            1,
+            10.1818,
+            10.1818
+          ],
+          [
+            2,
+            8.5758,
+            8.5758
+          ]
+        ],
+        "further_improvement": [
+          [
+            1,
+            false
+          ],
+          [
+            2,
+            true
+          ]
+        ],
+        "proposals": 117,
+        "unique_programs": 116,
+        "duplicate_behaviour_dev_results": 43,
+        "submissions": 33,
+        "improvement_admissions": 17,
+        "refactor_admissions": 3,
+        "stop_reasons": {
+          "energy": 23,
+          "budget-exhausted": 31
+        },
+        "private_parent_proposals": 79,
+        "component_extractions": 3,
+        "component_revisions": 8,
+        "components_admitted": {
+          "component-extraction": 3,
+          "component-revision": 1
+        },
+        "compositions": 14,
+        "calling_workflow_admissions": 4,
+        "executions_with_dependencies": 7,
+        "executions_with_dependencies_by_later_cohort": 0,
+        "uses_of_earlier_cohort_artifacts": 50,
+        "sessions": 11,
+        "sessions_acquired": 6,
+        "cross_generation_sessions": 9,
+        "cross_generation_acquired": 4,
+        "cross_generation_failed": 2,
+        "cross_generation_interrupted": 3,
+        "dependencies_taught_in_package": 1,
+        "dependencies_acquired": 0,
+        "cross_generation_admitted_revisions": 0,
+        "produced_alloy": 501,
+        "production_energy_per_alloy": 5.968064
+      },
+      {
+        "seed": 204,
+        "condition": "none",
+        "status": "completed",
+        "final_cohort_best_validation": 8.5758,
+        "final_held_best_validation": 8.5758,
+        "final_accessible_best_validation": 8.5758,
+        "final_held_best_sealed": 8.904762,
+        "final_cohort_best_sealed": 8.904762,
+        "final_accessible_best_sealed": 8.904762,
+        "baseline_sealed": 13.315789,
+        "final_held_best_created_by_cohort": 2,
+        "final_held_best_closure": 1,
+        "freeze_validation_by_cohort": [
+          [
+            0,
+            10.1364,
+            10.1364
+          ],
+          [
+            1,
+            10.1818,
+            10.1818
+          ],
+          [
+            2,
+            8.5758,
+            8.5758
+          ]
+        ],
+        "further_improvement": [
+          [
+            1,
+            false
+          ],
+          [
+            2,
+            true
+          ]
+        ],
+        "proposals": 124,
+        "unique_programs": 124,
+        "duplicate_behaviour_dev_results": 47,
+        "submissions": 38,
+        "improvement_admissions": 15,
+        "refactor_admissions": 2,
+        "stop_reasons": {
+          "energy": 24,
+          "budget-exhausted": 63
+        },
+        "private_parent_proposals": 82,
+        "component_extractions": 2,
+        "component_revisions": 12,
+        "components_admitted": {
+          "component-extraction": 2,
+          "component-revision": 1
+        },
+        "compositions": 8,
+        "calling_workflow_admissions": 3,
+        "executions_with_dependencies": 7,
+        "executions_with_dependencies_by_later_cohort": 0,
+        "uses_of_earlier_cohort_artifacts": 0,
+        "sessions": 0,
+        "sessions_acquired": 0,
+        "cross_generation_sessions": 0,
+        "cross_generation_acquired": 0,
+        "cross_generation_failed": 0,
+        "cross_generation_interrupted": 0,
+        "dependencies_taught_in_package": 0,
+        "dependencies_acquired": 0,
+        "cross_generation_admitted_revisions": 0,
+        "produced_alloy": 545,
+        "production_energy_per_alloy": 6.352294
+      },
+      {
+        "seed": 205,
+        "condition": "library",
+        "status": "completed",
+        "final_cohort_best_validation": null,
+        "final_held_best_validation": 9.7,
+        "final_accessible_best_validation": 9.7,
+        "final_held_best_sealed": 10.203704,
+        "final_cohort_best_sealed": null,
+        "final_accessible_best_sealed": 10.203704,
+        "baseline_sealed": 14.263158,
+        "final_held_best_created_by_cohort": 0,
+        "final_held_best_closure": 0,
+        "freeze_validation_by_cohort": [
+          [
+            0,
+            9.7,
+            9.7
+          ],
+          [
+            1,
+            12.64,
+            9.7
+          ],
+          [
+            2,
+            null,
+            9.7
+          ]
+        ],
+        "further_improvement": [
+          [
+            1,
+            false
+          ],
+          [
+            2,
+            false
+          ]
+        ],
+        "proposals": 130,
+        "unique_programs": 126,
+        "duplicate_behaviour_dev_results": 65,
+        "submissions": 19,
+        "improvement_admissions": 5,
+        "refactor_admissions": 0,
+        "stop_reasons": {
+          "energy": 20,
+          "budget-exhausted": 55
+        },
+        "private_parent_proposals": 106,
+        "component_extractions": 1,
+        "component_revisions": 0,
+        "components_admitted": {},
+        "compositions": 15,
+        "calling_workflow_admissions": 0,
+        "executions_with_dependencies": 0,
+        "executions_with_dependencies_by_later_cohort": 0,
+        "uses_of_earlier_cohort_artifacts": 202,
+        "sessions": 0,
+        "sessions_acquired": 0,
+        "cross_generation_sessions": 0,
+        "cross_generation_acquired": 0,
+        "cross_generation_failed": 0,
+        "cross_generation_interrupted": 0,
+        "dependencies_taught_in_package": 0,
+        "dependencies_acquired": 0,
+        "cross_generation_admitted_revisions": 0,
+        "produced_alloy": 674,
+        "production_energy_per_alloy": 5.086053
+      },
+      {
+        "seed": 205,
+        "condition": "teaching-only",
+        "status": "completed",
+        "final_cohort_best_validation": 7.9706,
+        "final_held_best_validation": 7.9706,
+        "final_accessible_best_validation": 7.9706,
+        "final_held_best_sealed": 9.092593,
+        "final_cohort_best_sealed": 9.092593,
+        "final_accessible_best_sealed": 9.092593,
+        "baseline_sealed": 14.263158,
+        "final_held_best_created_by_cohort": 1,
+        "final_held_best_closure": 0,
+        "freeze_validation_by_cohort": [
+          [
+            0,
+            9.7,
+            9.7
+          ],
+          [
+            1,
+            7.9706,
+            7.9706
+          ],
+          [
+            2,
+            7.9706,
+            7.9706
+          ]
+        ],
+        "further_improvement": [
+          [
+            1,
+            true
+          ],
+          [
+            2,
+            false
+          ]
+        ],
+        "proposals": 115,
+        "unique_programs": 112,
+        "duplicate_behaviour_dev_results": 44,
+        "submissions": 35,
+        "improvement_admissions": 16,
+        "refactor_admissions": 2,
+        "stop_reasons": {
+          "energy": 20,
+          "budget-exhausted": 23
+        },
+        "private_parent_proposals": 71,
+        "component_extractions": 3,
+        "component_revisions": 4,
+        "components_admitted": {
+          "component-extraction": 3,
+          "component-revision": 1
+        },
+        "compositions": 11,
+        "calling_workflow_admissions": 3,
+        "executions_with_dependencies": 9,
+        "executions_with_dependencies_by_later_cohort": 0,
+        "uses_of_earlier_cohort_artifacts": 90,
+        "sessions": 16,
+        "sessions_acquired": 11,
+        "cross_generation_sessions": 12,
+        "cross_generation_acquired": 7,
+        "cross_generation_failed": 2,
+        "cross_generation_interrupted": 3,
+        "dependencies_taught_in_package": 0,
+        "dependencies_acquired": 0,
+        "cross_generation_admitted_revisions": 1,
+        "produced_alloy": 511,
+        "production_energy_per_alloy": 5.741683
+      },
+      {
+        "seed": 205,
+        "condition": "none",
+        "status": "completed",
+        "final_cohort_best_validation": 10.7727,
+        "final_held_best_validation": 10.7727,
+        "final_accessible_best_validation": 10.7727,
+        "final_held_best_sealed": 11.785714,
+        "final_cohort_best_sealed": 11.785714,
+        "final_accessible_best_sealed": 11.785714,
+        "baseline_sealed": 14.263158,
+        "final_held_best_created_by_cohort": 2,
+        "final_held_best_closure": 1,
+        "freeze_validation_by_cohort": [
+          [
+            0,
+            9.7,
+            9.7
+          ],
+          [
+            1,
+            7.9706,
+            7.9706
+          ],
+          [
+            2,
+            10.7727,
+            10.7727
+          ]
+        ],
+        "further_improvement": [
+          [
+            1,
+            true
+          ],
+          [
+            2,
+            false
+          ]
+        ],
+        "proposals": 122,
+        "unique_programs": 122,
+        "duplicate_behaviour_dev_results": 41,
+        "submissions": 41,
+        "improvement_admissions": 17,
+        "refactor_admissions": 1,
+        "stop_reasons": {
+          "energy": 20,
+          "budget-exhausted": 76
+        },
+        "private_parent_proposals": 76,
+        "component_extractions": 3,
+        "component_revisions": 4,
+        "components_admitted": {
+          "component-extraction": 2,
+          "component-revision": 1
+        },
+        "compositions": 8,
+        "calling_workflow_admissions": 2,
+        "executions_with_dependencies": 12,
+        "executions_with_dependencies_by_later_cohort": 0,
+        "uses_of_earlier_cohort_artifacts": 0,
+        "sessions": 0,
+        "sessions_acquired": 0,
+        "cross_generation_sessions": 0,
+        "cross_generation_acquired": 0,
+        "cross_generation_failed": 0,
+        "cross_generation_interrupted": 0,
+        "dependencies_taught_in_package": 0,
+        "dependencies_acquired": 0,
+        "cross_generation_admitted_revisions": 0,
+        "produced_alloy": 545,
+        "production_energy_per_alloy": 6.666055
+      }
+    ],
+    "comparisons": [
+      {
+        "a": "teaching-only",
+        "b": "none",
+        "metric": "final_held_best_validation",
+        "pairs": [
+          {
+            "seed": 201,
+            "teaching-only": 7.8857,
+            "none": 7.8857
+          },
+          {
+            "seed": 202,
+            "teaching-only": 10.4444,
+            "none": 10.4444
+          },
+          {
+            "seed": 203,
+            "teaching-only": 7.2368,
+            "none": 10.75
+          },
+          {
+            "seed": 204,
+            "teaching-only": 8.5758,
+            "none": 8.5758
+          },
+          {
+            "seed": 205,
+            "teaching-only": 7.9706,
+            "none": 10.7727
+          }
+        ],
+        "a_lower": 2,
+        "b_lower": 0,
+        "ties": 3,
+        "mean_a": 8.4227,
+        "mean_b": 9.6857,
+        "verdict_under_frozen_rule": "no consistent difference"
+      },
+      {
+        "a": "teaching-only",
+        "b": "none",
+        "metric": "final_held_best_sealed",
+        "pairs": [
+          {
+            "seed": 201,
+            "teaching-only": 8.338462,
+            "none": 8.338462
+          },
+          {
+            "seed": 202,
+            "teaching-only": 13.266667,
+            "none": 13.266667
+          },
+          {
+            "seed": 203,
+            "teaching-only": 8.145161,
+            "none": 14.257143
+          },
+          {
+            "seed": 204,
+            "teaching-only": 8.904762,
+            "none": 8.904762
+          },
+          {
+            "seed": 205,
+            "teaching-only": 9.092593,
+            "none": 11.785714
+          }
+        ],
+        "a_lower": 2,
+        "b_lower": 0,
+        "ties": 3,
+        "mean_a": 9.5495,
+        "mean_b": 11.3105,
+        "verdict_under_frozen_rule": "no consistent difference"
+      },
+      {
+        "a": "library",
+        "b": "none",
+        "metric": "final_held_best_validation",
+        "pairs": [
+          {
+            "seed": 201,
+            "library": 7.2051,
+            "none": 7.8857
+          },
+          {
+            "seed": 202,
+            "library": 8.2778,
+            "none": 10.4444
+          },
+          {
+            "seed": 203,
+            "library": 7.2368,
+            "none": 10.75
+          },
+          {
+            "seed": 204,
+            "library": 9.1724,
+            "none": 8.5758
+          },
+          {
+            "seed": 205,
+            "library": 9.7,
+            "none": 10.7727
+          }
+        ],
+        "a_lower": 4,
+        "b_lower": 1,
+        "ties": 0,
+        "mean_a": 8.3184,
+        "mean_b": 9.6857,
+        "verdict_under_frozen_rule": "library lower in 4/5"
+      },
+      {
+        "a": "library",
+        "b": "none",
+        "metric": "final_held_best_sealed",
+        "pairs": [
+          {
+            "seed": 201,
+            "library": 8.206349,
+            "none": 8.338462
+          },
+          {
+            "seed": 202,
+            "library": 9.392857,
+            "none": 13.266667
+          },
+          {
+            "seed": 203,
+            "library": 8.145161,
+            "none": 14.257143
+          },
+          {
+            "seed": 204,
+            "library": 10.285714,
+            "none": 8.904762
+          },
+          {
+            "seed": 205,
+            "library": 10.203704,
+            "none": 11.785714
+          }
+        ],
+        "a_lower": 4,
+        "b_lower": 1,
+        "ties": 0,
+        "mean_a": 9.2468,
+        "mean_b": 11.3105,
+        "verdict_under_frozen_rule": "library lower in 4/5"
+      },
+      {
+        "a": "library",
+        "b": "teaching-only",
+        "metric": "final_held_best_validation",
+        "pairs": [
+          {
+            "seed": 201,
+            "library": 7.2051,
+            "teaching-only": 7.8857
+          },
+          {
+            "seed": 202,
+            "library": 8.2778,
+            "teaching-only": 10.4444
+          },
+          {
+            "seed": 203,
+            "library": 7.2368,
+            "teaching-only": 7.2368
+          },
+          {
+            "seed": 204,
+            "library": 9.1724,
+            "teaching-only": 8.5758
+          },
+          {
+            "seed": 205,
+            "library": 9.7,
+            "teaching-only": 7.9706
+          }
+        ],
+        "a_lower": 2,
+        "b_lower": 2,
+        "ties": 1,
+        "mean_a": 8.3184,
+        "mean_b": 8.4227,
+        "verdict_under_frozen_rule": "no consistent difference"
+      },
+      {
+        "a": "library",
+        "b": "teaching-only",
+        "metric": "final_held_best_sealed",
+        "pairs": [
+          {
+            "seed": 201,
+            "library": 8.206349,
+            "teaching-only": 8.338462
+          },
+          {
+            "seed": 202,
+            "library": 9.392857,
+            "teaching-only": 13.266667
+          },
+          {
+            "seed": 203,
+            "library": 8.145161,
+            "teaching-only": 8.145161
+          },
+          {
+            "seed": 204,
+            "library": 10.285714,
+            "teaching-only": 8.904762
+          },
+          {
+            "seed": 205,
+            "library": 10.203704,
+            "teaching-only": 9.092593
+          }
+        ],
+        "a_lower": 2,
+        "b_lower": 2,
+        "ties": 1,
+        "mean_a": 9.2468,
+        "mean_b": 9.5495,
+        "verdict_under_frozen_rule": "no consistent difference"
+      }
+    ],
+    "totals": {
+      "library": {
+        "sessions": 0,
+        "sessions_acquired": 0,
+        "cross_generation_sessions": 0,
+        "cross_generation_acquired": 0,
+        "cross_generation_failed": 0,
+        "cross_generation_interrupted": 0,
+        "dependencies_taught_in_package": 0,
+        "dependencies_acquired": 0,
+        "uses_of_earlier_cohort_artifacts": 537,
+        "cross_generation_admitted_revisions": 7,
+        "calling_workflow_admissions": 7,
+        "refactor_admissions": 4,
+        "worlds": 5
+      },
+      "teaching-only": {
+        "sessions": 66,
+        "sessions_acquired": 35,
+        "cross_generation_sessions": 49,
+        "cross_generation_acquired": 22,
+        "cross_generation_failed": 12,
+        "cross_generation_interrupted": 15,
+        "dependencies_taught_in_package": 4,
+        "dependencies_acquired": 0,
+        "uses_of_earlier_cohort_artifacts": 245,
+        "cross_generation_admitted_revisions": 1,
+        "calling_workflow_admissions": 14,
+        "refactor_admissions": 11,
+        "worlds": 5
+      },
+      "none": {
+        "sessions": 0,
+        "sessions_acquired": 0,
+        "cross_generation_sessions": 0,
+        "cross_generation_acquired": 0,
+        "cross_generation_failed": 0,
+        "cross_generation_interrupted": 0,
+        "dependencies_taught_in_package": 0,
+        "dependencies_acquired": 0,
+        "uses_of_earlier_cohort_artifacts": 0,
+        "cross_generation_admitted_revisions": 0,
+        "calling_workflow_admissions": 12,
+        "refactor_admissions": 9,
+        "worlds": 5
+      }
+    },
+    "further_improvement_transitions": {
+      "library": 3,
+      "teaching-only": 6,
+      "none": 6
+    },
+    "parity": [
+      {
+        "seed": 201,
+        "library_and_none_identical_at_first_arrival": true,
+        "note": "teaching-only enables within-cohort teaching from tick 0, so it is not expected to match"
+      },
+      {
+        "seed": 202,
+        "library_and_none_identical_at_first_arrival": true,
+        "note": "teaching-only enables within-cohort teaching from tick 0, so it is not expected to match"
+      },
+      {
+        "seed": 203,
+        "library_and_none_identical_at_first_arrival": true,
+        "note": "teaching-only enables within-cohort teaching from tick 0, so it is not expected to match"
+      },
+      {
+        "seed": 204,
+        "library_and_none_identical_at_first_arrival": true,
+        "note": "teaching-only enables within-cohort teaching from tick 0, so it is not expected to match"
+      },
+      {
+        "seed": 205,
+        "library_and_none_identical_at_first_arrival": true,
+        "note": "teaching-only enables within-cohort teaching from tick 0, so it is not expected to match"
+      }
+    ]
+  }
+}

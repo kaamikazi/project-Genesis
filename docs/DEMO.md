@@ -48,9 +48,30 @@ What you'll see:
 
 For cohorts, tick **Scheduled cohorts (3 × 60 ticks)** instead. **Generation history** then lists each freeze, the cohort best and the accessible best by validation score, and the lineage across cohorts.
 
+## 3c. Watch search, components and a generational handoff (v0.5)
+
+1. Click **＋ New world** and choose **workshop-1**.
+2. Tick **Enable teaching sessions**, **Scheduled cohorts (3 × 60 ticks)** and **v0.5 search and mentorship**. The last option turns on beam search with components, 48 shared search credits, dependency-aware lessons and a 30-tick overlap.
+3. Untick **Allow verified procedure sharing** if you want lessons to be the only route between generations. Then press ▶.
+
+What you'll see:
+
+- **Search.** For each researcher: credits spent out of 48, own attempts by status, and the frontier of best development scores. Below that are the latest attempts (operator, parent, restarts) and the reasons searching stopped in the last 40 ticks (budget, energy, no candidate).
+- **Components.** This panel appears once a component exists. It shows components (extractions vs revisions, with dashed arcs from a revision to its parent) and the workflows that call them, including refactor admissions. A call names a hash, so a revision never changes the workflows that call the old version.
+- **Generations.** A timeline of overlapping cohorts with arrival and retirement transitions; cross-generation lessons with their dependency closure, what was taught in the package, what the learner already knew, and the outcome; and knowledge paths across cohorts.
+- **Frozen workflows.** Each freeze's created, accessible and held best, with validation and development scores and the closure by hash.
+
+The same chain, scripted and labelled as a demonstration, can be reproduced exactly:
+
+```
+python -c "from genesis.demo5 import component_chain, summary; print(summary(component_chain(101)))"
+```
+
+It extracts a component, admits it inside its host, refactors the workflow to call it, teaches the workflow and its dependency to the successor during the overlap, retires the teacher on schedule, executes the inherited workflow, admits a revision, and rewires the workflow to it. Its actions are submitted overrides checked by the ordinary rules. It is not experimental evidence.
+
 ## 4. The controlled experiment (Experiments)
 
-This page reads `evidence/v0.4.0/` for Milestone 4 (Experiments A and B, sealed results) and `evidence/v0.3.0/` for the historical Milestone 3 reports. Regenerate with `python tools/generate_evidence_m4.py` (v0.4) or `python tools/generate_evidence.py` (v0.3).
+This page reads `evidence/v0.5.0/` for Milestone 5 (Experiments P and T, sealed-2 results, the demonstration, search CPU and restart checks; regenerate with `python tools/generate_evidence_m5.py`), `evidence/v0.4.0/` for Milestone 4 (Experiments A and B, sealed results) and `evidence/v0.3.0/` for the historical Milestone 3 reports. Regenerate with `python tools/generate_evidence_m4.py` (v0.4) or `python tools/generate_evidence.py` (v0.3).
 
 - **Inheritance diagnostic.** For each seed, three continuations forked from one checkpoint, with a parity badge showing that the physical state was identical at the boundary. For every successor it shows the library acquisition tick, the first saving, uses, energy per alloy, settlement totals and the ore left. Aggregates show the mean of ratios and the pooled ratio separately.
 - **Live continuation.** Successor researchers with invention open: who learned, who re-derived the procedure by search, and the total charged energy per alloy.
@@ -78,6 +99,7 @@ The reducer recomputes everything from events and reports whether its reconstruc
 |---|---|
 | Survival, gathering, storage use and production | Deterministic rules |
 | Trades and gifts | Scripted on a fixed tick schedule |
-| Candidate programs and revisions | Bounded search |
+| Candidate programs and revisions | Bounded search: first-improvement (v0.4 reference) or beam (v0.5) |
+| Component chain in `genesis/demo5.py` | Scripted demonstration (labelled), validated by the ordinary rules |
 | Retirement and succession | Scheduled by the scenario |
 | Model-controlled behaviour | None; no model calls are made |

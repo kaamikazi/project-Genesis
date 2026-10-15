@@ -21,7 +21,10 @@ cd frontend && npm install && npm run build
 | Advance a world headless | `python -m genesis.cli step RUN_ID --ticks 50` |
 | List runs | `python -m genesis.cli list` |
 | One-shot demo with export | `python -m genesis.cli demo --ticks 120 --removal creators --removal-tick 60 --succession fresh` |
-| **Regenerate all evidence** | `python tools/generate_evidence.py` (logs every step to `evidence/v0.3.0/runs.json`) |
+| **Regenerate v0.5.0 evidence** | `python tools/generate_evidence_m5.py` (calibration, protocol freeze, P, T, sealed-2, demonstration, restart, CPU, profiles, summaries; logs every step to `evidence/v0.5.0/runs.json`). The freeze step refuses to overwrite an existing protocol: move `evidence/v0.5.0` aside first. |
+| v0.5 search diagnosis and inherited improvements | `python tools/diagnose_v05_search.py evidence/v0.5.0 OUT.json`, `python tools/inherited_m5.py evidence/v0.5.0 OUT.json` |
+| v0.5 demonstration fixture (scripted, labelled) | `python -c "from genesis.demo5 import component_chain, summary; print(summary(component_chain(101)))"` |
+| Earlier evidence | `python tools/generate_evidence_m4.py` (v0.4.0), `python tools/generate_evidence.py` (v0.3.0) |
 | Inheritance experiment | `python -m genesis.cli inherit --seeds 11 42 77` (20 agents: `--population 20 --ore-per-site 960 --out evidence/v0.3.0/twenty/inheritance`) |
 | Descriptive comparison | `python -m genesis.cli compare --seeds 11 42 77 --ticks 160` |
 | Independent metrics for any export | `python -m genesis.cli reduce PATH.json.gz` (or `reduce-run RUN_ID` for a stored run) |
@@ -72,6 +75,6 @@ Runs written by a different engine, rule or evaluator version remain listed (mar
 The benchmark reports bytes per tick (see [IMPLEMENTATION_STATUS](IMPLEMENTATION_STATUS.md)). To keep things small:
 
 - raise `snapshot_every`, which trades replay speed for space
-- delete experiment databases (`evidence/v0.3.0/**/*.sqlite`, which git ignores); the gzipped exports next to them are the durable evidence
+- delete experiment databases (`evidence/v0.*/**/*.sqlite`, which git ignores); the gzipped exports next to them are the durable evidence
 
 `data/` and `*.sqlite` are git-ignored.
