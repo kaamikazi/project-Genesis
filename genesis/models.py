@@ -4,7 +4,7 @@ import hashlib
 import json
 from typing import Any, Literal, Protocol
 
-from pydantic import BaseModel, ConfigDict, Field
+from pydantic import BaseModel, ConfigDict, Field, model_validator
 
 JSON = dict[str, Any]
 RESOURCES = ("food", "ore", "alloy")
@@ -64,6 +64,31 @@ class Scenario(BaseModel):
     # a precommitted 24-case panel per cohort, each agent limited to `panel_queries` submissions per panel.
     validation_policy: Literal["fixed", "cohort-panels"] = "fixed"
     panel_queries: int = Field(default=12, ge=1, le=1000)
+    # v0.5.2 (M5c): versioned random streams. "legacy" derives hidden invention parameters, terrain and the per-tick
+    # environment from `seed` (v0.1-v0.5.1 behaviour). "streams-1" takes them from separate declared sources, as a
+    # world-manifest block: `hidden_combo` (one member of the finite workshop-1 family), `terrain_seed` (terrain and
+    # per-tick phase/humidity), and `controller_seed` (controller randomness). Evaluation partitions stay precommitted.
+    seed_scheme: Literal["legacy", "streams-1"] = "legacy"
+    terrain_seed: int | None = Field(default=None, ge=0, le=2**31 - 1)
+    hidden_combo: list[int] | None = None
+    # v0.5.2: final champion selection. "admission-score" = lowest stored admission score (earlier behaviour);
+    # "selection-panel" = a bounded eligible set re-scored on one shared selection panel at each freeze.
+    final_selection: Literal["admission-score", "selection-panel"] = "admission-score"
+    selection_candidates: int = Field(default=16, ge=1, le=100)
+    # v0.5.2 leave-one-out flag for the beam-alloc bundle (submission safety is never disabled).
+    alloc_disable: Literal["none", "stale-frontier", "reserve", "novelty"] = "none"
+
+    @model_validator(mode="after")
+    def _streams(self) -> "Scenario":
+        if self.seed_scheme == "streams-1":
+            if self.terrain_seed is None or self.hidden_combo is None:
+                raise ValueError("streams-1 needs terrain_seed and hidden_combo")
+            split, offset, flux = (self.hidden_combo + [None, None, None])[:3]
+            if len(self.hidden_combo) != 3 or not (4 <= split <= 8 and 0 <= offset <= 2 and 4 <= flux <= 6):
+                raise ValueError("hidden_combo must be [split 4-8, offset 0-2, flux_threshold 4-6] (the workshop-1 family)")
+        elif self.terrain_seed is not None or self.hidden_combo is not None:
+            raise ValueError("terrain_seed and hidden_combo apply only to seed_scheme streams-1")
+        return self
 
 
 class Action(BaseModel):

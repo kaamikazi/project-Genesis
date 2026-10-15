@@ -357,7 +357,7 @@ def test_reducer_v3_reconciles_and_reports_every_dictionary_metric(tmp_path):
     red = reduce_export(export, [Window(0, 40, "c0"), Window(40, 80, "c1")])
     assert red["reconciliation"]["holdings_match_final_state"] and red["reconciliation"]["statuses_match_final_state"]
     m = red["metrics"]
-    expected = {k for k in METRICS if not k.startswith(("knowledge.", "compare."))}
+    expected = {k for k in METRICS if not k.startswith(("knowledge.", "compare.", "selection.", "admission.panel_queries"))}
     assert expected <= set(m)
     assert m["search.credit_actions"] == sum(a.get("search_spent", 0) for a in export["state"]["agents"].values())
     assert m["search.own_candidate_tests"] + m["search.held_retests"] + m["search.component_tests"] == red["search"]["dev_evaluations"]

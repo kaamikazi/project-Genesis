@@ -13,7 +13,7 @@ import secrets
 from pathlib import Path
 
 from .models import JSON, digest
-from .workshop import BASELINE, DEV_CASES, VALIDATION_CASES, all_panel_cases, partition, score_cases, world_params
+from .workshop import BASELINE, DEV_CASES, VALIDATION_CASES, all_panel_cases, hidden_params, partition, score_cases, selection_cases, world_params
 
 SEALED_VERSION = "workshop-sealed-1"
 SEALED_SIZE = 48
@@ -24,6 +24,8 @@ def _cases_of(manifest: JSON) -> list:
     exclude = set(DEV_CASES) | set(VALIDATION_CASES)
     if manifest.get("excludes_panels"):
         exclude |= all_panel_cases()          # v0.5.1: the precommitted cohort admission panels
+    if manifest.get("excludes_selection"):
+        exclude |= set(selection_cases())     # v0.5.2: the shared final-selection panel
     for earlier in manifest.get("excludes", []):
         earlier_cases = _cases_of(earlier)
         if digest([list(c) for c in earlier_cases]) != earlier["commitment"]:
@@ -32,16 +34,21 @@ def _cases_of(manifest: JSON) -> list:
     return partition("sealed", manifest["size"], exclude, seed=manifest["sealed_seed"])
 
 
-def create_manifest(path: Path, version: str = SEALED_VERSION, excludes: list[JSON] | None = None, exclude_panels: bool = False) -> JSON:
+def create_manifest(path: Path, version: str = SEALED_VERSION, excludes: list[JSON] | None = None, exclude_panels: bool = False,
+                    exclude_selection: bool = False) -> JSON:
     """Draw a fresh sealed seed (from the OS, not from any world stream) and commit to the case list.
     `excludes` lists earlier (already used, now public) sealed manifests whose cases must not be reused."""
     seed = secrets.randbelow(2**31)
-    excluded = [{k: m[k] for k in ("version", "sealed_seed", "size", "commitment", "excludes", "excludes_panels") if k in m} for m in (excludes or [])]
+    excluded = [{k: m[k] for k in ("version", "sealed_seed", "size", "commitment", "excludes", "excludes_panels", "excludes_selection") if k in m}
+                for m in (excludes or [])]
     manifest = {"version": version, "task": "workshop-1", "sealed_seed": seed, "size": SEALED_SIZE,
                 "disjoint_from": ["dev-24", "validation-24"] + (["cohort-panels-0..9"] if exclude_panels else []) + [m["version"] for m in excluded],
                 "excludes": excluded}
     if exclude_panels:
         manifest["excludes_panels"] = True
+    if exclude_selection:
+        manifest["excludes_selection"] = True
+        manifest["disjoint_from"].insert(2, "selection-0")
     manifest["commitment"] = digest([list(c) for c in _cases_of(manifest)])
     if not excluded:
         manifest.pop("excludes")
@@ -68,8 +75,9 @@ class SealedEvaluator:
     def commitment(self) -> str:
         return self.manifest["commitment"]
 
-    def score(self, world_seed: int, program: JSON, components: dict[str, JSON]) -> JSON:
-        own = score_cases(program, world_params(world_seed), self.cases, components)
+    def score(self, world: int | JSON, program: JSON, components: dict[str, JSON]) -> JSON:
+        """`world` is a legacy world seed or a scenario config (streams-1 worlds carry their hidden combination)."""
+        own = score_cases(program, hidden_params(world) if isinstance(world, dict) else world_params(world), self.cases, components)
         return {"score": own["score"], "cost": own["cost"], "alloy": own["alloy"],
                 "infeasible_cases": sum(1 for r in own["cases"] if not r["feasible"])}
 
@@ -81,14 +89,14 @@ class SealedEvaluator:
         freezes = state["lifecycle"].get("freezes", [])
         if not freezes:
             raise ValueError("no freeze record: selection must precede final evaluation")
-        seed = state["config"]["seed"]
+        seed = state["config"]
         artifacts = state["artifacts"]
         components = {k: a["content"]["program"] for k, a in artifacts.items() if a.get("kind") == "component"}
         baseline = self.score(seed, BASELINE, {})
         rows = []
         for f in freezes:
             row = {"tick": f["tick"], "cohort": f["cohort"], "reason": f["reason"]}
-            for key in ("cohort_best", "accessible_best", "held_best", "created_upto_best"):
+            for key in ("cohort_best", "accessible_best", "held_best", "created_upto_best", "selection_panel_best"):
                 pick = f.get(key)
                 if pick is None:
                     row[key] = None
@@ -101,6 +109,6 @@ class SealedEvaluator:
                         raise ValueError("frozen closure component missing or hash mismatch")
                 row[key] = {**pick, "sealed": self.score(seed, art["content"]["program"], components)}
             rows.append(row)
-        return {"version": self.manifest["version"], "commitment": self.commitment, "world_seed": seed, "run_closed_at": state["tick"],
+        return {"version": self.manifest["version"], "commitment": self.commitment, "world_seed": state["config"]["seed"], "run_closed_at": state["tick"],
                 "baseline_sealed": baseline, "freezes": rows,
                 "independence": "artifacts were selected by validation evidence inside the run; sealed cases never influenced any run"}

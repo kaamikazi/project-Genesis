@@ -290,6 +290,9 @@ class OfflineController:
         development results, its private history, held artifacts and held components."""
         a, arts = o["self"], o["artifacts"]
         policy = "beam-alloc" if alloc else "beam" if components else "beam-nocomponents"
+        disabled = o["rules"].get("alloc_disable", "none") if alloc else "none"   # v0.5.2 leave-one-out ablation
+        if disabled != "none":
+            policy = f"beam-alloc-without-{disabled}"
         budget = o["rules"]["search_budget"]
         remaining = SearchBudget.remaining(a, budget, unit)
 
@@ -306,7 +309,7 @@ class OfflineController:
         researcher = a["role"] == "researcher" and o["rules"]["invention_open"]
         can_search = researcher and a["energy"] >= 12
         outdated = [v for v in own if stale(v)]
-        if alloc and outdated:   # allocation bundle: never spend credits on a lineage that cannot be admitted as is
+        if alloc and disabled != "stale-frontier" and outdated:   # allocation bundle: never spend credits on a lineage that cannot be admitted as is
             return finish(act("withdraw_artifact", artifact=outdated[0]["id"]), step="withdraw-stale", artifact=outdated[0]["id"][:12],
                           reference_status=outdated[0].get("reference_status"), guard="stale-lineage")
 
@@ -347,10 +350,10 @@ class OfflineController:
             if untested:
                 return finish(act("test_artifact", artifact=untested[0]["id"]), step="retest-held")
             ticks_left = (o.get("schedule") or {}).get("retires_at", 10**9) - o["tick"]
-            if alloc and (remaining < RESERVE_CREDITS or ticks_left < RESERVE_TICKS):
+            if alloc and disabled != "reserve" and (remaining < RESERVE_CREDITS or ticks_left < RESERVE_TICKS):
                 self.diagnostic = {"policy": policy, "step": "stop", "stop": "reserve", "budget_remaining": remaining, "ticks_left": ticks_left}
                 return self._produce_or_obtain(o, act, obtain, held, notes)
-            choice = self._beam_candidate(a, own_wf, own_comp, held, held_comps, notes, champion, components, novelty=alloc)
+            choice = self._beam_candidate(a, own_wf, own_comp, held, held_comps, notes, champion, components, novelty=alloc and disabled != "novelty")
             if choice is None or choice[0] is None:
                 self.diagnostic = {"policy": policy, "step": "stop", "stop": "no-candidate", "budget_remaining": remaining,
                                    **(choice[1] if choice else {})}

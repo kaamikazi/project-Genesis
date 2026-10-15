@@ -78,6 +78,10 @@ def trajectory(strategy: str, config: Scenario, ticks: int, fuzz_seed: int | Non
               ore_per_site=900, max_ticks=500), None),
     (Scenario(seed=311, task="workshop-1", lifecycle="cohorts", cohort_ticks=25, cohort_count=3, cohort_overlap=10, validation_policy="cohort-panels",
               panel_queries=3, search_policy="beam", budget_unit="credits", search_budget=48, ore_per_site=900, max_ticks=500), 5),
+    # v0.5.2: versioned streams, shared final-selection panel, leave-one-out allocation flag
+    (Scenario(seed=5201, seed_scheme="streams-1", hidden_combo=[7, 1, 5], terrain_seed=99, controller_seed=12345, task="workshop-1",
+              lifecycle="cohorts", cohort_ticks=25, cohort_count=3, validation_policy="cohort-panels", final_selection="selection-panel",
+              search_policy="beam-alloc", alloc_disable="stale-frontier", budget_unit="credits", search_budget=48, ore_per_site=900, max_ticks=500), 6),
 ])
 def test_scoped_copy_matches_full_copy_reference(config, fuzz):
     ticks = 70 if fuzz is None else 50

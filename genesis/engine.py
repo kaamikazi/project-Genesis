@@ -423,7 +423,7 @@ class Rules:
 
     def _workshop_artifact(self, state: JSON, a: JSON, artifact: JSON, action: Action, result: JSON) -> JSON:
         kind, aid = action.kind, artifact["id"]
-        params = ws.world_params(state["config"]["seed"])
+        params = ws.hidden_params(state["config"])
         own = artifact["creator"] == a["id"]
         program = artifact["content"]["program"]
         evaluator = ws.WorkshopEvaluator()
@@ -503,7 +503,7 @@ class Rules:
 
     def _component_protocol(self, state: JSON, a: JSON, comp: JSON, action: Action, result: JSON) -> JSON:
         """Components are tested and admitted inside a host workflow the agent holds."""
-        params = ws.world_params(state["config"]["seed"])
+        params = ws.hidden_params(state["config"])
         evaluator = ws.WorkshopEvaluator()
         cid, program = comp["id"], comp["content"]["program"]
         require(comp["creator"] == a["id"], "only the creator tests or submits its component")
@@ -565,7 +565,7 @@ class Rules:
         return result
 
     def _workflow(self, state: JSON, a: JSON, program: JSON, held: dict[str, JSON]) -> JSON:
-        params = ws.world_params(state["config"]["seed"])
+        params = ws.hidden_params(state["config"])
         measures = measures_of(state, a)
         decision, steps = ws.execute(program, measures, held)
         out = ws.outcome(params, measures, decision)
@@ -856,7 +856,7 @@ def freeze(state: JSON, cohort: int, reason: str) -> JSON:
     if panels:
         # Historical admission scores on different panels are not comparable: re-score every candidate on the active
         # panel (observer-side; no agent receives these numbers).
-        params, cases = ws.world_params(config["seed"]), ws.panel_cases(panel_index(state))
+        params, cases = ws.hidden_params(config), ws.panel_cases(panel_index(state))
         comps = {k: v["content"]["program"] for k, v in state["artifacts"].items() if v.get("kind") == "component"}
         cache: dict[str, float | None] = {}
 
@@ -887,11 +887,33 @@ def freeze(state: JSON, cohort: int, reason: str) -> JSON:
     selection_cases = f"panel-{panel_index(state)}" if panels else "validation-24"
     held_ids = {k for a in state["agents"].values() if a.get("cohort", 0) == cohort for k in a["known"]}
     held = [x for x in artifacts if x["id"] in held_ids]
+    selection = None
+    if config.get("final_selection", "admission-score") == "selection-panel" and config.get("task") == "workshop-1":
+        # Bounded, condition-agnostic champion selection: the newest K admitted workflows the cohort holds are scored on
+        # one shared selection panel (observer-side, never shown to agents). Scores from different admission panels are
+        # never compared directly.
+        eligible = sorted((x for x in held if selection_score(x) is not None), key=lambda x: (-x["created_tick"], x["id"]))
+        chosen = eligible[:config["selection_candidates"]]
+        sel_params, sel_cases = ws.hidden_params(config), ws.selection_cases()
+        comps = {k: v["content"]["program"] for k, v in state["artifacts"].items() if v.get("kind") == "component"}
+        scored = [(ws.score_cases(x["content"]["program"], sel_params, sel_cases, comps)["score"], x["created_tick"], x["id"], x) for x in chosen]
+        scored = [t for t in scored if t[0] is not None]
+        if scored:
+            score, _, _, x = min(scored, key=lambda t: t[:3])
+            selection = {"artifact": x["id"], "selection_panel_score": score, "admission_score": selection_score(x), "creator": x["creator"],
+                         "cohort": x.get("cohort", 0), "closure": x.get("closure", []), "ancestor_cohorts": x.get("ancestor_cohorts", []),
+                         "created_tick": x["created_tick"], "dev_score": (x.get("development") or {}).get("score"),
+                         "admission_partition": (x.get("validation") or {}).get("partition")}
+        selection_accounting = {"eligible": len(eligible), "evaluated": len(chosen), "truncated": len(eligible) > len(chosen),
+                                "cases_per_candidate": len(sel_cases), "case_evaluations": len(chosen) * len(sel_cases)}
     record = {"tick": state["tick"], "cohort": cohort, "reason": reason,
               "rule": "lowest validation score among admitted or superseded workflows (legacy: lowest evaluation energy); ties by creation tick then id; no sealed input",
               "cohort_best": best(created), "accessible_best": best(accessible),
               "held_best": best(held),   # v0.5: what the cohort's members actually hold, however acquired (library, teaching, own work)
               "created_upto_best": best(created_upto), "created_inventory": inventory, "selection_cases": selection_cases}
+    if config.get("final_selection", "admission-score") == "selection-panel" and config.get("task") == "workshop-1":
+        record["selection_panel_best"] = selection
+        record["selection_accounting"] = selection_accounting
     state["lifecycle"]["freezes"].append(record)
     return record
 

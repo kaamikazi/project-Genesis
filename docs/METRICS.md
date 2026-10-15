@@ -39,4 +39,8 @@ Generated from `genesis/metrics_dictionary.py`. Distinct counters may differ; si
 | `time.agent_ticks_by_activity` | Active-agent decisions by the action they produced, accepted or rejected. | agent-ticks | one decision per active agent per tick | decisions + events |
 | `population.base` | Configured base population (agents per cohort). | agents | — | initial config |
 | `population.peak_active` | Largest number of active agents deciding in any one tick (overlap doubles it). | agents | — | decisions with an observation |
+| `selection.final_pick_selection_panel_score` | Score of the final freeze's selection_panel_best on the shared selection-0 panel (observer-side; never shown to agents; selection-used, not a final test). | cost per alloy | v0.5.2 final_selection selection-panel | freeze selection_panel_best |
+| `selection.evaluations` | Candidates and case evaluations spent choosing the final pick (bounded by selection_candidates x 24). | evaluations | — | freeze selection_accounting |
+| `selection.final_pick_sealed` | Sealed score of the final pick, computed only after the run closed. | cost per alloy | — | sealed results |
+| `admission.panel_queries` | Submissions per researcher per cohort panel, and how often the cap was reached. | submissions | validation_policy cohort-panels | agent panel_queries |
 | `compare.paired` | A paired comparison reports expected worlds, completed worlds, eligible pairs (both values present), missing values with reasons, wins/losses/ties among eligible pairs, and the denominator used by the decision rule. Means are over eligible pairs only. | worlds | a missing artifact is never scored as zero | tools/summarize_m5b.py |

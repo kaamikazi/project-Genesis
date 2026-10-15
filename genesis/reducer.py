@@ -558,7 +558,7 @@ def dictionary_metrics(export: JSON) -> JSON:
                 activity[(ACTIVITY.get(kind, kind) if ok else f"rejected {ACTIVITY.get(kind, kind)}")] += 1
     m["search.untested_proposals"] = len(proposed - tested)
     m["search.distinct_programs"] = len(world_programs)
-    out = {name: m.get(name, 0) for name in METRICS if not name.startswith(("knowledge.", "compare.", "time.", "production.alloy_per_action"))}
+    out = {name: m.get(name, 0) for name in METRICS if not name.startswith(("knowledge.", "compare.", "time.", "production.alloy_per_action", "selection.", "admission.panel_queries"))}
     if not params_available:
         out["search.repeated_rejected_attempts"] = None     # unavailable: records predate rejected-event params
     out["population.base"] = export["initial"]["config"]["population"]

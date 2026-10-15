@@ -11,7 +11,7 @@ from typing import Any
 from .models import JSON, canonical, digest, keyed
 
 TASK = "workshop-1"
-EVALUATOR_VERSION = "workshop-evaluator-3"   # adds behaviour hashes and the in-host component protocol
+EVALUATOR_VERSION = "workshop-evaluator-4"   # adds behaviour hashes and the in-host component protocol
 FIELDS = {"batch": (1, 4), "heat": (0, 3), "mode": (0, 1), "flux": (0, 1)}
 MEASURES = {"phase": (0, 11), "humidity": (0, 7), "ore": (0, 100), "energy": (0, 40)}
 SPLIT_THRESHOLDS = {"phase": (4, 6, 8), "humidity": (2, 4, 6), "ore": (4, 6, 8), "energy": (12, 20, 28)}
@@ -188,6 +188,17 @@ def behavior_hash(program: JSON, cases: list, held: dict[str, JSON]) -> str:
     return digest(out)
 
 
+def hidden_params(config: JSON) -> JSON:
+    """Hidden mechanics of a world: from the declared combination (streams-1) or derived from the seed (legacy)."""
+    if config.get("seed_scheme", "legacy") == "streams-1":
+        split, offset, flux = config["hidden_combo"]
+        return {"split": split, "offset": offset, "flux_threshold": flux}
+    return world_params(config["seed"])
+
+
+FAMILY = [(s, o, f) for s in range(4, 9) for o in range(3) for f in range(4, 7)]     # all 45 workshop-1 parameterisations
+
+
 def world_params(seed: int) -> JSON:
     """Hidden per-world mechanics. Never placed in observations."""
     return {"split": 4 + keyed(seed, "workshop-params", "split") % 5,
@@ -236,6 +247,12 @@ def panel_cases(k: int) -> list[tuple[int, int, int, int]]:
 
 def all_panel_cases() -> set:
     return {c for k in range(PANEL_COUNT) for c in panel_cases(k)}
+
+
+def selection_cases() -> list[tuple[int, int, int, int]]:
+    """v0.5.2 shared final-selection panel: 24 cases disjoint from development, validation and every admission panel.
+    Used only observer-side to choose frozen champions; no agent receives these scores."""
+    return partition("selection-0", 24, set(DEV_CASES) | set(VALIDATION_CASES) | all_panel_cases())
 
 
 def score_cases(program: JSON, params: JSON, cases: list, held: dict[str, JSON]) -> JSON:

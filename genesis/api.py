@@ -113,6 +113,7 @@ def create_app(db_path: str | Path | None = None, evidence_dir: str | Path | Non
     milestone4 = Path(os.getenv("GENESIS_EVIDENCE_M4", evidence.parent / "v0.4.0"))
     milestone5 = Path(os.getenv("GENESIS_EVIDENCE_M5", evidence.parent / "v0.5.0"))
     milestone5b = Path(os.getenv("GENESIS_EVIDENCE_M5B", evidence.parent / "v0.5.1"))
+    milestone5c = Path(os.getenv("GENESIS_EVIDENCE_M5C", evidence.parent / "v0.5.2"))
     service = SimulationService(store)
 
     @asynccontextmanager
@@ -174,7 +175,11 @@ def create_app(db_path: str | Path | None = None, evidence_dir: str | Path | Non
                 "m5b": {name: load_from(milestone5b, path) for name, path in (
                     ("summary", "summary.json"), ("protocol", "protocol/protocol.json"), ("bugfix", "bugfix/bugfix-evidence.json"),
                     ("calibration", "calibration/calibration-decision.json"), ("speed", "benchmark/server-speed.json"),
-                    ("production_v05", "production/production-v0.5.0-policy.json"), ("restart", "verification/restart.json"))}}
+                    ("production_v05", "production/production-v0.5.0-policy.json"), ("restart", "verification/restart.json"))},
+                "m5c": {name: load_from(milestone5c, path) for name, path in (
+                    ("summary", "summary.json"), ("protocol", "protocol/protocol.json"), ("manifest", "manifest/world-manifest.json"),
+                    ("preflight", "manifest/preflight.json"), ("sizes", "evidence-sizes.json"), ("speed", "benchmark/server-speed.json"),
+                    ("deferred", "ablation/DEFERRED.json"))}}
 
     @app.post("/api/runs")
     def create(config: Scenario):

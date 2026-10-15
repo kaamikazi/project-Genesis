@@ -19,7 +19,7 @@ export function SearchPanel({ world: w, diagnostics }: { world: World; diagnosti
   const attempts = diagnostics.filter(d => d.step && d.step !== 'stop').slice(0, 14);
   return <section className="panel table-panel">
     <div className="panel-header"><div><span className="eyebrow">SEARCH · POLICY {String(cfg.search_policy ?? 'first-improvement').toUpperCase()} · BUDGET {credits ? `${cfg.search_budget} SHARED CREDITS` : `${cfg.search_budget} PROPOSALS`}</span>
-      <h2>What each researcher tried, and why it stopped</h2></div>
+      <h2>What each researcher tried, and why it stopped</h2>{cfg.validation_policy === 'cohort-panels' && <p className="small-text">Admission: cohort panel {w.lifecycle?.cohort ?? 0} active · cap {cfg.panel_queries} submissions per researcher per panel</p>}</div>
       <span className="small-text">Stops in the last 40 ticks: {Object.keys(stops).length ? Object.entries(stops).map(([k, v]) => `${words(k)} ${v}`).join(' · ') : 'none recorded'}</span></div>
     <div className="table-scroll"><table><thead><tr><th>Researcher</th><th>Cohort</th><th>Status</th><th>{credits ? 'Credits spent' : 'Proposals'}</th><th>Own attempts (proposed / dev-tested / not admitted / admitted)</th><th>Frontier (best own or held dev scores)</th></tr></thead>
       <tbody>{researchers.map(a => {
@@ -28,7 +28,7 @@ export function SearchPanel({ world: w, diagnostics }: { world: World; diagnosti
         const notes = ((a as Any).dev_notes ?? {}) as Record<string, number>;
         const frontier = Object.entries(notes).filter(([k]) => k !== 'baseline' && w.artifacts[k]).sort((x, y) => x[1] - y[1]).slice(0, 4);
         return <tr key={a.id}><td>{a.name} <span className="mono small-text">{a.id}</span></td><td>{a.cohort ?? 0}</td><td>{a.status}</td>
-          <td>{credits ? `${(a as Any).search_spent ?? 0} / ${cfg.search_budget}` : `${a.search_count} / ${cfg.search_budget}`}</td>
+          <td>{credits ? `${(a as Any).search_spent ?? 0} / ${cfg.search_budget}` : `${a.search_count} / ${cfg.search_budget}`}{(a as Any).panel_queries ? ` · panel queries ${Object.entries((a as Any).panel_queries as Record<string, number>).map(([k, v]) => `p${k}:${v}`).join(' ')}` : ''}</td>
           <td>{count('proposed')} / {count('dev-tested')} / {count('not-admitted')} / {count('admitted') + count('superseded')}</td>
           <td className="mono small-text">{frontier.length ? frontier.map(([k, v]) => `${short(k)} ${v.toFixed(2)}`).join(' · ') : '—'}{notes.baseline !== undefined ? ` (baseline ${notes.baseline.toFixed(2)})` : ''}</td></tr>; })}</tbody></table></div>
     {attempts.length > 0 && <div className="table-scroll"><table><thead><tr><th>Tick</th><th>Agent</th><th>Step</th><th>Operator</th><th>Parent</th><th>Remaining</th><th>Detail</th></tr></thead>
@@ -187,5 +187,40 @@ export function Milestone5bReports({ m5b }: { m5b: Any | null }) {
     {m5b.speed && <section className="panel table-panel"><div className="panel-header"><div><span className="eyebrow">SERVER CLOCK · TARGET 10 TICKS/S · DURABILITY UNCHANGED</span><h2>Achieved speed at base and peak population</h2></div></div>
       <div className="table-scroll"><table><thead><tr><th>Base population</th><th>Overlap</th><th>Active agents</th><th>Achieved ticks/s</th><th>Step ms</th><th>Max lag s</th></tr></thead>
         <tbody>{(m5b.speed.cases as Any[]).map((c, i) => <tr key={i}><td>{c.base_population}</td><td>{c.overlap}</td><td>{(c.active_agents_seen as number[]).join(', ')}</td><td>{c.achieved_ticks_per_second_median ?? '—'}</td><td>{c.last_step_ms_median ?? '—'}</td><td>{c.max_lag_seconds ?? '—'}</td></tr>)}</tbody></table></div></section>}
+  </>;
+}
+
+function CountsTable({ counts }: { counts: Record<string, Any> }) {
+  return <div className="table-scroll"><table><thead><tr><th>Condition</th><th>Expected</th><th>Completed</th><th>Failed</th><th>Shared from primary</th><th>Distinct combinations</th></tr></thead>
+    <tbody>{Object.entries(counts).map(([c, v]) => <tr key={c}><td>{c}</td><td>{v.expected}</td><td>{v.completed}</td><td>{v.failed}</td><td>{v.shared_from_primary}</td><td>{v.distinct_combinations}</td></tr>)}</tbody></table></div>;
+}
+
+function PairTableC({ rows }: { rows: Any[] }) {
+  return <div className="table-scroll"><table><thead><tr><th>A vs B</th><th>Metric (lower is better)</th><th>Expected (distinct)</th><th>Eligible (distinct)</th><th>A lower</th><th>B lower</th><th>Ties</th><th>Median A−B</th><th>Missing</th><th>Verdict</th></tr></thead>
+    <tbody>{rows.map((c, i) => <tr key={i}><td>{c.a} vs {c.b}</td><td>{words(c.metric)}</td><td>{c.expected_worlds} ({c.distinct_parameter_combinations_expected})</td><td>{c.eligible_pairs} ({c.distinct_parameter_combinations_eligible})</td>
+      <td>{c.a_lower}</td><td>{c.b_lower}</td><td>{c.ties}</td><td>{f2(c.median_difference)}</td><td className="small-text">{(c.missing as Any[]).map(m => `${m.seed}: ${m.reason}`).join('; ') || '—'}</td>
+      <td className={String(c.verdict).startsWith('no ') || String(c.verdict).startsWith('insufficient') ? '' : 'positive'}>{c.verdict}</td></tr>)}</tbody></table></div>;
+}
+
+export function Milestone5cReports({ m5c }: { m5c: Any | null }) {
+  if (!m5c?.manifest) return <div className="panel empty"><h2>v0.5.2 (M5c) evidence not generated</h2><code>python tools/generate_evidence_m5c.py</code></div>;
+  const s = m5c.summary ?? {};
+  const ev = (m5c.manifest.blocks as Any[]).filter(b => b.role === 'evaluation');
+  return <>
+    <section className="panel table-panel"><div className="panel-header"><div><span className="eyebrow">WORLD MANIFEST · {m5c.manifest.version} · PREFLIGHT {m5c.preflight?.passed ? 'PASSED' : 'NOT PASSED'}</span>
+      <h2>{ev.length} paired evaluation worlds, {new Set(ev.map(b => b.hidden_combo.join(','))).size} distinct hidden combinations of {m5c.manifest.family.size}</h2></div></div>
+      <div className="table-scroll"><table><thead><tr><th>Block</th><th>Role</th><th>Hidden combination (split, offset, flux)</th></tr></thead>
+        <tbody>{(m5c.manifest.blocks as Any[]).map(b => <tr key={b.block}><td className="mono">{b.block}</td><td>{b.role}</td><td className="mono">{b.hidden_combo.join(', ')}</td></tr>)}</tbody></table></div>
+      <p className="small-text padded-x">Every condition in a block starts from the same physical world and hidden parameters, with the same controller stream; streams differ across blocks. Seeds are kept in the manifest for researchers and are never shown to agents. One controller realisation per combination: controller and environment variation are partly confounded.</p></section>
+    {s.primary?.comparisons && <section className="panel table-panel"><div className="panel-header"><div><span className="eyebrow">PRIMARY · ADMISSION POLICY UNDER PRESERVED KNOWLEDGE · SEALED-4 AFTER CLOSE</span>
+      <h2>Do cohort-specific admission panels change what gets frozen?</h2></div></div>
+      <CountsTable counts={s.primary.counts}/><PairTableC rows={s.primary.comparisons}/>
+      <p className="small-text padded-x">Final picks are chosen on one shared selection panel in every condition (observer-side), so champions are comparable across admission policies. Admission scores from different panels are never compared.</p></section>}
+    {s.ablation?.comparisons ? <section className="panel table-panel"><div className="panel-header"><div><span className="eyebrow">SECONDARY · ALLOCATION LEAVE-ONE-OUT · FIXED ADMISSION · beam/fixed SHARED WITH PRIMARY</span>
+      <h2>Which guard of the allocation bundle matters, given the others?</h2></div></div>
+      <CountsTable counts={s.ablation.counts}/><PairTableC rows={s.ablation.comparisons}/>
+      <p className="small-text padded-x">Each leave-one-out contrast estimates the removed guard's effect conditional on the other guards; interactions remain possible.</p></section>
+      : m5c.deferred && <div className="panel empty"><h2>Allocation ablations: planned, not executed</h2><p>{m5c.deferred.reason}</p></div>}
+    {m5c.sizes && <p className="small-text">Evidence size (excluding databases): {(m5c.sizes.total_bytes_committed_estimate / 1e6).toFixed(1)} MB.</p>}
   </>;
 }

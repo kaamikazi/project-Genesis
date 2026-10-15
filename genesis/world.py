@@ -15,12 +15,17 @@ def distance(a: JSON, b: JSON) -> int:
     return abs(a["x"] - b["x"]) + abs(a["y"] - b["y"])
 
 
+def physical_seed(config: JSON) -> int:
+    """Seed of the physical stream (terrain, resource placement, per-tick phase and humidity)."""
+    return config["terrain_seed"] if config.get("seed_scheme", "legacy") == "streams-1" else config["seed"]
+
+
 def phase_at(state: JSON, agent: JSON) -> int:
-    return keyed(state["config"]["seed"], "environment-phase", state["tick"], agent["x"], agent["y"]) % 12
+    return keyed(physical_seed(state["config"]), "environment-phase", state["tick"], agent["x"], agent["y"]) % 12
 
 
 def humidity_at(state: JSON, agent: JSON) -> int:
-    return keyed(state["config"]["seed"], "environment-humidity", state["tick"], agent["x"], agent["y"]) % 8
+    return keyed(physical_seed(state["config"]), "environment-humidity", state["tick"], agent["x"], agent["y"]) % 8
 
 
 USABLE = ("verified", "admitted")          # current library heads; holders may also keep using "superseded"
@@ -61,7 +66,7 @@ def new_world(config: Scenario) -> JSON:
     for y in range(h):
         row = []
         for x in range(w):
-            n = keyed(c["seed"], "world-terrain", x, y) % 100
+            n = keyed(physical_seed(c), "world-terrain", x, y) % 100
             edge = min(x, y, w - 1 - x, h - 1 - y)
             tile = "water" if edge == 0 or (edge == 1 and n < 45) else "forest" if n < 26 else "hill" if n > 91 else "grass"
             if any(abs(x - s["x"]) <= 3 and abs(y - s["y"]) <= 3 for s in settlements.values()) or y == h // 2:
@@ -141,7 +146,7 @@ def session_view(session: JSON, agent_id: str) -> JSON:
 ACTIVE_STAGES = ("offered", "instruction", "practice")
 # v0.5 declared settings shown to controllers only when they differ from the v0.4 defaults (so v0.4 observations are unchanged).
 V05_RULE_DEFAULTS = {"budget_unit": "proposals", "search_policy": "first-improvement", "teaching_policy": "strict-prerequisites",
-                     "validation_policy": "fixed"}
+                     "validation_policy": "fixed", "alloc_disable": "none"}
 
 
 def panel_index(state: JSON) -> int:
