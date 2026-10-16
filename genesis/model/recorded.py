@@ -78,6 +78,10 @@ def reexecute(store, run_id: str) -> JSON:
                         problems.append(f"{row['role']} receipt does not recompute")
                     if row["status"] != "consumed":
                         problems.append(f"{row['role']} row status is {row['status']}, expected consumed")
+                    if (row.get("usage") or {}).get("content_error"):
+                        # the provider returned no usable text (blocked, empty, truncated...): nothing to re-parse
+                        final, error = None, row["parse_error"]
+                        continue
                     try:
                         final = parse_proposal(row["response"], profile.adapter.max_output_bytes)
                         error = None

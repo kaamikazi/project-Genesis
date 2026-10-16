@@ -220,9 +220,18 @@ class Store:
 
     def _model_transport(self, run_id: str, profile):
         from .model.fixtures import default_fixture_transport
-        from .model.transport import HttpTransport
+        from .model.transport import GeminiTransport, HttpTransport
         if run_id in self.model_transports:
             return self.model_transports[run_id]
+        if profile.adapter.provider == "gemini":
+            from .model.fixtures import default_gemini_fixture_transport
+            if profile.mode == "fixture":
+                return default_gemini_fixture_transport()
+            if profile.mode == "mock-http":
+                return GeminiTransport.for_loopback_test(profile.adapter.base_url)
+            if profile.mode == "live":
+                return GeminiTransport("live")             # official origin only; key read at dispatch
+            return None
         if profile.mode == "fixture":
             return default_fixture_transport()
         if profile.mode == "mock-http":

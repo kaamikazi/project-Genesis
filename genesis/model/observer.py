@@ -5,14 +5,15 @@ from __future__ import annotations
 
 import json
 import statistics
+import time
 from collections import Counter
 
 from ..models import JSON
 from . import budget
 from . import ledger as model_ledger
-from .adapter import capabilities
+from . import adapter, gemini
 from .profile import public_view
-from .runtime import scrub
+from .runtime import run_halt, scrub
 
 
 def summary(store, run_id: str, recent_ticks: int = 60) -> JSON | None:
@@ -39,7 +40,9 @@ def summary(store, run_id: str, recent_ticks: int = 60) -> JSON | None:
     lat = [r["latency_ms"] for r in rows if r.get("latency_ms") is not None]
     per_agent = {a: {"remaining": budget.remaining(profile.agent_budget, [r for r in rows if r["agent"] == a]),
                      "totals": budget.totals([r for r in rows if r["agent"] == a]), "latest": latest.get(a)} for a in profile.agents}
-    return {"profile": public_view(profile), "capabilities": capabilities(profile.adapter.model_dump()), "paused": store.model_paused(run_id),
+    return {"profile": public_view(profile), "capabilities": (gemini if profile.adapter.provider == "gemini" else adapter).capabilities(profile.adapter.model_dump()), "paused": store.model_paused(run_id),
+            "provider": profile.adapter.provider, "requested_model": profile.adapter.model,
+            "halt": run_halt(profile, rows, time.time()),
             "source_indicator": {"fixture": "FIXTURE (scripted responses, not a model)", "mock-http": "MOCK HTTP (scripted, real wire format)",
                                  "recorded": "RECORDED (re-used responses; no new calls)", "live": "LIVE MODEL"}[profile.mode],
             "run": {"remaining": budget.remaining(profile.run_budget, rows), "totals": budget.totals(rows)}, "agents": per_agent,
@@ -48,8 +51,12 @@ def summary(store, run_id: str, recent_ticks: int = 60) -> JSON | None:
             "rejected_model_actions_recent": rejected_model_actions, "decision_modes_recent": dict(mode_counts),
             "provider_latency_ms": {"count": len(lat), "median": round(statistics.median(lat), 1) if lat else None, "max": max(lat) if lat else None,
                                     "note": "wall-clock provider latency (outside world-state hashes); not simulation speed"},
+            "usage_totals": {"thinking_tokens": sum(int((r.get("reconciled") or {}).get("thinking_tokens") or 0) for r in rows),
+                             "cached_input_tokens": sum(int((r.get("reconciled") or {}).get("cached_input_tokens") or 0) for r in rows),
+                             "estimated_rows": sum(1 for r in rows if (r.get("reconciled") or {}).get("basis", "reported") != "reported")},
             "calls": [{k: r.get(k) for k in ("decision_id", "agent", "tick", "role", "attempt", "status", "source", "returned_model", "parse_error",
-                                             "fallback", "termination", "receipt", "consumed_tick", "resolved")} | {"usage": r.get("reconciled")}
+                                             "fallback", "termination", "receipt", "consumed_tick", "resolved")}
+                      | {"usage": r.get("reconciled"), "finish_reason": (r.get("usage") or {}).get("finish_reason")}
                       for r in rows[-40:]][::-1]}
 
 

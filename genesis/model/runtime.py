@@ -10,7 +10,11 @@ Crash/restart rules (see ledger.py for states):
   reservation, is never resent, and model use for that agent pauses until an operator resolves it;
 - a `completed`, unconsumed row whose full identity matches the current decision is reused without a new call;
 - a completed row whose tick has passed becomes `expired-unconsumed` (never applied to a later world).
-Ollama documents no idempotency key or status lookup, so no exactly-once claim is made.
+Neither Ollama nor Gemini documents an idempotency key or status lookup, so no exactly-once claim is made.
+
+Run-level halts (v0.6.1): after an HTTP 429 / RESOURCE_EXHAUSTED response, after a response whose reported usage
+exceeded its reservation, or once the profile's wall-clock run deadline has passed, no further request is dispatched
+for the run; later decisions are labelled fallbacks. Nothing is retried, rotated or switched.
 """
 from __future__ import annotations
 
@@ -23,13 +27,14 @@ from dataclasses import dataclass, field
 from ..models import JSON, digest
 from ..world import LocalObservations
 from . import ACTION_SCHEMA_VERSION, PROMPT_VERSION
-from . import adapter, budget, ledger, scheduler
+from . import adapter, budget, gemini, ledger, scheduler
 from .profile import ModelProfile, config_hash
 from .prompt import build_messages
 from .schema import ParseError, parse_proposal
-from .transport import NotDelivered, OutcomeUnknown, Transport
+from .transport import CredentialMissing, NotDelivered, OutcomeUnknown, Transport  # noqa: F401 (CredentialMissing re-exported)
 
-SECRET_PATTERNS = [re.compile(p) for p in (r"(?i)bearer\s+[a-z0-9._\-]{8,}", r"\bsk-[A-Za-z0-9_\-]{16,}", r"(?i)\b(api[_-]?key|authorization|x-api-key)\s*[:=]\s*\S{8,}")]
+SECRET_PATTERNS = [re.compile(p) for p in (r"(?i)bearer\s+[a-z0-9._\-]{8,}", r"\bsk-[A-Za-z0-9_\-]{16,}", r"\bAIza[0-9A-Za-z_\-]{30,}",
+                                           r"(?i)\b(api[_-]?key|authorization|x-api-key|x-goog-api-key)\s*[:=]\s*\S{8,}")]
 
 
 class DecisionInFlight(RuntimeError):
@@ -46,6 +51,34 @@ class LiveCallsDisabled(RuntimeError):
 
 class SimulatedCrash(RuntimeError):
     """Raised by test hooks to emulate the process ending at a chosen point."""
+
+
+def live_guard(profile: ModelProfile, transport) -> None:
+    """Every condition a dispatch needs, checked before anything is reserved. Raises; never prints secrets."""
+    if profile.mode == "live" and not (profile.live_authorized and os.environ.get("GENESIS_LIVE_MODEL_CALLS") == "1"):
+        raise LiveCallsDisabled("live model calls need live_authorized in the profile and GENESIS_LIVE_MODEL_CALLS=1")
+    if profile.mode == "live" and profile.adapter.provider == "gemini":
+        missing = profile.operator_confirmations.missing() if profile.operator_confirmations else ["operator_confirmations"]
+        if missing:
+            raise LiveCallsDisabled(f"live Gemini calls need the operator's free-tier confirmations: missing {missing}")
+        if profile.run_deadline_s is None:
+            raise LiveCallsDisabled("live Gemini calls need a finite run_deadline_s")
+    if hasattr(transport, "preflight"):
+        transport.preflight()                     # CredentialMissing: concise, contains no environment values
+
+
+def run_halt(profile: ModelProfile, run_rows: list[JSON], now: float) -> str | None:
+    for r in run_rows:
+        use = r.get("usage") or {}
+        if use.get("halt") == "quota":
+            return "provider quota or rate limit reached (HTTP 429); model dispatch stopped for this run; no retry"
+        if use.get("reservation_exceeded"):
+            return "reported usage exceeded its reservation; model dispatch stopped for this run"
+    if profile.run_deadline_s is not None:
+        started = [r["created_at"] for r in run_rows if r["status"] not in budget.NO_USAGE and r.get("source") != "recorded" and r.get("created_at")]
+        if started and now - min(started) > profile.run_deadline_s:
+            return f"run wall-clock deadline of {profile.run_deadline_s} s reached; model dispatch stopped"
+    return None
 
 
 def env_secrets() -> list[str]:
@@ -85,6 +118,7 @@ class ModelRuntime:
         self.hooks = hooks or {}
         self.cfg_hash = config_hash(profile)
         self.source = "recorded" if profile.mode == "recorded" else (transport.kind if transport else profile.mode)
+        self.wire = gemini if profile.adapter.provider == "gemini" else adapter
 
     def _hook(self, point: str) -> None:
         if point in self.hooks:
@@ -105,8 +139,8 @@ class ModelRuntime:
 
     # --- phase A -------------------------------------------------------------------------------------------------
     def prepare(self, state: JSON) -> dict[str, Prepared]:
-        if self.profile.mode == "live" and not (self.profile.live_authorized and os.environ.get("GENESIS_LIVE_MODEL_CALLS") == "1"):
-            raise LiveCallsDisabled("live model calls need live_authorized in the profile and GENESIS_LIVE_MODEL_CALLS=1")
+        if self.profile.mode != "recorded":
+            live_guard(self.profile, self.transport)
         self.recover(state["tick"])
         paused = self.store.model_paused(self.run_id)
         prepared: dict[str, Prepared] = {}
@@ -164,6 +198,9 @@ class ModelRuntime:
                 return Prepared("fallback", f"{reason}; {role} request {status}: {why}", obs_hash, decision_ids=ids, new_calls=new_calls, new_tokens=new_tokens)
             if row.get("parse_error"):
                 error = row["parse_error"]
+                if (row.get("usage") or {}).get("repairable") is False:
+                    return Prepared("fallback", f"{reason}; {role} response unusable (no repair attempted): {error}", obs_hash, decision_ids=ids,
+                                    new_calls=new_calls, new_tokens=new_tokens)
                 continue
             return Prepared("model-proposal", reason + (" (after one repair)" if role == "repair" else ""), obs_hash, proposal=row["parsed"],
                             decision_ids=ids, receipt=row["receipt"], source=row["source"], new_calls=new_calls, new_tokens=new_tokens)
@@ -195,6 +232,9 @@ class ModelRuntime:
             return self._block(base, existing, "prompt matched a credential pattern; not sent", reexecutable=0)
         with self.store.connection() as db:
             run_rows = ledger.rows(db, self.run_id)
+        halt = run_halt(self.profile, run_rows, time.time())
+        if halt:
+            return self._block(base, existing, halt)
         reserve = budget.reservation(self.profile, meta["input_bytes"])
         over = budget.check(self.profile.run_budget, run_rows, reserve) or budget.check(self.profile.agent_budget, [r for r in run_rows if r["agent"] == aid], reserve)
         if over:
@@ -202,6 +242,12 @@ class ModelRuntime:
         inflight = sum(1 for r in run_rows if r["status"] == "dispatching" and (r["lease_until"] or 0) >= time.time())
         if inflight >= self.profile.concurrency:
             return self._block(base, existing, f"concurrency limit {self.profile.concurrency} reached")
+        interval = self.profile.adapter.min_dispatch_interval_s
+        if interval > 0:
+            sent = [r["created_at"] for r in run_rows if r["status"] not in budget.NO_USAGE and r.get("source") != "recorded" and r.get("created_at")]
+            wait = min(interval, interval - (time.time() - max(sent))) if sent else 0
+            if wait > 0:
+                time.sleep(wait)                               # local pacing (wall clock); never inside a transaction
         lease = time.time() + (self.profile.adapter.deadline_ms + self.profile.lease_grace_ms) / 1000
         with self.store.connection() as db, db:
             if existing is None:
@@ -209,7 +255,7 @@ class ModelRuntime:
             else:
                 ledger.update(db, did, "reserved", worker=self.worker, lease_until=lease, reservation=reserve)
         self._hook("before-dispatch")
-        url, body, headers = adapter.build_request(messages, self.profile.adapter.model_dump())
+        url, body, headers = self.wire.build_request(messages, self.profile.adapter.model_dump())
         with self.store.connection() as db, db:
             ledger.update(db, did, "dispatching")
         started = time.perf_counter()
@@ -225,7 +271,9 @@ class ModelRuntime:
             raise
         except Exception as exc:  # noqa: BLE001 -- any other transport failure may have reached the provider
             return self._finish(did, "outcome-unknown", started, termination=scrub(f"{type(exc).__name__}: {exc}")[:300])
-        result = adapter.parse_response(wire.status, wire.body, self.profile.adapter.max_response_bytes)
+        result = self.wire.parse_response(wire.status, wire.body, self.profile.adapter.max_response_bytes)
+        if self.wire is gemini:
+            return self._complete_gemini(did, started, reserve, result)
         if not result.ok:
             reconciled = {**reserve, "basis": "error response; usage unknown, reservation kept"}
             return self._finish(did, "failed-delivered", started, termination=scrub(result.error or "error")[:300], reconciled=reconciled,
@@ -250,6 +298,52 @@ class ModelRuntime:
         usage = {"prompt_eval_count": result.prompt_tokens, "eval_count": result.output_tokens, "done_reason": result.done_reason}
         row = self._finish(did, "completed", started, response=content, response_hash=digest(content), parsed=parsed, parse_error=parse_error,
                            usage=usage, reconciled=reconciled, returned_model=result.returned_model, termination=result.done_reason,
+                           reexecutable=reexecutable)
+        self._hook("after-persist")
+        return row
+
+    def _complete_gemini(self, did: str, started: float, reserve: JSON, result) -> JSON:
+        """Gemini outcome -> ledger row. Usage: generated = candidates + thoughts; cached is part of the prompt count."""
+        use = {"provider": "gemini", **{k: v for k, v in result.provider_meta.items() if v is not None}}
+        if not result.ok:                                       # an error response was delivered: a definite rejection
+            if result.halt:
+                use["halt"] = result.halt
+            reconciled = {**reserve, "basis": "error response (definite rejection); provider usage not reported, reservation kept conservatively"}
+            return self._finish(did, "failed-delivered", started, termination=scrub(result.error or "error")[:300], reconciled=reconciled,
+                                usage=use, returned_model=result.returned_model)
+        norm = result.usage or {"basis": "missing", "problems": []}
+        use["normalized_usage"] = norm
+        if norm["basis"] == "reported":
+            reconciled = {"requests": 1, "input_tokens": norm["input_tokens"], "output_tokens": norm["output_tokens"],
+                          "thinking_tokens": norm["thinking_tokens"], "candidate_tokens": norm["candidate_tokens"],
+                          "cached_input_tokens": norm["cached_input_tokens"], "provider_total": norm["provider_total"],
+                          "cost_micros": budget.cost_micros(self.profile, norm["input_tokens"], norm["output_tokens"]), "basis": "reported"}
+        else:
+            def take(k):
+                return max(int(norm.get(k) or 0), int(reserve[k]))
+            reconciled = {"requests": 1, "input_tokens": take("input_tokens"), "output_tokens": take("output_tokens"),
+                          "thinking_tokens": norm.get("thinking_tokens"), "cost_micros": reserve.get("cost_micros"),
+                          "basis": f"estimated: provider usage {norm['basis']} ({'; '.join(norm.get('problems') or [])[:160]}); "
+                                   "the larger of report and reservation is charged"}
+        if any(isinstance(norm.get(k), int) and norm[k] > reserve[k] for k in ("input_tokens", "output_tokens")):
+            use["reservation_exceeded"] = True                  # halts further dispatch for this run (run_halt)
+        content, parsed, parse_error, reexecutable = result.content, None, None, 1
+        if content is None:
+            parse_error = (result.error or "no usable text")[:300]
+            use["content_error"] = True
+            use["repairable"] = bool(result.repairable)
+        elif contains_secret(content):
+            content, reexecutable = scrub(content), 0
+            parse_error = "response contained credential-like content; scrubbed and not used"
+            use["repairable"] = False
+        else:
+            try:
+                parsed = parse_proposal(content, self.profile.adapter.max_output_bytes)
+            except ParseError as exc:
+                parse_error = str(exc)[:300]
+                use["repairable"] = True
+        row = self._finish(did, "completed", started, response=content, response_hash=digest(content), parsed=parsed, parse_error=parse_error,
+                           usage=use, reconciled=reconciled, returned_model=result.returned_model, termination=result.done_reason,
                            reexecutable=reexecutable)
         self._hook("after-persist")
         return row

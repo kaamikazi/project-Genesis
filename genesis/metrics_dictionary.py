@@ -1,6 +1,6 @@
 """Versioned metric dictionary (v0.5.1). Every reported counter is defined here: what it counts, its unit, what is
 included or excluded, and which recorded field it is computed from. `genesis.reducer` computes the `metrics`
-block from these definitions; `docs/METRICS.md` is generated from this file (tools/write_metrics_doc.py).
+block from these definitions; `docs/METRICS.md` is generated from this file (`as_markdown()`).
 
 Distinct counters are allowed to differ. Similar names never mean the same thing unless defined identically here.
 """
@@ -78,10 +78,14 @@ METRICS: dict[str, tuple[str, str, str, str]] = {
                                 "decisions", "designated agents only; other agents keep their ordinary modes", "decision controller + decision model meta"),
     "model.attributed_calls": ("Provider requests (primary and repair attempts, including failed and outcome-unknown ones) attributed to the committed decision of their tick.",
                                "requests", "recorded re-use is historical and never counted again", "decision model.new_calls; ledger rows"),
-    "model.attributed_reported_tokens": ("Provider-reported input + output tokens of attributed requests (estimates excluded).", "tokens", "basis reported only",
+    "model.attributed_reported_tokens": ("Provider-reported input + output tokens of attributed requests (estimates excluded). For Gemini, output = candidates + thinking tokens; cached input is inside the prompt count and never added again.", "tokens", "basis reported only",
                                          "decision model.new_tokens; ledger reconciled usage"),
     "model.budget_buckets": ("Per run/agent: committed (reconciled), pending (reserved/dispatching), uncertain (outcome-unknown, never released), historical (recordings).",
                              "requests, tokens, ms, micro-units", "integer units; money only with configured prices", "ledger reservation / reconciled"),
+    "model.thinking_tokens": ("Gemini thoughtsTokenCount per request, reported separately and already included in output tokens (never double-counted).",
+                              "tokens", "Gemini rows with reported usage", "ledger reconciled.thinking_tokens"),
+    "model.run_halt": ("Reason model dispatch stopped for a run: HTTP 429 / RESOURCE_EXHAUSTED, reported usage above its reservation, or the wall-clock run deadline.",
+                       "reason", "later decisions are labelled fallbacks", "ledger usage.halt / usage.reservation_exceeded / run_deadline_s"),
     "model.reconciled": ("True when every referenced ledger row exists, receipts match, consumed rows are referenced exactly once, and world metrics equal ledger-attributed calls and reported tokens.",
                          "boolean", "", "reducer model_reconciliation"),
     # --- comparisons --------------------------------------------------------------------------------------------------

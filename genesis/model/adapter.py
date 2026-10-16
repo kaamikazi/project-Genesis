@@ -18,7 +18,7 @@ The `thinking` field is never stored or used. Only the allow-listed request head
 from __future__ import annotations
 
 import json
-from dataclasses import dataclass
+from dataclasses import dataclass, field
 
 from ..models import JSON
 from . import ADAPTER_VERSION
@@ -37,6 +37,11 @@ class AdapterResult:
     done_reason: str | None
     error: str | None
     provider_ns: JSON
+    # v0.6.1 (provider-neutral additions; the Ollama path leaves the defaults)
+    usage: JSON | None = None            # normalized usage receipt when the adapter provides one (Gemini)
+    provider_meta: JSON = field(default_factory=dict)
+    repairable: bool = True              # False: a repair request cannot help (blocked, refused, truncated, protocol error)
+    halt: str | None = None              # "quota": stop all model dispatch for this run
 
 
 def capabilities(cfg: JSON) -> JSON:

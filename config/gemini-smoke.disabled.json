@@ -1,0 +1,42 @@
+{
+  "_comment": "DISABLED Gemini smoke-test template (v0.6.1). Nothing here has been run against Google. Copy it to data/ (git-ignored), complete docs/LIVE_RUN_CHECKLIST.md, fill operator_confirmations, set live_authorized to true and min_dispatch_interval_s from your project's actual quota, then follow docs/GEMINI_SETUP.md. No key belongs in this file: the key is read from GEMINI_API_KEY at dispatch time.",
+  "scenario": {"seed": 101, "task": "workshop-1", "ore_per_site": 900, "max_ticks": 300},
+  "ticks": 40,
+  "profile": {
+    "mode": "live",
+    "agents": ["a01"],
+    "endpoint_label": "Gemini Developer API via Google AI Studio, free tier UNCONFIRMED",
+    "adapter": {
+      "provider": "gemini",
+      "base_url": "https://generativelanguage.googleapis.com",
+      "model": "gemini-3.5-flash-lite",
+      "structured_outputs": true,
+      "temperature": 0.0,
+      "max_output_tokens": 1024,
+      "max_input_bytes": 16000,
+      "max_response_bytes": 262144,
+      "max_output_bytes": 2048,
+      "deadline_ms": 20000,
+      "thinking_level": "minimal",
+      "request_logging": false,
+      "min_dispatch_interval_s": 15.0
+    },
+    "scheduler": {"min_interval": 5, "max_interval": 20, "max_calls_per_tick": 1},
+    "run_budget": {"requests": 10, "input_tokens": 200000, "output_tokens": 10240, "controller_time_ms": 200000},
+    "agent_budget": {"requests": 10, "input_tokens": 200000, "output_tokens": 10240, "controller_time_ms": 200000},
+    "concurrency": 1,
+    "repair_limit": 1,
+    "paid": false,
+    "live_authorized": false,
+    "lease_grace_ms": 5000,
+    "run_deadline_s": 900,
+    "operator_confirmations": {
+      "free_tier_billing_disabled": false,
+      "model_available": false,
+      "quota_sufficient": false,
+      "simulation_data_only": false,
+      "confirmed_by": "",
+      "confirmed_on": ""
+    }
+  }
+}
