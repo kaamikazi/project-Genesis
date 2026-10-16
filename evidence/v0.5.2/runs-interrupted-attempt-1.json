@@ -1,0 +1,21 @@
+{
+  "steps": [
+    {
+      "step": "world manifest",
+      "command": "python tools/world_manifest_m5c.py manifest evidence\\v0.5.2\\manifest\\world-manifest.json",
+      "exit_code": 0,
+      "seconds": 0.4,
+      "stderr_tail": "",
+      "finished_at": "2026-10-15T18:33:14.915131+00:00"
+    }
+  ],
+  "source_at_start": {
+    "git_commit": "e38dc6b239da2df00bce9efd4aed23ab2edf34f5",
+    "runtime_code_dirty": false,
+    "dirty_files": [],
+    "source_sha256": "d50de85783b83324dff490d98347b14272e0dfb35b325bacc873dd7860ab4c60",
+    "files": 50,
+    "controller_sha256": "d8aeb3365f93c76cdd636439ec0931c07481a8c63b0b02f4a64d74b75dd1f49a",
+    "engine_sha256": "d1e3e863206f77ce181c9b7206dd9859ec6453269b8b6122d6667d651042eeb1"
+  }
+}

@@ -214,3 +214,24 @@ Results are kept in separate stages and are never merged into one claim:
 ```
 python tools/generate_evidence_m5b.py
 ```
+
+# M5c protocols (v0.5.2)
+
+Frozen in `evidence/v0.5.2/protocol/protocol.json` after a passing preflight (`evidence/v0.5.2/manifest/preflight.json`). Decisions are in [ADR-007](ADR-007-paired-worlds-admission.md).
+
+- **World manifest (`m5c-worlds-1`).**
+  - Draw: stratified by `split`, round-robin, without replacement. 3 calibration blocks, then 12 evaluation blocks, each with a distinct hidden combination.
+  - Terrain and controller seeds are keyed by block. All conditions in a block share the physical world, hidden parameters and controller stream.
+  - Target family: the 45 parameterisations of workshop-1 at the fixed world size.
+- **Primary study (`primary`).**
+  - Conditions: first-improvement and repaired beam × {fixed `validation-24`, cohort panels}, all with preserved knowledge.
+  - Endpoint: the sealed-4 score of the final `selection_panel_best`, paired by block.
+- **Secondary study (`ablation`).**
+  - Conditions, all with fixed admission and preserved knowledge: repaired beam, the full bundle, and the bundle without the stale-frontier, reserve or novelty guard.
+  - The beam/fixed worlds are shared with the primary study.
+  - It runs only if the declared budget allows; otherwise `ablation/DEFERRED.json` records it as planned but not executed.
+- **Reporting.** Expected, completed, eligible and missing worlds, and distinct-combination counts, for every comparison. Paired world-level differences are reported. The decision rule is descriptive. One controller realisation per combination.
+
+```
+python tools/generate_evidence_m5c.py
+```

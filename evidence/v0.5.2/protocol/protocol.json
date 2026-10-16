@@ -1,0 +1,160 @@
+{
+  "milestone": "M5c",
+  "release": "v0.5.2",
+  "frozen_at": "2026-10-16T05:22:21.716584+00:00",
+  "source": {
+    "git_commit": "e38dc6b239da2df00bce9efd4aed23ab2edf34f5",
+    "runtime_code_dirty": false,
+    "dirty_files": [],
+    "source_sha256": "d50de85783b83324dff490d98347b14272e0dfb35b325bacc873dd7860ab4c60",
+    "files": 50,
+    "controller_sha256": "d8aeb3365f93c76cdd636439ec0931c07481a8c63b0b02f4a64d74b75dd1f49a",
+    "engine_sha256": "d1e3e863206f77ce181c9b7206dd9859ec6453269b8b6122d6667d651042eeb1"
+  },
+  "versions": {
+    "engine": "0.5.2",
+    "rules": "phase-world-5.2",
+    "evaluator": "phase-evaluator-3+workshop-evaluator-4",
+    "sealed": "workshop-sealed-4",
+    "metrics": "genesis-metrics-1"
+  },
+  "world_manifest": {
+    "version": "m5c-worlds-1",
+    "sha256_of_blocks": "8850f8c93343e5f15a1bca8529d378fa82835cbc2ca3d8c9cc1aa13b4bcb91a3",
+    "evaluation_blocks": [
+      "e01",
+      "e02",
+      "e03",
+      "e04",
+      "e05",
+      "e06",
+      "e07",
+      "e08",
+      "e09",
+      "e10",
+      "e11",
+      "e12"
+    ]
+  },
+  "preflight": {
+    "passed": true,
+    "run_ablation": true
+  },
+  "base_settings": {
+    "population": 8,
+    "task": "workshop-1",
+    "lifecycle": "cohorts",
+    "cohort_ticks": 60,
+    "cohort_count": 3,
+    "cohort_overlap": 0,
+    "ore_per_site": 900,
+    "search_budget": 48,
+    "budget_unit": "credits",
+    "sharing": true,
+    "controller": "search",
+    "cross_cohort_access": true,
+    "teaching": false,
+    "panel_queries": 12,
+    "final_selection": "selection-panel",
+    "selection_candidates": 16,
+    "max_ticks": 180
+  },
+  "budget": {
+    "runtime_minutes": 150,
+    "storage_mb": 120,
+    "min_ore_left_fraction": 0.25,
+    "conditions_per_study": {
+      "primary": 4,
+      "ablation": 4
+    }
+  },
+  "studies": {
+    "primary": {
+      "conditions": {
+        "first-improvement/fixed": {
+          "search_policy": "first-improvement",
+          "validation_policy": "fixed"
+        },
+        "first-improvement/panels": {
+          "search_policy": "first-improvement",
+          "validation_policy": "cohort-panels"
+        },
+        "beam/fixed": {
+          "search_policy": "beam",
+          "validation_policy": "fixed"
+        },
+        "beam/panels": {
+          "search_policy": "beam",
+          "validation_policy": "cohort-panels"
+        }
+      },
+      "question": "admission-policy effect (fixed validation-24 vs cohort-specific panels) under preserved knowledge, for two fixed search policies",
+      "primary_endpoint": "sealed-4 score of the final freeze's selection_panel_best, paired by block: panels vs fixed within each policy",
+      "secondary": [
+        "selection-panel score of the final pick",
+        "development / admission / selection / sealed gaps",
+        "improvement and failed admissions",
+        "panel query utilisation and cap hits",
+        "production energy per alloy and alloy",
+        "policy contrast within each admission policy"
+      ],
+      "not_claimed": "preservation versus reset (no reset conditions)"
+    },
+    "ablation": {
+      "conditions": {
+        "beam/fixed": {
+          "search_policy": "beam",
+          "validation_policy": "fixed"
+        },
+        "beam-alloc/fixed": {
+          "search_policy": "beam-alloc",
+          "validation_policy": "fixed"
+        },
+        "beam-alloc-without-stale-frontier/fixed": {
+          "search_policy": "beam-alloc",
+          "alloc_disable": "stale-frontier",
+          "validation_policy": "fixed"
+        },
+        "beam-alloc-without-reserve/fixed": {
+          "search_policy": "beam-alloc",
+          "alloc_disable": "reserve",
+          "validation_policy": "fixed"
+        },
+        "beam-alloc-without-novelty/fixed": {
+          "search_policy": "beam-alloc",
+          "alloc_disable": "novelty",
+          "validation_policy": "fixed"
+        }
+      },
+      "run": true,
+      "control": "beam/fixed worlds are SHARED with the primary study (identical frozen configuration); not re-run",
+      "contrasts": "bundle vs plain beam; each leave-one-out vs the full bundle (effect of the removed guard conditional on the other guards)"
+    }
+  },
+  "panel_rules": {
+    "activation": "panel k is active while lifecycle cohort k is current (boundaries every 60 ticks)",
+    "feedback": "one admitted/not-admitted bit per submission plus the agent's own query count",
+    "cap": "12 submissions per agent per panel",
+    "comparison": "child and its admission reference re-scored on the identical active panel at submission",
+    "older_artifacts": "remain admitted and usable; their stored admission scores are never compared across panels",
+    "cost": "a submission costs one credit and the usual energy in both admission policies"
+  },
+  "final_selection": "at each freeze, the newest <=16 admitted or superseded workflows held by the cohort are scored on the shared selection-0 panel (observer-side; never shown to agents); the lowest is frozen as selection_panel_best. Same rule in every condition; evaluations are counted.",
+  "missing_data": "a direction is reported only if at least 75% of expected worlds are eligible pairs AND the same side is lower in at least 75% of eligible pairs; otherwise 'no consistent difference' or 'insufficient eligible pairs'. Descriptive, not a significance test. Missing picks are never scored as zero; failed worlds are reported with reasons and excluded from pairs.",
+  "exclusions_and_stopping": "all frozen blocks run; no replacement of difficult worlds; no early stopping; the study ends at its endpoint whatever the result",
+  "sealed_commitment": "1ecfa62f5c73e4ee11e7a2d239ab6b748e38671da695c83a2341a1bb45eeac49",
+  "sealed_disjoint_from": [
+    "dev-24",
+    "validation-24",
+    "selection-0",
+    "cohort-panels-0..9",
+    "workshop-sealed-1",
+    "workshop-sealed-2",
+    "workshop-sealed-3"
+  ],
+  "limitations_declared": [
+    "one controller realisation per parameter combination (controller-by-environment variation partly confounded)",
+    "12 of 45 combinations of a finite task family; no open-world generalisation",
+    "agents, artifacts and transitions within a world are not independent replicates"
+  ]
+}

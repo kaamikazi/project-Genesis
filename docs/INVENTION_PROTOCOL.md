@@ -183,3 +183,12 @@ The frontier holds the agent's best 4 own development-tested workflows and held 
   - The check uses no task cases, outcomes or hidden parameters. Its work is recorded as point evaluations.
 - **Admission panels** (`validation_policy: cohort-panels`, experiment deferred). A precommitted 24-case panel per cohort, disjoint from development, validation and every other panel, with a per-agent query allowance. Freezes re-score on the active panel.
 - **`workshop-sealed-3`.** 48 cases disjoint from development, validation, sealed-1, sealed-2 and all ten panels, committed in the frozen M5b protocol before any evaluation run.
+
+## v0.5.2: shared final selection (`workshop-evaluator-4` · `workshop-sealed-4`)
+
+- **Selection.** With `final_selection: selection-panel`, each freeze scores the newest 16 or fewer admitted or superseded workflows held by the cohort on one shared 24-case `selection-0` panel, and freezes the lowest as `selection_panel_best`.
+  - The panel is disjoint from development, validation and the ten admission panels.
+  - It is observer-side, never shown to agents, and counted (`selection_accounting`).
+  - The same rule applies under fixed admission and under cohort panels, so champions are comparable across admission policies. Admission scores from different panels are never compared.
+  - The selection panel is selection-used, not a final test.
+- **Final evaluation.** `workshop-sealed-4` (48 cases) is disjoint from development, validation, sealed-1 to sealed-3, the ten admission panels and `selection-0`. It is committed in the frozen M5c protocol before any evaluation run.

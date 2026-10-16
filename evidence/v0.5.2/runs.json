@@ -1,0 +1,110 @@
+{
+  "steps": [
+    {
+      "step": "world manifest",
+      "command": "python tools/world_manifest_m5c.py manifest evidence\\v0.5.2\\manifest\\world-manifest.json",
+      "exit_code": 0,
+      "seconds": 0.7,
+      "stderr_tail": "",
+      "finished_at": "2026-10-16T05:11:14.426750+00:00"
+    },
+    {
+      "step": "calibration (3 calibration blocks, no exports stored)",
+      "command": "(in-process) calibration()",
+      "exit_code": 0,
+      "seconds": 660.9,
+      "stderr_tail": "",
+      "finished_at": "2026-10-16T05:22:15.320618+00:00"
+    },
+    {
+      "step": "preflight",
+      "command": "python tools/world_manifest_m5c.py preflight evidence\\v0.5.2\\manifest\\world-manifest.json evidence\\v0.5.2\\manifest\\preflight.json evidence\\v0.5.2\\calibration\\calibration.json",
+      "exit_code": 0,
+      "seconds": 1.9,
+      "stderr_tail": "",
+      "finished_at": "2026-10-16T05:22:17.254546+00:00"
+    },
+    {
+      "step": "freeze protocol and sealed-4 commitment",
+      "command": "(in-process) freeze_protocol()",
+      "exit_code": 0,
+      "seconds": 4.6,
+      "stderr_tail": "",
+      "finished_at": "2026-10-16T05:22:21.820984+00:00"
+    },
+    {
+      "step": "primary study: admission policy",
+      "command": "(in-process) primary()",
+      "exit_code": 0,
+      "seconds": 1313.9,
+      "stderr_tail": "",
+      "finished_at": "2026-10-16T05:44:15.715971+00:00"
+    },
+    {
+      "step": "secondary study: allocation ablations (or deferral record)",
+      "command": "(in-process) ablation()",
+      "exit_code": 0,
+      "seconds": 1289.0,
+      "stderr_tail": "",
+      "finished_at": "2026-10-16T06:05:44.690112+00:00"
+    },
+    {
+      "step": "sealed-4 scoring of closed runs",
+      "command": "(in-process) sealed_scoring()",
+      "exit_code": 0,
+      "seconds": 39.5,
+      "stderr_tail": "",
+      "finished_at": "2026-10-16T06:06:24.208472+00:00"
+    },
+    {
+      "step": "restart and replay with streams and panels",
+      "command": "python tools/verify_restart_m5c.py evidence\\v0.5.2\\verification\\restart.json",
+      "exit_code": 0,
+      "seconds": 13.5,
+      "stderr_tail": "",
+      "finished_at": "2026-10-16T06:06:37.669973+00:00"
+    },
+    {
+      "step": "server speed (target vs achieved)",
+      "command": "python tools/measure_server_speed.py evidence\\v0.5.2\\benchmark\\server-speed.json 10",
+      "exit_code": 0,
+      "seconds": 49.6,
+      "stderr_tail": "",
+      "finished_at": "2026-10-16T06:07:27.282918+00:00"
+    },
+    {
+      "step": "evidence sizes",
+      "command": "(in-process) sizes()",
+      "exit_code": 0,
+      "seconds": 0.0,
+      "stderr_tail": "",
+      "finished_at": "2026-10-16T06:07:27.321600+00:00"
+    },
+    {
+      "step": "summaries",
+      "command": "python tools/summarize_m5c.py evidence\\v0.5.2",
+      "exit_code": 0,
+      "seconds": 0.2,
+      "stderr_tail": "",
+      "finished_at": "2026-10-16T06:07:27.537461+00:00"
+    }
+  ],
+  "source_at_start": {
+    "git_commit": "e38dc6b239da2df00bce9efd4aed23ab2edf34f5",
+    "runtime_code_dirty": false,
+    "dirty_files": [],
+    "source_sha256": "d50de85783b83324dff490d98347b14272e0dfb35b325bacc873dd7860ab4c60",
+    "files": 50,
+    "controller_sha256": "d8aeb3365f93c76cdd636439ec0931c07481a8c63b0b02f4a64d74b75dd1f49a",
+    "engine_sha256": "d1e3e863206f77ce181c9b7206dd9859ec6453269b8b6122d6667d651042eeb1"
+  },
+  "source_at_end": {
+    "git_commit": "e38dc6b239da2df00bce9efd4aed23ab2edf34f5",
+    "runtime_code_dirty": false,
+    "dirty_files": [],
+    "source_sha256": "d50de85783b83324dff490d98347b14272e0dfb35b325bacc873dd7860ab4c60",
+    "files": 50,
+    "controller_sha256": "d8aeb3365f93c76cdd636439ec0931c07481a8c63b0b02f4a64d74b75dd1f49a",
+    "engine_sha256": "d1e3e863206f77ce181c9b7206dd9859ec6453269b8b6122d6667d651042eeb1"
+  }
+}

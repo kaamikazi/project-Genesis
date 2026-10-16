@@ -1,0 +1,39 @@
+{
+  "ablation": {
+    "files": 98,
+    "bytes": 42646696
+  },
+  "benchmark": {
+    "files": 1,
+    "bytes": 1653
+  },
+  "calibration": {
+    "files": 1,
+    "bytes": 277598
+  },
+  "calibration-interrupted-attempt-1": {
+    "files": 1,
+    "bytes": 25435
+  },
+  "manifest": {
+    "files": 2,
+    "bytes": 7375
+  },
+  "primary": {
+    "files": 98,
+    "bytes": 43511654
+  },
+  "protected": {
+    "files": 1,
+    "bytes": 2076
+  },
+  "protocol": {
+    "files": 1,
+    "bytes": 6352
+  },
+  "verification": {
+    "files": 1,
+    "bytes": 1818
+  },
+  "total_bytes_committed_estimate": 86480657
+}

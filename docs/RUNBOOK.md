@@ -21,6 +21,8 @@ cd frontend && npm install && npm run build
 | Advance a world headless | `python -m genesis.cli step RUN_ID --ticks 50` |
 | List runs | `python -m genesis.cli list` |
 | One-shot demo with export | `python -m genesis.cli demo --ticks 120 --removal creators --removal-tick 60 --succession fresh` |
+| **Regenerate v0.5.2 (M5c) evidence** | `python tools/generate_evidence_m5c.py` (manifest, calibration, preflight, protocol freeze with sealed-4, primary admission study, allocation ablations or a deferral record, sealed-4 scoring, restart, server speed, evidence sizes, summaries; logs to `evidence/v0.5.2/runs.json`) |
+| World manifest and preflight | `python tools/world_manifest_m5c.py manifest OUT.json`, then `python tools/world_manifest_m5c.py preflight MANIFEST.json OUT.json [CALIBRATION.json]` |
 | **Regenerate v0.5.1 (M5b) evidence** | `python tools/generate_evidence_m5b.py` (bugfix before/after, v0.5.0 corrections, repaired rerun, calibration, protocol freeze with sealed-3, allocation and mentorship experiments, sealed-3 scoring, production accounting, demonstration, restart, CPU, server speed, profiles, summaries; logs to `evidence/v0.5.1/runs.json`; the freeze step refuses to overwrite an existing protocol) |
 | Production accounting for any experiment | `python tools/production_accounting.py REPORT.json OUT.json [COND_A COND_B ...]` |
 | Achieved server speed | `python tools/measure_server_speed.py OUT.json 10` (also shown live in the transport bar: target vs achieved) |

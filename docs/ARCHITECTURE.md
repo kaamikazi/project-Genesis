@@ -25,6 +25,7 @@ GENESIS is a single-process modular monolith: Python 3.10+, Pydantic, SQLite, Fa
 | `genesis/experiments4.py` | Experiment A (teaching and acquisition) and B (cumulative invention), plus `score_sealed` for closed runs. |
 | `genesis/experiments5.py` | Experiment P (search policy × access, shared credits) and T (library / teaching-only / none with overlapping generations), with parity hashes and reducer-based summaries. |
 | `genesis/experiments5b.py` | M5b protocols: the repaired retrospective rerun of v0.5.0 worlds, the prospective allocation experiment and the prospective mentorship experiment. |
+| `genesis/experiments5c.py` | M5c paired-world studies: admission policy (primary) and allocation leave-one-out (secondary) on a frozen world manifest, with shared controls and compressed evidence. |
 | `genesis/metrics_dictionary.py` | The versioned metric dictionary (`genesis-metrics-1`); the reducer's `metrics` block and `docs/METRICS.md` come from it. |
 | `genesis/demo5.py` | Labelled deterministic demonstration fixture: one component's path across a generational handoff (scripted overrides validated by the ordinary rules). |
 | `genesis/reducer.py` | **Independent metrics.** It reconstructs every holding, energy category, window and successor milestone from an export's initial state and events, then reconciles the result against the final state. It imports nothing from the engine. |
@@ -108,6 +109,14 @@ The scoped copy-on-write also copies session participants and the session's arti
 - **Reducer `genesis.reducer/3`** adds `metrics` (the dictionary counters, time by activity, production, population base/peak, novelty/reserve work).
 - **Scoped copy-on-write** also copies the closure components of the artifact named by an action. Equivalence with the full copy is tested in two further scenarios, one fuzzed with withdrawals and named references.
 - **Server clock:** fixed-rate pacing; status reports target and achieved ticks/s, step time, lag, base and active population.
+
+## v0.5.2 additions (M5c)
+
+- **Random streams.** `seed_scheme: streams-1` takes hidden invention parameters from `hidden_combo`, terrain and the per-tick environment from `terrain_seed`, and controller randomness from `controller_seed`. `legacy` (the default) derives everything physical and hidden from `seed`, as before. All of these fields live in the persisted config; agents never observe it.
+- **World manifests.** `tools/world_manifest_m5c.py` declares paired blocks and runs the preflight checks.
+- **Final selection.** `final_selection: selection-panel` adds `selection_panel_best` and `selection_accounting` to freezes, scored on the shared `selection-0` panel.
+- **Final evaluation.** `workshop-sealed-4` manifests exclude panels and the selection panel.
+- **Ablation flag.** `alloc_disable` switches off one guard of `beam-alloc` at a time.
 
 ## Version boundary
 

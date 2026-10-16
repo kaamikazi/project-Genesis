@@ -1,0 +1,739 @@
+{
+  "protocol": "calibration",
+  "label": "INTERRUPTED: the generating process was killed when the session ended; restarted from scratch before any preflight or freeze",
+  "versions": {
+    "engine": "0.5.2",
+    "rules": "phase-world-5.2",
+    "evaluator": "phase-evaluator-3+workshop-evaluator-4"
+  },
+  "base": {
+    "population": 8,
+    "task": "workshop-1",
+    "lifecycle": "cohorts",
+    "cohort_ticks": 60,
+    "cohort_count": 3,
+    "cohort_overlap": 0,
+    "ore_per_site": 900,
+    "search_budget": 48,
+    "budget_unit": "credits",
+    "sharing": true,
+    "controller": "search",
+    "cross_cohort_access": true,
+    "teaching": false,
+    "panel_queries": 12,
+    "final_selection": "selection-panel",
+    "selection_candidates": 16,
+    "max_ticks": 180
+  },
+  "conditions": {
+    "first-improvement/fixed": {
+      "search_policy": "first-improvement",
+      "validation_policy": "fixed"
+    },
+    "first-improvement/panels": {
+      "search_policy": "first-improvement",
+      "validation_policy": "cohort-panels"
+    },
+    "beam/fixed": {
+      "search_policy": "beam",
+      "validation_policy": "fixed"
+    },
+    "beam/panels": {
+      "search_policy": "beam",
+      "validation_policy": "cohort-panels"
+    },
+    "beam-alloc/fixed": {
+      "search_policy": "beam-alloc",
+      "validation_policy": "fixed"
+    },
+    "beam-alloc-without-stale-frontier/fixed": {
+      "search_policy": "beam-alloc",
+      "alloc_disable": "stale-frontier",
+      "validation_policy": "fixed"
+    },
+    "beam-alloc-without-reserve/fixed": {
+      "search_policy": "beam-alloc",
+      "alloc_disable": "reserve",
+      "validation_policy": "fixed"
+    },
+    "beam-alloc-without-novelty/fixed": {
+      "search_policy": "beam-alloc",
+      "alloc_disable": "novelty",
+      "validation_policy": "fixed"
+    }
+  },
+  "blocks": [
+    "c01",
+    "c02",
+    "c03"
+  ],
+  "worlds": [
+    {
+      "block": "c01",
+      "seed": 1,
+      "condition": "first-improvement/fixed",
+      "hidden_combo": [
+        4,
+        2,
+        4
+      ],
+      "config": {
+        "seed": 5200,
+        "width": 24,
+        "height": 16,
+        "population": 8,
+        "sharing": true,
+        "controller": "search",
+        "max_ticks": 180,
+        "snapshot_every": 20,
+        "search_budget": 48,
+        "removal": "none",
+        "removal_tick": 80,
+        "succession": "none",
+        "successor_role": "producer",
+        "successor_access": "library",
+        "invention": "open",
+        "controller_seed": 1050299380,
+        "ore_per_site": 900,
+        "task": "workshop-1",
+        "teaching": false,
+        "lifecycle": "cohorts",
+        "cohort_ticks": 60,
+        "cohort_count": 3,
+        "cross_cohort_access": true,
+        "search_policy": "first-improvement",
+        "budget_unit": "credits",
+        "teaching_policy": "strict-prerequisites",
+        "cohort_overlap": 0,
+        "validation_policy": "fixed",
+        "panel_queries": 12,
+        "seed_scheme": "streams-1",
+        "terrain_seed": 1282351127,
+        "hidden_combo": [
+          4,
+          2,
+          4
+        ],
+        "final_selection": "selection-panel",
+        "selection_candidates": 16,
+        "alloc_disable": "none"
+      },
+      "config_hash": "9eb8009e2c725cf1b7b5ce545e7b96edf808096892c2ef886e4dbfcd3e5496aa",
+      "status": "completed",
+      "summary": {
+        "final_pick": {
+          "admission_partition": "validation-24",
+          "admission_score": 8.333333,
+          "ancestor_cohorts": [
+            0,
+            1
+          ],
+          "artifact": "7f94dde8d741ef5f81571d9b9e28c94e613da3aa7184b6a2948863004999e19a",
+          "closure": [],
+          "cohort": 2,
+          "created_tick": 148,
+          "creator": "a16",
+          "dev_score": 8.625,
+          "selection_panel_score": 10.15625
+        },
+        "selection_accounting": {
+          "case_evaluations": 120,
+          "cases_per_candidate": 24,
+          "eligible": 5,
+          "evaluated": 5,
+          "truncated": false
+        },
+        "freezes": [
+          {
+            "tick": 60,
+            "cohort": 0,
+            "reason": "cohort boundary",
+            "selection_panel_best": {
+              "admission_partition": "validation-24",
+              "admission_score": 13.0,
+              "ancestor_cohorts": [
+                0
+              ],
+              "artifact": "0e127389874857d36b5210557d4ab3d2ef8a06e6fe02c88068e8d1962d635de9",
+              "closure": [],
+              "cohort": 0,
+              "created_tick": 47,
+              "creator": "a00",
+              "dev_score": 11.0,
+              "selection_panel_score": 10.903226
+            },
+            "selection_accounting": {
+              "case_evaluations": 168,
+              "cases_per_candidate": 24,
+              "eligible": 7,
+              "evaluated": 7,
+              "truncated": false
+            },
+            "held_best": {
+              "ancestor_cohorts": [
+                0
+              ],
+              "artifact": "50be60ced1f1dcab9fcdeb0c8d1e8d23eb038d4dd713bf6b608b0496b1ed4f09",
+              "closure": [],
+              "cohort": 0,
+              "created_tick": 36,
+              "creator": "a04",
+              "dev_score": 11.642857,
+              "generation": 3,
+              "origin": "search-revision",
+              "selection_score": 8.666667,
+              "status_at_freeze": "admitted"
+            },
+            "created_upto_best": {
+              "ancestor_cohorts": [
+                0
+              ],
+              "artifact": "50be60ced1f1dcab9fcdeb0c8d1e8d23eb038d4dd713bf6b608b0496b1ed4f09",
+              "closure": [],
+              "cohort": 0,
+              "created_tick": 36,
+              "creator": "a04",
+              "dev_score": 11.642857,
+              "generation": 3,
+              "origin": "search-revision",
+              "selection_score": 8.666667,
+              "status_at_freeze": "admitted"
+            }
+          },
+          {
+            "tick": 120,
+            "cohort": 1,
+            "reason": "cohort boundary",
+            "selection_panel_best": {
+              "admission_partition": "validation-24",
+              "admission_score": 9.583333,
+              "ancestor_cohorts": [
+                0,
+                1
+              ],
+              "artifact": "5b082a242d85e14c5626828cca578edacf9a04bb9c8a18506feeb60cd625fde8",
+              "closure": [],
+              "cohort": 1,
+              "created_tick": 95,
+              "creator": "a08",
+              "dev_score": 9.294118,
+              "selection_panel_score": 10.551724
+            },
+            "selection_accounting": {
+              "case_evaluations": 144,
+              "cases_per_candidate": 24,
+              "eligible": 6,
+              "evaluated": 6,
+              "truncated": false
+            },
+            "held_best": {
+              "ancestor_cohorts": [
+                0
+              ],
+              "artifact": "50be60ced1f1dcab9fcdeb0c8d1e8d23eb038d4dd713bf6b608b0496b1ed4f09",
+              "closure": [],
+              "cohort": 0,
+              "created_tick": 36,
+              "creator": "a04",
+              "dev_score": 11.642857,
+              "generation": 3,
+              "origin": "search-revision",
+              "selection_score": 8.666667,
+              "status_at_freeze": "admitted"
+            },
+            "created_upto_best": {
+              "ancestor_cohorts": [
+                0
+              ],
+              "artifact": "50be60ced1f1dcab9fcdeb0c8d1e8d23eb038d4dd713bf6b608b0496b1ed4f09",
+              "closure": [],
+              "cohort": 0,
+              "created_tick": 36,
+              "creator": "a04",
+              "dev_score": 11.642857,
+              "generation": 3,
+              "origin": "search-revision",
+              "selection_score": 8.666667,
+              "status_at_freeze": "admitted"
+            }
+          },
+          {
+            "tick": 180,
+            "cohort": 2,
+            "reason": "run closed",
+            "selection_panel_best": {
+              "admission_partition": "validation-24",
+              "admission_score": 8.333333,
+              "ancestor_cohorts": [
+                0,
+                1
+              ],
+              "artifact": "7f94dde8d741ef5f81571d9b9e28c94e613da3aa7184b6a2948863004999e19a",
+              "closure": [],
+              "cohort": 2,
+              "created_tick": 148,
+              "creator": "a16",
+              "dev_score": 8.625,
+              "selection_panel_score": 10.15625
+            },
+            "selection_accounting": {
+              "case_evaluations": 120,
+              "cases_per_candidate": 24,
+              "eligible": 5,
+              "evaluated": 5,
+              "truncated": false
+            },
+            "held_best": {
+              "ancestor_cohorts": [
+                0,
+                2
+              ],
+              "artifact": "c40b1013089bbdc0b5a1ce6d3d85f51f4dd7873d5fbea2f6bdac592f117071ba",
+              "closure": [],
+              "cohort": 2,
+              "created_tick": 169,
+              "creator": "a20",
+              "dev_score": 10.793103,
+              "generation": 5,
+              "origin": "search-revision",
+              "selection_score": 8.153846,
+              "status_at_freeze": "admitted"
+            },
+            "created_upto_best": {
+              "ancestor_cohorts": [
+                0,
+                2
+              ],
+              "artifact": "c40b1013089bbdc0b5a1ce6d3d85f51f4dd7873d5fbea2f6bdac592f117071ba",
+              "closure": [],
+              "cohort": 2,
+              "created_tick": 169,
+              "creator": "a20",
+              "dev_score": 10.793103,
+              "generation": 5,
+              "origin": "search-revision",
+              "selection_score": 8.153846,
+              "status_at_freeze": "admitted"
+            }
+          }
+        ],
+        "submissions": 24,
+        "improvement_admissions": 14,
+        "refactor_admissions": 0,
+        "failed_admissions": 10,
+        "panel_queries_per_researcher_panel": [],
+        "panel_query_cap": null,
+        "panel_cap_hits": null,
+        "ore_left_fraction": 0.667,
+        "metrics": {
+          "search.credit_actions": 288,
+          "search.proposals": 130,
+          "search.identical_program_proposals": 0,
+          "search.distinct_programs": 128,
+          "search.own_candidate_tests": 130,
+          "search.held_retests": 4,
+          "search.component_tests": 0,
+          "search.repeated_decisions_own": 34,
+          "search.repeated_decisions_world": 40,
+          "search.matching_outcome_different_decisions_own": 24,
+          "search.untested_proposals": 0,
+          "search.submissions": 24,
+          "search.stale_reference_rejections": 0,
+          "search.repeated_rejected_attempts": 3,
+          "search.withdrawals": 0,
+          "search.withdrawals_of_stale_candidates": 0,
+          "search.reserve_stops": 0,
+          "search.novelty_rejected_candidates": 0,
+          "search.novelty_point_evaluations": 0,
+          "admission.improvement_admissions": 14,
+          "admission.refactor_admissions": 0,
+          "lineage.improvements_on_earlier_cohort_reference": 3,
+          "lineage.improvements_on_earlier_cohort_parent": 3,
+          "lineage.improvements_with_earlier_cohort_ancestry": 7,
+          "production.actions": 207,
+          "production.alloy": 445,
+          "production.rejected_use_missing_prerequisite": 0,
+          "production.busy_ticks": 238,
+          "population.base": 8,
+          "population.peak_active": 8,
+          "production.alloy_per_action": {
+            "value": 2.149758,
+            "status": "available",
+            "numerator": 445,
+            "denominator": 207,
+            "unit": "alloy per production action"
+          },
+          "time.agent_ticks_by_activity": {
+            "eating": 223,
+            "exchange": 9,
+            "gathering": 337,
+            "learning": 57,
+            "movement": 19,
+            "production": 207,
+            "rejected learning": 1,
+            "rejected production": 33,
+            "rejected search": 5,
+            "rejected storage": 3,
+            "search": 288,
+            "storage": 29,
+            "waiting": 229
+          },
+          "rejections_by_class": {
+            "use_artifact: insufficient ore for batch (needs 10)": 9,
+            "use_artifact: insufficient energy for batch (needs 22)": 7,
+            "submit_artifact: search credits exhausted": 5,
+            "use_artifact: insufficient ore for batch (needs 9)": 5,
+            "use_artifact: insufficient energy for batch (needs 13)": 4,
+            "use_artifact: insufficient energy for batch (needs 20)": 3,
+            "withdraw: insufficient settlement stock": 3,
+            "use_artifact: insufficient energy for batch (needs 18)": 2,
+            "use_artifact: insufficient energy for batch (needs 23)": 2,
+            "use_artifact: insufficient energy for batch (needs 17)": 1,
+            "inspect_artifact: artifact must be current, in your library and no": 1
+          }
+        },
+        "production_energy_per_alloy": 5.150562,
+        "produced_alloy": 445
+      },
+      "initial_physical_hash": "3202874aefda802c2ffe568095e910873359f811387baf787b77aa2ea2826110",
+      "wall_seconds": 24.87,
+      "stored_bytes": 880217
+    },
+    {
+      "block": "c01",
+      "seed": 1,
+      "condition": "first-improvement/panels",
+      "hidden_combo": [
+        4,
+        2,
+        4
+      ],
+      "config": {
+        "seed": 5200,
+        "width": 24,
+        "height": 16,
+        "population": 8,
+        "sharing": true,
+        "controller": "search",
+        "max_ticks": 180,
+        "snapshot_every": 20,
+        "search_budget": 48,
+        "removal": "none",
+        "removal_tick": 80,
+        "succession": "none",
+        "successor_role": "producer",
+        "successor_access": "library",
+        "invention": "open",
+        "controller_seed": 1050299380,
+        "ore_per_site": 900,
+        "task": "workshop-1",
+        "teaching": false,
+        "lifecycle": "cohorts",
+        "cohort_ticks": 60,
+        "cohort_count": 3,
+        "cross_cohort_access": true,
+        "search_policy": "first-improvement",
+        "budget_unit": "credits",
+        "teaching_policy": "strict-prerequisites",
+        "cohort_overlap": 0,
+        "validation_policy": "cohort-panels",
+        "panel_queries": 12,
+        "seed_scheme": "streams-1",
+        "terrain_seed": 1282351127,
+        "hidden_combo": [
+          4,
+          2,
+          4
+        ],
+        "final_selection": "selection-panel",
+        "selection_candidates": 16,
+        "alloc_disable": "none"
+      },
+      "config_hash": "47243eac2e973c20da2ee031588918ab951f85187dfb7ef74400cb223bcfea88",
+      "status": "completed",
+      "summary": {
+        "final_pick": {
+          "admission_partition": "panel-2",
+          "admission_score": 8.605263,
+          "ancestor_cohorts": [
+            0,
+            1
+          ],
+          "artifact": "5a3a77e07a1ce4514700797160af71d04d99b6196c959e3894be56cc9c1b4019",
+          "closure": [],
+          "cohort": 2,
+          "created_tick": 142,
+          "creator": "a20",
+          "dev_score": 8.975,
+          "selection_panel_score": 9.676471
+        },
+        "selection_accounting": {
+          "case_evaluations": 96,
+          "cases_per_candidate": 24,
+          "eligible": 4,
+          "evaluated": 4,
+          "truncated": false
+        },
+        "freezes": [
+          {
+            "tick": 60,
+            "cohort": 0,
+            "reason": "cohort boundary",
+            "selection_panel_best": {
+              "admission_partition": "panel-0",
+              "admission_score": 18.352941,
+              "ancestor_cohorts": [
+                0
+              ],
+              "artifact": "0e127389874857d36b5210557d4ab3d2ef8a06e6fe02c88068e8d1962d635de9",
+              "closure": [],
+              "cohort": 0,
+              "created_tick": 47,
+              "creator": "a00",
+              "dev_score": 11.0,
+              "selection_panel_score": 10.903226
+            },
+            "selection_accounting": {
+              "case_evaluations": 192,
+              "cases_per_candidate": 24,
+              "eligible": 8,
+              "evaluated": 8,
+              "truncated": false
+            },
+            "held_best": {
+              "ancestor_cohorts": [
+                0
+              ],
+              "artifact": "18ea1ddc0e6a5ef000313f4f8073282c512880667c420ceaca3803495821184d",
+              "closure": [],
+              "cohort": 0,
+              "created_tick": 47,
+              "creator": "a04",
+              "dev_score": 12.347826,
+              "generation": 4,
+              "origin": "search-revision",
+              "selection_score": 11.65,
+              "status_at_freeze": "admitted"
+            },
+            "created_upto_best": {
+              "ancestor_cohorts": [
+                0
+              ],
+              "artifact": "18ea1ddc0e6a5ef000313f4f8073282c512880667c420ceaca3803495821184d",
+              "closure": [],
+              "cohort": 0,
+              "created_tick": 47,
+              "creator": "a04",
+              "dev_score": 12.347826,
+              "generation": 4,
+              "origin": "search-revision",
+              "selection_score": 11.65,
+              "status_at_freeze": "admitted"
+            }
+          },
+          {
+            "tick": 120,
+            "cohort": 1,
+            "reason": "cohort boundary",
+            "selection_panel_best": {
+              "admission_partition": "panel-1",
+              "admission_score": 11.142857,
+              "ancestor_cohorts": [
+                0
+              ],
+              "artifact": "4153ce870e6be6872bdb77a8ab060d353c670e720eed24e5e134a4f4bca27c97",
+              "closure": [],
+              "cohort": 1,
+              "created_tick": 86,
+              "creator": "a12",
+              "dev_score": 9.447368,
+              "selection_panel_score": 10.0
+            },
+            "selection_accounting": {
+              "case_evaluations": 120,
+              "cases_per_candidate": 24,
+              "eligible": 5,
+              "evaluated": 5,
+              "truncated": false
+            },
+            "held_best": {
+              "ancestor_cohorts": [
+                0,
+                1
+              ],
+              "artifact": "f2dc9e717384ff4bde97f5d13d23372c98f34cef11203b24c2b9b4c817825160",
+              "closure": [],
+              "cohort": 1,
+              "created_tick": 92,
+              "creator": "a12",
+              "dev_score": 9.075,
+              "generation": 6,
+              "origin": "search-revision",
+              "selection_score": 10.714286,
+              "status_at_freeze": "admitted"
+            },
+            "created_upto_best": {
+              "ancestor_cohorts": [
+                0,
+                1
+              ],
+              "artifact": "f2dc9e717384ff4bde97f5d13d23372c98f34cef11203b24c2b9b4c817825160",
+              "closure": [],
+              "cohort": 1,
+              "created_tick": 92,
+              "creator": "a12",
+              "dev_score": 9.075,
+              "generation": 6,
+              "origin": "search-revision",
+              "selection_score": 10.714286,
+              "status_at_freeze": "admitted"
+            }
+          },
+          {
+            "tick": 180,
+            "cohort": 2,
+            "reason": "run closed",
+            "selection_panel_best": {
+              "admission_partition": "panel-2",
+              "admission_score": 8.605263,
+              "ancestor_cohorts": [
+                0,
+                1
+              ],
+              "artifact": "5a3a77e07a1ce4514700797160af71d04d99b6196c959e3894be56cc9c1b4019",
+              "closure": [],
+              "cohort": 2,
+              "created_tick": 142,
+              "creator": "a20",
+              "dev_score": 8.975,
+              "selection_panel_score": 9.676471
+            },
+            "selection_accounting": {
+              "case_evaluations": 96,
+              "cases_per_candidate": 24,
+              "eligible": 4,
+              "evaluated": 4,
+              "truncated": false
+            },
+            "held_best": {
+              "ancestor_cohorts": [
+                0,
+                1
+              ],
+              "artifact": "c377511486b0704b7609d8d90fb966090358fd581df59e6e985cc72476e8d032",
+              "closure": [],
+              "cohort": 2,
+              "created_tick": 131,
+              "creator": "a16",
+              "dev_score": 8.594595,
+              "generation": 4,
+              "origin": "search-revision",
+              "selection_score": 8.425,
+              "status_at_freeze": "admitted"
+            },
+            "created_upto_best": {
+              "ancestor_cohorts": [
+                0,
+                1
+              ],
+              "artifact": "c377511486b0704b7609d8d90fb966090358fd581df59e6e985cc72476e8d032",
+              "closure": [],
+              "cohort": 2,
+              "created_tick": 131,
+              "creator": "a16",
+              "dev_score": 8.594595,
+              "generation": 4,
+              "origin": "search-revision",
+              "selection_score": 8.425,
+              "status_at_freeze": "admitted"
+            }
+          }
+        ],
+        "submissions": 25,
+        "improvement_admissions": 13,
+        "refactor_admissions": 0,
+        "failed_admissions": 12,
+        "panel_queries_per_researcher_panel": [
+          4,
+          11,
+          4,
+          2,
+          2,
+          2
+        ],
+        "panel_query_cap": 12,
+        "panel_cap_hits": 0,
+        "ore_left_fraction": 0.679,
+        "metrics": {
+          "search.credit_actions": 283,
+          "search.proposals": 127,
+          "search.identical_program_proposals": 0,
+          "search.distinct_programs": 127,
+          "search.own_candidate_tests": 127,
+          "search.held_retests": 4,
+          "search.component_tests": 0,
+          "search.repeated_decisions_own": 25,
+          "search.repeated_decisions_world": 28,
+          "search.matching_outcome_different_decisions_own": 14,
+          "search.untested_proposals": 0,
+          "search.submissions": 25,
+          "search.stale_reference_rejections": 0,
+          "search.repeated_rejected_attempts": 3,
+          "search.withdrawals": 0,
+          "search.withdrawals_of_stale_candidates": 0,
+          "search.reserve_stops": 0,
+          "search.novelty_rejected_candidates": 0,
+          "search.novelty_point_evaluations": 0,
+          "admission.improvement_admissions": 13,
+          "admission.refactor_admissions": 0,
+          "lineage.improvements_on_earlier_cohort_reference": 4,
+          "lineage.improvements_on_earlier_cohort_parent": 4,
+          "lineage.improvements_with_earlier_cohort_ancestry": 5,
+          "production.actions": 245,
+          "production.alloy": 441,
+          "production.rejected_use_missing_prerequisite": 0,
+          "production.busy_ticks": 196,
+          "population.base": 8,
+          "population.peak_active": 8,
+          "production.alloy_per_action": {
+            "value": 1.8,
+            "status": "available",
+            "numerator": 441,
+            "denominator": 245,
+            "unit": "alloy per production action"
+          },
+          "time.agent_ticks_by_activity": {
+            "eating": 236,
+            "exchange": 5,
+            "gathering": 343,
+            "learning": 55,
+            "movement": 20,
+            "production": 245,
+            "rejected production": 28,
+            "rejected search": 4,
+            "rejected storage": 6,
+            "search": 283,
+            "storage": 30,
+            "waiting": 185
+          },
+          "rejections_by_class": {
+            "use_artifact: insufficient energy for batch (needs 20)": 15,
+            "use_artifact: insufficient energy for batch (needs 22)": 8,
+            "withdraw: insufficient settlement stock": 6,
+            "submit_artifact: search credits exhausted": 4,
+            "use_artifact: insufficient ore for batch (needs 9)": 2,
+            "use_artifact: insufficient energy for batch (needs 17)": 1,
+            "use_artifact: insufficient energy for batch (needs 13)": 1,
+            "use_artifact: insufficient energy for batch (needs 15)": 1
+          }
+        },
+        "production_energy_per_alloy": 5.76644,
+        "produced_alloy": 441
+      },
+      "initial_physical_hash": "3202874aefda802c2ffe568095e910873359f811387baf787b77aa2ea2826110",
+      "wall_seconds": 25.11,
+      "stored_bytes": 899244
+    }
+  ],
+  "shared_controls": {}
+}

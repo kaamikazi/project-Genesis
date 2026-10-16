@@ -1,155 +1,107 @@
-# Implementation status, v0.5.1 / M5b (2026-10-16)
+# Implementation status, v0.5.2 / M5c (2026-10-16)
 
-Engine `0.5.1` · rules `phase-world-5.1` · evaluators `phase-evaluator-3` (legacy), `workshop-evaluator-3`, `workshop-sealed-3` · reducer `genesis.reducer/3` · metrics `genesis-metrics-1` · storage schema 1.
+Engine `0.5.2` · rules `phase-world-5.2` · evaluators `phase-evaluator-3` (legacy), `workshop-evaluator-4`, `workshop-sealed-4` · reducer `genesis.reducer/3` · metrics `genesis-metrics-1`.
 
-- **Evidence:** [`evidence/v0.5.1/`](../evidence/v0.5.1/README.md); generated tables in [SUMMARY.md](../evidence/v0.5.1/SUMMARY.md); metric definitions in [METRICS.md](METRICS.md)
-- **Decisions:** [ADR-006](ADR-006-repair-allocation-mentorship.md)
-- **Baseline and reproductions before any change:** [audit/baseline-v0.5.0-verification.md](audit/baseline-v0.5.0-verification.md)
-- **Previous status:** [v0.5.0](history/IMPLEMENTATION_STATUS-v0.5.0.md) and [v0.4.0](history/IMPLEMENTATION_STATUS-v0.4.0.md). v0.5.0 and its evidence are preserved unchanged; its results were produced **with the defects listed below**.
+- **Evidence:** [`evidence/v0.5.2/`](../evidence/v0.5.2/README.md); tables in [SUMMARY.md](../evidence/v0.5.2/SUMMARY.md)
+- **Decisions:** [ADR-007](ADR-007-paired-worlds-admission.md)
+- **Next milestone:** [M6 handoff](M6_HANDOFF.md)
+- **Previous status:** [v0.5.1](history/IMPLEMENTATION_STATUS-v0.5.1.md), [v0.5.0](history/IMPLEMENTATION_STATUS-v0.5.0.md), [v0.4.0](history/IMPLEMENTATION_STATUS-v0.4.0.md). All earlier releases and their evidence are unchanged.
 
 ## Verification
 
 | Check | Result |
 |---|---|
-| `python -m pytest -q` | **148 passed**: 21 new v0.5.1 tests and 2 new copy-on-write scenarios, one fuzzed with withdrawals and named references |
+| Baseline before any change (tag v0.5.1) | 148 passed, build OK |
+| `python -m pytest -q` | **165 passed**: 16 new v0.5.2 tests and 1 new copy-on-write scenario (streams, panels, selection panel, a leave-one-out flag, fuzzed) |
 | `npm run build` (with `tsc --noEmit`) | Succeeded |
-| `python tools/generate_evidence_m5b.py` | All 21 steps exited 0, from runtime commit `1e7dcad`, which was clean at the start and the end |
-| Reporting fix after generation (`e20e84e`) | The reducer's freeze copy omitted `created_upto_best`, which left creation-attributed validation values empty. Fixed. Only the summaries step was regenerated; runs and exports are unaffected. |
-| Restart with a pending submission and during mentorship | 8 of 8 checks pass |
-| v0.4.0 experiment-B world under current defaults | Reproduces its stored reducer output |
+| `python tools/generate_evidence_m5c.py` | All 11 steps exited 0, from runtime commit `e38dc6b`, clean at start and end |
+| Interrupted first attempt | The first run was killed during calibration when the session ended, before any preflight or freeze. It is kept as `calibration-interrupted-attempt-1/` (2 of 24 worlds done) and was restarted from scratch. |
+| Restart with streams and panels | 8 of 8 checks pass |
+| Parity | Every condition in every block started from the same physical world, hidden parameters and controller stream (12 of 12 blocks, both studies) |
 
-## Defects found and repaired
+## What was built
 
-Each repair is shown on minimal reproductions run against tag v0.5.0 and the current code (`evidence/v0.5.1/bugfix/`). Rejected actions per 10 ticks:
+| Capability | Where |
+|---|---|
+| Versioned random streams (`seed_scheme: streams-1`): hidden combination, terrain/environment and controller seeds are separate sources, and the label seed is not a randomness source. `legacy` reproduces every earlier world. | `genesis/models.py`, `world.py`, `workshop.py`; `test_streams_*`, `test_legacy_*` |
+| Paired world manifest: stratified draw without replacement, 3 calibration + 12 evaluation blocks, streams keyed by block | `tools/world_manifest_m5c.py`; `test_manifest_*` |
+| Preflight: distinct combinations, no calibration reuse, distinct streams, matched initial worlds, disjoint partitions, resource horizon, runtime/storage budget, disk | `test_preflight_catches_*` |
+| Shared final-selection panel: bounded, counted, observer-side; the same rule in every condition | `engine.freeze`; `test_final_selection_*` |
+| Admission panels: activation per cohort, caps, child and reference on identical cases | `test_panels_activate_*` |
+| Leave-one-out allocation flags; submit-time stale safety is never disabled | `alloc_disable`; `test_leave_one_out_*` |
+| Sealed-4: disjoint from everything earlier, including panels and the selection panel; scores streams worlds from their declared combination | `genesis/sealed.py`; `test_sealed4_*` |
+| No leakage: agents never see combinations, seeds or selection scores | `test_observations_never_carry_*` |
+| Observer: manifest, preflight, pair counts, missing cases, panel identity and query counts, evidence size | `frontend/src/Milestone5.tsx` |
 
-| Defect | v0.5.0 | v0.5.1 |
-|---|---|---|
-| Beam resubmitted a candidate whose reference had been superseded | 10 of 10 | 0 |
-| first-improvement kept revising a superseded workflow | 10 of 10 | 0 |
-| A library copy of a component-calling workflow did not copy its component, so every execution failed | 5 of 5 | 0 |
+## Study design (frozen before evaluation)
 
-**Repairs:**
-- An explicit submission contract: the reference is shown, can be named in the submission (compare-and-swap), and conflicts are reported with their cause.
-- A free `withdraw_artifact` action.
-- Controllers withdraw a stale candidate instead of resubmitting it.
-- first-improvement revises only a currently admitted workflow.
-- Library copies bring the missing dependency closure, charged separately, or are refused.
+- **12 evaluation blocks**, each a distinct hidden combination from the 45-member workshop-1 family.
+  - All five `split` values are covered. Offset and `flux_threshold` are not balanced: 6 of 12 have flux 4.
+  - Each block has its own terrain and controller streams, shared by every condition in that block.
+  - There is one controller realisation per combination, so controller and environment variation are partly confounded.
+- **Settings:** 8 agents, 3 cohorts × 60 ticks, no overlap, preserved knowledge, 48 search credits, panel cap 12.
+- **Final pick in every condition:** the best of the cohort's newest 16 or fewer admitted workflows, scored on the shared selection panel. **Primary endpoint:** its sealed-4 score.
+- **Paired rule (descriptive):** at least 75% of expected worlds must be eligible pairs, and one side must be lower in at least 75% of them.
 
-**What the defects did to v0.5.0** (raw evidence unchanged; analysis in `corrections-v0.5.0/` and `production/`):
+## Primary result: admission policy under preserved knowledge
 
-- **Missing-component rejections.** v0.5.0 beam/preserved made 1,390 production attempts that were rejected for a missing component. Against first-improvement/preserved it produced 657 less alloy, which the identity *alloy = actions × yield* splits into −542 from fewer production actions and −115 from lower yield. Other component-using conditions had 356–903 such rejections; beam-nocomponents had none.
-- **Stale resubmissions.** In T/library, 209 resubmissions against a superseded reference were rejected, in 7 of 30 researcher lifetimes.
-- **Repaired retrospective rerun** (all 40 v0.5.0 worlds, labelled retrospective):
-  - beam/preserved alloy rose from 1,560 to 2,230 (first-improvement: 2,217), and its search outcomes were unchanged.
-  - T/library stale rejections fell from 209 to 1 (a same-tick race, then a single withdrawal).
-  - T/library's final held-best sealed-2 mean moved from 9.25 to 9.29. Sealed-2 is retrospective here, because those cases were already known.
+Expected 12, completed 12, eligible 12 (12 distinct combinations) in every comparison; no world missing. Lower is better.
 
-## Corrected measurements
+| Contrast (sealed-4, final pick) | A lower / B lower / ties | Median A−B | Mean A / B | Verdict |
+|---|---|---|---|---|
+| first-improvement: panels vs fixed | 6 / 5 / 1 | −0.04 | 8.93 / 9.01 | no consistent difference |
+| beam: panels vs fixed | 5 / 7 / 0 | +0.33 | 9.51 / 9.54 | no consistent difference |
+| fixed: beam vs first-improvement | 4 / 8 / 0 | +0.92 | 9.54 / 9.01 | no consistent difference |
+| panels: beam vs first-improvement | 2 / 10 / 0 | +1.01 | 9.51 / 8.93 | **first-improvement lower in 10 of 12** (sign test p = 0.039, descriptive) |
 
-`genesis-metrics-1` defines every counter: units, inclusion rules and event sources. The v0.5.0 counters were reconciled against it:
+**Cohort-specific admission panels did not change what got frozen in this task family.**
 
-| v0.5.0 statement | Status | Correct value (beam/preserved) |
-|---|---|---|
-| "45 proposals were never tested" | **Defect** in the narrative arithmetic: component proposals are tested by component tests | **7** never tested, all within 5 ticks of retirement |
-| 226 "repeated evaluation results" (diagnosis) vs 259 "duplicate behaviour" (summary) | Intentional, different scopes | `repeated_decisions_own` = 213 (own-candidate tests only); `repeated_decisions_world` = 236 (world scope, component tests excluded) |
-| 6 "cross-generation admitted revisions" vs 9 "inherited-reference admissions" | Intentional: immediate parent (refactors included) vs admission reference | `improvements_on_earlier_cohort_parent` = 5; `improvements_on_earlier_cohort_reference` = 9 |
+- **Final picks:** neither search policy's picks became consistently better or worse on fresh sealed cases.
+- **Panel use:** researchers used a mean of about 5 submissions per panel. The cap of 12 was reached in 1 of 71 (first-improvement) and 4 of 63 (beam) researcher-panels.
+- **Generalisation gaps:** a pick's sealed score sits 0.6–1.0 above its development score in every condition. Sealed vs selection-panel gaps are within ±0.12. No condition shows a larger adaptive-overfitting gap.
+- **Production:** beam used more energy per alloy under panels than under fixed admission in 10 of 12 worlds (5.79 vs 5.53). first-improvement showed no consistent difference (5.24 vs 5.41).
+- **Search policy:** first-improvement again did at least as well as repaired beam. The difference is consistent only under panels.
 
-- **Paired comparisons** now report expected, eligible and missing worlds and the denominator. Example: v0.5.0's "final cohort best, sealed: 0 / 1 / 0" for beam vs first-improvement had **1 eligible pair of 5**. In the other 4 worlds beam's final cohort created no admitted workflow.
-- **Further improvement is now attributed by creation event.** Freezes record what earlier cohorts had *created* by the boundary, so seniors adopting juniors' work cannot change it.
+## Secondary result: allocation leave-one-out (fixed admission, preserved)
 
-## Prospective results
+This study ran within budget: preflight estimated 50.6 minutes and 87 MB for both studies, against a declared 150 minutes and 120 MB. The beam/fixed control worlds are shared with the primary study (12 of 12, identical frozen configuration) and were not re-run.
 
-The protocol was frozen before evaluation (`evidence/v0.5.1/protocol/protocol.json`), with fresh seeds 221–226 and sealed-3 cases committed in advance. Scores are cost per alloy, so **lower is better**. "Held best" is the best admitted workflow held by the final cohort, selected by validation. Claim rule: at least 75% of expected worlds are eligible pairs, and one side is lower in at least 75% of them (descriptive).
+| Contrast (sealed-4, final pick) | A lower / B lower / ties | Mean A / B | Verdict |
+|---|---|---|---|
+| bundle vs plain beam | 7 / 4 / 1 | 9.22 / 9.54 | no consistent difference |
+| bundle without stale-frontier guard vs bundle | 2 / 2 / 8 | 9.02 / 9.22 | no consistent difference |
+| bundle without reserve guard vs bundle | 0 / 0 / **12** | 9.22 / 9.22 | identical picks in every world |
+| bundle without novelty guard vs bundle | 4 / 7 / 1 | 9.51 / 9.22 | no consistent difference |
 
-> **Sample-size caveat found after the runs.** Hidden world parameters have only 45 combinations, and every world uses the same controller seed. Invention outcomes depend on those two things, not on terrain or timing. Seeds 221 and 222 share parameters, as do 225 and 226, and they produced **identical** invention outcomes. The frozen comparisons below therefore count 6 worlds of which only **4 are distinct**. Each row also gives the post-hoc result over the 4 distinct worlds. Teaching interactions do differ between duplicate seeds, because terrain affects movement.
+**M5b's finding that the bundle was harmful did not reproduce here.** M5b had 4 distinct worlds and selected by admission score; M5c has 12 distinct worlds and uses the shared selection panel. Neither study is large, and they disagree.
 
-### Allocation experiment (repaired beam vs beam + allocation bundle)
+Each leave-one-out contrast is conditional on the other guards:
+- **Reserve guard:** it triggered about 8 times per world but never changed a final pick. It acts near the end of lifetimes, after most picks are settled.
+- **Stale-frontier guard:** it withdrew about 29 candidates per world. Removing it left the final pick unchanged in 8 of 12 worlds.
+- **Novelty guard:** it changed behaviour most; repeated development decisions were 21 with it and 29 without. Without it, several worlds reproduced plain beam's picks exactly. Its effect on sealed scores was not consistent.
 
-| Seed | beam pres. (val / sealed) | beam reset | beam-alloc pres. | beam-alloc reset | first-impr. pres. | first-impr. reset |
-|---|---|---|---|---|---|---|
-| 221 (= 222) | 8.89 / 10.57 | 8.21 / 9.95 | 8.21 / 11.22 | 11.68 / 13.45 | 6.03 / 9.58 | 7.65 / 10.82 |
-| 223 | 9.04 / 11.09 | 8.33 / 10.37 | 8.33 / 11.61 | 11.89 / 14.08 | 6.13 / 9.95 | 7.77 / 11.38 |
-| 224 | 9.56 / 10.82 | 8.94 / 11.20 | 8.56 / 10.86 | 10.47 / 12.11 | 8.21 / 10.31 | 9.35 / 12.98 |
-| 225 (= 226) | 9.19 / 10.16 | 8.58 / 10.23 | 9.34 / 10.71 | 10.09 / 11.68 | 7.36 / 9.41 | 9.04 / 11.98 |
-| **mean of 6 frozen worlds (sealed)** | **10.56** | **10.32** | **11.05** | **12.74** | **9.71** | **11.66** |
+No guard is identified as responsible for anything.
 
-**The allocation bundle made the repaired beam worse.**
+## Costs, performance and evidence size
 
-- **Primary contrast, sealed-3:** plain beam was lower in 6 of 6 frozen worlds (4 of 4 distinct), both with preserved access (10.56 vs 11.05) and reset access (10.32 vs 12.74).
-- **Validation, preserved access:** no consistent difference (bundle lower in 4 of 6).
-- **First-improvement** beat both beams on preserved sealed-3 in 6 of 6.
-- **Preserved vs reset access:** preserved was better on sealed-3 for every policy (6 of 6). For first-improvement this is the opposite of v0.5.0, where reset beat preserved on sealed-2 in 4 of 5. The two small studies disagree; neither generalises.
+- **Runtime:** calibration 11.0 minutes (24 worlds); primary 21.9 minutes (48 worlds); ablation 21.4 minutes (48 new worlds plus 12 shared). Selection-panel accounting: 4,728 case evaluations across the 48 primary worlds, never truncated.
+- **Achieved server speed** (target 10 ticks/s, durability unchanged):
 
-What the bundle did, from the counters (6 worlds each, preserved / reset):
-
-| Counter | beam | beam-alloc |
-|---|---|---|
-| Credit actions | 1,653 / 1,674 | 1,543 / 1,515 |
-| Repeated development decisions (own) | 211 / 216 | **100 / 133** |
-| Untested proposals | 4 / 6 | **0 / 0** |
-| Candidates skipped by exact novelty | — | 481 / 191 |
-| Reserve stops | — | 43 / 47 |
-| Withdrawals of stale-lineage candidates | 0 / 0 | **102 / 159** |
-| Improvement admissions | 54 / 94 | 55 / 85 |
-
-The bundle did what it was designed to do: fewer repeated behaviours and no untested proposals. It also spent 110–160 fewer credits, and it withdrew 102–159 private stepping stones whose reference had changed. Those stepping stones were ones the plain beam kept expanding.
-
-Which guard caused the loss is **not identified**. The design measures the bundle as a whole. Hypotheses:
-- **H1:** withdrawing stale stepping stones removed useful frontier members.
-- **H2:** reserve stops left budget unspent.
-- **H3:** novelty skipping changed which neighbours were tried, without making them better.
-
-A predeclared ablation would be needed to separate them.
-
-### Mentorship experiment (schedule 80/40, chosen in calibration: 60/30 produced no dependency lessons)
-
-| Seed | library (val / sealed) | teaching-only | none | Dependency lessons acquired / offered | Executions of taught dependency workflows after the teacher retired |
-|---|---|---|---|---|---|
-| 221 | 8.89 / 10.57 | 8.21 / 9.95 | 8.21 / 9.95 | 3 / 5 | 83 |
-| 222 | 8.89 / 10.57 | 8.21 / 9.95 | 8.21 / 9.95 | 2 / 3 | 61 |
-| 223 | 9.04 / 11.09 | 8.33 / 10.37 | 8.33 / 10.37 | 2 / 6 | 59 |
-| 224 | 9.66 / 10.77 | 8.94 / 11.20 | 8.94 / 11.20 | 0 / 4 | 0 |
-| 225 | 9.03 / 9.11 | 8.58 / 10.23 | 8.58 / 10.23 | 0 / 2 | 0 |
-| 226 | 9.03 / 9.11 | 9.19 / 10.16 | 8.58 / 10.23 | 1 / 6 | 30 |
-
-**Dependency teaching now works in exploratory worlds, but it did not change outcomes.**
-
-- **Dependency lessons:** 26 offered, 8 acquired, carrying 8 components in 4 of 6 worlds. Learners executed the taught component-calling workflows 233 times after their teachers had retired: real, independent use.
-- **Eligibility:** 8 of 12 cohort transitions had a senior component-calling workflow, so an opportunity existed.
-- **All cross-generation lessons:** 90 in total, of which 28 were acquired, 34 failed practice and 28 were interrupted.
-- **Final outcome:** teaching-only matched no-transfer's final held best in 5 of 6 worlds (4 of 4 distinct identical). Teaching's acquisitions did not end up as the final cohort's best.
-- **Library vs none:** no consistent difference on sealed-3 (3 vs 3); none was lower on validation in 6 of 6.
-- **Further improvement** (creation-attributed, 12 transitions per condition): sealed-3 improvement in 10 transitions (library), 11 (teaching-only) and 12 (none). No transfer route improved on independent re-search.
-- **Cost:** teaching-only produced 868 less alloy than none (identity: −819 from fewer production actions).
-
-## Costs and performance
-
-- **Controller CPU per proposal decision** (seeds 310–311, `benchmark/search-cpu.json`):
-
-  | Policy | Mean (ms) | p95 (ms) |
-  |---|---|---|
-  | beam | 15.2 | 29.9 |
-  | first-improvement | 23.7 | 38.5 |
-  | beam-alloc | 27.1 | **102.2** |
-
-  The novelty check is cheap on average, but its tail is long.
-- **Population.** Base population is 8 or 20; overlap doubles active agents to 16 or 40 for the overlap window.
-- **Achieved speed through the real server clock** (target 10 ticks/s, durability unchanged). Pacing is now fixed-rate and the UI shows target vs achieved. Two measurements on the same commit:
-
-  | Base agents | Active agents | Pipeline run (ticks/s) | Repeat (ticks/s) |
+  | Base agents | Overlap peak active | Ticks/s | Max lag |
   |---|---|---|---|
-  | 8 | 8 | 9.9 | 9.8 |
-  | 8 | 16 (overlap) | 4.8 | 6.7 |
-  | 20 | 20 | 5.8 | 8.5 |
-  | 20 | 40 (overlap) | 3.0 | 4.1 |
+  | 8 | — | 9.8 | — |
+  | 8 | 16 | 7.1 | — |
+  | 20 | — | 9.4 | — |
+  | 20 | 40 | 4.4 | 1.1 s |
 
-  The spread shows machine-state sensitivity. Before the pacing fix the clock waited a full 1/speed after each step, so even a fast engine fell short of the target.
-- **Profile with every feature on** (cohorts 50/25, beam-alloc, scheduled mentorship): 8 base agents 145.8 ms/tick (7.2 ticks/s); 20 base agents 187.7 ms/tick (5.6 ticks/s). State copying still dominates. No optimisation was attempted in this release.
+  M5b measured 3.0–9.9 on the same hardware under varying load; treat these as machine-dependent.
+- **Evidence size:** 86.5 MB. M5b added 131 MB. Calibration stores no exports; reducer outputs are compressed; the shared control is not duplicated. Exports remain the main cost (about 0.44 MB per world); a storage policy proposal is in the roadmap.
 
-## Not implemented, limitations and uncertainty
+## Limitations and uncertainty
 
-- **Independence of worlds.** A constant controller seed and only 45 hidden-parameter combinations make some seeds duplicates for invention measures. Every M5b invention comparison rests on 4 distinct worlds. Agents and transitions within a world are not independent.
-- **Admission-panel experiment:** infrastructure only, deferred.
-- **Allocation bundle:** its per-guard effects are not identified.
-- **Teaching evidence** shows mechanics and use, not benefit. Final selections were unchanged.
-- **LLM controller:** not implemented; it needs your choice of provider and budget.
+- **Coverage:** 12 of 45 combinations of one finite task family, unbalanced on `flux_threshold`. No open-world generalisation.
+- **Confounding:** one controller realisation per combination.
+- **Independence:** agents, artifacts and transitions within a world are not replicates.
+- **Scope of the panel result:** it holds under preserved knowledge with these settings only. No reset conditions were run.
+- **Selection panel:** it is selection-used and fixed across all studies; its own adaptivity across future milestones should be watched.
+- **LLM controller:** not implemented. See the [M6 handoff](M6_HANDOFF.md).

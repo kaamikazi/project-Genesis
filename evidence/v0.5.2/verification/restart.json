@@ -1,0 +1,63 @@
+{
+  "config": {
+    "seed": 5299,
+    "seed_scheme": "streams-1",
+    "hidden_combo": [
+      6,
+      1,
+      5
+    ],
+    "terrain_seed": 424242,
+    "controller_seed": 777777,
+    "task": "workshop-1",
+    "ore_per_site": 900,
+    "lifecycle": "cohorts",
+    "cohort_ticks": 40,
+    "cohort_count": 2,
+    "validation_policy": "cohort-panels",
+    "final_selection": "selection-panel",
+    "search_policy": "beam",
+    "budget_unit": "credits",
+    "search_budget": 48,
+    "max_ticks": 80
+  },
+  "checks": [
+    {
+      "check": "after panel queries in the second cohort: condition holds at the interruption point",
+      "passed": true,
+      "tick": 46
+    },
+    {
+      "check": "after panel queries in the second cohort: reopened database holds the same committed state",
+      "passed": true
+    },
+    {
+      "check": "after panel queries in the second cohort: continuation matches an uninterrupted reference for 20 ticks",
+      "passed": true,
+      "tick": 66
+    },
+    {
+      "check": "after panel queries in the second cohort: replay to the interruption tick restores sessions, credits and lifecycle",
+      "passed": true
+    },
+    {
+      "check": "during a pending candidate: condition holds at the interruption point",
+      "passed": true,
+      "tick": 6
+    },
+    {
+      "check": "during a pending candidate: reopened database holds the same committed state",
+      "passed": true
+    },
+    {
+      "check": "during a pending candidate: continuation matches an uninterrupted reference for 20 ticks",
+      "passed": true,
+      "tick": 26
+    },
+    {
+      "check": "during a pending candidate: replay to the interruption tick restores sessions, credits and lifecycle",
+      "passed": true
+    }
+  ],
+  "all_passed": true
+}

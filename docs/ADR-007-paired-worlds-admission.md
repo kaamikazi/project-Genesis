@@ -73,3 +73,10 @@ Accepted 2026-10-16, before any M5c calibration or evaluation run. Extends [ADR-
 - The 12 evaluation combinations are not balanced on `flux_threshold` (6 of 12 have flux 4).
 - Within-world units (agents, artifacts, transitions) are not replicates.
 - The paired rule is descriptive.
+
+## Outcome (recorded after evaluation; no decision above was changed)
+
+- **Run.** Preflight passed and both studies ran within budget. 12 of 12 blocks completed in every condition; none were excluded or missing.
+- **Primary.** Cohort panels made no consistent difference to the sealed-4 score of the final pick, for first-improvement (6–5–1) or for beam (5–7). first-improvement was lower than beam in 10 of 12 worlds under panels; not consistently under fixed admission.
+- **Secondary.** The bundle vs plain beam showed no consistent difference (7–4–1), so M5b's harmful result did not reproduce. Removing the reserve guard left every final pick identical. The stale-frontier and novelty leave-one-out contrasts were not consistent.
+- **Stopping.** The study ended at its endpoint. The next milestone is M6.

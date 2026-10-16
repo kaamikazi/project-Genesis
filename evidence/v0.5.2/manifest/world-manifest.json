@@ -1,0 +1,213 @@
+{
+  "version": "m5c-worlds-1",
+  "manifest_seed": 5205,
+  "sampling": "M5c world manifest and preflight (declared before any calibration or evaluation run).\n\nUsage:\n  python tools/world_manifest_m5c.py manifest OUT.json            # write the manifest (deterministic)\n  python tools/world_manifest_m5c.py preflight MANIFEST.json OUT.json [CALIBRATION_REPORT ...]\n\nSampling design (declared):\n- Target family: the 45 hidden parameterisations of workshop-1 (split 4-8 x offset 0-2 x flux_threshold 4-6), with the\n  fixed v0.5.x world size, 8 agents and 3 cohorts of 60 ticks. Results apply to this finite task family only.\n- Strata: the 5 values of `split`. Within a stratum, combinations are ordered by keyed(MANIFEST_SEED, \"combo-order\", combo).\n  The draw is round-robin across strata in split order, WITHOUT replacement: the first 3 drawn are calibration blocks,\n  the next 12 are evaluation blocks. Nothing about policies, inventions, admissions or scores enters the selection.\n- Per block: terrain_seed = keyed(MANIFEST_SEED, \"terrain\", block) mod 2^31 and controller_seed = keyed(MANIFEST_SEED,\n  \"controller\", block) mod 2^31. All conditions in a block share both; no stream is derived from a condition label.\n- One controller realisation per combination: controller-by-environment variation is partly confounded with the\n  combination. No nested controller replication is run (not predeclared).\n",
+  "family": {
+    "name": "workshop-1 hidden parameterisations",
+    "size": 45,
+    "dimensions": {
+      "split": [
+        4,
+        8
+      ],
+      "offset": [
+        0,
+        2
+      ],
+      "flux_threshold": [
+        4,
+        6
+      ]
+    }
+  },
+  "partitions": {
+    "development": "dev-24 (PARTITION_SEED)",
+    "validation": "validation-24",
+    "admission_panels": "panel-0..9",
+    "selection_panel": "selection-0",
+    "final": "sealed-4 (OS-drawn at protocol freeze)"
+  },
+  "teaching_randomness": "none (teaching is deterministic given state)",
+  "blocks": [
+    {
+      "block": "c01",
+      "role": "calibration",
+      "label_seed": 5200,
+      "hidden_combo": [
+        4,
+        2,
+        4
+      ],
+      "terrain_seed": 1282351127,
+      "controller_seed": 1050299380
+    },
+    {
+      "block": "c02",
+      "role": "calibration",
+      "label_seed": 5201,
+      "hidden_combo": [
+        5,
+        1,
+        6
+      ],
+      "terrain_seed": 1978598458,
+      "controller_seed": 1730338462
+    },
+    {
+      "block": "c03",
+      "role": "calibration",
+      "label_seed": 5202,
+      "hidden_combo": [
+        6,
+        0,
+        4
+      ],
+      "terrain_seed": 267722309,
+      "controller_seed": 907859996
+    },
+    {
+      "block": "e01",
+      "role": "evaluation",
+      "label_seed": 5203,
+      "hidden_combo": [
+        7,
+        1,
+        5
+      ],
+      "terrain_seed": 597729912,
+      "controller_seed": 1431850565
+    },
+    {
+      "block": "e02",
+      "role": "evaluation",
+      "label_seed": 5204,
+      "hidden_combo": [
+        8,
+        0,
+        4
+      ],
+      "terrain_seed": 36599770,
+      "controller_seed": 1426429642
+    },
+    {
+      "block": "e03",
+      "role": "evaluation",
+      "label_seed": 5205,
+      "hidden_combo": [
+        4,
+        1,
+        4
+      ],
+      "terrain_seed": 205205935,
+      "controller_seed": 2090817910
+    },
+    {
+      "block": "e04",
+      "role": "evaluation",
+      "label_seed": 5206,
+      "hidden_combo": [
+        5,
+        1,
+        4
+      ],
+      "terrain_seed": 440894531,
+      "controller_seed": 1802861985
+    },
+    {
+      "block": "e05",
+      "role": "evaluation",
+      "label_seed": 5207,
+      "hidden_combo": [
+        6,
+        2,
+        5
+      ],
+      "terrain_seed": 1301307488,
+      "controller_seed": 2062367810
+    },
+    {
+      "block": "e06",
+      "role": "evaluation",
+      "label_seed": 5208,
+      "hidden_combo": [
+        7,
+        0,
+        4
+      ],
+      "terrain_seed": 178354416,
+      "controller_seed": 1248694573
+    },
+    {
+      "block": "e07",
+      "role": "evaluation",
+      "label_seed": 5209,
+      "hidden_combo": [
+        8,
+        1,
+        6
+      ],
+      "terrain_seed": 1286096096,
+      "controller_seed": 458944177
+    },
+    {
+      "block": "e08",
+      "role": "evaluation",
+      "label_seed": 5210,
+      "hidden_combo": [
+        4,
+        0,
+        4
+      ],
+      "terrain_seed": 926885983,
+      "controller_seed": 522673823
+    },
+    {
+      "block": "e09",
+      "role": "evaluation",
+      "label_seed": 5211,
+      "hidden_combo": [
+        5,
+        2,
+        4
+      ],
+      "terrain_seed": 1041894240,
+      "controller_seed": 1249439893
+    },
+    {
+      "block": "e10",
+      "role": "evaluation",
+      "label_seed": 5212,
+      "hidden_combo": [
+        6,
+        1,
+        6
+      ],
+      "terrain_seed": 1390237295,
+      "controller_seed": 1107658522
+    },
+    {
+      "block": "e11",
+      "role": "evaluation",
+      "label_seed": 5213,
+      "hidden_combo": [
+        7,
+        0,
+        6
+      ],
+      "terrain_seed": 40568292,
+      "controller_seed": 258926787
+    },
+    {
+      "block": "e12",
+      "role": "evaluation",
+      "label_seed": 5214,
+      "hidden_combo": [
+        8,
+        0,
+        5
+      ],
+      "terrain_seed": 833229678,
+      "controller_seed": 1313036986
+    }
+  ]
+}

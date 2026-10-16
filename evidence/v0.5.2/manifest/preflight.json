@@ -1,0 +1,66 @@
+{
+  "manifest": "m5c-worlds-1",
+  "checks": [
+    {
+      "check": "evaluation combinations are distinct",
+      "passed": true,
+      "distinct": 12
+    },
+    {
+      "check": "calibration and evaluation share no combination, terrain or controller seed",
+      "passed": true
+    },
+    {
+      "check": "controller seeds differ across all blocks",
+      "passed": true
+    },
+    {
+      "check": "terrain seeds differ across all blocks",
+      "passed": true
+    },
+    {
+      "check": "within each block every condition starts from the same physical state and hidden parameters",
+      "passed": true
+    },
+    {
+      "check": "physical worlds differ across evaluation blocks",
+      "passed": true,
+      "distinct_physical_worlds": 12
+    },
+    {
+      "check": "development, validation, admission panels and selection panel are pairwise disjoint",
+      "passed": true
+    },
+    {
+      "check": "calibration worlds all completed",
+      "passed": true,
+      "completed": 24,
+      "planned": 24
+    },
+    {
+      "check": "resource horizon: every calibration world ends with at least 25% of its ore",
+      "passed": true,
+      "min_ore_left_fraction": 0.6441
+    },
+    {
+      "check": "primary study fits the runtime and storage budget",
+      "passed": true,
+      "estimated_minutes": 25.3,
+      "estimated_mb": 43.7
+    },
+    {
+      "check": "ablation study also fits (otherwise it is deferred, not run)",
+      "passed": true,
+      "estimated_minutes_both": 50.6,
+      "estimated_mb_both": 87.4,
+      "informational": true
+    },
+    {
+      "check": "disk has at least 20x the estimated evidence size free",
+      "passed": true,
+      "free_gb": 48.0
+    }
+  ],
+  "passed": true,
+  "run_ablation": true
+}
