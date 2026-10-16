@@ -2,10 +2,10 @@
 
 Engine `0.6.0` · rules `phase-world-5.2` (unchanged) · evaluators unchanged · prompt `genesis-prompt-1` · action schema `genesis-action-schema-1` · parser `genesis-parser-1` · adapter `ollama-chat-1` · reducer `genesis.reducer/3` · metrics `genesis-metrics-1`.
 
-- **Evidence:** [`evidence/v0.6.0/`](../evidence/v0.6.0/README.md)
-- **Decisions:** [ADR-008](ADR-008-model-controller-boundary.md)
-- **Before a live run:** [LIVE_RUN_CHECKLIST](LIVE_RUN_CHECKLIST.md) and the disabled template [`config/live-run.disabled.json`](../config/live-run.disabled.json)
-- **Previous status:** [v0.5.2](history/IMPLEMENTATION_STATUS-v0.5.2.md), [v0.5.1](history/IMPLEMENTATION_STATUS-v0.5.1.md), [v0.5.0](history/IMPLEMENTATION_STATUS-v0.5.0.md), [v0.4.0](history/IMPLEMENTATION_STATUS-v0.4.0.md). All earlier releases and their evidence are unchanged.
+- **Evidence:** [`evidence/v0.6.0/`](../../evidence/v0.6.0/README.md)
+- **Decisions:** [ADR-008](../ADR-008-model-controller-boundary.md)
+- **Before a live run:** [LIVE_RUN_CHECKLIST](../LIVE_RUN_CHECKLIST.md) and the disabled template [`config/live-run.disabled.json`](../../config/live-run.disabled.json)
+- **Previous status:** [v0.5.2](IMPLEMENTATION_STATUS-v0.5.2.md), [v0.5.1](IMPLEMENTATION_STATUS-v0.5.1.md), [v0.5.0](IMPLEMENTATION_STATUS-v0.5.0.md), [v0.4.0](IMPLEMENTATION_STATUS-v0.4.0.md). All earlier releases and their evidence are unchanged.
 
 ## Four separate claims
 

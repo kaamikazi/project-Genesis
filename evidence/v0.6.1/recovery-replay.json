@@ -1,0 +1,54 @@
+{
+  "crash_after_possible_dispatch": {
+    "second_worker_blocked": true,
+    "status": "outcome-unknown",
+    "resends": 0,
+    "uncertain_bucket": {
+      "requests": 1,
+      "input_tokens": 5837,
+      "output_tokens": 1024,
+      "controller_time_ms": 50,
+      "cost_micros": 0
+    }
+  },
+  "saved_response_reuse": {
+    "provider_requests": 1,
+    "status_after_restart": "consumed"
+  },
+  "repeated_observations": {
+    "requests": 29,
+    "distinct_decision_ids": 29,
+    "requests_sharing_an_observation_hash": 6
+  },
+  "replay_network_disabled": {
+    "state_replay_hash_matches": true,
+    "reexecution": {
+      "checked": 49,
+      "matched": 49,
+      "mismatch_count": 0
+    },
+    "decisions_by_mode": {
+      "model-proposal": 22,
+      "model-intent-execution": 27,
+      "offline-policy": 70,
+      "fallback": 1
+    },
+    "reducer_reconciled": true,
+    "committed_usage": {
+      "requests": 25,
+      "input_tokens": 85246,
+      "output_tokens": 1298,
+      "controller_time_ms": 0,
+      "cost_micros": 0
+    },
+    "thinking_tokens": 600
+  },
+  "recorded_fork": {
+    "reused_rows": 3,
+    "new_committed_requests": 0,
+    "diverged_fork_stopped": {
+      "tick": 30,
+      "error": "no matching recording for agent a01 tick 30 primary"
+    }
+  }
+}

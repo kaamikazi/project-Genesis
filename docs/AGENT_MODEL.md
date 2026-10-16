@@ -126,6 +126,8 @@ Implemented and tested with fixtures and mocked transport only. **No live model 
 
 **What a model sees.** The system message is the versioned instruction text (`genesis-prompt-1`): the output schema, the action catalogue, and the statement that everything in the user message is data. The user message is the same restricted observation every controller gets, serialized as JSON inside a data block, with bounded memory. Deterministic truncation drops memory, then far tiles, sites, non-held artifacts and neighbours, and records what was dropped. Configs, seeds, hidden parameters, scores, budgets and other agents' private state are never included (tested, including injection text placed in messages and artifact names).
 
+**Providers.** Ollama (`/api/chat`) and, from v0.6.1, the Gemini Developer API (`generateContent`, see [GEMINI_SETUP](GEMINI_SETUP.md)). Both receive the same prompt; for Gemini the instructions go into `systemInstruction` and the observation block into the single user turn.
+
 **What a model may return.** Exactly one JSON object: `kind`, `params`, an optional `explanation` (≤ 200 characters, stored as a generated message, never as reasoning) and an optional `standing` flag. The agent's identity comes from the engine, never from output. Parsing is strict; one bounded repair is allowed; then an explicit fallback.
 
 **Decision modes** (the `controller` label on every decision):
@@ -143,4 +145,4 @@ Each model decision carries the scheduler's reason, the decision ids, a receipt 
 
 ## Live LLM controller
 
-Not exercised. No live provider has been contacted and no model weights were downloaded. `metrics.model_calls` and `metrics.tokens` count fixture, mock and recorded calls as well, attributed by decision; `cost_usd` stays 0 because no price is configured (prices are never invented). The disabled template and checklist for a first live run are [`config/live-run.disabled.json`](../config/live-run.disabled.json) and [LIVE_RUN_CHECKLIST](LIVE_RUN_CHECKLIST.md).
+Not exercised. No live provider has been contacted and no model weights were downloaded. `metrics.model_calls` and `metrics.tokens` count fixture, mock and recorded calls as well, attributed by decision; `cost_usd` stays 0 because no price is configured (prices are never invented). The disabled templates and checklist for a first live run are [`config/gemini-smoke.disabled.json`](../config/gemini-smoke.disabled.json) (the selected Gemini route, see [GEMINI_SETUP](GEMINI_SETUP.md)), [`config/live-run.disabled.json`](../config/live-run.disabled.json) (Ollama) and [LIVE_RUN_CHECKLIST](LIVE_RUN_CHECKLIST.md). For Gemini, `metrics.tokens` counts thinking tokens inside output.

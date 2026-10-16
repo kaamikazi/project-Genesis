@@ -1,0 +1,21 @@
+{
+  "missing_key": {
+    "error": "GEMINI_API_KEY is not set in this process environment; set it for this session only (see docs/GEMINI_SETUP.md). Nothing was reserved or sent.",
+    "contains_env_values": false,
+    "ledger_rows": 0,
+    "requests_received": 0
+  },
+  "live_guard_refusals": {
+    "env switch unset": "live model calls need live_authorized in the profile and GENESIS_LIVE_MODEL_CALLS=1",
+    "live_authorized false": "live model calls need live_authorized in the profile and GENESIS_LIVE_MODEL_CALLS=1",
+    "confirmations missing": "live Gemini calls need the operator's free-tier confirmations: missing ['free_tier_billing_disabled', 'model_available', 'quota_sufficient', 'simulation_data_only', 'confirmed_by', 'confirmed_on']",
+    "no run deadline": "live Gemini calls need a finite run_deadline_s",
+    "disabled smoke template": "live model calls need live_authorized in the profile and GENESIS_LIVE_MODEL_CALLS=1"
+  },
+  "origin_pinning": {
+    "https://generativelanguage.googleapis.com.evil.example/v1beta/models/m:generateContent": "refusing to send credentials outside the allowed Gemini origin and path",
+    "https://generativelanguage.googleapis.com/v1beta/models/m:generateContent?key=x": "refusing to send credentials outside the allowed Gemini origin and path",
+    "http://generativelanguage.googleapis.com/v1beta/models/m:generateContent": "refusing to send credentials outside the allowed Gemini origin and path",
+    "https://generativelanguage.googleapis.com/upload/v1beta/files": "refusing to send credentials outside the allowed Gemini origin and path"
+  }
+}

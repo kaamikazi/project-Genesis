@@ -1,0 +1,64 @@
+{
+  "started_at": "2026-10-16T20:46:46.387217+00:00",
+  "source_at_start": {
+    "git_commit": "ed3f5a7f0c516424faa3a17aed0d9fa3f6b07abe",
+    "runtime_code_dirty": false,
+    "dirty_files": [],
+    "source_sha256": "26fef6f592ef6a395932770595858bf2bc9400a3b6b3f2ce215d524ccf3cb291",
+    "files": 54,
+    "controller_sha256": "d8aeb3365f93c76cdd636439ec0931c07481a8c63b0b02f4a64d74b75dd1f49a",
+    "engine_sha256": "2641b191dd23535ed4301f78cd4a03202d4326e104f527bc7ed424edb354c386",
+    "model_package_sha256": "aac5aef1033f1ed96bfe90ebf178f7e92e0ba6b9f6aacdcb2108326ee3a789e0"
+  },
+  "live_inference_calls": 0,
+  "steps": [
+    {
+      "step": "contract",
+      "exit_code": 0,
+      "seconds": 0.4
+    },
+    {
+      "step": "fault matrix",
+      "exit_code": 0,
+      "seconds": 22.6
+    },
+    {
+      "step": "guards",
+      "exit_code": 0,
+      "seconds": 0.7
+    },
+    {
+      "step": "recovery",
+      "exit_code": 0,
+      "seconds": 17.5
+    },
+    {
+      "step": "rehearsal",
+      "exit_code": 0,
+      "seconds": 96.4
+    },
+    {
+      "step": "offline parity",
+      "exit_code": 0,
+      "seconds": 45.6
+    },
+    {
+      "step": "checks",
+      "exit_code": 0,
+      "seconds": 519.4
+    }
+  ],
+  "source_at_end": {
+    "git_commit": "ed3f5a7f0c516424faa3a17aed0d9fa3f6b07abe",
+    "runtime_code_dirty": false,
+    "dirty_files": [],
+    "source_sha256": "26fef6f592ef6a395932770595858bf2bc9400a3b6b3f2ce215d524ccf3cb291",
+    "files": 54,
+    "controller_sha256": "d8aeb3365f93c76cdd636439ec0931c07481a8c63b0b02f4a64d74b75dd1f49a",
+    "engine_sha256": "2641b191dd23535ed4301f78cd4a03202d4326e104f527bc7ed424edb354c386",
+    "model_package_sha256": "aac5aef1033f1ed96bfe90ebf178f7e92e0ba6b9f6aacdcb2108326ee3a789e0"
+  },
+  "finished_at": "2026-10-16T20:58:29.234947+00:00",
+  "evidence_bytes": 32860,
+  "synthetic_key_in_evidence": false
+}

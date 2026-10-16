@@ -1,0 +1,22 @@
+{
+  "v0.6.0": {
+    "engine": "0.6.0",
+    "phase-1": "a42a9e5fd98f4c93da0c51827cb4429e9fee75636bc144c1e837379332352416",
+    "phase-1_records": "957d50fd28feb86bc59efbebaf64e95b7f7da9076615a4e1d5e7caec81fbe051",
+    "workshop": "8ff960fee000ff6aea38e208e76bbf821fa6103d3e0c3286b248f3b15cec9a77",
+    "workshop_records": "6c4f3f90588a636c01befc850dd30c3dca962c9c2a8f01a1fa29bc7178cb2c6c"
+  },
+  "current": {
+    "engine": "0.6.1",
+    "phase-1": "a42a9e5fd98f4c93da0c51827cb4429e9fee75636bc144c1e837379332352416",
+    "phase-1_records": "957d50fd28feb86bc59efbebaf64e95b7f7da9076615a4e1d5e7caec81fbe051",
+    "workshop": "8ff960fee000ff6aea38e208e76bbf821fa6103d3e0c3286b248f3b15cec9a77",
+    "workshop_records": "6c4f3f90588a636c01befc850dd30c3dca962c9c2a8f01a1fa29bc7178cb2c6c"
+  },
+  "identical": [
+    "phase-1",
+    "phase-1_records",
+    "workshop",
+    "workshop_records"
+  ]
+}

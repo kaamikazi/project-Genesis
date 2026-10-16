@@ -4,12 +4,9 @@
 
 GENESIS runs fully offline on a laptop. It needs no API key, GPU or cloud service; live model calls are disabled by default. Every reported number is recomputed from immutable events by an independent reducer.
 
-> **v0.6.0 (M6)** adds the boundary for **model-backed inhabitants**:
-> - a strict one-action output contract, prompts built only from the restricted observation, and an Ollama `/api/chat` adapter
-> - an event-driven scheduler, a durable request ledger that never blindly resends, budgets with reservations, and explicit fallback
-> - state replay, decision re-execution and strict recorded continuation; a sanitized observer panel
+> **v0.6.1 (M6a)** adds a native **Gemini Developer API** adapter (`generateContent`, `gemini-3.5-flash-lite` proposed) behind the M6 boundary. The key is read from `GEMINI_API_KEY` only when a request is sent, goes only to Google's official origin, and is never stored. Thinking tokens are counted, quota errors stop dispatch, and a free-tier smoke run (one agent, 40 ticks, at most 10 requests) is prepared but **disabled**. It has been verified only with mocks and a synthetic key: **no request has been sent to Google.** See [docs/GEMINI_SETUP.md](docs/GEMINI_SETUP.md).
 >
-> **It has been verified only with scripted fixtures and a loopback mock server. No live model has been called, and no model has controlled an inhabitant.** Offline worlds are bit-for-bit unchanged from v0.5.2. A first live run needs your endpoint, model and budget choices ([checklist](docs/LIVE_RUN_CHECKLIST.md)). See [docs/IMPLEMENTATION_STATUS.md](docs/IMPLEMENTATION_STATUS.md). Earlier releases are preserved as git tags.
+> **v0.6.0 (M6)** added the boundary for model-backed inhabitants: a strict one-action contract, an event-driven scheduler, a durable request ledger that never blindly resends, budgets with reservations, explicit fallback, three replay modes and a sanitized observer. **No live model has controlled an inhabitant.** Offline worlds are bit-for-bit unchanged. See [docs/IMPLEMENTATION_STATUS.md](docs/IMPLEMENTATION_STATUS.md). Earlier releases are preserved as git tags.
 
 ## What happens in a run
 
@@ -56,22 +53,23 @@ Using scripted fixtures through the real adapter and a loopback mock server: val
 | [METRICS](docs/METRICS.md) | The versioned metric dictionary |
 | [M6_HANDOFF](docs/M6_HANDOFF.md) | The M6 plan as handed off (steps 1–7 now done) |
 | [LIVE_RUN_CHECKLIST](docs/LIVE_RUN_CHECKLIST.md) | Decisions and steps required before any live model call |
+| [GEMINI_SETUP](docs/GEMINI_SETUP.md) | The Gemini adapter, Windows key setup and the bounded smoke-run commands |
 | [ROADMAP](docs/ROADMAP.md) | Milestones and their dependencies |
 | [RUNBOOK](docs/RUNBOOK.md) | Restart, replay, forks with interventions, export, reducer, profiling |
 | [DEMO](docs/DEMO.md) | A guided walkthrough |
 | [RELATED_WORK](docs/RELATED_WORK.md) | Primary references and open questions |
-| ADRs: [001](docs/ADR-001-foundation.md), [002](docs/ADR-002-revisions-removal-versioning.md), [003](docs/ADR-003-storage-succession-audit.md), [004](docs/ADR-004-evaluation-teaching-workshop.md), [005](docs/ADR-005-search-components-mentorship.md), [006](docs/ADR-006-repair-allocation-mentorship.md), [007](docs/ADR-007-paired-worlds-admission.md), [008](docs/ADR-008-model-controller-boundary.md) | Architecture decisions |
+| ADRs: [001](docs/ADR-001-foundation.md), [002](docs/ADR-002-revisions-removal-versioning.md), [003](docs/ADR-003-storage-succession-audit.md), [004](docs/ADR-004-evaluation-teaching-workshop.md), [005](docs/ADR-005-search-components-mentorship.md), [006](docs/ADR-006-repair-allocation-mentorship.md), [007](docs/ADR-007-paired-worlds-admission.md), [008](docs/ADR-008-model-controller-boundary.md), [009](docs/ADR-009-gemini-adapter.md) | Architecture decisions |
 
 ## Layout
 
 ```
 genesis/      kernel (models, world, engine, invention), controllers, storage, reducer, experiments, profiling, API, CLI
-  model/      model-controller boundary: schema, prompt, adapter, transport, ledger, budget, scheduler, runtime, replay, observer
+  model/      model-controller boundary: schema, prompt, Ollama and Gemini adapters, transport, ledger, budget, scheduler, runtime, replay, observer
 frontend/     React + TypeScript + Vite observatory (built into frontend/dist and served by the API)
 tests/        invariant, lifecycle, storage, reducer, optimisation, persistence and API tests
 tools/        evidence generation per release, calibration, diagnosis, restart verification, CPU benchmark, audits
 scenarios/    sample world configurations
-config/       disabled live-run template (no credentials)
-evidence/     v0.6.0/ (current: fixture scenarios, integration run, offline parity), v0.5.2/ (manifest, preflight, calibration, protocol, primary, ablation, sealed-4), v0.5.1/, v0.5.0/, v0.4.0/, v0.3.0/, superseded/v0.2.0/
+config/       disabled live-run templates for Ollama and Gemini (no credentials)
+evidence/     v0.6.1/ (current: Gemini contract, fault matrix, guards, recovery, smoke rehearsal), v0.6.0/, v0.5.2/ (manifest, preflight, calibration, protocol, primary, ablation, sealed-4), v0.5.1/, v0.5.0/, v0.4.0/, v0.3.0/, superseded/v0.2.0/
 docs/         the documents above
 ```

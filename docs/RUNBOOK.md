@@ -22,6 +22,8 @@ cd frontend && npm install && npm run build
 | List runs | `python -m genesis.cli list` |
 | One-shot demo with export | `python -m genesis.cli demo --ticks 120 --removal creators --removal-tick 60 --succession fresh` |
 | **Regenerate v0.6.0 (M6) evidence** | `python tools/generate_evidence_m6.py` (11 fixture scenarios through a loopback mock Ollama server, a 120-tick integration run, the disabled live template, tests and build; logs to `evidence/v0.6.0/runs.json`; no network beyond 127.0.0.1, no credentials) |
+| **Regenerate v0.6.1 (Gemini adapter) evidence** | `python tools/generate_evidence_m6a.py` (contract, 22-case fault matrix over loopback HTTP, guards and origin pinning, recovery and replay, a rehearsal of the smoke template, offline parity with v0.6.0, tests and build; synthetic key only, no live calls) |
+| Gemini smoke run (show / rehearse / live) | `python tools/gemini_smoke.py show --config CONFIG`; see [GEMINI_SETUP](GEMINI_SETUP.md) for the rehearsal and the single live command |
 | World with a fixture model inhabitant | In the observatory, tick *Fixture model inhabitant (a01)* when creating a world, or `POST /api/model-runs` with `{"config": {...}, "agents": ["a01"]}` |
 | **Regenerate v0.5.2 (M5c) evidence** | `python tools/generate_evidence_m5c.py` (manifest, calibration, preflight, protocol freeze with sealed-4, primary admission study, allocation ablations or a deferral record, sealed-4 scoring, restart, server speed, evidence sizes, summaries; logs to `evidence/v0.5.2/runs.json`) |
 | World manifest and preflight | `python tools/world_manifest_m5c.py manifest OUT.json`, then `python tools/world_manifest_m5c.py preflight MANIFEST.json OUT.json [CALIBRATION.json]` |
@@ -63,6 +65,9 @@ print(reexecute(store, rid)["all_matched"])
 | `DecisionInFlight` | Another worker holds the lease on that decision. Wait for it to finish or for the lease to expire (deadline + `lease_grace_ms`). |
 | `RecordingMismatch` | A recorded continuation diverged from its source run. Nothing was called; continue in fixture or offline mode, or fork earlier. |
 | Stop model scheduling | Observatory *Pause model scheduling*, or `POST /api/runs/{id}/model/pause` with `{"paused": true}`. It cancels nothing at a provider. |
+| `CredentialMissing: GEMINI_API_KEY is not set` | Enter the key for this PowerShell session only ([GEMINI_SETUP](GEMINI_SETUP.md)). Nothing was reserved or sent. |
+| Fallbacks say "quota or rate limit reached" | Google returned 429. Dispatch is stopped for the run by design; do not retry in a loop. Check the project's quota in AI Studio and start a new run later. |
+| Fallbacks say "exceeded its reservation" | A response reported more tokens than reserved (for Gemini, thinking may not be bounded by `maxOutputTokens`). Dispatch is stopped; review before raising any limit. |
 | Check attribution | `python -m genesis.cli reduce-run RUN_ID` includes a `model` section reconciling decisions, calls and tokens against the ledger. |
 
 ## Interruption and restart

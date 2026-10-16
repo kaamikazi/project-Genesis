@@ -15,7 +15,8 @@ Each milestone depends on the ones above it. Statuses: **done** (implemented and
 | M5b | **Repair, allocation and prospective validation (v0.5.1).** Stale-reference and library-dependency repairs, metric dictionary and paired denominators, creation-time attribution, allocation bundle, declared mentorship, admission-panel infrastructure, sealed-3 | M5 | **done** (bundle worse; teaching did not change outcomes; see status) |
 | M5c | **Paired diverse worlds and prospective admission tests (v0.5.2).** Versioned random streams, world manifests with preflight, shared selection panel, admission-panel study, allocation leave-one-out | M5b | **done** (panels: no consistent difference; bundle harm not reproduced) |
 | M6 | **One model-backed controller under budgets (v0.6.0)** ([ADR-008](ADR-008-model-controller-boundary.md)). Two-phase model step with the engine authoritative; Ollama `/api/chat` adapter; strict one-action parser with one repair; event-driven scheduler; durable call ledger with leases and no blind resends; budgets with reservations and uncertain usage; explicit fallback; state replay, decision re-execution and strict recorded continuation; sanitized observer | M5c | **done for fixtures and mocked transport**; no live provider exercised |
-| M6b | **First live model runs.** A small authorized smoke run ([checklist](LIVE_RUN_CHECKLIST.md)), then the model controller as one fixed condition on the M5c paired manifests with a fresh sealed-final commitment | M6 | **next**: needs your endpoint, model, budget and transcript-publication choices |
+| M6a | **Gemini Developer API adapter (v0.6.1)** ([ADR-009](ADR-009-gemini-adapter.md)). Native stateless `generateContent`, backend-only `GEMINI_API_KEY`, origin pinning without redirects, thinking-aware usage, quota and overshoot halts, pacing, operator free-tier confirmations, disabled smoke template and launcher | M6 | **done for mocks**; no live request made |
+| M6b | **First live model runs.** A small authorized smoke run ([checklist](LIVE_RUN_CHECKLIST.md)), then the model controller as one fixed condition on the M5c paired manifests with a fresh sealed-final commitment | M6 | **next**: Gemini selected; needs your free-tier confirmation, key entry for one session and explicit go-ahead |
 | M7 | **Settlement institutions.** Storage policies decided by members, library governance, shared infrastructure with maintenance, reputation from observed interactions | M4 | deferred |
 | M8 | **Richer invention.** A larger program language, multi-step production chains, problems where the optimum is not reachable in about 20 ticks, held-out *mechanics* (not just held-out cases) | M3 | deferred |
 | M9 | **Multiple settlements, richer geography, longer worlds**, with active-agent scheduling for larger populations | M3, M7 | deferred |
@@ -25,9 +26,9 @@ Each milestone depends on the ones above it. Statuses: **done** (implemented and
 
 Milestone IDs were renumbered at v0.5.0 so that M5 is the release that shipped; the LLM controller moved from M5 to M6 and later items shifted by one.
 
-## Immediate next step: M6b (first live run)
+## Immediate next step: M6b (first live run, Gemini)
 
-M6 built and verified the whole model-controller path without a provider. A live run needs four decisions from you: the endpoint, the exact model, the limits (and prices, if paid), and whether live transcripts may be published. [LIVE_RUN_CHECKLIST](LIVE_RUN_CHECKLIST.md) lists them with a 40-tick, one-agent, 20-request smoke scenario. Nothing live happens until then.
+v0.6.1 implemented the Gemini route you selected and verified it with mocks. The bounded smoke run (one agent, 40 ticks, at most 10 requests, `gemini-3.5-flash-lite`) is ready but disabled. It needs you to confirm in AI Studio that the project is on the free tier with billing disabled, that the model is available and that the quota suffices; to enter the key for one PowerShell session; and to run the single command in [GEMINI_SETUP](GEMINI_SETUP.md). Forty ticks are an engineering test, not a behavioural study.
 
 ## Separate proposal: evidence storage
 

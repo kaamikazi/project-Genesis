@@ -1,0 +1,549 @@
+{
+  "(none)": {
+    "provider_requests": 1,
+    "rows": [
+      [
+        "primary",
+        "consumed"
+      ]
+    ],
+    "first_row": {
+      "status": "consumed",
+      "parse_error": null,
+      "termination": "STOP",
+      "usage_basis": "reported",
+      "thinking_tokens": 24,
+      "repairable": null,
+      "halt": null,
+      "reservation_exceeded": null
+    },
+    "decision_mode": "model-proposal",
+    "decision_reason": "first deliberation",
+    "key_header_sent": true,
+    "redirect_target_contacted": false,
+    "key_or_thoughts_in_records": false
+  },
+  "thought-parts": {
+    "provider_requests": 1,
+    "rows": [
+      [
+        "primary",
+        "consumed"
+      ]
+    ],
+    "first_row": {
+      "status": "consumed",
+      "parse_error": null,
+      "termination": "STOP",
+      "usage_basis": "reported",
+      "thinking_tokens": 24,
+      "repairable": null,
+      "halt": null,
+      "reservation_exceeded": null
+    },
+    "decision_mode": "model-proposal",
+    "decision_reason": "first deliberation",
+    "key_header_sent": true,
+    "redirect_target_contacted": false,
+    "key_or_thoughts_in_records": false
+  },
+  "invalid-json": {
+    "provider_requests": 2,
+    "rows": [
+      [
+        "primary",
+        "consumed"
+      ],
+      [
+        "repair",
+        "consumed"
+      ]
+    ],
+    "first_row": {
+      "status": "consumed",
+      "parse_error": "invalid JSON: Expecting property name enclosed in double quotes",
+      "termination": "STOP",
+      "usage_basis": "reported",
+      "thinking_tokens": 24,
+      "repairable": true,
+      "halt": null,
+      "reservation_exceeded": null
+    },
+    "decision_mode": "model-proposal",
+    "decision_reason": "first deliberation (after one repair)",
+    "key_header_sent": true,
+    "redirect_target_contacted": false,
+    "key_or_thoughts_in_records": false
+  },
+  "illegal-action": {
+    "provider_requests": 1,
+    "rows": [
+      [
+        "primary",
+        "consumed"
+      ]
+    ],
+    "first_row": {
+      "status": "consumed",
+      "parse_error": null,
+      "termination": "STOP",
+      "usage_basis": "reported",
+      "thinking_tokens": 24,
+      "repairable": null,
+      "halt": null,
+      "reservation_exceeded": null
+    },
+    "decision_mode": "model-proposal",
+    "decision_reason": "first deliberation",
+    "key_header_sent": true,
+    "redirect_target_contacted": false,
+    "key_or_thoughts_in_records": false
+  },
+  "extra-field": {
+    "provider_requests": 2,
+    "rows": [
+      [
+        "primary",
+        "consumed"
+      ],
+      [
+        "repair",
+        "consumed"
+      ]
+    ],
+    "first_row": {
+      "status": "consumed",
+      "parse_error": "unexpected top-level fields: ['agent']",
+      "termination": "STOP",
+      "usage_basis": "reported",
+      "thinking_tokens": 24,
+      "repairable": true,
+      "halt": null,
+      "reservation_exceeded": null
+    },
+    "decision_mode": "model-proposal",
+    "decision_reason": "first deliberation (after one repair)",
+    "key_header_sent": true,
+    "redirect_target_contacted": false,
+    "key_or_thoughts_in_records": false
+  },
+  "empty-text": {
+    "provider_requests": 2,
+    "rows": [
+      [
+        "primary",
+        "consumed"
+      ],
+      [
+        "repair",
+        "consumed"
+      ]
+    ],
+    "first_row": {
+      "status": "consumed",
+      "parse_error": "candidate text is empty",
+      "termination": "STOP",
+      "usage_basis": "reported",
+      "thinking_tokens": 24,
+      "repairable": true,
+      "halt": null,
+      "reservation_exceeded": null
+    },
+    "decision_mode": "model-proposal",
+    "decision_reason": "first deliberation (after one repair)",
+    "key_header_sent": true,
+    "redirect_target_contacted": false,
+    "key_or_thoughts_in_records": false
+  },
+  "blocked-prompt": {
+    "provider_requests": 1,
+    "rows": [
+      [
+        "primary",
+        "consumed"
+      ]
+    ],
+    "first_row": {
+      "status": "consumed",
+      "parse_error": "prompt blocked by the provider (SAFETY)",
+      "termination": null,
+      "usage_basis": "reported",
+      "thinking_tokens": 24,
+      "repairable": false,
+      "halt": null,
+      "reservation_exceeded": null
+    },
+    "decision_mode": "fallback",
+    "decision_reason": "first deliberation; primary response unusable (no repair attempted): prompt blocked by the provider (SAFETY)",
+    "key_header_sent": true,
+    "redirect_target_contacted": false,
+    "key_or_thoughts_in_records": false
+  },
+  "no-candidates": {
+    "provider_requests": 1,
+    "rows": [
+      [
+        "primary",
+        "consumed"
+      ]
+    ],
+    "first_row": {
+      "status": "consumed",
+      "parse_error": "response has no candidates",
+      "termination": null,
+      "usage_basis": "reported",
+      "thinking_tokens": 24,
+      "repairable": false,
+      "halt": null,
+      "reservation_exceeded": null
+    },
+    "decision_mode": "fallback",
+    "decision_reason": "first deliberation; primary response unusable (no repair attempted): response has no candidates",
+    "key_header_sent": true,
+    "redirect_target_contacted": false,
+    "key_or_thoughts_in_records": false
+  },
+  "two-candidates": {
+    "provider_requests": 1,
+    "rows": [
+      [
+        "primary",
+        "consumed"
+      ]
+    ],
+    "first_row": {
+      "status": "consumed",
+      "parse_error": "expected exactly one candidate, got 2",
+      "termination": null,
+      "usage_basis": "reported",
+      "thinking_tokens": 24,
+      "repairable": false,
+      "halt": null,
+      "reservation_exceeded": null
+    },
+    "decision_mode": "fallback",
+    "decision_reason": "first deliberation; primary response unusable (no repair attempted): expected exactly one candidate, got 2",
+    "key_header_sent": true,
+    "redirect_target_contacted": false,
+    "key_or_thoughts_in_records": false
+  },
+  "safety": {
+    "provider_requests": 1,
+    "rows": [
+      [
+        "primary",
+        "consumed"
+      ]
+    ],
+    "first_row": {
+      "status": "consumed",
+      "parse_error": "provider stopped the candidate (SAFETY)",
+      "termination": "SAFETY",
+      "usage_basis": "reported",
+      "thinking_tokens": 24,
+      "repairable": false,
+      "halt": null,
+      "reservation_exceeded": null
+    },
+    "decision_mode": "fallback",
+    "decision_reason": "first deliberation; primary response unusable (no repair attempted): provider stopped the candidate (SAFETY)",
+    "key_header_sent": true,
+    "redirect_target_contacted": false,
+    "key_or_thoughts_in_records": false
+  },
+  "max-tokens": {
+    "provider_requests": 1,
+    "rows": [
+      [
+        "primary",
+        "consumed"
+      ]
+    ],
+    "first_row": {
+      "status": "consumed",
+      "parse_error": "output truncated (MAX_TOKENS); not parsed",
+      "termination": "MAX_TOKENS",
+      "usage_basis": "reported",
+      "thinking_tokens": 24,
+      "repairable": false,
+      "halt": null,
+      "reservation_exceeded": null
+    },
+    "decision_mode": "fallback",
+    "decision_reason": "first deliberation; primary response unusable (no repair attempted): output truncated (MAX_TOKENS); not parsed",
+    "key_header_sent": true,
+    "redirect_target_contacted": false,
+    "key_or_thoughts_in_records": false
+  },
+  "non-text-part": {
+    "provider_requests": 1,
+    "rows": [
+      [
+        "primary",
+        "consumed"
+      ]
+    ],
+    "first_row": {
+      "status": "consumed",
+      "parse_error": "non-text part(s) in the candidate: ['functionCall']",
+      "termination": "STOP",
+      "usage_basis": "reported",
+      "thinking_tokens": 24,
+      "repairable": false,
+      "halt": null,
+      "reservation_exceeded": null
+    },
+    "decision_mode": "fallback",
+    "decision_reason": "first deliberation; primary response unusable (no repair attempted): non-text part(s) in the candidate: ['functionCall']",
+    "key_header_sent": true,
+    "redirect_target_contacted": false,
+    "key_or_thoughts_in_records": false
+  },
+  "no-usage": {
+    "provider_requests": 1,
+    "rows": [
+      [
+        "primary",
+        "consumed"
+      ]
+    ],
+    "first_row": {
+      "status": "consumed",
+      "parse_error": null,
+      "termination": "STOP",
+      "usage_basis": "estimated: provider usage missing (no usageMetadata); the la",
+      "thinking_tokens": null,
+      "repairable": null,
+      "halt": null,
+      "reservation_exceeded": null
+    },
+    "decision_mode": "model-proposal",
+    "decision_reason": "first deliberation",
+    "key_header_sent": true,
+    "redirect_target_contacted": false,
+    "key_or_thoughts_in_records": false
+  },
+  "inconsistent-usage": {
+    "provider_requests": 1,
+    "rows": [
+      [
+        "primary",
+        "consumed"
+      ]
+    ],
+    "first_row": {
+      "status": "consumed",
+      "parse_error": null,
+      "termination": "STOP",
+      "usage_basis": "estimated: provider usage inconsistent (totalTokenCount diff",
+      "thinking_tokens": 24,
+      "repairable": null,
+      "halt": null,
+      "reservation_exceeded": null
+    },
+    "decision_mode": "model-proposal",
+    "decision_reason": "first deliberation",
+    "key_header_sent": true,
+    "redirect_target_contacted": false,
+    "key_or_thoughts_in_records": false
+  },
+  "nonfinite-usage": {
+    "provider_requests": 1,
+    "rows": [
+      [
+        "primary",
+        "consumed"
+      ]
+    ],
+    "first_row": {
+      "status": "consumed",
+      "parse_error": null,
+      "termination": "STOP",
+      "usage_basis": "estimated: provider usage inconsistent (thoughtsTokenCount i",
+      "thinking_tokens": null,
+      "repairable": null,
+      "halt": null,
+      "reservation_exceeded": null
+    },
+    "decision_mode": "model-proposal",
+    "decision_reason": "first deliberation",
+    "key_header_sent": true,
+    "redirect_target_contacted": false,
+    "key_or_thoughts_in_records": false
+  },
+  "overshoot": {
+    "provider_requests": 1,
+    "rows": [
+      [
+        "primary",
+        "consumed"
+      ]
+    ],
+    "first_row": {
+      "status": "consumed",
+      "parse_error": null,
+      "termination": "STOP",
+      "usage_basis": "reported",
+      "thinking_tokens": 1074,
+      "repairable": null,
+      "halt": null,
+      "reservation_exceeded": true
+    },
+    "decision_mode": "model-proposal",
+    "decision_reason": "first deliberation",
+    "key_header_sent": true,
+    "redirect_target_contacted": false,
+    "key_or_thoughts_in_records": false
+  },
+  "secret-echo": {
+    "provider_requests": 1,
+    "rows": [
+      [
+        "primary",
+        "consumed"
+      ]
+    ],
+    "first_row": {
+      "status": "consumed",
+      "parse_error": "response contained credential-like content; scrubbed and not used",
+      "termination": "STOP",
+      "usage_basis": "reported",
+      "thinking_tokens": 24,
+      "repairable": false,
+      "halt": null,
+      "reservation_exceeded": null
+    },
+    "decision_mode": "fallback",
+    "decision_reason": "first deliberation; primary response unusable (no repair attempted): response contained credential-like content; scrubbed and not used",
+    "key_header_sent": true,
+    "redirect_target_contacted": false,
+    "key_or_thoughts_in_records": false
+  },
+  "http-500": {
+    "provider_requests": 1,
+    "rows": [
+      [
+        "primary",
+        "failed-delivered"
+      ]
+    ],
+    "first_row": {
+      "status": "failed-delivered",
+      "parse_error": null,
+      "termination": "HTTP 500 INTERNAL: fixture internal error",
+      "usage_basis": "error response (definite rejection); provider usage not repo",
+      "thinking_tokens": null,
+      "repairable": null,
+      "halt": null,
+      "reservation_exceeded": null
+    },
+    "decision_mode": "fallback",
+    "decision_reason": "first deliberation; primary request failed-delivered: HTTP 500 INTERNAL: fixture internal error",
+    "key_header_sent": true,
+    "redirect_target_contacted": false,
+    "key_or_thoughts_in_records": false
+  },
+  "http-400-schema": {
+    "provider_requests": 1,
+    "rows": [
+      [
+        "primary",
+        "failed-delivered"
+      ]
+    ],
+    "first_row": {
+      "status": "failed-delivered",
+      "parse_error": null,
+      "termination": "HTTP 400 INVALID_ARGUMENT: fixture: schema not supported",
+      "usage_basis": "error response (definite rejection); provider usage not repo",
+      "thinking_tokens": null,
+      "repairable": null,
+      "halt": null,
+      "reservation_exceeded": null
+    },
+    "decision_mode": "fallback",
+    "decision_reason": "first deliberation; primary request failed-delivered: HTTP 400 INVALID_ARGUMENT: fixture: schema not supported",
+    "key_header_sent": true,
+    "redirect_target_contacted": false,
+    "key_or_thoughts_in_records": false
+  },
+  "http-429": {
+    "provider_requests": 1,
+    "rows": [
+      [
+        "primary",
+        "failed-delivered"
+      ],
+      [
+        "primary",
+        "blocked"
+      ]
+    ],
+    "first_row": {
+      "status": "failed-delivered",
+      "parse_error": null,
+      "termination": "HTTP 429 RESOURCE_EXHAUSTED: quota or rate limit reached; model dispatch stopped for this run (no retry)",
+      "usage_basis": "error response (definite rejection); provider usage not repo",
+      "thinking_tokens": null,
+      "repairable": null,
+      "halt": "quota",
+      "reservation_exceeded": null
+    },
+    "decision_mode": "fallback",
+    "decision_reason": "first deliberation; primary request failed-delivered: HTTP 429 RESOURCE_EXHAUSTED: quota or rate limit reached; model dispatch stopped for this run (no retry)",
+    "key_header_sent": true,
+    "redirect_target_contacted": false,
+    "key_or_thoughts_in_records": false,
+    "later_rows": [
+      "provider quota or rate limit reached (HTTP 429); model dispatch stopped for this run; no retry"
+    ]
+  },
+  "redirect": {
+    "provider_requests": 1,
+    "rows": [
+      [
+        "primary",
+        "failed-delivered"
+      ]
+    ],
+    "first_row": {
+      "status": "failed-delivered",
+      "parse_error": null,
+      "termination": "HTTP 302 redirect refused (not followed; credentials not forwarded)",
+      "usage_basis": "error response (definite rejection); provider usage not repo",
+      "thinking_tokens": null,
+      "repairable": null,
+      "halt": null,
+      "reservation_exceeded": null
+    },
+    "decision_mode": "fallback",
+    "decision_reason": "first deliberation; primary request failed-delivered: HTTP 302 redirect refused (not followed; credentials not forwarded)",
+    "key_header_sent": true,
+    "redirect_target_contacted": false,
+    "key_or_thoughts_in_records": false
+  },
+  "timeout": {
+    "provider_requests": 1,
+    "rows": [
+      [
+        "primary",
+        "outcome-unknown"
+      ]
+    ],
+    "first_row": {
+      "status": "outcome-unknown",
+      "parse_error": null,
+      "termination": "timed out",
+      "usage_basis": "reservation held",
+      "thinking_tokens": null,
+      "repairable": null,
+      "halt": null,
+      "reservation_exceeded": null
+    },
+    "decision_mode": "fallback",
+    "decision_reason": "first deliberation; primary request outcome-unknown: timed out",
+    "key_header_sent": true,
+    "redirect_target_contacted": false,
+    "key_or_thoughts_in_records": false
+  }
+}

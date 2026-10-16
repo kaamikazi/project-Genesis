@@ -1,0 +1,226 @@
+{
+  "accessed": "2026-10-17",
+  "official_references": [
+    "https://ai.google.dev/gemini-api/docs/models",
+    "https://ai.google.dev/gemini-api/docs/models/gemini-3.5-flash-lite",
+    "https://ai.google.dev/gemini-api/docs/api-key",
+    "https://ai.google.dev/api/generate-content",
+    "https://ai.google.dev/gemini-api/docs/structured-output",
+    "https://ai.google.dev/gemini-api/docs/thinking",
+    "https://ai.google.dev/gemini-api/docs/pricing",
+    "https://ai.google.dev/gemini-api/docs/rate-limits"
+  ],
+  "endpoint": "https://generativelanguage.googleapis.com/v1beta/models/gemini-3.5-flash-lite:generateContent",
+  "api_version": "v1beta",
+  "dependency": "Python standard library urllib (no SDK; no hidden retries)",
+  "headers_sent": [
+    "Accept",
+    "Content-Type",
+    "x-goog-api-key (added by GeminiTransport at dispatch; never stored)"
+  ],
+  "request_envelope_example": {
+    "contents": [
+      {
+        "parts": [
+          {
+            "text": "<2650 bytes: restricted observation data block>"
+          }
+        ],
+        "role": "user"
+      }
+    ],
+    "generationConfig": {
+      "candidateCount": 1,
+      "maxOutputTokens": 1024,
+      "responseFormat": {
+        "text": {
+          "mimeType": "APPLICATION_JSON",
+          "schema": {
+            "additionalProperties": false,
+            "properties": {
+              "explanation": {
+                "description": "optional, at most 200 characters",
+                "type": "string"
+              },
+              "kind": {
+                "enum": [
+                  "abandon_session",
+                  "accept_teaching",
+                  "accept_trade",
+                  "consume",
+                  "deposit",
+                  "gather",
+                  "inspect_artifact",
+                  "learn_step",
+                  "move",
+                  "offer_teaching",
+                  "offer_trade",
+                  "practice_step",
+                  "produce",
+                  "propose_artifact",
+                  "send_message",
+                  "submit_artifact",
+                  "teach_step",
+                  "test_artifact",
+                  "transfer",
+                  "use_artifact",
+                  "wait",
+                  "withdraw",
+                  "withdraw_artifact"
+                ],
+                "type": "string"
+              },
+              "params": {
+                "description": "exactly the parameters listed for the chosen kind",
+                "type": "object"
+              },
+              "standing": {
+                "type": "boolean"
+              }
+            },
+            "required": [
+              "kind",
+              "params"
+            ],
+            "type": "object"
+          }
+        }
+      },
+      "temperature": 0.0,
+      "thinkingConfig": {
+        "includeThoughts": false,
+        "thinkingLevel": "MINIMAL"
+      }
+    },
+    "store": false,
+    "systemInstruction": {
+      "parts": [
+        {
+          "text": "<3187 chars: versioned instructions genesis-prompt-1>"
+        }
+      ]
+    }
+  },
+  "wire_schema": {
+    "type": "object",
+    "additionalProperties": false,
+    "required": [
+      "kind",
+      "params"
+    ],
+    "properties": {
+      "kind": {
+        "type": "string",
+        "enum": [
+          "abandon_session",
+          "accept_teaching",
+          "accept_trade",
+          "consume",
+          "deposit",
+          "gather",
+          "inspect_artifact",
+          "learn_step",
+          "move",
+          "offer_teaching",
+          "offer_trade",
+          "practice_step",
+          "produce",
+          "propose_artifact",
+          "send_message",
+          "submit_artifact",
+          "teach_step",
+          "test_artifact",
+          "transfer",
+          "use_artifact",
+          "wait",
+          "withdraw",
+          "withdraw_artifact"
+        ]
+      },
+      "params": {
+        "type": "object",
+        "description": "exactly the parameters listed for the chosen kind"
+      },
+      "explanation": {
+        "type": "string",
+        "description": "optional, at most 200 characters"
+      },
+      "standing": {
+        "type": "boolean"
+      }
+    }
+  },
+  "capabilities": {
+    "adapter": "gemini-generatecontent-1",
+    "wire_schema": "genesis-gemini-wire-1",
+    "wire_protocol": "Gemini Developer API POST /v1beta/models/{model}:generateContent (stateless, non-streamed)",
+    "structured_outputs": true,
+    "schema_enforcement": "wire schema constrains format only (no maxLength, no per-kind params); the strict local parser enforces the full contract",
+    "thinking": "thinkingLevel=minimal; thoughts never requested, returned parts flagged thought are dropped",
+    "reports_usage": "usageMetadata: prompt, cached (part of prompt), candidates, thoughts, tool-use prompt, total",
+    "output_limit": "generationConfig.maxOutputTokens (whether it bounds thinking tokens on generateContent is not stated in the reference; checked after each response)",
+    "idempotency_key": false,
+    "status_lookup": false,
+    "streaming": false,
+    "tools": false,
+    "credential": "x-goog-api-key header from GEMINI_API_KEY at dispatch (transport); never stored",
+    "logging_preference": "store=false sent when request_logging is false; a logging preference, not a guarantee about provider-side retention"
+  },
+  "versions": {
+    "adapter": "gemini-generatecontent-1",
+    "wire_schema": "genesis-gemini-wire-1",
+    "prompt": "genesis-prompt-1",
+    "action_schema": "genesis-action-schema-1",
+    "parser": "genesis-parser-1",
+    "engine": "0.6.1"
+  },
+  "smoke_template_show": {
+    "model": "gemini-3.5-flash-lite",
+    "provider": "gemini",
+    "origin": "https://generativelanguage.googleapis.com",
+    "mode": "live",
+    "agents": [
+      "a01"
+    ],
+    "ticks": 40,
+    "profile_hash": "1033d294b2e2436a977dae7a14b935ffcc06dc7f69498472e5fef4df90dd3818",
+    "config_hash": "9bb1a91e46d9efb816e0039b9aa77b032548293ba1bd388391a31c5d1e992885",
+    "limits": {
+      "run_budget": {
+        "requests": 10,
+        "input_tokens": 200000,
+        "output_tokens": 10240,
+        "controller_time_ms": 200000,
+        "cost_micros": null
+      },
+      "agent_budget": {
+        "requests": 10,
+        "input_tokens": 200000,
+        "output_tokens": 10240,
+        "controller_time_ms": 200000,
+        "cost_micros": null
+      },
+      "max_output_tokens_per_request": 1024,
+      "max_input_bytes_per_decision": 16000,
+      "deadline_ms_per_request": 20000,
+      "run_deadline_s": 900,
+      "min_dispatch_interval_s": 15.0,
+      "min_interval_ticks": 5,
+      "concurrency": 1,
+      "repair_limit": 1,
+      "thinking_level": "minimal",
+      "request_logging": false
+    },
+    "live_authorized": false,
+    "paid": false,
+    "missing_confirmations": [
+      "free_tier_billing_disabled",
+      "model_available",
+      "quota_sufficient",
+      "simulation_data_only",
+      "confirmed_by",
+      "confirmed_on"
+    ],
+    "key_env_present": false
+  }
+}

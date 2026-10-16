@@ -1,0 +1,11 @@
+{
+  "pytest": {
+    "exit_code": 0,
+    "tail": "242 passed, 1 warning in 516.84s (0:08:36)",
+    "seconds": 517.7
+  },
+  "frontend_build": {
+    "exit_code": 0,
+    "tail": "\u00e2\u0153\u201c built in 203ms"
+  }
+}

@@ -1,0 +1,78 @@
+{
+  "run_id": "9a5df15aae7b",
+  "profile_hash": "460cf934b78485cf10cd4d97e97daf443a0cae2cffd5a5261156105bf2451781",
+  "config_hash": "9bb1a91e46d9efb816e0039b9aa77b032548293ba1bd388391a31c5d1e992885",
+  "source": "mock-http",
+  "ticks_committed": 40,
+  "wall_seconds": 91.2,
+  "stopped_early": null,
+  "decisions_by_mode": {
+    "model-proposal": 7,
+    "model-intent-execution": 14,
+    "offline-policy": 19
+  },
+  "model_actions": {
+    "accepted": 19,
+    "rejected": 2,
+    "rejections": {
+      "insufficient ore for batch (needs 4)": 2
+    }
+  },
+  "fallbacks": [],
+  "requests": {
+    "total_rows": 7,
+    "by_status": {
+      "consumed": 7
+    },
+    "repairs": 0,
+    "parse_or_content_errors": 0,
+    "finish_reasons": {
+      "STOP": 7
+    },
+    "quota_events": 0,
+    "reservation_exceeded": 0,
+    "returned_models": [
+      "gemini-3.5-flash-lite"
+    ]
+  },
+  "usage": {
+    "committed": {
+      "requests": 7,
+      "input_tokens": 23304,
+      "output_tokens": 362,
+      "controller_time_ms": 29,
+      "cost_micros": 0
+    },
+    "pending": {
+      "requests": 0,
+      "input_tokens": 0,
+      "output_tokens": 0,
+      "controller_time_ms": 0,
+      "cost_micros": 0
+    },
+    "uncertain": {
+      "requests": 0,
+      "input_tokens": 0,
+      "output_tokens": 0,
+      "controller_time_ms": 0,
+      "cost_micros": 0
+    },
+    "thinking_tokens": 168,
+    "rows_charged_at_reservation": 0
+  },
+  "latency_ms": {
+    "count": 7,
+    "median": 2.1,
+    "max": 18.07
+  },
+  "reducer_model_reconciled": true,
+  "holdings_reconcile": true,
+  "reexecution": {
+    "checked": 21,
+    "matched": 21,
+    "mismatch_count": 0,
+    "all_matched": true
+  },
+  "note": "40 ticks are an engineering test, not evidence of intelligent behaviour.",
+  "mock_requests_received": 7
+}

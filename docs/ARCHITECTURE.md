@@ -135,7 +135,8 @@ A run may designate up to four inhabitants as **model-backed**. Everything else 
 | `genesis/model/schema.py` | The public output schema and strict parser: one JSON object, known kind, exact parameters, bounded strings, finite numbers, no extra fields, no agent identity. |
 | `genesis/model/prompt.py` | Versioned instructions + restricted observation (as data) + action schema + bounded memory. Deterministic truncation, recorded. |
 | `genesis/model/adapter.py` | The Ollama `/api/chat` wire protocol (non-streamed). Structured outputs are a declared capability, not assumed. Reasoning fields are discarded. |
-| `genesis/model/transport.py` | `HttpTransport` (urllib, no retries) and `InProcessTransport`. Errors are classified as *not delivered* or *outcome unknown*. |
+| `genesis/model/gemini.py` | (v0.6.1) The Gemini Developer API `generateContent` contract (v1beta, stateless), the `genesis-gemini-wire-1` schema, response classification and usage normalization (thinking counted once, inside output). See [GEMINI_SETUP](GEMINI_SETUP.md) and [ADR-009](ADR-009-gemini-adapter.md). |
+| `genesis/model/transport.py` | `HttpTransport` (urllib, no retries), `GeminiTransport` (official origin and path only, key header from `GEMINI_API_KEY` at send time, redirects never followed) and `InProcessTransport`. Errors are classified as *not delivered* or *outcome unknown*. |
 | `genesis/model/ledger.py` | The durable call ledger (`model_calls`) with lifecycle validation, stable decision identity and receipts. |
 | `genesis/model/budget.py` | Committed, pending, uncertain and historical buckets; reservation before dispatch; integer micro-unit cost only with configured prices. |
 | `genesis/model/scheduler.py` | When to deliberate: first decision, rejection, new message, standing intent ended, refresh interval; never more often than `min_interval`. |
@@ -149,7 +150,8 @@ A run may designate up to four inhabitants as **model-backed**. Everything else 
 - **Never blindly resend.** A row that reached `dispatching` is never sent again. After a crash it becomes `outcome-unknown` (reservation kept) once its lease expires; another worker meanwhile gets `DecisionInFlight`. Ollama has no idempotency key or status lookup, so uncertainty cannot be resolved automatically; an operator can mark it with `POST /api/runs/{id}/model/resolve`.
 - **State replay never calls a controller.** Decision re-execution rebuilds observations and prompts from replayed state and checks them against the ledger. Recorded continuation (`mode: recorded`) reuses a source run's responses and stops on the first mismatch.
 - **Secrets.** Profiles reject credential-bearing URLs; no headers are stored; prompts and responses containing credential-like text are blocked before dispatch or scrubbed before display.
-- **Live calls** require `live_authorized: true` in the profile *and* `GENESIS_LIVE_MODEL_CALLS=1`. The API can only create fixture-backed model runs.
+- **Live calls** require `live_authorized: true` in the profile *and* `GENESIS_LIVE_MODEL_CALLS=1`. A live Gemini profile additionally needs the official origin, four operator free-tier confirmations, a finite `run_deadline_s`, no paid mode and `GEMINI_API_KEY` in the process environment. The API can only create fixture-backed model runs.
+- **Run halts (v0.6.1).** After an HTTP 429 / `RESOURCE_EXHAUSTED`, a response whose usage exceeded its reservation, or the wall-clock run deadline, no further request is dispatched for that run; later decisions are labelled fallbacks.
 
 ## Version boundary
 
