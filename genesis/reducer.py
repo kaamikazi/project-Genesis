@@ -423,6 +423,7 @@ def reduce_export(export: JSON, windows: list[Window] | None = None) -> JSON:
         "successors": successor_rows, "reconciliation": reconciliation,
         "sessions": session_rows, "freezes": freezes, "cohort_transitions": transitions,
         "search": search_summary, "components": component_summary, "inherited": inherited_summary,
+        **({"model": model_reconciliation(export)} if export.get("model_ledger") is not None else {}),
         "lineage": list(lineage.values()),
         "cross_generation": {
             "revision_attempts": sum(1 for x in lineage.values() if x["parent_cohort"] is not None and x["cohort"] > x["parent_cohort"]),
@@ -448,6 +449,46 @@ ACTIVITY = {"produce": "production", "use_artifact": "production", "practice_ste
             "abandon_session": "teaching", "move": "movement", "gather": "gathering", "deposit": "storage", "withdraw": "storage",
             "consume": "eating", "transfer": "exchange", "offer_trade": "exchange", "accept_trade": "exchange", "send_message": "exchange",
             "wait": "waiting"}
+
+
+def model_reconciliation(export: JSON) -> JSON:
+    """v0.6: committed model-attributed decisions against the exported call ledger and the world metrics."""
+    modes: Counter = Counter()
+    referenced: Counter = Counter()
+    receipts: dict[str, str] = {}
+    calls = tokens = 0
+    for entry in export["ticks"]:
+        for d in entry["record"]["decisions"]:
+            meta = d.get("model")
+            if not meta:
+                continue
+            modes[d["controller"]] += 1
+            calls += meta.get("new_calls", 0)
+            tokens += meta.get("new_tokens", 0)
+            if d["controller"] != "model-intent-execution":
+                for did in meta.get("decision_ids", []):
+                    referenced[did] += 1
+            if d["controller"] == "model-proposal" and meta.get("decision_ids"):
+                receipts[meta["decision_ids"][-1]] = meta.get("receipt")
+    ledger = {r["decision_id"]: r for r in export.get("model_ledger", [])}
+    missing = [did for did in referenced if did not in ledger]
+    double = [did for did, n in referenced.items() if n > 1]
+    bad_receipts = [did for did, rc in receipts.items() if did in ledger and ledger[did]["receipt"] != rc]
+    consumed = {did for did, r in ledger.items() if r["status"] == "consumed"}
+    unreferenced_consumed = sorted(consumed - set(referenced))
+    unconsumed_receipts = [did for did in receipts if did in ledger and ledger[did]["status"] != "consumed"]
+    final = export["state"]["metrics"]
+    attributed_rows = [r for did, r in ledger.items() if did in referenced]
+    reported = sum(int((r.get("reconciled") or {}).get("input_tokens") or 0) + int((r.get("reconciled") or {}).get("output_tokens") or 0)
+                   for r in attributed_rows if (r.get("reconciled") or {}).get("basis") == "reported" and r["source"] != "recorded")
+    sent = sum(1 for r in attributed_rows if r["source"] != "recorded" and r["status"] not in ("blocked", "cancelled-before-dispatch"))
+    ledger_only = sorted(did for did, r in ledger.items() if did not in referenced)
+    ok = not (missing or double or bad_receipts or unreferenced_consumed or unconsumed_receipts) and calls == final.get("model_calls", 0) == sent         and tokens == final.get("tokens", 0) == reported
+    return {"decisions_by_mode": dict(modes), "attributed_calls": calls, "attributed_reported_tokens": tokens, "ledger_rows": len(ledger),
+            "ledger_rows_not_attributed_to_a_committed_decision": len(ledger_only), "missing_rows": missing[:10], "double_referenced": double[:10],
+            "receipt_mismatches": bad_receipts[:10], "consumed_but_unreferenced": unreferenced_consumed[:10], "receipts_not_consumed": unconsumed_receipts[:10],
+            "world_metrics": {"model_calls": final.get("model_calls", 0), "tokens": final.get("tokens", 0)},
+            "ledger_attributed": {"calls_sent": sent, "reported_tokens": reported}, "reconciled": ok}
 
 
 def dictionary_metrics(export: JSON) -> JSON:
@@ -558,7 +599,7 @@ def dictionary_metrics(export: JSON) -> JSON:
                 activity[(ACTIVITY.get(kind, kind) if ok else f"rejected {ACTIVITY.get(kind, kind)}")] += 1
     m["search.untested_proposals"] = len(proposed - tested)
     m["search.distinct_programs"] = len(world_programs)
-    out = {name: m.get(name, 0) for name in METRICS if not name.startswith(("knowledge.", "compare.", "time.", "production.alloy_per_action", "selection.", "admission.panel_queries"))}
+    out = {name: m.get(name, 0) for name in METRICS if not name.startswith(("knowledge.", "compare.", "time.", "production.alloy_per_action", "selection.", "admission.panel_queries", "model."))}
     if not params_available:
         out["search.repeated_rejected_attempts"] = None     # unavailable: records predate rejected-event params
     out["population.base"] = export["initial"]["config"]["population"]

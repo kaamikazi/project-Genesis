@@ -14,6 +14,8 @@ from .controllers import OfflineController
 from .engine import advance
 from .models import Action, JSON, Scenario, canonical, digest
 from .world import check_invariants, new_world
+from .model import ledger as model_ledger
+from .model.ledger import DDL as MODEL_DDL
 
 SCHEMA = 1
 
@@ -89,6 +91,8 @@ def compatible(manifest: JSON) -> None:
 class Store:
     def __init__(self, path: str | Path = "data/genesis.sqlite"):
         self.path = Path(path)
+        self.model_transports: dict = {}      # per-instance: run id -> transport (tests, tools); never persisted
+        self.model_hooks: dict = {}           # per-instance: run id -> crash-simulation hooks (tests only)
         self.path.parent.mkdir(parents=True, exist_ok=True)
         with self.connection() as db:
             version = db.execute("PRAGMA user_version").fetchone()[0]
@@ -107,6 +111,7 @@ class Store:
                 CREATE TRIGGER IF NOT EXISTS immutable_artifacts_delete BEFORE DELETE ON artifacts BEGIN SELECT RAISE(ABORT, 'artifacts are immutable'); END;
                 PRAGMA user_version=1;
             """)
+            db.executescript(MODEL_DDL)          # v0.6: additive sidecar tables for the model call ledger
 
     @contextmanager
     def connection(self):
@@ -150,14 +155,15 @@ class Store:
             if digest(json.loads(stored)) != aid:
                 raise ValueError("corrupt stored artifact")
 
-    def create(self, config: Scenario, initial: JSON | None = None, parent: JSON | None = None) -> str:
+    def create(self, config: Scenario, initial: JSON | None = None, parent: JSON | None = None, model_profile=None) -> str:
         state = deepcopy(initial) if initial is not None else new_world(config)
         validate_state(state)
         run_id = uuid.uuid4().hex[:12]
         manifest = {"id": run_id, "engine_version": ENGINE_VERSION, "rule_version": RULE_VERSION,
                     "evaluator_version": EVALUATOR_VERSION, "schema_version": SCHEMA,
                     "config": config.model_dump(), "config_hash": digest(config.model_dump()),
-                    "controller_mode": config.controller, "model_calls_allowed": False,
+                    "controller_mode": config.controller if model_profile is None else f"{config.controller}; model-backed agents {model_profile.agents} ({model_profile.mode})",
+                    "model_calls_allowed": bool(model_profile is not None and model_profile.mode == "live" and model_profile.live_authorized),
                     "parent": parent, "origin_tick": state["tick"], "initial_hash": digest(state),
                     "random_streams": {"world": ["world-terrain", "environment-phase"],
                                        "controller (independent seed, never observed)": ["controller-search", "controller-revision"]},
@@ -167,9 +173,63 @@ class Store:
                     "succession_policy": config.succession if config.succession == "none" else f"{config.succession} successors, role {config.successor_role}, access {config.successor_access}"}
         if state["config"] != manifest["config"]:
             raise ValueError("fork configuration must match state")
+        if model_profile is not None:
+            from .model.profile import config_hash
+            manifest["model_profile_hash"] = digest(model_profile.model_dump())
+            manifest["model_config_hash"] = config_hash(model_profile)
         with self.connection() as db, db:
             self._insert_run(db, manifest, state)
+            if model_profile is not None:
+                db.execute("INSERT INTO model_profiles VALUES(?,?,?,0)", (run_id, canonical(model_profile.model_dump()), digest(model_profile.model_dump())))
         return run_id
+
+    # --- v0.6 model-backed inhabitants -----------------------------------------------------------------------------
+
+    def model_profile(self, run_id: str):
+        from .model.profile import ModelProfile
+        with self.connection() as db:
+            row = db.execute("SELECT profile FROM model_profiles WHERE run_id=?", (run_id,)).fetchone()
+        return ModelProfile.model_validate(json.loads(row[0])) if row else None
+
+    def model_paused(self, run_id: str) -> bool:
+        with self.connection() as db:
+            row = db.execute("SELECT paused FROM model_profiles WHERE run_id=?", (run_id,)).fetchone()
+        return bool(row and row[0])
+
+    def set_model_paused(self, run_id: str, paused: bool) -> None:
+        with self.connection() as db, db:
+            if db.execute("UPDATE model_profiles SET paused=? WHERE run_id=?", (int(paused), run_id)).rowcount != 1:
+                raise KeyError("run has no model profile")
+
+    def resolve_unknown(self, run_id: str, decision_id: str, note: str) -> None:
+        """Operator acknowledgement of an outcome-unknown request: model use may resume; the reservation stays counted."""
+        with self.connection() as db, db:
+            row = model_ledger.get(db, decision_id)
+            if row is None or row["run_id"] != run_id or row["status"] != "outcome-unknown":
+                raise ValueError("only an outcome-unknown request of this run can be resolved")
+            model_ledger.update(db, decision_id, resolved=1, termination=(row["termination"] or "") + f"; resolved by operator: {note[:120]}")
+
+    def model_calls(self, run_id: str) -> list[JSON]:
+        with self.connection() as db:
+            return model_ledger.export_rows(db, run_id)
+
+    def model_latencies(self, run_id: str) -> list[JSON]:
+        """Provider latency (wall clock, outside world-state hashes)."""
+        with self.connection() as db:
+            return [dict(r) for r in db.execute("SELECT decision_id, latency_ms FROM model_calls WHERE run_id=? AND latency_ms IS NOT NULL ORDER BY seq", (run_id,))]
+
+    def _model_transport(self, run_id: str, profile):
+        from .model.fixtures import default_fixture_transport
+        from .model.transport import HttpTransport
+        if run_id in self.model_transports:
+            return self.model_transports[run_id]
+        if profile.mode == "fixture":
+            return default_fixture_transport()
+        if profile.mode == "mock-http":
+            return HttpTransport("mock-http", loopback_only=True)
+        if profile.mode == "live":
+            return HttpTransport("live", loopback_only=False)
+        return None
 
     def list_runs(self) -> list[JSON]:
         with self.connection() as db:
@@ -183,6 +243,14 @@ class Store:
     def step(self, run_id: str, overrides: dict[str, Action] | None = None, request_id: str | None = None) -> JSON:
         start = time.perf_counter()
         fingerprint = digest({key: value.model_dump() for key, value in sorted((overrides or {}).items())})
+        profile, prepared, prepared_hash = self.model_profile(run_id), None, None
+        if profile is not None and not request_id_seen(self, run_id, request_id):
+            # Phase A (no write transaction is held while a provider may be contacted).
+            from .model.runtime import ModelRuntime
+            current = self.load(run_id)
+            self.require_writable(run_id)
+            runtime = ModelRuntime(self, run_id, profile, self._model_transport(run_id, profile), hooks=self.model_hooks.get(run_id))
+            prepared, prepared_hash = runtime.prepare(current), digest(current)
         with self.connection() as db, db:
             db.execute("BEGIN IMMEDIATE")
             if request_id:
@@ -196,7 +264,13 @@ class Store:
             # Only externally supplied ids can repeat across ticks; generated ids include the tick.
             prior_ids = {a.id for a in (overrides or {}).values() if db.execute("SELECT 1 FROM action_ids WHERE run_id=? AND id=?", (run_id, a.id)).fetchone()}
             engine_start = time.perf_counter()
-            after, events, decisions = advance(before, OfflineController(before["config"]["controller_seed"]), overrides, prior_ids)
+            controller = OfflineController(before["config"]["controller_seed"])
+            if prepared is not None:
+                if digest(before) != prepared_hash:
+                    raise ValueError("world changed during model preparation; prepared decisions were not applied")
+                from .model.controller import ModelController
+                controller = ModelController(controller, prepared, profile.agents)
+            after, events, decisions = advance(before, controller, overrides, prior_ids)
             engine_ms = (time.perf_counter()-engine_start)*1000
             prev = db.execute("SELECT record_hash FROM ticks WHERE run_id=? ORDER BY tick DESC LIMIT 1", (run_id,)).fetchone()
             record = {"tick": after["tick"], "before_hash": digest(before), "state_hash": digest(after),
@@ -213,6 +287,9 @@ class Store:
         db.execute("UPDATE runs SET state=?,state_hash=?,tick=? WHERE id=?", (canonical(state), digest(state), state["tick"], run_id))
         for d in record["decisions"]:
             db.execute("INSERT OR IGNORE INTO action_ids VALUES(?,?)", (run_id, d["action"]["id"]))
+            for did in (d.get("model") or {}).get("decision_ids", []):
+                # consumed in the same transaction that commits the tick (atomic linkage)
+                db.execute("UPDATE model_calls SET status='consumed', consumed_tick=? WHERE decision_id=? AND status='completed'", (state["tick"], did))
         if state["tick"] % state["config"]["snapshot_every"] == 0:
             db.execute("INSERT INTO snapshots VALUES(?,?,?,?,?)", (run_id, state["tick"], canonical(state), digest(state), "periodic"))
 
@@ -267,7 +344,7 @@ class Store:
 
     FORK_INTERVENTIONS = {"removal", "removal_tick", "succession", "successor_role", "successor_access", "invention", "max_ticks", "teaching"}
 
-    def fork(self, run_id: str, tick: int, intervention: JSON | None = None, label: str | None = None) -> str:
+    def fork(self, run_id: str, tick: int, intervention: JSON | None = None, label: str | None = None, model_profile=None) -> str:
         """A distinct continuation from a committed tick. An intervention may change only lifecycle, invention
         and run-length settings; the parent history is untouched and the change is recorded in the manifest."""
         with self.connection() as db:
@@ -286,7 +363,7 @@ class Store:
             parent.update(intervention=intervention, label=label)
         elif label:
             parent["label"] = label
-        return self.create(Scenario.model_validate(state["config"]), state, parent)
+        return self.create(Scenario.model_validate(state["config"]), state, parent, model_profile=model_profile)
 
     def events(self, run_id: str, through: int | None = None, limit: int = 100) -> list[JSON]:
         with self.connection() as db:
@@ -317,10 +394,14 @@ class Store:
             db.execute("BEGIN")
             row = self._row(db, run_id)
             state = self._decode(row)
+            profile_row = db.execute("SELECT profile FROM model_profiles WHERE run_id=?", (run_id,)).fetchone()
             payload = {"format": "genesis-export-1", "manifest": json.loads(row["manifest"]),
                        "initial": json.loads(row["initial"]), "state": state,
                        "ticks": [{"record": json.loads(r["record"]), "record_hash": r["record_hash"], "elapsed_ms": r["elapsed_ms"], "engine_ms": r["engine_ms"]} for r in db.execute("SELECT * FROM ticks WHERE run_id=? ORDER BY tick", (run_id,))],
                        "snapshots": [{"state": json.loads(r["state"]), "state_hash": r["state_hash"], "label": r["label"]} for r in db.execute("SELECT * FROM snapshots WHERE run_id=? ORDER BY tick", (run_id,))]}
+            if profile_row:
+                payload["model_profile"] = json.loads(profile_row[0])
+                payload["model_ledger"] = model_ledger.export_rows(db, run_id)
             payload["checksum"] = digest(payload)
             return payload
 
@@ -371,3 +452,10 @@ class Store:
             row = db.execute("SELECT COUNT(*) n,AVG(elapsed_ms) avg_ms,MAX(elapsed_ms) max_ms,AVG(engine_ms) engine_ms,SUM(LENGTH(record)) bytes FROM ticks WHERE run_id=?", (run_id,)).fetchone()
             return {**dict(row), "database_bytes": self.path.stat().st_size,
                     "timing_note": "elapsed_ms excludes final SQLite commit/fsync; CLI benchmark reports total wall time"}
+
+
+def request_id_seen(store: "Store", run_id: str, request_id: str | None) -> bool:
+    if not request_id:
+        return False
+    with store.connection() as db:
+        return db.execute("SELECT 1 FROM requests WHERE run_id=? AND key=?", (run_id, request_id)).fetchone() is not None

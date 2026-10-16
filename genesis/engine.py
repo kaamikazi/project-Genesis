@@ -1049,19 +1049,31 @@ def advance(state: JSON, controller: AgentController, overrides: dict[str, Actio
         try:
             if hasattr(controller, "diagnostic"):
                 controller.diagnostic = None
+            if hasattr(controller, "decision_meta"):
+                controller.decision_meta = None
             action = overrides[aid] if aid in overrides else controller.propose(obs)
             diagnostic = None if aid in overrides else getattr(controller, "diagnostic", None)
+            model_meta = None if aid in overrides else getattr(controller, "decision_meta", None)
             action = Action.model_validate(action.model_dump())
             require(action.agent == aid, "controller identity mismatch")
             mode = "submitted" if aid in overrides else "bounded-search" if agent["role"] == "researcher" else "deterministic-baseline"
+            if model_meta:
+                # v0.6: model-backed inhabitants label every decision with its true source (model proposal, standing-intent
+                # execution, offline policy, explicit fallback) and link it to the immutable call receipt.
+                mode = model_meta["mode"]
         except Exception as exc:
             # An exception is an audited failure; fallback is never labeled a successful decision.
             events.append({"tick": state["tick"]+1, "type": "controller_failure", "agent": aid, "reason": str(exc)[:240]})
             next_state["metrics"]["controller_failures"] += 1
             action = Action(id=f'{state["tick"]}:{aid}:fallback', agent=aid, tick=state["tick"], kind="wait")
             mode = "explicit-failure-fallback"
+            model_meta = None
         proposals.append(action)
         decision = {"action": action.model_dump(), "observation_hash": digest(obs), "controller": mode}
+        if model_meta:
+            decision["model"] = {k: v for k, v in model_meta.items() if k != "mode"}
+            next_state["metrics"]["model_calls"] += model_meta.get("new_calls", 0)
+            next_state["metrics"]["tokens"] += model_meta.get("new_tokens", 0)
         if mode not in ("submitted", "explicit-failure-fallback") and diagnostic:
             decision["diagnostic"] = {k: (None if isinstance(v, float) and v != v or v in (float("inf"), float("-inf")) else v)
                                       for k, v in diagnostic.items()}   # non-finite numbers are recorded as unavailable

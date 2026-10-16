@@ -35,6 +35,23 @@ class Submission(BaseModel):
     action: Action
 
 
+class ModelRunRequest(BaseModel):
+    model_config = ConfigDict(extra="forbid", strict=True)
+    config: Scenario
+    agents: list[str] | None = Field(default=None, max_length=4)
+
+
+class ModelPause(BaseModel):
+    model_config = ConfigDict(extra="forbid", strict=True)
+    paused: bool
+
+
+class ModelResolve(BaseModel):
+    model_config = ConfigDict(extra="forbid", strict=True)
+    decision_id: str = Field(min_length=8, max_length=80)
+    note: str = Field(default="acknowledged", max_length=120)
+
+
 class Fork(BaseModel):
     model_config = ConfigDict(extra="forbid", strict=True)
     tick: int = Field(ge=0)
@@ -101,7 +118,7 @@ class SimulationService:
 
     def status(self):
         return {"run_id": self.run_id, "running": self.running, "speed": self.speed, "error": self.error,
-                "controller": "offline / no model calls", "clock_owner": "server", "engine": ENGINE_VERSION,
+                "controller": "offline by default; model inhabitants only from fixtures, mock transport or recordings; live calls disabled", "clock_owner": "server", "engine": ENGINE_VERSION,
                 "target_ticks_per_second": self.speed, "achieved_ticks_per_second": self.achieved(),
                 "last_step_ms": self.last_step_ms, "lag_seconds": round(self.lag_seconds, 3) if self.running else 0.0,
                 "base_population": self.base_population, "active_agents": self.active_agents, "peak_active_agents_this_session": self.peak_active}
@@ -189,6 +206,43 @@ def create_app(db_path: str | Path | None = None, evidence_dir: str | Path | Non
             service.error = None
             return service.status()
 
+    @app.post("/api/model-runs")
+    def create_model_run(body: ModelRunRequest):
+        """Fixture-backed model inhabitants only (no provider is contacted); live runs are never created through the API."""
+        from .model.profile import AdapterConfig, Ceilings, ModelProfile
+        agents = body.agents or ["a01"]
+        profile = ModelProfile(mode="fixture", agents=agents, endpoint_label="fixture", adapter=AdapterConfig(model="fixture-policy-1"),
+                               run_budget=Ceilings(requests=400, input_tokens=4_000_000, output_tokens=200_000, controller_time_ms=600_000),
+                               agent_budget=Ceilings(requests=200, input_tokens=2_000_000, output_tokens=100_000, controller_time_ms=300_000))
+        with service.lock:
+            service.running = False
+            service.run_id = store.create(body.config, model_profile=profile)
+            service.error = None
+            return service.status()
+
+    @app.get("/api/runs/{run_id}/model")
+    def model_summary(run_id: str):
+        from .model.observer import summary
+        result = summary(store, run_id)
+        if result is None:
+            raise HTTPException(404, "run has no model-backed inhabitants")
+        return result
+
+    @app.get("/api/runs/{run_id}/model/calls/{decision_id}")
+    def model_call(run_id: str, decision_id: str):
+        from .model.observer import call_detail
+        return call_detail(store, run_id, decision_id)
+
+    @app.post("/api/runs/{run_id}/model/pause")
+    def model_pause(run_id: str, body: ModelPause):
+        store.set_model_paused(run_id, body.paused)
+        return {"run_id": run_id, "paused": body.paused, "note": "pausing stops new model scheduling; it does not cancel anything at a provider"}
+
+    @app.post("/api/runs/{run_id}/model/resolve")
+    def model_resolve(run_id: str, body: ModelResolve):
+        store.resolve_unknown(run_id, body.decision_id, body.note)
+        return {"resolved": body.decision_id, "note": "the reservation remains counted as uncertain usage"}
+
     @app.get("/api/runs/{run_id}")
     def state(run_id: str, tick: int | None = Query(default=None, ge=0)):
         with service.lock:
@@ -196,7 +250,7 @@ def create_app(db_path: str | Path | None = None, evidence_dir: str | Path | Non
             return {"state": w, "hash": digest(w), "metrics": metrics(w), "status": service.status(),
                     "events": store.events(run_id, through=w["tick"]), "checkpoints": store.checkpoints(run_id),
                     "diagnostics": store.diagnostics(run_id, through=w["tick"]),
-                    "telemetry": store.telemetry(run_id)}
+                    "telemetry": store.telemetry(run_id), "model_enabled": store.model_profile(run_id) is not None}
 
     @app.post("/api/control")
     def control(command: Control):

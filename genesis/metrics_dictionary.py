@@ -73,6 +73,17 @@ METRICS: dict[str, tuple[str, str, str, str]] = {
     "selection.evaluations": ("Candidates and case evaluations spent choosing the final pick (bounded by selection_candidates x 24).", "evaluations", "", "freeze selection_accounting"),
     "selection.final_pick_sealed": ("Sealed score of the final pick, computed only after the run closed.", "cost per alloy", "", "sealed results"),
     "admission.panel_queries": ("Submissions per researcher per cohort panel, and how often the cap was reached.", "submissions", "validation_policy cohort-panels", "agent panel_queries"),
+    # --- v0.6 model-backed inhabitants ---------------------------------------------------------------------------
+    "model.decisions_by_mode": ("Committed decisions of designated model agents by true source: model-proposal, model-intent-execution (standing model choice, no new call), offline-policy, fallback.",
+                                "decisions", "designated agents only; other agents keep their ordinary modes", "decision controller + decision model meta"),
+    "model.attributed_calls": ("Provider requests (primary and repair attempts, including failed and outcome-unknown ones) attributed to the committed decision of their tick.",
+                               "requests", "recorded re-use is historical and never counted again", "decision model.new_calls; ledger rows"),
+    "model.attributed_reported_tokens": ("Provider-reported input + output tokens of attributed requests (estimates excluded).", "tokens", "basis reported only",
+                                         "decision model.new_tokens; ledger reconciled usage"),
+    "model.budget_buckets": ("Per run/agent: committed (reconciled), pending (reserved/dispatching), uncertain (outcome-unknown, never released), historical (recordings).",
+                             "requests, tokens, ms, micro-units", "integer units; money only with configured prices", "ledger reservation / reconciled"),
+    "model.reconciled": ("True when every referenced ledger row exists, receipts match, consumed rows are referenced exactly once, and world metrics equal ledger-attributed calls and reported tokens.",
+                         "boolean", "", "reducer model_reconciliation"),
     # --- comparisons --------------------------------------------------------------------------------------------------
     "compare.paired": ("A paired comparison reports expected worlds, completed worlds, eligible pairs (both values present), missing values with reasons, wins/losses/ties among eligible pairs, and the denominator used by the decision rule. Means are over eligible pairs only.",
                        "worlds", "a missing artifact is never scored as zero", "tools/summarize_m5b.py"),
@@ -84,6 +95,6 @@ def as_markdown() -> str:
              "Generated from `genesis/metrics_dictionary.py`. Distinct counters may differ; similar names are not interchangeable.", "",
              "| Metric | Definition | Unit | Inclusion | Source |", "|---|---|---|---|---|"]
     for name, (definition, unit, inclusion, source) in METRICS.items():
-        cell = lambda text: text.replace("|", "\|")  # noqa: E731
+        cell = lambda text: text.replace("|", r"\|")  # noqa: E731
         lines.append(f"| `{name}` | {cell(definition)} | {cell(unit)} | {cell(inclusion) or '—'} | {cell(source)} |")
     return "\n".join(lines) + "\n"
