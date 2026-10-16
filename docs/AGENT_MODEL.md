@@ -120,6 +120,27 @@ A successor starts empty. Its `inheritance` record states exactly what it receiv
 
 Pretrained-model knowledge does not exist here, because the controllers are not language models. When LLM controllers are added, simulation-specific skills (held artifacts) must be kept separate from what a model already knows.
 
-## Deferred: LLM controller
+## Model-backed inhabitants (v0.6.0)
 
-Not implemented. The integration point is `AgentController.propose(observation) -> Action`, using exactly the restricted observation above. Its output would pass the same schema and rule checks. Budget counters (`model_calls`, `tokens`, `cost_usd`) exist and read 0. See [ROADMAP](ROADMAP.md).
+Implemented and tested with fixtures and mocked transport only. **No live model has controlled an inhabitant.**
+
+**What a model sees.** The system message is the versioned instruction text (`genesis-prompt-1`): the output schema, the action catalogue, and the statement that everything in the user message is data. The user message is the same restricted observation every controller gets, serialized as JSON inside a data block, with bounded memory. Deterministic truncation drops memory, then far tiles, sites, non-held artifacts and neighbours, and records what was dropped. Configs, seeds, hidden parameters, scores, budgets and other agents' private state are never included (tested, including injection text placed in messages and artifact names).
+
+**What a model may return.** Exactly one JSON object: `kind`, `params`, an optional `explanation` (≤ 200 characters, stored as a generated message, never as reasoning) and an optional `standing` flag. The agent's identity comes from the engine, never from output. Parsing is strict; one bounded repair is allowed; then an explicit fallback.
+
+**Decision modes** (the `controller` label on every decision):
+
+| Label | Meaning |
+|---|---|
+| `model-proposal` | Parsed from a response obtained for this observation |
+| `model-intent-execution` | Repeating a standing choice the model made earlier (`produce`, `gather`, `use_artifact`, `consume`, `wait`), until a trigger ends it |
+| `offline-policy` | The offline controller acting because the scheduler did not call (interval not elapsed, busy, paused, in a session) |
+| `fallback` | Explicit: budget exhausted, parse failure after repair, transport failure, uncertain outcome, stale observation |
+
+Each model decision carries the scheduler's reason, the decision ids, a receipt linking it to the ledger row, the source (`fixture`, `mock-http`, `recorded`, `live`), and attributed calls and tokens.
+
+**Simulation skill vs pretrained knowledge.** A model's world input is only the restricted observation; held artifacts are still the only simulation skill. Model runs must be reported as their own controller condition, never pooled with offline results. Fixture responses come from a scripted policy and say nothing about model competence.
+
+## Live LLM controller
+
+Not exercised. No live provider has been contacted and no model weights were downloaded. `metrics.model_calls` and `metrics.tokens` count fixture, mock and recorded calls as well, attributed by decision; `cost_usd` stays 0 because no price is configured (prices are never invented). The disabled template and checklist for a first live run are [`config/live-run.disabled.json`](../config/live-run.disabled.json) and [LIVE_RUN_CHECKLIST](LIVE_RUN_CHECKLIST.md).

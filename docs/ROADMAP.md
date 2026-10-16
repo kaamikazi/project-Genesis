@@ -14,7 +14,8 @@ Each milestone depends on the ones above it. Statuses: **done** (implemented and
 | M5 | **Search diagnostics, budget-matched search, live components, teaching across generations (v0.5.0).** Shared search credits and decision diagnostics; a beam policy beside the unchanged v0.4 reference; components with in-host admission, refactor path, closures by hash; dependency-aware lessons; overlapping cohorts; sealed-2; Experiments P and T | M4 | **done** (beam not stronger; see status) |
 | M5b | **Repair, allocation and prospective validation (v0.5.1).** Stale-reference and library-dependency repairs, metric dictionary and paired denominators, creation-time attribution, allocation bundle, declared mentorship, admission-panel infrastructure, sealed-3 | M5 | **done** (bundle worse; teaching did not change outcomes; see status) |
 | M5c | **Paired diverse worlds and prospective admission tests (v0.5.2).** Versioned random streams, world manifests with preflight, shared selection panel, admission-panel study, allocation leave-one-out | M5b | **done** (panels: no consistent difference; bundle harm not reproduced) |
-| M6 | **One model-backed controller under budgets** ([handoff](M6_HANDOFF.md)). A provider adapter behind `AgentController`, receiving the existing restricted observation. Budgets per run and per agent (calls, tokens, time, price), counting failures and repair calls. Recorded and redacted prompts and responses. An explicit fallback. Replay from recorded decisions. Model calls only for deliberation. Simulation skills kept separate from pretrained knowledge. | M5c | **next**: adapter, recording, budgets and fixture tests need no paid calls; live runs need your provider and budget choice |
+| M6 | **One model-backed controller under budgets (v0.6.0)** ([ADR-008](ADR-008-model-controller-boundary.md)). Two-phase model step with the engine authoritative; Ollama `/api/chat` adapter; strict one-action parser with one repair; event-driven scheduler; durable call ledger with leases and no blind resends; budgets with reservations and uncertain usage; explicit fallback; state replay, decision re-execution and strict recorded continuation; sanitized observer | M5c | **done for fixtures and mocked transport**; no live provider exercised |
+| M6b | **First live model runs.** A small authorized smoke run ([checklist](LIVE_RUN_CHECKLIST.md)), then the model controller as one fixed condition on the M5c paired manifests with a fresh sealed-final commitment | M6 | **next**: needs your endpoint, model, budget and transcript-publication choices |
 | M7 | **Settlement institutions.** Storage policies decided by members, library governance, shared infrastructure with maintenance, reputation from observed interactions | M4 | deferred |
 | M8 | **Richer invention.** A larger program language, multi-step production chains, problems where the optimum is not reachable in about 20 ticks, held-out *mechanics* (not just held-out cases) | M3 | deferred |
 | M9 | **Multiple settlements, richer geography, longer worlds**, with active-agent scheduling for larger populations | M3, M7 | deferred |
@@ -24,19 +25,9 @@ Each milestone depends on the ones above it. Statuses: **done** (implemented and
 
 Milestone IDs were renumbered at v0.5.0 so that M5 is the release that shipped; the LLM controller moved from M5 to M6 and later items shifted by one.
 
-## Immediate next step: M6 (controller integration)
+## Immediate next step: M6b (first live run)
 
-M5c ended at its predeclared endpoint. There is no M5d tuning cycle: the offline studies have answered what they can answer at this scale.
-
-[M6_HANDOFF](M6_HANDOFF.md) lists the existing controller interfaces and the integration work. That work, together with fixture-based tests, can proceed without any paid call:
-1. a provider adapter behind `AgentController`;
-2. call recording and redaction;
-3. a model budget manager with an explicit fallback;
-4. re-execution from recordings;
-5. fixture tests;
-6. observer views.
-
-Live exploratory runs need your provider and budget decision.
+M6 built and verified the whole model-controller path without a provider. A live run needs four decisions from you: the endpoint, the exact model, the limits (and prices, if paid), and whether live transcripts may be published. [LIVE_RUN_CHECKLIST](LIVE_RUN_CHECKLIST.md) lists them with a 40-tick, one-agent, 20-request smoke scenario. Nothing live happens until then.
 
 ## Separate proposal: evidence storage
 

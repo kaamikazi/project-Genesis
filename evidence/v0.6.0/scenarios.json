@@ -1,0 +1,324 @@
+{
+  "01 valid model-shaped action applied by the engine (mock HTTP)": {
+    "status": "passed",
+    "decision": {
+      "tick": 1,
+      "mode": "model-proposal",
+      "action": "produce",
+      "params": {},
+      "accepted": true,
+      "rejection": null,
+      "reason": "first deliberation",
+      "receipt": "f6ec742aaae0887d99d509981234ca90c2bea02b1432d5f031e781e18ffec4d6"
+    },
+    "ledger": [
+      {
+        "agent": "a01",
+        "tick": 0,
+        "role": "primary",
+        "attempt": 0,
+        "status": "consumed",
+        "source": "mock-http",
+        "returned_model": "fixture-policy-1",
+        "prompt_hash": "c60409aed6e744febd7a5b6a3ec65350d478f38ae1ba9496fdb2c7918a61392e",
+        "input_bytes": 5837,
+        "truncations": {},
+        "response": "{\"explanation\": \"fixture rule: produce with the baseline workflow\", \"kind\": \"produce\", \"params\": {}, \"standing\": true}",
+        "parsed": {
+          "explanation": "fixture rule: produce with the baseline workflow",
+          "kind": "produce",
+          "params": {},
+          "standing": true
+        },
+        "parse_error": null,
+        "fallback": null,
+        "termination": "stop",
+        "reservation": {
+          "basis": "upper bound: prompt bytes as input tokens (heuristic), num_predict as output tokens",
+          "controller_time_ms": 20000,
+          "cost_micros": null,
+          "currency": null,
+          "input_tokens": 5837,
+          "output_tokens": 200,
+          "pricing_version": null,
+          "requests": 1
+        },
+        "reconciled": {
+          "basis": "reported",
+          "controller_time_ms": 2,
+          "cost_micros": null,
+          "input_tokens": 1459,
+          "output_tokens": 29,
+          "requests": 1
+        },
+        "receipt": "f6ec742aaae0887d99d509981234ca90c2bea02b1432d5f031e781e18ffec4d6",
+        "consumed_tick": 1,
+        "recorded_from": null
+      }
+    ]
+  },
+  "02 invalid JSON followed by one bounded repair": {
+    "status": "passed",
+    "decision": {
+      "tick": 1,
+      "mode": "model-proposal",
+      "action": "produce",
+      "params": {},
+      "accepted": true,
+      "rejection": null,
+      "reason": "first deliberation (after one repair)",
+      "receipt": "467eee3b2c3ee9543ac94b3031e89de08b329e90053adb6bff78a82f28f839c9"
+    },
+    "ledger": [
+      {
+        "agent": "a01",
+        "tick": 0,
+        "role": "primary",
+        "attempt": 0,
+        "status": "consumed",
+        "source": "mock-http",
+        "returned_model": "fixture-policy-1",
+        "prompt_hash": "c60409aed6e744febd7a5b6a3ec65350d478f38ae1ba9496fdb2c7918a61392e",
+        "input_bytes": 5837,
+        "truncations": {},
+        "response": "{\"kind\": \"consume\", \"params\": {",
+        "parsed": null,
+        "parse_error": "invalid JSON: Expecting property name enclosed in double quotes",
+        "fallback": null,
+        "termination": "stop",
+        "reservation": {
+          "basis": "upper bound: prompt bytes as input tokens (heuristic), num_predict as output tokens",
+          "controller_time_ms": 20000,
+          "cost_micros": null,
+          "currency": null,
+          "input_tokens": 5837,
+          "output_tokens": 200,
+          "pricing_version": null,
+          "requests": 1
+        },
+        "reconciled": {
+          "basis": "reported",
+          "controller_time_ms": 2,
+          "cost_micros": null,
+          "input_tokens": 1459,
+          "output_tokens": 7,
+          "requests": 1
+        },
+        "receipt": "16f06201c40382a5bab430c60a770d1f0da8773ae7831deb2a97687ea74cb78b",
+        "consumed_tick": 1,
+        "recorded_from": null
+      },
+      {
+        "agent": "a01",
+        "tick": 0,
+        "role": "repair",
+        "attempt": 1,
+        "status": "consumed",
+        "source": "mock-http",
+        "returned_model": "fixture-policy-1",
+        "prompt_hash": "0ee383815a3dcc7e63856cbaee6ed55dc62a6a7f155e2ac87a7e70c273548205",
+        "input_bytes": 6064,
+        "truncations": {},
+        "response": "{\"explanation\": \"fixture rule: produce with the baseline workflow\", \"kind\": \"produce\", \"params\": {}, \"standing\": true}",
+        "parsed": {
+          "explanation": "fixture rule: produce with the baseline workflow",
+          "kind": "produce",
+          "params": {},
+          "standing": true
+        },
+        "parse_error": null,
+        "fallback": null,
+        "termination": "stop",
+        "reservation": {
+          "basis": "upper bound: prompt bytes as input tokens (heuristic), num_predict as output tokens",
+          "controller_time_ms": 20000,
+          "cost_micros": null,
+          "currency": null,
+          "input_tokens": 6064,
+          "output_tokens": 200,
+          "pricing_version": null,
+          "requests": 1
+        },
+        "reconciled": {
+          "basis": "reported",
+          "controller_time_ms": 1,
+          "cost_micros": null,
+          "input_tokens": 1516,
+          "output_tokens": 29,
+          "requests": 1
+        },
+        "receipt": "467eee3b2c3ee9543ac94b3031e89de08b329e90053adb6bff78a82f28f839c9",
+        "consumed_tick": 1,
+        "recorded_from": null
+      }
+    ]
+  },
+  "03 schema-valid illegal action rejected by the engine": {
+    "status": "passed",
+    "decision": {
+      "tick": 1,
+      "mode": "model-proposal",
+      "action": "transfer",
+      "params": {
+        "amount": 999,
+        "resource": "ore",
+        "target": "nobody"
+      },
+      "accepted": false,
+      "rejection": "invalid recipient",
+      "reason": "first deliberation",
+      "receipt": "b4d1f571fe8f780fe6ab70213fe828859cffaea80eb4a6a7be600a313d1bdfbe"
+    },
+    "note": "a well-formed illegal action is an ordinary rejected world action"
+  },
+  "04 budget exhaustion and labelled fallback": {
+    "status": "passed",
+    "provider_requests": 2,
+    "first_fallback": {
+      "tick": 11,
+      "mode": "fallback",
+      "action": "consume",
+      "params": {},
+      "accepted": true,
+      "rejection": null,
+      "reason": "no standing intent; primary request blocked: budget exhausted (requests)",
+      "receipt": null
+    },
+    "blocked_rows": 15
+  },
+  "05 provider timeout with uncertain usage (reservation kept, not resent)": {
+    "status": "passed",
+    "row": {
+      "agent": "a01",
+      "tick": 0,
+      "role": "primary",
+      "attempt": 0,
+      "status": "outcome-unknown",
+      "source": "mock-http",
+      "returned_model": null,
+      "prompt_hash": "c60409aed6e744febd7a5b6a3ec65350d478f38ae1ba9496fdb2c7918a61392e",
+      "input_bytes": 5837,
+      "truncations": {},
+      "response": null,
+      "parsed": null,
+      "parse_error": null,
+      "fallback": null,
+      "termination": "timed out",
+      "reservation": {
+        "basis": "upper bound: prompt bytes as input tokens (heuristic), num_predict as output tokens",
+        "controller_time_ms": 300,
+        "cost_micros": null,
+        "currency": null,
+        "input_tokens": 5837,
+        "output_tokens": 200,
+        "pricing_version": null,
+        "requests": 1
+      },
+      "reconciled": null,
+      "receipt": null,
+      "consumed_tick": null,
+      "recorded_from": null
+    },
+    "uncertain_bucket": {
+      "requests": 1,
+      "input_tokens": 5837,
+      "output_tokens": 200,
+      "controller_time_ms": 300,
+      "cost_micros": 0
+    },
+    "agent_modes_after": [
+      "offline-policy",
+      "offline-policy",
+      "offline-policy",
+      "offline-policy",
+      "offline-policy"
+    ]
+  },
+  "06 repeated observations without recording collisions": {
+    "status": "passed",
+    "requests": 6,
+    "distinct_decision_ids": 6,
+    "observation_hashes_shared_by_several_requests": {
+      "f871bf6bb393": [
+        [
+          "abcc3cfbf04f",
+          0,
+          "primary",
+          0
+        ],
+        [
+          "abcc3cfbf04f",
+          0,
+          "repair",
+          1
+        ]
+      ],
+      "b20e7d98a0cd": [
+        [
+          "2950fb1c3986",
+          6,
+          "primary",
+          0
+        ],
+        [
+          "0a6f2b20f0ac",
+          6,
+          "primary",
+          0
+        ]
+      ]
+    },
+    "identity_fields": [
+      "agent",
+      "attempt",
+      "config_hash",
+      "observation_hash",
+      "prompt_version",
+      "role",
+      "run_id",
+      "schema_version",
+      "tick"
+    ]
+  },
+  "07 restart with an unconsumed completed response (reused, not re-requested)": {
+    "status": "passed",
+    "status_after_crash": "completed",
+    "provider_requests_total": 1,
+    "status_after_restart": "consumed"
+  },
+  "08 unknown in-flight request without duplicate dispatch": {
+    "status": "passed",
+    "second_worker_blocked_while_lease_valid": true,
+    "status_after_lease_expiry": "outcome-unknown",
+    "provider_requests": 0,
+    "decision_mode": "fallback"
+  },
+  "09 recorded decision re-execution matches the committed actions": {
+    "status": "passed",
+    "checked": 34,
+    "matched": 34,
+    "mismatch_count": 0,
+    "model_decisions_by_mode": {
+      "model-proposal": 15,
+      "model-intent-execution": 19,
+      "offline-policy": 46
+    },
+    "parser_version": "genesis-parser-1",
+    "prompt_version": "genesis-prompt-1"
+  },
+  "10 state replay and re-execution with network disabled": {
+    "status": "passed",
+    "state_replay_hash_matches": true,
+    "reexecution_all_matched": true,
+    "network": "socket creation disabled during replay"
+  },
+  "11 strict recorded fork stops at the first mismatch": {
+    "status": "passed",
+    "unchanged_fork_reused_recordings": 4,
+    "historical_usage_not_recharged": true,
+    "diverged_fork_stopped": {
+      "tick": 10,
+      "error": "no matching recording for agent a01 tick 10 primary"
+    }
+  }
+}

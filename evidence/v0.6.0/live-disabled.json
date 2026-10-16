@@ -1,0 +1,6 @@
+{
+  "config": "config/live-run.disabled.json",
+  "live_authorized": false,
+  "refused": "live model calls need live_authorized in the profile and GENESIS_LIVE_MODEL_CALLS=1",
+  "provider_contacted": false
+}

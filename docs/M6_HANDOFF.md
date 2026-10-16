@@ -1,5 +1,7 @@
 # M6 handoff: one model-backed controller under budgets
 
+> **Status at v0.6.0:** steps 1–7 below are implemented and verified with fixtures and mocked transport (see [IMPLEMENTATION_STATUS](IMPLEMENTATION_STATUS.md) and [ADR-008](ADR-008-model-controller-boundary.md)). Step 8 and the three decisions at the end are still open; the disabled template and [LIVE_RUN_CHECKLIST](LIVE_RUN_CHECKLIST.md) describe what a first live run needs. The text below is the handoff as written at v0.5.2.
+
 M5c closes the offline search-tuning cycle. M6 integrates a model-backed controller behind the interfaces that already exist. Most of the work, including the adapter, recording, budgets, replay and tests, can be built and tested with **recorded fixtures and a fake provider, without any paid call**. A live provider is needed only for the final exploratory runs, and only after you choose a provider and set a budget.
 
 ## What already exists

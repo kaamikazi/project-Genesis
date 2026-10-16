@@ -1,0 +1,67 @@
+{
+  "adapter_capabilities": {
+    "adapter": "ollama-chat-1",
+    "wire_protocol": "Ollama POST /api/chat, non-streamed (stream=false)",
+    "structured_outputs": true,
+    "reports_usage": "prompt_eval_count / eval_count when present (otherwise usage is estimated, labelled)",
+    "output_limit": "options.num_predict = max_output_tokens",
+    "idempotency_key": false,
+    "status_lookup": false,
+    "streaming": false,
+    "reasoning_fields": "discarded (message.thinking is never stored)"
+  },
+  "output_schema": {
+    "type": "object",
+    "additionalProperties": false,
+    "required": [
+      "kind",
+      "params"
+    ],
+    "properties": {
+      "kind": {
+        "type": "string",
+        "enum": [
+          "abandon_session",
+          "accept_teaching",
+          "accept_trade",
+          "consume",
+          "deposit",
+          "gather",
+          "inspect_artifact",
+          "learn_step",
+          "move",
+          "offer_teaching",
+          "offer_trade",
+          "practice_step",
+          "produce",
+          "propose_artifact",
+          "send_message",
+          "submit_artifact",
+          "teach_step",
+          "test_artifact",
+          "transfer",
+          "use_artifact",
+          "wait",
+          "withdraw",
+          "withdraw_artifact"
+        ]
+      },
+      "params": {
+        "type": "object"
+      },
+      "explanation": {
+        "type": "string",
+        "maxLength": 200
+      },
+      "standing": {
+        "type": "boolean"
+      }
+    }
+  },
+  "instructions_sha256": "6f59cc2449914ccbc836b62ba2650a7a588832af616ae072ee01337bf35e5e37",
+  "example_config_hash": "60d58900b80fd07a93f04599935ab4c146b93f940de522488b4ede11b764796e",
+  "official_references": [
+    "https://docs.ollama.com/api/chat",
+    "https://docs.ollama.com/capabilities/structured-outputs"
+  ]
+}

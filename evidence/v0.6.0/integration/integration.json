@@ -1,0 +1,68 @@
+{
+  "world": {
+    "seed": 101,
+    "task": "workshop-1",
+    "ore_per_site": 900,
+    "max_ticks": 200
+  },
+  "designated_agents": [
+    "a01",
+    "a05"
+  ],
+  "other_agents": "offline controller",
+  "ticks": 120,
+  "wall_seconds": 13.59,
+  "provider_requests": 46,
+  "decisions_by_mode": {
+    "model-proposal": 44,
+    "model-intent-execution": 38,
+    "offline-policy": 157,
+    "fallback": 1
+  },
+  "calls_per_agent_tick": {
+    "a01": 0.183,
+    "a05": 0.192
+  },
+  "min_gap_between_primary_calls": {
+    "a01": 5,
+    "a05": 5
+  },
+  "ledger_status_counts": {
+    "consumed": 45,
+    "failed-delivered": 1
+  },
+  "reducer_model_reconciliation": {
+    "decisions_by_mode": {
+      "model-proposal": 44,
+      "model-intent-execution": 38,
+      "offline-policy": 157,
+      "fallback": 1
+    },
+    "attributed_calls": 46,
+    "attributed_reported_tokens": 166514,
+    "ledger_rows": 46,
+    "ledger_rows_not_attributed_to_a_committed_decision": 0,
+    "missing_rows": [],
+    "double_referenced": [],
+    "receipt_mismatches": [],
+    "consumed_but_unreferenced": [],
+    "receipts_not_consumed": [],
+    "world_metrics": {
+      "model_calls": 46,
+      "tokens": 166514
+    },
+    "ledger_attributed": {
+      "calls_sent": 46,
+      "reported_tokens": 166514
+    },
+    "reconciled": true
+  },
+  "holdings_reconcile": true,
+  "reexecution": {
+    "checked": 82,
+    "matched": 82,
+    "mismatch_count": 0
+  },
+  "export_sha256": "7616dc477703f18c895838ea55271f98c8d0b41034f68cf447f449c785932062",
+  "export_bytes": 5747351
+}

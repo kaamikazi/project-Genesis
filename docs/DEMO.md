@@ -77,6 +77,16 @@ Create a **workshop-1** world with cohorts, teaching and **v0.5 search and mento
 - **Transport bar.** It shows the target and the achieved ticks per second. The selected speed is a target; with 40 active agents during an overlap, the engine achieves fewer.
 - **Teaching (`teaching_policy: package-scheduled`).** Juniors keep asking seniors for lessons, and seniors don't start lessons they can't finish before retiring. Dependency lessons appear in the Generations panel with their package.
 
+## 3e. Watch a model-controller pipeline with a fixture (v0.6)
+
+Tick **Fixture model inhabitant (a01)** when creating a world. a01's decisions then go through the full model path: scheduler, budget reservation, durable ledger, prompt from the restricted observation, response, strict parsing, engine validation. The responses come from a scripted fixture policy, **not a model**.
+
+- **Model panel.** For each model agent: the latest decision mode (*model proposal*, *model intent execution*, *offline policy*, *fallback*), the scheduler's reason, the action and whether the engine accepted it, and the ledger receipt.
+- **Budgets.** Committed, pending, uncertain and historical usage, and what remains. Cost reads "unpriced": no price exists for a fixture.
+- **Requests.** Every ledger row with its status, usage basis and parse result. *Inspect* shows the sanitized prompt and the response that was used.
+- **Pause model scheduling** stops new requests; a01 continues under its offline policy, labelled as such.
+- Provider latency is wall-clock time, shown separately from simulation speed.
+
 ## 4. The controlled experiment (Experiments)
 
 This page reads `evidence/v0.5.1/` for M5b (repairs, corrected comparisons, allocation and mentorship experiments, achieved speed; `python tools/generate_evidence_m5b.py`), `evidence/v0.5.0/` for Milestone 5 (Experiments P and T, sealed-2 results, the demonstration, search CPU and restart checks; regenerate with `python tools/generate_evidence_m5.py`), `evidence/v0.4.0/` for Milestone 4 (Experiments A and B, sealed results) and `evidence/v0.3.0/` for the historical Milestone 3 reports. Regenerate with `python tools/generate_evidence_m4.py` (v0.4) or `python tools/generate_evidence.py` (v0.3).
@@ -110,4 +120,4 @@ The reducer recomputes everything from events and reports whether its reconstruc
 | Candidate programs and revisions | Bounded search: first-improvement (v0.4 reference) or beam (v0.5) |
 | Component chain in `genesis/demo5.py` | Scripted demonstration (labelled), validated by the ordinary rules |
 | Retirement and succession | Scheduled by the scenario |
-| Model-controlled behaviour | None; no model calls are made |
+| Model-backed inhabitants (v0.6) | Implemented; demonstrated only with scripted fixtures and mocked transport. No live model has controlled any inhabitant. |

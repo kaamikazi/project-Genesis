@@ -118,6 +118,39 @@ The scoped copy-on-write also copies session participants and the session's arti
 - **Final evaluation.** `workshop-sealed-4` manifests exclude panels and the selection panel.
 - **Ablation flag.** `alloc_disable` switches off one guard of `beam-alloc` at a time.
 
+## v0.6.0 additions (M6): the model-controller boundary
+
+A run may designate up to four inhabitants as **model-backed**. Everything else is unchanged; a run without a model profile behaves exactly as v0.5.2.
+
+```
+ Phase A (outside the write transaction)                Phase B (BEGIN IMMEDIATE)
+ scheduler ─▶ budget reservation ─▶ ledger row ─▶ I/O    verify state hash unchanged
+   (event-driven)    (durable)       (lease)      │      ModelController: parse → one Action, or labelled fallback
+                                                  ▼      engine validates and applies (authoritative)
+                                     response persisted  tick committed + ledger rows marked consumed (same tx)
+```
+
+| Module | Role |
+|---|---|
+| `genesis/model/schema.py` | The public output schema and strict parser: one JSON object, known kind, exact parameters, bounded strings, finite numbers, no extra fields, no agent identity. |
+| `genesis/model/prompt.py` | Versioned instructions + restricted observation (as data) + action schema + bounded memory. Deterministic truncation, recorded. |
+| `genesis/model/adapter.py` | The Ollama `/api/chat` wire protocol (non-streamed). Structured outputs are a declared capability, not assumed. Reasoning fields are discarded. |
+| `genesis/model/transport.py` | `HttpTransport` (urllib, no retries) and `InProcessTransport`. Errors are classified as *not delivered* or *outcome unknown*. |
+| `genesis/model/ledger.py` | The durable call ledger (`model_calls`) with lifecycle validation, stable decision identity and receipts. |
+| `genesis/model/budget.py` | Committed, pending, uncertain and historical buckets; reservation before dispatch; integer micro-unit cost only with configured prices. |
+| `genesis/model/scheduler.py` | When to deliberate: first decision, rejection, new message, standing intent ended, refresh interval; never more often than `min_interval`. |
+| `genesis/model/runtime.py` | Phase A: recovery, leases, budgets, dispatch, persistence, recorded continuation, crash hooks for tests. |
+| `genesis/model/controller.py` | Phase B: a pure controller (no I/O) that turns prepared responses into actions or labelled fallbacks. |
+| `genesis/model/recorded.py` | Decision re-execution from the ledger with hash checks. |
+| `genesis/model/observer.py` | Sanitized observer summary and transcript view. |
+
+- **Engine authority.** A model only proposes. Its proposal passes the same `Action` validation and world rules as every other controller. The controller cannot reach the store, the network or the world state.
+- **No I/O inside a write transaction.** Phase A commits each ledger transition in its own short transaction. Phase B re-reads the state and refuses prepared work if the state hash changed.
+- **Never blindly resend.** A row that reached `dispatching` is never sent again. After a crash it becomes `outcome-unknown` (reservation kept) once its lease expires; another worker meanwhile gets `DecisionInFlight`. Ollama has no idempotency key or status lookup, so uncertainty cannot be resolved automatically; an operator can mark it with `POST /api/runs/{id}/model/resolve`.
+- **State replay never calls a controller.** Decision re-execution rebuilds observations and prompts from replayed state and checks them against the ledger. Recorded continuation (`mode: recorded`) reuses a source run's responses and stops on the first mismatch.
+- **Secrets.** Profiles reject credential-bearing URLs; no headers are stored; prompts and responses containing credential-like text are blocked before dispatch or scrubbed before display.
+- **Live calls** require `live_authorized: true` in the profile *and* `GENESIS_LIVE_MODEL_CALLS=1`. The API can only create fixture-backed model runs.
+
 ## Version boundary
 
 The manifest stores the engine, rule, evaluator and schema versions. A run written by different versions stays **readable and replayable**, because replay only applies recorded deltas. It **refuses continuation** (step, run, fork, checkpoint, import) with an explicit message. History is never rewritten. The server resumes the newest run the current engine can continue.
@@ -141,3 +174,7 @@ A single daemon thread owned by `SimulationService` advances the selected run at
 | `POST /api/runs/{id}/checkpoint`, `/fork` | Persistence operations |
 | `GET /api/runs/{id}/export` | Full export download |
 | `GET /api/experiments` | `comparison/comparison.json` and `inheritance/inheritance.json` from the current evidence directory (`evidence/v0.3.0`, or `GENESIS_EVIDENCE`) |
+| `POST /api/model-runs` | Create a world with fixture-backed model inhabitants (never live) |
+| `GET /api/runs/{id}/model` | Sanitized model summary: modes, scheduler reasons, budgets, request states, latency |
+| `GET /api/runs/{id}/model/calls/{decision_id}` | One sanitized ledger row (prompt, response used, parse result, receipt) |
+| `POST /api/runs/{id}/model/pause`, `/resolve` | Pause model scheduling; record an operator's resolution of an uncertain request |

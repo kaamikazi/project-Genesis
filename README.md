@@ -2,14 +2,14 @@
 
 **A persistent, inspectable digital world where inhabitants act under enforced rules, invent procedures that are executed and measured, and pass verified knowledge on, including to successors after their creators retire.**
 
-GENESIS runs fully offline on a laptop. It needs no API key, GPU or cloud service. Every reported number is recomputed from immutable events by an independent reducer.
+GENESIS runs fully offline on a laptop. It needs no API key, GPU or cloud service; live model calls are disabled by default. Every reported number is recomputed from immutable events by an independent reducer.
 
-> **v0.5.2 (M5c)** adds:
-> - versioned random streams and paired world manifests with preflight checks
-> - a bounded, frozen study of admission panels on 12 distinct task parameterisations, with fresh sealed-4 final cases
-> - leave-one-out tests of the allocation bundle
+> **v0.6.0 (M6)** adds the boundary for **model-backed inhabitants**:
+> - a strict one-action output contract, prompts built only from the restricted observation, and an Ollama `/api/chat` adapter
+> - an event-driven scheduler, a durable request ledger that never blindly resends, budgets with reservations, and explicit fallback
+> - state replay, decision re-execution and strict recorded continuation; a sanitized observer panel
 >
-> The inhabitants still follow designed offline policies, and nothing is emergent. **Admission panels made no consistent difference. The allocation bundle's earlier harm did not reproduce.** The next milestone is the M6 controller integration ([handoff](docs/M6_HANDOFF.md)). See [docs/IMPLEMENTATION_STATUS.md](docs/IMPLEMENTATION_STATUS.md). Earlier releases are preserved as git tags.
+> **It has been verified only with scripted fixtures and a loopback mock server. No live model has been called, and no model has controlled an inhabitant.** Offline worlds are bit-for-bit unchanged from v0.5.2. A first live run needs your endpoint, model and budget choices ([checklist](docs/LIVE_RUN_CHECKLIST.md)). See [docs/IMPLEMENTATION_STATUS.md](docs/IMPLEMENTATION_STATUS.md). Earlier releases are preserved as git tags.
 
 ## What happens in a run
 
@@ -19,6 +19,10 @@ GENESIS runs fully offline on a laptop. It needs no API key, GPU or cloud servic
 4. Researchers revise their procedures. A revision is accepted only if it beats its parent on the same cases: 32 → 28 → 24 energy. Here 24 is provably the minimum for this evaluation set.
 5. With library access, other inhabitants learn the current procedure. An adoption counts only after a logged transmission followed by a measured saving.
 6. Creators can retire and be replaced by **fresh successors**. A successor starts with nothing and must acquire the procedure through the path its policy allows. The observatory's *Why this counts as retention* panel shows every link.
+
+## What v0.6.0 verified
+
+Using scripted fixtures through the real adapter and a loopback mock server: valid actions, one bounded repair after invalid JSON, illegal actions rejected by the engine, budget exhaustion with labelled fallback, a timeout kept as uncertain usage and never resent, distinct identities for repeated observations, restart reuse of a completed response, a second worker blocked from a request in flight, re-execution matching every committed model decision, replay with networking disabled, and a recorded fork that stops at the first mismatch ([evidence](evidence/v0.6.0/README.md)). These show the plumbing works; they say nothing about how well a real model would play.
 
 ## What v0.5.2 found
 
@@ -50,21 +54,24 @@ GENESIS runs fully offline on a laptop. It needs no API key, GPU or cloud servic
 | [audit/AUDIT-v0.2.0](docs/audit/AUDIT-v0.2.0.md) | Claim-by-claim audit of the previous release |
 | [IMPLEMENTATION_STATUS](docs/IMPLEMENTATION_STATUS.md) | What works, measurements, gaps |
 | [METRICS](docs/METRICS.md) | The versioned metric dictionary |
-| [M6_HANDOFF](docs/M6_HANDOFF.md) | Controller interfaces and the remaining integration work for M6 |
+| [M6_HANDOFF](docs/M6_HANDOFF.md) | The M6 plan as handed off (steps 1–7 now done) |
+| [LIVE_RUN_CHECKLIST](docs/LIVE_RUN_CHECKLIST.md) | Decisions and steps required before any live model call |
 | [ROADMAP](docs/ROADMAP.md) | Milestones and their dependencies |
 | [RUNBOOK](docs/RUNBOOK.md) | Restart, replay, forks with interventions, export, reducer, profiling |
 | [DEMO](docs/DEMO.md) | A guided walkthrough |
 | [RELATED_WORK](docs/RELATED_WORK.md) | Primary references and open questions |
-| ADRs: [001](docs/ADR-001-foundation.md), [002](docs/ADR-002-revisions-removal-versioning.md), [003](docs/ADR-003-storage-succession-audit.md), [004](docs/ADR-004-evaluation-teaching-workshop.md), [005](docs/ADR-005-search-components-mentorship.md), [006](docs/ADR-006-repair-allocation-mentorship.md), [007](docs/ADR-007-paired-worlds-admission.md) | Architecture decisions |
+| ADRs: [001](docs/ADR-001-foundation.md), [002](docs/ADR-002-revisions-removal-versioning.md), [003](docs/ADR-003-storage-succession-audit.md), [004](docs/ADR-004-evaluation-teaching-workshop.md), [005](docs/ADR-005-search-components-mentorship.md), [006](docs/ADR-006-repair-allocation-mentorship.md), [007](docs/ADR-007-paired-worlds-admission.md), [008](docs/ADR-008-model-controller-boundary.md) | Architecture decisions |
 
 ## Layout
 
 ```
 genesis/      kernel (models, world, engine, invention), controllers, storage, reducer, experiments, profiling, API, CLI
+  model/      model-controller boundary: schema, prompt, adapter, transport, ledger, budget, scheduler, runtime, replay, observer
 frontend/     React + TypeScript + Vite observatory (built into frontend/dist and served by the API)
 tests/        invariant, lifecycle, storage, reducer, optimisation, persistence and API tests
 tools/        evidence generation per release, calibration, diagnosis, restart verification, CPU benchmark, audits
 scenarios/    sample world configurations
-evidence/     v0.5.2/ (current: manifest, preflight, calibration, protocol, primary, ablation, sealed-4), v0.5.1/, v0.5.0/, v0.4.0/, v0.3.0/, superseded/v0.2.0/
+config/       disabled live-run template (no credentials)
+evidence/     v0.6.0/ (current: fixture scenarios, integration run, offline parity), v0.5.2/ (manifest, preflight, calibration, protocol, primary, ablation, sealed-4), v0.5.1/, v0.5.0/, v0.4.0/, v0.3.0/, superseded/v0.2.0/
 docs/         the documents above
 ```

@@ -1,0 +1,61 @@
+{
+  "started_at": "2026-10-16T15:14:16.280957+00:00",
+  "source_at_start": {
+    "git_commit": "dccd1c348dc8765905babadaf381ddd73ab4a860",
+    "runtime_code_dirty": false,
+    "dirty_files": [],
+    "source_sha256": "350c87f06059d058184c1a04e6d77ed5dbeb4243bc8438359d408ce78370f332",
+    "files": 52,
+    "controller_sha256": "d8aeb3365f93c76cdd636439ec0931c07481a8c63b0b02f4a64d74b75dd1f49a",
+    "engine_sha256": "2641b191dd23535ed4301f78cd4a03202d4326e104f527bc7ed424edb354c386",
+    "model_package_sha256": "5be3cb3109e0bc6dffe9f307c980d4177a055161483a5901e8fdd65d83063a7d"
+  },
+  "versions": {
+    "engine": "0.6.0",
+    "rules": "phase-world-5.2",
+    "evaluator": "phase-evaluator-3+workshop-evaluator-4",
+    "prompt": "genesis-prompt-1",
+    "action_schema": "genesis-action-schema-1",
+    "parser": "genesis-parser-1",
+    "adapter": "ollama-chat-1"
+  },
+  "steps": [
+    {
+      "step": "scenarios",
+      "exit_code": 0,
+      "seconds": 22.8
+    },
+    {
+      "step": "integration",
+      "exit_code": 0,
+      "seconds": 35.3
+    },
+    {
+      "step": "live disabled",
+      "exit_code": 0,
+      "seconds": 0.0
+    },
+    {
+      "step": "offline parity",
+      "exit_code": 0,
+      "seconds": 35.9
+    },
+    {
+      "step": "checks",
+      "exit_code": 0,
+      "seconds": 450.2
+    }
+  ],
+  "source_at_end": {
+    "git_commit": "dccd1c348dc8765905babadaf381ddd73ab4a860",
+    "runtime_code_dirty": false,
+    "dirty_files": [],
+    "source_sha256": "350c87f06059d058184c1a04e6d77ed5dbeb4243bc8438359d408ce78370f332",
+    "files": 52,
+    "controller_sha256": "d8aeb3365f93c76cdd636439ec0931c07481a8c63b0b02f4a64d74b75dd1f49a",
+    "engine_sha256": "2641b191dd23535ed4301f78cd4a03202d4326e104f527bc7ed424edb354c386",
+    "model_package_sha256": "5be3cb3109e0bc6dffe9f307c980d4177a055161483a5901e8fdd65d83063a7d"
+  },
+  "finished_at": "2026-10-16T15:23:20.757450+00:00",
+  "evidence_bytes": 489446
+}
