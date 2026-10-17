@@ -1,0 +1,251 @@
+{
+  "label": "live smoke run 2 (2026-10-17, engine 0.6.2 commit e81c873, genesis-gemini-wire-2)",
+  "publication": "summary + hashes only (owner's choice); prompts, responses and keys are not included",
+  "engine_version_of_run": "0.6.2",
+  "model_profile_hash": "94f396eefa219904f6b600fbac2b1fac9312366e4e2ab1b84a399b9179a883ce",
+  "model_config_hash": "97b9d347dec8a780908c0a1063bd9b796e2c4e426c6040cd809246d82e5f4079",
+  "final_state_hash": "03566fc534094eeddc0928e9490451c8de55e3df2a5a06a49c2157fd2328f17b",
+  "report": {
+    "run_id": "12a7d65f5416",
+    "profile_hash": "94f396eefa219904f6b600fbac2b1fac9312366e4e2ab1b84a399b9179a883ce",
+    "config_hash": "97b9d347dec8a780908c0a1063bd9b796e2c4e426c6040cd809246d82e5f4079",
+    "source": "live",
+    "ticks_committed": 40,
+    "stopped_early": null,
+    "decisions_by_mode": {
+      "model-proposal": 8,
+      "model-intent-execution": 4,
+      "offline-policy": 28
+    },
+    "model_actions": {
+      "accepted": 8,
+      "rejected": 4,
+      "rejections": {
+        "insufficient ore for batch (needs 4)": 1,
+        "insufficient energy for batch (needs 10)": 2,
+        "insufficient ore for batch (needs 7)": 1
+      }
+    },
+    "fallbacks": [],
+    "requests": {
+      "total_rows": 8,
+      "by_status": {
+        "consumed": 8
+      },
+      "repairs": 0,
+      "parse_or_content_errors": 0,
+      "finish_reasons": {
+        "STOP": 8
+      },
+      "quota_events": 0,
+      "reservation_exceeded": 0,
+      "returned_models": [
+        "gemini-3.5-flash-lite"
+      ]
+    },
+    "usage": {
+      "committed": {
+        "requests": 8,
+        "input_tokens": 39731,
+        "output_tokens": 398,
+        "controller_time_ms": 15709,
+        "cost_micros": 0
+      },
+      "pending": {
+        "requests": 0,
+        "input_tokens": 0,
+        "output_tokens": 0,
+        "controller_time_ms": 0,
+        "cost_micros": 0
+      },
+      "uncertain": {
+        "requests": 0,
+        "input_tokens": 0,
+        "output_tokens": 0,
+        "controller_time_ms": 0,
+        "cost_micros": 0
+      },
+      "thinking_tokens": 0,
+      "rows_charged_at_reservation": 0
+    },
+    "latency_ms": {
+      "count": 8,
+      "median": 1915.2,
+      "max": 2504.21
+    },
+    "reducer_model_reconciled": true,
+    "holdings_reconcile": true,
+    "reexecution": {
+      "checked": 12,
+      "matched": 12,
+      "mismatch_count": 0,
+      "all_matched": true
+    },
+    "note": "40 ticks are an engineering test, not evidence of intelligent behaviour.",
+    "wall_seconds": 108.3
+  },
+  "requests": [
+    {
+      "tick": 0,
+      "role": "primary",
+      "status": "consumed",
+      "finish_reason": "STOP",
+      "returned_model": "gemini-3.5-flash-lite",
+      "action_kind": "produce",
+      "param_names": [],
+      "parse_error": null,
+      "blocked_reason": null,
+      "input_tokens": 1647,
+      "output_tokens": 15,
+      "thinking_tokens": null,
+      "usage_basis": "reported",
+      "latency_ms": 2014.35,
+      "prompt_sha256": "c33f23b2e2ad029897c5801ac6b34c6416fc8ac94c93e3bc909bc125bd018c7f",
+      "response_sha256": "dbf8312417a3fb56c2c85c045963ae9cec6759da14c540dd4d5318e2e1788547",
+      "receipt": "d3a4632e856c4b779052e3637796836bb055d42cfae315fd3db3ffe5abb77c75"
+    },
+    {
+      "tick": 5,
+      "role": "primary",
+      "status": "consumed",
+      "finish_reason": "STOP",
+      "returned_model": "gemini-3.5-flash-lite",
+      "action_kind": "test_artifact",
+      "param_names": [
+        "artifact"
+      ],
+      "parse_error": null,
+      "blocked_reason": null,
+      "input_tokens": 3335,
+      "output_tokens": 67,
+      "thinking_tokens": null,
+      "usage_basis": "reported",
+      "latency_ms": 2080.63,
+      "prompt_sha256": "7c51ee04affe16414fc29c3e66a71d9a6b012e374b45cca9dd32f1b627031807",
+      "response_sha256": "6231895a3b7b6d8d4f6c43b3f4cfc04bbf08d524bc7e08b0784c85e1dd67279c",
+      "receipt": "de1ecd2ce5d599bca8fc17b92269e564ac95cc0f4112fcd28c92459d003d0b89"
+    },
+    {
+      "tick": 10,
+      "role": "primary",
+      "status": "consumed",
+      "finish_reason": "STOP",
+      "returned_model": "gemini-3.5-flash-lite",
+      "action_kind": "produce",
+      "param_names": [],
+      "parse_error": null,
+      "blocked_reason": null,
+      "input_tokens": 5754,
+      "output_tokens": 15,
+      "thinking_tokens": null,
+      "usage_basis": "reported",
+      "latency_ms": 1946.28,
+      "prompt_sha256": "d0758753da6ebb35e0ef65714351325f60ab2e5af3ebb6290ac933ad129e60b8",
+      "response_sha256": "dbf8312417a3fb56c2c85c045963ae9cec6759da14c540dd4d5318e2e1788547",
+      "receipt": "3bb864e529282fddd8816430d6bb6632cb5666573fe19ab55f0c9f75dd507da4"
+    },
+    {
+      "tick": 15,
+      "role": "primary",
+      "status": "consumed",
+      "finish_reason": "STOP",
+      "returned_model": "gemini-3.5-flash-lite",
+      "action_kind": "produce",
+      "param_names": [],
+      "parse_error": null,
+      "blocked_reason": null,
+      "input_tokens": 5664,
+      "output_tokens": 13,
+      "thinking_tokens": null,
+      "usage_basis": "reported",
+      "latency_ms": 1777.34,
+      "prompt_sha256": "457e12edce305bf8124e51587dc29342154d6a5914b1212757a0f652bbb611b9",
+      "response_sha256": "ef25f1b2d0fab99f9018e3355e099a2bfd960c19ad9c384d9d2c557dbce454f2",
+      "receipt": "c27363061b06750155b52758f9630a5f2261a62420d93291436986df642130f4"
+    },
+    {
+      "tick": 20,
+      "role": "primary",
+      "status": "consumed",
+      "finish_reason": "STOP",
+      "returned_model": "gemini-3.5-flash-lite",
+      "action_kind": "use_artifact",
+      "param_names": [
+        "artifact"
+      ],
+      "parse_error": null,
+      "blocked_reason": null,
+      "input_tokens": 5651,
+      "output_tokens": 74,
+      "thinking_tokens": null,
+      "usage_basis": "reported",
+      "latency_ms": 1740.21,
+      "prompt_sha256": "042762a21a1cf1f921aa9d0b92a4eebb7b996f6f57a6191b9b8a20c6a7dc4f43",
+      "response_sha256": "dbb242a666203560d26db7739f2df4df15ade70fdd4800574f168f6d1483a97e",
+      "receipt": "15917617838b87da5efb4422b18cd41e3570126e2ad7a6f1f0fd4033bd264dbb"
+    },
+    {
+      "tick": 25,
+      "role": "primary",
+      "status": "consumed",
+      "finish_reason": "STOP",
+      "returned_model": "gemini-3.5-flash-lite",
+      "action_kind": "use_artifact",
+      "param_names": [
+        "artifact"
+      ],
+      "parse_error": null,
+      "blocked_reason": null,
+      "input_tokens": 5842,
+      "output_tokens": 74,
+      "thinking_tokens": null,
+      "usage_basis": "reported",
+      "latency_ms": 1764.4,
+      "prompt_sha256": "4a6c6469c2547b20407f4893acbf8a02ba6a3c3acd5a56883493e2d8a302e292",
+      "response_sha256": "dbb242a666203560d26db7739f2df4df15ade70fdd4800574f168f6d1483a97e",
+      "receipt": "044e6b8f7144bb3705a45ba32241febab478581b03d9fafe65ed0862d3d26ce5"
+    },
+    {
+      "tick": 30,
+      "role": "primary",
+      "status": "consumed",
+      "finish_reason": "STOP",
+      "returned_model": "gemini-3.5-flash-lite",
+      "action_kind": "use_artifact",
+      "param_names": [
+        "artifact"
+      ],
+      "parse_error": null,
+      "blocked_reason": null,
+      "input_tokens": 5775,
+      "output_tokens": 69,
+      "thinking_tokens": null,
+      "usage_basis": "reported",
+      "latency_ms": 1884.22,
+      "prompt_sha256": "7eda620aa3fffdbfc94a2c7f4377bf2688781a6e39d975473c448e792b5e8699",
+      "response_sha256": "24452ee03e3bb8aeeb87600859a9c7e83cecdc37d726c682d648be804c2de838",
+      "receipt": "18275bc4e150e41b21583e55889bf5171d4ba55f2293f7761415015e9bf71d2c"
+    },
+    {
+      "tick": 35,
+      "role": "primary",
+      "status": "consumed",
+      "finish_reason": "STOP",
+      "returned_model": "gemini-3.5-flash-lite",
+      "action_kind": "use_artifact",
+      "param_names": [
+        "artifact"
+      ],
+      "parse_error": null,
+      "blocked_reason": null,
+      "input_tokens": 6063,
+      "output_tokens": 71,
+      "thinking_tokens": null,
+      "usage_basis": "reported",
+      "latency_ms": 2504.21,
+      "prompt_sha256": "f34b722f5d7071e74aa1c4ad79d66467f8d464c369c1637bfaaae7811fef3d07",
+      "response_sha256": "862b6acf6d54e6b629f7fd3255075c4baa37a5e67393bac0e1c3d7543e7966a3",
+      "receipt": "0900132a36301cf510a192fc2c3c773be3c43cb6234baa12c5804c7874ad9cf9"
+    }
+  ]
+}

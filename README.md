@@ -4,7 +4,9 @@
 
 GENESIS runs fully offline on a laptop. It needs no API key, GPU or cloud service; live model calls are disabled by default. Every reported number is recomputed from immutable events by an independent reducer.
 
-> **v0.6.1 (M6a)** adds a native **Gemini Developer API** adapter (`generateContent`, `gemini-3.5-flash-lite` proposed) behind the M6 boundary. The key is read from `GEMINI_API_KEY` only when a request is sent, goes only to Google's official origin, and is never stored. Thinking tokens are counted, quota errors stop dispatch, and a free-tier smoke run (one agent, 40 ticks, at most 10 requests) is prepared but **disabled**. It has been verified only with mocks and a synthetic key: **no request has been sent to Google.** See [docs/GEMINI_SETUP.md](docs/GEMINI_SETUP.md).
+> **v0.6.2 (M6b smoke)**: the Gemini path has now run **live**. Two bounded smoke runs on 2026-10-17 (`gemini-3.5-flash-lite`, free tier, one inhabitant, 40 ticks) used 18 requests. Run 1 exposed a wire-schema defect (every action parameter came back empty), fixed in v0.6.2. In run 2 all 8 responses were valid on the first attempt: 8 model actions accepted and 4 rejected by the engine for lack of resources, ledger reconciled, re-execution 12 of 12. That is an engineering test, not evidence of intelligent play. Evidence is summary and hashes only ([evidence/v0.6.2](evidence/v0.6.2/README.md)).
+>
+> **v0.6.1 (M6a)** added a native **Gemini Developer API** adapter (`generateContent`, `gemini-3.5-flash-lite` proposed) behind the M6 boundary. The key is read from `GEMINI_API_KEY` only when a request is sent, goes only to Google's official origin, and is never stored. Thinking tokens are counted, quota errors stop dispatch, and a free-tier smoke run (one agent, 40 ticks, at most 10 requests) is prepared but **disabled**. See [docs/GEMINI_SETUP.md](docs/GEMINI_SETUP.md).
 >
 > **v0.6.0 (M6)** added the boundary for model-backed inhabitants: a strict one-action contract, an event-driven scheduler, a durable request ledger that never blindly resends, budgets with reservations, explicit fallback, three replay modes and a sanitized observer. **No live model has controlled an inhabitant.** Offline worlds are bit-for-bit unchanged. See [docs/IMPLEMENTATION_STATUS.md](docs/IMPLEMENTATION_STATUS.md). Earlier releases are preserved as git tags.
 
@@ -70,6 +72,6 @@ tests/        invariant, lifecycle, storage, reducer, optimisation, persistence 
 tools/        evidence generation per release, calibration, diagnosis, restart verification, CPU benchmark, audits
 scenarios/    sample world configurations
 config/       disabled live-run templates for Ollama and Gemini (no credentials)
-evidence/     v0.6.1/ (current: Gemini contract, fault matrix, guards, recovery, smoke rehearsal), v0.6.0/, v0.5.2/ (manifest, preflight, calibration, protocol, primary, ablation, sealed-4), v0.5.1/, v0.5.0/, v0.4.0/, v0.3.0/, superseded/v0.2.0/
+evidence/     v0.6.2/ (current: live smoke summaries), v0.6.1/ (Gemini mock verification), v0.6.0/, v0.5.2/ (manifest, preflight, calibration, protocol, primary, ablation, sealed-4), v0.5.1/, v0.5.0/, v0.4.0/, v0.3.0/, superseded/v0.2.0/
 docs/         the documents above
 ```

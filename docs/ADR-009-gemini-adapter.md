@@ -23,3 +23,7 @@ The owner selected Google AI Studio (the Gemini Developer API) as the available 
 - An unconfirmed property of the live API (schema acceptance, whether thinking counts against the output limit, real latency, real quota) shows up in the smoke run as a labelled failure or halt, not as a silent success.
 - The engine version becomes 0.6.1, so v0.6.0 runs are read-only and still replay. Offline worlds are unchanged.
 - Not built: paid Gemini service, streaming, the Interactions API, tools or grounding, Vertex AI, and multi-key handling.
+
+## Addendum (v0.6.2, 2026-10-17): wire schema 2 after the first live run
+
+The first live smoke run showed that decision 3 was wrong in one respect. An object schema without `properties` does not leave parameters open under Gemini's constrained decoding: it forbids every key. All parameterised actions came back with `"params": {}`. Wire schema 2 replaces it with one `anyOf` branch per action kind, with typed and required parameters (integers for coordinates and amounts, resource enums, a nullable `parent`), and `standing` only on kinds that allow it. `propose_artifact` is excluded from the wire schema, since its free-form program is not expressible in the documented subset. The schema version is a profile field, so v0.6.1 profiles keep their hashes and recordings re-execute; live dispatch refuses wire-1. A constrained-decoding fixture reproduces the failure offline. In the second live run all 8 responses parsed on the first attempt.

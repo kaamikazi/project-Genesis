@@ -1,6 +1,6 @@
-# Live-run checklist (not yet performed)
+# Live-run checklist
 
-No live model call has been made in GENESIS. This checklist must be completed, and the owner must authorize the run explicitly, before the first one.
+Performed for Gemini on 2026-10-17 (two smoke runs; see [IMPLEMENTATION_STATUS](IMPLEMENTATION_STATUS.md)). Complete it again, and get the owner's explicit authorization, before every further live run.
 
 - **Gemini (selected route, v0.6.1):** template [`config/gemini-smoke.disabled.json`](../config/gemini-smoke.disabled.json), setup and the exact commands in [GEMINI_SETUP](GEMINI_SETUP.md). Section 0 below applies in addition to sections 1–4.
 - **Ollama:** template [`config/live-run.disabled.json`](../config/live-run.disabled.json).

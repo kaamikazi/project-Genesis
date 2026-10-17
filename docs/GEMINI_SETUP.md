@@ -1,6 +1,6 @@
 # Gemini Developer API: adapter, setup and the bounded smoke run
 
-Status (v0.6.1): **implemented and verified with mocks only. No request has been sent to Google from this project.**
+Status (v0.6.2): implemented, mock-verified, and **exercised live** in two bounded smoke runs on 2026-10-17 (see [IMPLEMENTATION_STATUS](IMPLEMENTATION_STATUS.md) and `evidence/v0.6.2/`). Run 1 exposed a wire-schema defect that v0.6.2 fixes.
 
 ## The adapter (`genesis/model/gemini.py`, `gemini-generatecontent-1`)
 
@@ -20,7 +20,7 @@ Official documentation consulted on **2026-10-17**:
 | Dependency | Python standard library (`urllib`); no SDK, so no hidden retries. |
 | Request | `systemInstruction` = versioned instructions; `contents[0]` = the restricted observation data block; `generationConfig`: `candidateCount: 1`, `maxOutputTokens`, `temperature`, `responseFormat.text {mimeType: APPLICATION_JSON, schema}`, `thinkingConfig {thinkingLevel: MINIMAL, includeThoughts: false}`; `store: false` (a request-level logging preference, not a promise about Google's retention). No tools, grounding, code execution, retrieval, uploads, cached content or safety overrides. |
 | Credential | `x-goog-api-key` header, read from `GEMINI_API_KEY` by `GeminiTransport` at dispatch time, attached only for the exact origin and `/v1beta/models/…:generateContent` path with no query string. Redirects are never followed. The key never enters profiles, hashes, ledgers, prompts, observations, exports, API responses, logs or Git. GENESIS reads only `GEMINI_API_KEY` (not `GOOGLE_API_KEY`). |
-| Wire schema | `genesis-gemini-wire-1`: kind enum, `params` object, optional `explanation` and `standing`, no extra top-level fields. The documented subset has no `maxLength` and per-kind parameter sets are not expressed, so the strict local parser still enforces the full `genesis-action-schema-1` contract. Structured output constrains format, not legality: the engine judges every action. There is no restricted action subset for the smoke run. |
+| Wire schema | `genesis-gemini-wire-2` (set `adapter.wire_schema`): one `anyOf` branch per action kind with that kind's parameters typed and required, `standing` only where allowed. `propose_artifact` is excluded because its free-form program cannot be expressed in the documented subset. The strict local parser still enforces the full `genesis-action-schema-1` contract; structured output constrains format, not legality. `genesis-gemini-wire-1` (v0.6.1) declared `params` as an object without properties; live, constrained decoding then returned `"params": {}` for every parameterised action. It is kept only so old recordings re-execute, and live dispatch refuses it. |
 | Response handling | Only non-thought text parts of the single candidate reach the parser; thought parts and signatures are dropped and never stored. Blocked prompts, missing or multiple candidates, safety/recitation stops, `MAX_TOKENS` truncation, non-text parts and unknown finish reasons are recorded and become labelled fallbacks without a repair. Malformed JSON or empty text gets at most one repair. |
 | Usage | `promptTokenCount` (+ tool-use prompt) = input; `candidatesTokenCount + thoughtsTokenCount` = generated output (both billed as output); `cachedContentTokenCount` is reported but already inside the prompt count; `totalTokenCount` is checked against the documented sum. Missing, non-integer, non-finite or inconsistent counts are charged at the larger of report and reservation. |
 | Errors | HTTP 429 / `RESOURCE_EXHAUSTED` stops all model dispatch for the run (no retry, no key or project switch). Other error responses are definite rejections (`failed-delivered`, reservation kept). Timeouts and resets after possible delivery are `outcome-unknown`: never resent, reservation kept, operator resolution required. |
@@ -29,7 +29,8 @@ Official documentation consulted on **2026-10-17**:
 ### Known limits (not hidden)
 
 - **Thinking and `maxOutputTokens`.** The Interactions guide says its output limit includes thought tokens; the `generateContent` reference does not say so. GENESIS reserves `maxOutputTokens` for all generated tokens and, if a response reports more, records `reservation_exceeded` and stops dispatch for the run. One response could therefore exceed its reservation before the stop.
-- **Wire schema acceptance.** Whether the live endpoint accepts this schema for this model has not been exercised. A rejection appears as an HTTP 400 `failed-delivered` row and a fallback; the remedy (for example `structured_outputs: false`, which sends JSON mode without a schema) is an operator decision.
+- **Wire schema acceptance.** The endpoint accepted both wire-1 and wire-2 for `gemini-3.5-flash-lite` (live, 2026-10-17). A future rejection would appear as an HTTP 400 `failed-delivered` row and a fallback.
+- **Thinking at MINIMAL** reported no `thoughtsTokenCount` in either live run, so the overshoot question above is still untested live.
 - **Input tokens** are reserved as prompt bytes, an upper bound for typical tokenizers but not a provider guarantee.
 - **Quota and tier** are properties of your Google project. The public model list establishes neither.
 
