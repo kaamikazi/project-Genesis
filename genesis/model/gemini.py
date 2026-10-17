@@ -26,9 +26,15 @@ Choices
 - Thought parts are dropped before anything is stored; only non-thought text parts are joined into the final text.
 - Gemini documents no idempotency key or request-status lookup: an uncertain outcome cannot be reconciled.
 
-The wire schema (genesis-gemini-wire-1) is a deliberately smaller description than the internal contract: the
-documented subset has no `maxLength`, and per-kind parameter sets are not expressed. The strict local parser still
-enforces the full genesis-action-schema-1 contract; structured output constrains format, never legality.
+Wire schemas (the strict local parser always enforces the full genesis-action-schema-1 contract; structured output
+constrains format, never legality):
+- genesis-gemini-wire-1 (v0.6.1): `params` was an object without properties. The first live smoke run (2026-10-17)
+  showed that constrained decoding then cannot emit any parameter key: every parameterised action came back with
+  `"params": {}`. Kept only so recordings made with it still re-execute; live dispatch refuses it.
+- genesis-gemini-wire-2 (v0.6.2): one `anyOf` branch per action kind, with that kind's parameters typed and required
+  (integers for coordinates and amounts, strings for ids, resource enums), `standing` only where allowed. Kinds whose
+  parameters are free-form structures (`propose_artifact`: program/sources) cannot be described by the documented
+  subset and are deliberately excluded from the wire schema; the local parser still accepts them in JSON mode.
 """
 from __future__ import annotations
 
@@ -37,9 +43,11 @@ import math
 from urllib.parse import quote
 
 from ..models import JSON
-from . import GEMINI_ADAPTER_VERSION, GEMINI_WIRE_SCHEMA_VERSION
+from . import GEMINI_ADAPTER_VERSION
+from ..engine import OPTIONAL_PARAMS, PARAMS
+from ..models import RESOURCES
 from .adapter import AdapterResult
-from .schema import KINDS, MAX_EXPLANATION
+from .schema import KINDS, MAX_EXPLANATION, STANDING_KINDS, STRUCTURED_PARAMS
 
 API_VERSION = "v1beta"
 REQUEST_HEADER_ALLOWLIST = ("Content-Type", "Accept")      # x-goog-api-key is added by the transport, never here
@@ -49,8 +57,46 @@ REFUSED = {"SAFETY", "RECITATION", "LANGUAGE", "BLOCKLIST", "PROHIBITED_CONTENT"
            "IMAGE_RECITATION", "PUP_LIMITED_DISABLED"}
 
 
-def wire_schema() -> JSON:
+INTEGER_PARAMS = {"x", "y", "amount", "give_amount", "want_amount"}
+RESOURCE_PARAMS = {"resource", "give", "want"}
+NULLABLE_PARAMS = {"parent"}
+WIRE2_EXCLUDED = sorted(k for k in KINDS if (PARAMS[k] | OPTIONAL_PARAMS.get(k, set())) & STRUCTURED_PARAMS)
+
+
+def _param_schema(name: str) -> JSON:
+    if name in INTEGER_PARAMS:
+        return {"type": "integer"}
+    if name in RESOURCE_PARAMS:
+        return {"type": "string", "enum": list(RESOURCES)}
+    if name in NULLABLE_PARAMS:
+        return {"type": ["string", "null"]}
+    return {"type": "string"}
+
+
+def _wire2() -> JSON:
+    branches = []
+    for kind in KINDS:
+        if kind in WIRE2_EXCLUDED:
+            continue
+        names = sorted(PARAMS[kind] | OPTIONAL_PARAMS.get(kind, set()))
+        params: JSON = {"type": "object"}
+        if names:
+            params = {"type": "object", "additionalProperties": False, "required": sorted(PARAMS[kind]),
+                      "properties": {n: _param_schema(n) for n in names}}
+        props: JSON = {"kind": {"type": "string", "enum": [kind]}, "params": params,
+                       "explanation": {"type": "string", "description": f"optional, at most {MAX_EXPLANATION} characters"}}
+        if kind in STANDING_KINDS:
+            props["standing"] = {"type": "boolean"}
+        branches.append({"type": "object", "additionalProperties": False, "required": ["kind", "params"], "properties": props})
+    return {"anyOf": branches}
+
+
+def wire_schema(version: str = "genesis-gemini-wire-2") -> JSON:
     """The JSON Schema sent as responseFormat.text.schema (documented subset only)."""
+    if version == "genesis-gemini-wire-2":
+        return _wire2()
+    if version != "genesis-gemini-wire-1":
+        raise ValueError(f"unknown wire schema {version}")
     return {"type": "object", "additionalProperties": False, "required": ["kind", "params"],
             "properties": {"kind": {"type": "string", "enum": KINDS},
                            "params": {"type": "object", "description": "exactly the parameters listed for the chosen kind"},
@@ -59,10 +105,11 @@ def wire_schema() -> JSON:
 
 
 def capabilities(cfg: JSON) -> JSON:
-    return {"adapter": GEMINI_ADAPTER_VERSION, "wire_schema": GEMINI_WIRE_SCHEMA_VERSION,
+    return {"adapter": GEMINI_ADAPTER_VERSION, "wire_schema": cfg.get("wire_schema") or "genesis-gemini-wire-1",
+            "wire_schema_excluded_kinds": WIRE2_EXCLUDED if cfg.get("wire_schema") == "genesis-gemini-wire-2" else [],
             "wire_protocol": f"Gemini Developer API POST /{API_VERSION}/models/{{model}}:generateContent (stateless, non-streamed)",
             "structured_outputs": bool(cfg.get("structured_outputs", True)),
-            "schema_enforcement": "wire schema constrains format only (no maxLength, no per-kind params); the strict local parser enforces the full contract",
+            "schema_enforcement": "wire schema constrains format only (no maxLength; wire-2 types each kind's parameters); the strict local parser enforces the full contract",
             "thinking": f"thinkingLevel={cfg.get('thinking_level') or 'provider default'}; thoughts never requested, returned parts flagged thought are dropped",
             "reports_usage": "usageMetadata: prompt, cached (part of prompt), candidates, thoughts, tool-use prompt, total",
             "output_limit": "generationConfig.maxOutputTokens (whether it bounds thinking tokens on generateContent is not stated in the reference; checked after each response)",
@@ -80,7 +127,7 @@ def build_request(messages: list[JSON], cfg: JSON) -> tuple[str, bytes, dict[str
     user = "\n\n".join(m["content"] for m in messages if m["role"] == "user")
     fmt: JSON = {"mimeType": "APPLICATION_JSON"}
     if cfg.get("structured_outputs", True):
-        fmt["schema"] = wire_schema()
+        fmt["schema"] = wire_schema(cfg.get("wire_schema") or "genesis-gemini-wire-1")
     gen: JSON = {"candidateCount": 1, "maxOutputTokens": cfg["max_output_tokens"], "temperature": cfg.get("temperature", 0),
                  "responseFormat": {"text": fmt}}
     if cfg.get("seed") is not None:

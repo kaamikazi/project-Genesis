@@ -143,7 +143,7 @@ def main(argv: list[str] | None = None) -> int:
         from genesis.model.fixtures import GeminiFixtureResponder, MockGeminiServer
         from genesis.model.transport import GeminiTransport
         os.environ["GEMINI_API_KEY"] = SYNTHETIC_KEY            # this process only; a synthetic value
-        responder = GeminiFixtureResponder()
+        responder = GeminiFixtureResponder(constrain=True)      # imitates schema-constrained decoding
         with MockGeminiServer(responder) as server:
             rehearsal = profile.model_copy(update={"mode": "mock-http", "live_authorized": False, "endpoint_label": "loopback mock Gemini (rehearsal)",
                                                    "adapter": profile.adapter.model_copy(update={"base_url": server.base_url})})

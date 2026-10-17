@@ -34,7 +34,8 @@ def scenario():
 
 
 def gadapter(**kw):
-    base = dict(provider="gemini", base_url="http://127.0.0.1:9", model=MODEL, thinking_level="minimal", request_logging=False, max_output_tokens=1024)
+    base = dict(provider="gemini", base_url="http://127.0.0.1:9", model=MODEL, thinking_level="minimal", request_logging=False, max_output_tokens=1024,
+                wire_schema="genesis-gemini-wire-2")
     return AdapterConfig(**{**base, **kw})
 
 
@@ -88,6 +89,8 @@ def test_wire_schema_uses_only_the_documented_subset_and_the_parser_keeps_the_fu
     def walk(node):
         assert set(node) <= allowed, set(node) - allowed
         for sub in (node.get("properties") or {}).values():
+            walk(sub)
+        for sub in node.get("anyOf") or []:
             walk(sub)
     walk(gemini.wire_schema())
     assert "maxLength" not in json.dumps(gemini.wire_schema())

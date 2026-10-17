@@ -63,6 +63,9 @@ def live_guard(profile: ModelProfile, transport) -> None:
             raise LiveCallsDisabled(f"live Gemini calls need the operator's free-tier confirmations: missing {missing}")
         if profile.run_deadline_s is None:
             raise LiveCallsDisabled("live Gemini calls need a finite run_deadline_s")
+        if (profile.adapter.wire_schema or "genesis-gemini-wire-1") != "genesis-gemini-wire-2":
+            raise LiveCallsDisabled("genesis-gemini-wire-1 cannot express action parameters (found in the 2026-10-17 smoke run); "
+                                    "set adapter.wire_schema to genesis-gemini-wire-2")
     if hasattr(transport, "preflight"):
         transport.preflight()                     # CredentialMissing: concise, contains no environment values
 

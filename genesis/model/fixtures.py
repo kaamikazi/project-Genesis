@@ -155,13 +155,31 @@ GEMINI_FAULTS = ("invalid-json", "illegal-action", "timeout", "http-500", "http-
                  "inconsistent-usage", "nonfinite-usage", "overshoot", "secret-echo", "extra-field", "redirect")
 
 
+def constrain_to_schema(action: JSON, schema: JSON | None) -> JSON:
+    """Emulates schema-constrained decoding as observed live on 2026-10-17: only keys the request's schema declares
+    can be emitted. An object schema without `properties` therefore yields an empty object."""
+    if not schema:
+        return action
+    branches = schema.get("anyOf") or [schema]
+    branch = next((b for b in branches if action.get("kind") in ((b.get("properties") or {}).get("kind") or {}).get("enum", [])), None)
+    if branch is None:
+        return {"kind": "wait", "params": {}}                 # the decoder can only emit something the schema allows
+    props = branch.get("properties") or {}
+    allowed = set(((props.get("params") or {}).get("properties") or {}))
+    out = {k: v for k, v in action.items() if k in props}
+    out["params"] = {k: v for k, v in (action.get("params") or {}).items() if k in allowed}
+    return out
+
+
 class GeminiFixtureResponder:
     """Turns a generateContent request body into a generateContent response, deterministically.
-    Usage is synthetic (characters / 4) with a fixed thinking count, so thinking accounting is exercised."""
+    Usage is synthetic (characters / 4) with a fixed thinking count, so thinking accounting is exercised.
+    `constrain=True` filters every answer through the request's response schema (see constrain_to_schema)."""
 
     def __init__(self, script: dict[int, str] | None = None, model_version: str = "gemini-3.5-flash-lite", policy=fixture_policy,
-                 thinking_tokens: int = 24):
+                 thinking_tokens: int = 24, constrain: bool = False):
         self.script, self.model_version, self.policy, self.thinking_tokens = dict(script or {}), model_version, policy, thinking_tokens
+        self.constrain = constrain
         self.calls = 0
         self.requests: list[JSON] = []
         self.lock = threading.Lock()
@@ -185,6 +203,8 @@ class GeminiFixtureResponder:
             return 400, json.dumps({"error": {"code": 400, "message": "fixture: schema not supported", "status": "INVALID_ARGUMENT"}}).encode(), None
         user = request["contents"][0]["parts"][0]["text"]
         action = self.policy(extract_observation(user))
+        if self.constrain:
+            action = constrain_to_schema(action, ((request["generationConfig"].get("responseFormat") or {}).get("text") or {}).get("schema"))
         text = json.dumps(action, sort_keys=True)
         if fault == "invalid-json":
             text = '{"kind": "consume", "params": {'

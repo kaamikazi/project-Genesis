@@ -15,11 +15,11 @@ from urllib.parse import parse_qs, urlparse
 from pydantic import BaseModel, ConfigDict, Field, model_validator
 
 from ..models import JSON, digest
-from . import ACTION_SCHEMA_VERSION, ADAPTER_VERSION, GEMINI_ADAPTER_VERSION, GEMINI_WIRE_SCHEMA_VERSION, PARSER_VERSION, PROMPT_VERSION
+from . import ACTION_SCHEMA_VERSION, ADAPTER_VERSION, GEMINI_ADAPTER_VERSION, PARSER_VERSION, PROMPT_VERSION
 
 GEMINI_ORIGIN = "https://generativelanguage.googleapis.com"
 OLLAMA_ONLY = ("keep_alive", "think")
-GEMINI_ONLY = ("provider", "thinking_level", "request_logging")
+GEMINI_ONLY = ("provider", "thinking_level", "request_logging", "wire_schema")
 NOT_REQUEST_CONTENT = ("base_url", "min_dispatch_interval_s")
 
 
@@ -58,6 +58,8 @@ class AdapterConfig(BaseModel):
     # Gemini generateContent only (None = field not sent; the provider default applies)
     thinking_level: Literal["minimal", "low", "medium", "high"] | None = None
     request_logging: bool | None = None                      # sent as the request-level `store` field
+    # None = genesis-gemini-wire-1 (profiles written before v0.6.2); new Gemini profiles set genesis-gemini-wire-2
+    wire_schema: Literal["genesis-gemini-wire-1", "genesis-gemini-wire-2"] | None = None
     # local pacing between dispatches (wall clock; set from the project's actual quota; ticks are not a rate limit)
     min_dispatch_interval_s: float = Field(default=0.0, ge=0, le=3600)
 
@@ -145,8 +147,9 @@ def config_hash(profile: ModelProfile) -> str:
         content = a.model_dump(exclude={*NOT_REQUEST_CONTENT, *GEMINI_ONLY})
         versions = [PROMPT_VERSION, ACTION_SCHEMA_VERSION, PARSER_VERSION, ADAPTER_VERSION]
     else:
-        content = a.model_dump(exclude={*NOT_REQUEST_CONTENT, *OLLAMA_ONLY})
-        versions = [PROMPT_VERSION, ACTION_SCHEMA_VERSION, PARSER_VERSION, GEMINI_ADAPTER_VERSION, GEMINI_WIRE_SCHEMA_VERSION]
+        # the wire schema enters through the versions list so v0.6.1 profiles (no field) keep their exact hash
+        content = a.model_dump(exclude={*NOT_REQUEST_CONTENT, *OLLAMA_ONLY, "wire_schema"})
+        versions = [PROMPT_VERSION, ACTION_SCHEMA_VERSION, PARSER_VERSION, GEMINI_ADAPTER_VERSION, a.wire_schema or "genesis-gemini-wire-1"]
     return digest({"adapter": content, "versions": versions, "repair_limit": profile.repair_limit})
 
 

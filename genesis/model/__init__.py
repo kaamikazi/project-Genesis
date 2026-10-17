@@ -23,4 +23,5 @@ ACTION_SCHEMA_VERSION = "genesis-action-schema-1"
 PARSER_VERSION = "genesis-parser-1"
 ADAPTER_VERSION = "ollama-chat-1"
 GEMINI_ADAPTER_VERSION = "gemini-generatecontent-1"
-GEMINI_WIRE_SCHEMA_VERSION = "genesis-gemini-wire-1"
+GEMINI_WIRE_SCHEMA_VERSION = "genesis-gemini-wire-2"          # current; wire-1 kept only so old recordings re-execute
+GEMINI_WIRE_SCHEMAS = ("genesis-gemini-wire-1", "genesis-gemini-wire-2")
