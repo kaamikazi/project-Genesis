@@ -12,7 +12,7 @@ Engine `0.6.2` · rules `phase-world-5.2` (unchanged) · prompt `genesis-prompt-
 | Claim | Status |
 |---|---|
 | **Integration implemented** | Yes (v0.6.0 boundary, v0.6.1 Gemini adapter, v0.6.2 wire schema 2) |
-| **Mock verified** | Yes: the 44 Gemini tests (38 from v0.6.1 + 6 new) pass, including a constrained-decoding mock that reproduces the live defect offline. The full 248-test suite was about 65% through with no failures when the session stopped; rerun before tagging v0.6.2. |
+| **Mock verified** | Yes: 248 tests pass, including a constrained-decoding mock that reproduces the live defect offline |
 | **Live transport exercised** | **Yes**, on 2026-10-17: two bounded smoke runs against `gemini-3.5-flash-lite` on the owner's free-tier project, 18 requests in total. Each run was authorized in chat after the owner confirmed the free tier with billing disabled, model availability and quota. |
 | **Live agent behaviour demonstrated** | **Only as an engineering smoke test.** One inhabitant over 40 ticks, 8 model deliberations in run 2. This shows the path works with a real model, not that the model plays well. |
 
@@ -43,7 +43,7 @@ Engine `0.6.2` · rules `phase-world-5.2` (unchanged) · prompt `genesis-prompt-
 
 | Check | Result |
 |---|---|
-| `python -m pytest -q` | **Not yet complete**: the full run was interrupted at ~65% with no failures; `tests/test_v061.py` and `tests/test_v062.py` (44) passed. Rerun before tagging v0.6.2. |
+| `python -m pytest -q` | **248 passed** on commit `1351fbc` (Python 3.10.11, fresh virtualenv, 2026-11-05; 242 earlier + 6 new in `tests/test_v062.py`) |
 | `npm run build` | Succeeded |
 | Key handling | The key was supplied in chat by the owner and passed only as a process environment variable. It appears in no committed file, run database row, report or evidence file (checked). |
 | Publication | Owner's choice: summary and hashes only. Prompts, responses, explanations and parameter values stay in the local, git-ignored `data/` databases; `evidence/v0.6.2/` holds SHA-256 hashes of each prompt and response so they can be verified later. |
